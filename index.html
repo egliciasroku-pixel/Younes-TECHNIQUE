@@ -596,9 +596,9 @@ option{ background:#030607; color:#fff; }
         <div class="card-head"><h3>🔐 إعدادات وتفعيل المشغل الاحترافي</h3></div>
         <div class="card-body">
           <div class="form-group full" style="margin-bottom:10px;">
-            <label>رابط Xtream / M3U الحالي:</label>
-            <input class="input" id="luxuryServerInput" placeholder="http://server.com:port/get.php?username=USER&password=PASS&type=m3u_plus" oninput="validateM3UInputLive(this.value)" value="http://smart-v2.live:80/get.php?username=mkv1wx9aam&password=u25vaksvc6&type=m3u_plus">
-            <div id="m3uInputStatus" class="m3u-status m3u-success" style="margin-top:6px;">✓ الرابط تم التحقق منه وجاهز للتشغيل.</div>
+            <label>رابط Xtream / M3U (أدخل رابط السيرفر الخاص بك هنا):</label>
+            <input class="input" id="luxuryServerInput" placeholder="http://server.com:port/get.php?username=USER&password=PASS&type=m3u_plus" oninput="validateM3UInputLive(this.value)" value="">
+            <div id="m3uInputStatus" class="m3u-status" style="margin-top:6px;">أدخل رابط Xtream أو M3U صالح للتشغيل.</div>
           </div>
           <div class="luxury-standalone-card">
             <i class="fa-solid fa-crown" style="font-size:48px; color:var(--lime); margin-bottom:10px; text-shadow:0 0 20px rgba(168,255,0,0.4);"></i>
@@ -1198,10 +1198,16 @@ function verifyAndUnlockWithToken() {
 
 function openUnlockedAppScreen(session) {
   const validation = validateM3UString(session.m3uUrl);
+  if(!validation.valid) {
+    toast("✗ تنبيه: يرجى إدخال رابط Xtream/M3U صالح في إعدادات المشغل أولاً");
+    exitLuxuryPlayer();
+    return;
+  }
+
   const creds = { 
-    host: validation.valid ? validation.host : "http://smart-v2.live:80", 
-    user: validation.valid ? validation.username : "mkv1wx9aam", 
-    pass: validation.valid ? validation.password : "u25vaksvc6", 
+    host: validation.host, 
+    user: validation.username, 
+    pass: validation.password, 
     deviceId: session.deviceId 
   };
   localStorage.setItem("faroukii_active_creds", JSON.stringify(creds));
@@ -1215,12 +1221,13 @@ function exitLuxuryPlayer() {
   document.getElementById("luxuryOverlayWrapper").style.display = "none";
 }
 
-/* --- دالة جلب البيانات الآمنة المدعومة بـ CORS Proxy لتجاوز قيود GitHub Pages --- */
+/* --- دالة جلب البيانات الآمنة المدعومة بوكلاء CORS متعدّدة لتجاوز قيود GitHub Pages و Median --- */
 async function safeFetch(url) {
   try {
     const res = await fetch(url);
     if (res.ok) return await res.json();
   } catch(e) {}
+  
   try {
     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
     const pRes = await fetch(proxyUrl);
@@ -1229,6 +1236,13 @@ async function safeFetch(url) {
       if(json.contents) return JSON.parse(json.contents);
     }
   } catch(e) {}
+
+  try {
+    const backupProxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+    const bRes = await fetch(backupProxy);
+    if(bRes.ok) return await bRes.json();
+  } catch(e) {}
+
   return null;
 }
 
@@ -1245,7 +1259,7 @@ async function openLiveSection() {
   
   if(!categories || !Array.isArray(categories)) {
     bar.innerHTML = "";
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1;">تعذر جلب الأقسام (تأكد من الاتصال أو صلاحية الرابط)</div>`;
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1;">تعذر جلب الأقسام (تأكد من صحة رابط السيرفر والاتصال)</div>`;
     return;
   }
   bar.innerHTML = "";
