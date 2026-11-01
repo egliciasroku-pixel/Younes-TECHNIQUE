@@ -1107,12 +1107,10 @@ function generateAndShowToken() {
   document.getElementById('tokenOutput').textContent = generatedTokenText;
   document.getElementById('resultBox').style.display = 'flex';
 
-  // حفظ التوكن في القائمة والذاكرة للتحقق الفوري
   const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
   savedTokens[generatedTokenText] = { name, phone, expiry, deviceId: getDeviceFingerprint() };
   localStorage.setItem(KEYS.tokens, JSON.stringify(savedTokens));
 
-  // تسجيله أيضاً في الاشتراكات العامة للبانل
   abonnements.unshift({ 
     id: makeId(), 
     date: dateOnly(), 
@@ -1217,6 +1215,7 @@ function exitLuxuryPlayer() {
   document.getElementById("luxuryOverlayWrapper").style.display = "none";
 }
 
+/* --- دالة جلب البيانات الآمنة المدعومة بـ CORS Proxy لتجاوز قيود GitHub Pages --- */
 async function safeFetch(url) {
   try {
     const res = await fetch(url);
@@ -1244,7 +1243,11 @@ async function openLiveSection() {
   const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
   const categories = await safeFetch(`${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=get_live_categories`);
   
-  if(!categories || !Array.isArray(categories)) return;
+  if(!categories || !Array.isArray(categories)) {
+    bar.innerHTML = "";
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1;">تعذر جلب الأقسام (تأكد من الاتصال أو صلاحية الرابط)</div>`;
+    return;
+  }
   bar.innerHTML = "";
   categories.forEach((cat) => {
     const chip = document.createElement("div");
