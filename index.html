@@ -1,1649 +1,1715 @@
 <!DOCTYPE html>
-<html lang="fr" dir="rtl">
+<html lang="fr" dir="ltr" id="htmlRoot">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>CREDITS PANEL PRO - YOUNES TECHNIQUE</title>
-<!-- مكتبة HLS لتشغيل القنوات المباشرة والأفلام -->
+<title>YOUNES TECHNIQUE — Streaming & Mobile Pro</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*{ box-sizing:border-box; margin:0; padding:0; font-family:'Cairo',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; -webkit-tap-highlight-color:transparent; } 
+*{ box-sizing:border-box; margin:0; padding:0; font-family:'Cairo',sans-serif; -webkit-tap-highlight-color:transparent; border:none !important; } 
 :root{ 
   --bg:#020405; 
-  --panel:#050a0c; 
-  --panel2:#081014; 
-  --panel3:#0d181c; 
-  --line:transparent; 
+  --panel:linear-gradient(145deg,#070d10,#030607); 
   --lime:#a8ff00; 
   --lime2:#c4ff52; 
   --text:#f0f5f3; 
   --muted:#859693; 
-  --danger:#ff5b67; 
-  --blue:#55b8ff; 
-  --orange:#ffb84d; 
   --green:#37e39a; 
-  --shadow:0 15px 35px rgba(0,0,0,.8); 
+  --danger:#ff5b67;
+  --blue:#55b8ff;
+  --orange:#ffb84d;
+  --gold:#ffd700;
+  --netflix-red:#e50914;
+  --shadow:0 10px 30px rgba(0,0,0,0.85), 0 0 15px rgba(168,255,0,0.1); 
 } 
 body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transparent 40%), var(--bg); color:var(--text); min-height:100vh; font-size:11px; overflow-x:hidden; } 
+
+#clientLoginOverlay {
+  position: fixed; inset: 0; background: radial-gradient(circle at 50% 10%, rgba(168,255,0,.08) 0%, var(--bg) 90%);
+  z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 12px;
+}
+.client-card {
+  width: 100%; max-width: 360px; background: var(--panel);
+  border-radius: 20px; padding: 22px 18px; box-shadow: var(--shadow);
+  text-align: center; display: flex; flex-direction: column; align-items: center;
+}
+.brand-logo-preview { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 15px rgba(168,255,0,0.4); margin-bottom: 8px; }
+
 .app{ display:flex; min-height:100vh; position:relative; } 
 
-/* SIDEBAR COMPACT MOBILE */ 
-.sidebar{ width:240px; min-width:240px; background:rgba(3,6,7,.98); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:none; padding:12px 10px; display:flex; flex-direction:column; position:fixed; top:0; bottom:0; left:0; z-index:1000; transform:translateX(-100%); transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); } 
+.sidebar{ width:220px; min-width:220px; background:rgba(3,6,7,.98); backdrop-filter:blur(20px); padding:10px 8px; display:flex; flex-direction:column; position:fixed; top:0; bottom:0; left:0; z-index:1000; transform:translateX(-100%); transition:transform 0.3s ease; } 
 .sidebar.open{ transform:translateX(0); }
-.brand{ display:flex; align-items:center; gap:10px; padding:4px 4px 14px; border:none; } 
-.logo{ width:36px; height:36px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:var(--lime); color:#030607; font-size:18px; font-weight:900; box-shadow:0 0 15px rgba(168,255,0,.3); } 
-.brand-text{ font-weight:900; font-size:12px; letter-spacing:.5px; } 
-.brand-text span{ display:block; color:var(--lime); font-size:9px; margin-top:2px; letter-spacing:1px; } 
+.brand{ display:flex; align-items:center; gap:8px; padding:4px 4px 10px; } 
+.logo{ width:32px; height:32px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:var(--lime); color:#030607; font-size:16px; font-weight:900; box-shadow:0 0 12px rgba(168,255,0,.3); } 
+.brand-text{ font-weight:900; font-size:11px; } 
+.brand-text span{ display:block; color:var(--lime); font-size:8px; } 
 
-.admin-box{ margin:12px 2px; padding:10px; background:linear-gradient(135deg,#0a1215,#04080a); border:none; border-radius:12px; } 
-.admin-box small{ color:var(--muted); display:block; font-size:9px; margin-bottom:3px; } 
-.admin-box strong{ font-size:11px; } 
-.status-dot{ display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--lime); box-shadow:0 0 8px var(--lime); margin-right:5px; } 
+.admin-box{ margin:8px 2px; padding:8px; background:#0a1215; border-radius:10px; } 
+.admin-box small{ color:var(--muted); font-size:8px; display:block; } 
+.admin-box strong{ font-size:10px; } 
 
-.nav{ display:flex; flex-direction:column; gap:4px; overflow-y:auto; max-height:calc(100vh - 200px); padding-right:2px; } 
-.nav::-webkit-scrollbar{ width:3px; }
-.nav::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.05); border-radius:3px; }
-.nav-item{ width:100%; border:0; background:transparent; color:var(--muted); display:flex; align-items:center; gap:10px; padding:10px 10px; border-radius:12px; cursor:pointer; text-align:left; transition:.2s; position:relative; } 
+.nav{ display:flex; flex-direction:column; gap:3px; overflow-y:auto; max-height:calc(100vh - 160px); } 
+.nav-item{ width:100%; background:transparent; color:var(--muted); display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; cursor:pointer; text-align:left; transition:.2s; } 
 .nav-item:hover{ color:var(--text); background:#0a1215; } 
-.nav-item.active{ background:linear-gradient(90deg,rgba(168,255,0,.15),rgba(168,255,0,.02)); color:var(--lime); border:none; } 
-.nav-icon{ width:30px; height:30px; min-width:30px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#0a1215; } 
-.nav-item.active .nav-icon{ background:rgba(168,255,0,.15); color:var(--lime); } 
-.nav-icon svg{ width:16px; height:16px; } 
-.nav-label{ display:flex; flex-direction:column; line-height:1.15; } 
-.nav-fr{ font-size:11px; font-weight:700; } 
-.nav-ar{ font-size:9px; margin-top:2px; direction:rtl; opacity:.7; } 
-.sidebar-bottom{ margin-top:auto; border:none; padding-top:10px; color:var(--muted); font-size:9px; text-align:center; } 
+.nav-item.active{ background:rgba(168,255,0,0.12); color:var(--lime); } 
+.nav-icon{ width:26px; height:26px; min-width:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:#0a1215; font-size:12px; } 
+.nav-label{ display:flex; flex-direction:column; line-height:1.1; } 
+.nav-fr{ font-size:10px; font-weight:700; } 
 
-/* MAIN CONTAINER */ 
-.main{ width:100%; min-height:100vh; transition:all 0.3s ease; } 
-.topbar{ height:60px; border:none; background:rgba(2,4,5,.9); backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px); display:flex; align-items:center; justify-content:space-between; padding:0 15px; position:sticky; top:0; z-index:500; } 
-.top-left{ display:flex; align-items:center; gap:10px; } 
-.menu-btn{ border:none; background:var(--panel); color:var(--lime); width:36px; height:36px; border-radius:10px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; } 
-.page-title h1{ font-size:14px; font-weight:800; } 
-.page-title p{ color:var(--muted); font-size:9px; margin-top:2px; } 
-.top-right{ display:flex; align-items:center; gap:8px; } 
-.live-clock{ background:var(--panel); border:none; padding:6px 10px; border-radius:10px; color:var(--lime); font-size:10px; font-weight:bold; } 
-.online{ padding:6px 10px; border-radius:10px; background:rgba(55,227,154,.08); border:none; color:var(--green); font-size:9px; font-weight:bold; } 
+.main{ width:100%; min-height:100vh; } 
+.topbar{ height:50px; background:rgba(2,4,5,.9); backdrop-filter:blur(15px); display:flex; align-items:center; justify-content:space-between; padding:0 12px; position:sticky; top:0; z-index:500; } 
+.menu-btn{ background:#070d10; color:var(--lime); width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; } 
+.page-title h1{ font-size:12px; font-weight:800; } 
+.page-title p{ color:var(--muted); font-size:8px; } 
 
-/* PAGES */ 
-.page{ display:none; padding:15px; animation:pageIn .25s ease; } 
+.page{ display:none; padding:12px; animation:pageIn .2s ease; } 
 .page.active{ display:block; } 
-@keyframes pageIn{ from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} } 
-.section-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:15px; flex-wrap:wrap; } 
-.section-head h2{ font-size:15px; } 
-.section-head p{ color:var(--muted); font-size:10px; margin-top:3px; } 
+@keyframes pageIn{ from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} } 
 
-/* GLASS BUTTONS */
+.section-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; } 
+.section-head h2{ font-size:13px; font-weight:900; } 
+.section-head p{ color:var(--muted); font-size:9px; } 
+
 .btn {
-  position: relative;
-  border: none !important;
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--text);
-  border-radius: 12px;
-  padding: 9px 12px;
-  font-weight: 700;
-  font-size: 11px;
+  background: rgba(255, 255, 255, 0.04) !important; color: var(--text);
+  border-radius: 10px; padding: 8px 10px; font-weight: 700; font-size: 10px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px; transition: .2s;
+}
+.btn-lime { background: rgba(168, 255, 0, 0.15) !important; color: var(--lime2) !important; font-weight: 900; }
+.btn-danger { background: rgba(255, 91, 103, 0.12) !important; color: var(--danger) !important; }
+.btn-blue { background: rgba(85, 184, 255, 0.12) !important; color: var(--blue) !important; }
+.btn-small { padding: 5px 8px; font-size: 9px; border-radius: 8px; }
+.btn-luxury-invoice {
+  background: linear-gradient(135deg, rgba(255,215,0,0.2) 0%, rgba(5,10,12,0.9) 100%) !important;
+  color: var(--gold) !important; font-weight: 900;
+}
+
+/* زر قائمة العملاء الجدد الفاخر */
+.luxury-dropdown-card {
+  background: linear-gradient(135deg, rgba(10, 18, 22, 0.95), rgba(4, 7, 9, 0.98));
+  border: 1px solid rgba(168, 255, 0, 0.25) !important;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.8), inset 0 0 10px rgba(168,255,0,0.03);
+}
+.luxury-dropdown-header {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
+  background: rgba(168, 255, 0, 0.03);
+  transition: background 0.2s;
+}
+.luxury-dropdown-header:hover {
+  background: rgba(168, 255, 0, 0.07);
+}
+.luxury-dropdown-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 900;
+  color: #fff;
+}
+.luxury-dropdown-title i {
+  color: var(--lime);
+  font-size: 13px;
+  text-shadow: 0 0 10px rgba(168,255,0,0.4);
+}
+.luxury-dropdown-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+  padding: 0 12px;
+}
+.luxury-dropdown-card.open .luxury-dropdown-body {
+  max-height: 400px;
+  padding: 4px 12px 12px 12px;
+}
+.luxury-chevron {
+  color: var(--lime);
+  font-size: 11px;
+  transition: transform 0.3s ease;
+}
+.luxury-dropdown-card.open .luxury-chevron {
+  transform: rotate(180deg);
+}
+
+@keyframes goldShine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.invoice-luxury-box {
+  position: relative;
+  background: linear-gradient(135deg, rgba(12, 16, 22, 0.98) 0%, rgba(4, 7, 9, 0.99) 100%);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 18px;
+  padding: 14px;
+  margin-top: 4px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(255, 215, 0, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.25) !important;
+}
+.invoice-luxury-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), #fff, var(--gold), transparent);
+  background-size: 200% 100%;
+  animation: goldShine 3s infinite linear;
+}
+
+.glass-client-badge {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 215, 0, 0.25) !important;
+  border-radius: 12px;
+  padding: 6px 10px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: .2s;
-  white-space: nowrap;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,215,0,0.08);
 }
-.btn:active { transform: scale(0.97); }
-.btn-lime { background: rgba(168, 255, 0, 0.12) !important; color: var(--lime2) !important; font-weight: 900; }
-.btn-dark { background: rgba(13, 22, 26, 0.6) !important; }
-.btn-danger { background: rgba(255, 91, 103, 0.1) !important; color: var(--danger) !important; }
-.btn-blue { background: rgba(85, 184, 255, 0.1) !important; color: var(--blue) !important; }
-.btn-small { padding: 6px 8px; font-size: 9px; border-radius: 10px; }
 
-/* STATS */ 
-.stats{ display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-bottom:15px; } 
-.stat{ background:linear-gradient(145deg,#060c0e,#030607); border:none; border-radius:14px; padding:12px; position:relative; overflow:hidden; } 
+.glass-client-name {
+  font-weight: 900;
+  font-size: 11px;
+  background: linear-gradient(135deg, #ffffff 40%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.3px;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+}
+
+.invoice-row { 
+  display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 10px; 
+  border-bottom: 1px solid rgba(255, 215, 0, 0.08); 
+}
+.invoice-row span:first-child { color: var(--muted); }
+.invoice-row span:last-child { font-weight: 700; color: #fff; }
+.invoice-xtream-section {
+  background: rgba(255, 215, 0, 0.03);
+  border: 1px dashed rgba(255, 215, 0, 0.25) !important;
+  border-radius: 12px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.stats{ display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; margin-bottom:12px; } 
+.stat{ background:var(--panel); border-radius:12px; padding:10px; } 
 .stat-top{ display:flex; justify-content:space-between; align-items:center; } 
-.stat-icon{ width:28px; height:28px; border-radius:10px; background:#0a1215; display:flex; align-items:center; justify-content:center; color:var(--lime); font-size:12px; } 
-.stat-label{ color:var(--muted); font-size:9px; } 
-.stat-value{ font-size:16px; font-weight:900; margin-top:10px; } 
-.stat-sub{ color:var(--muted); font-size:8px; margin-top:3px; } 
+.stat-icon{ width:24px; height:24px; border-radius:8px; background:#0a1215; display:flex; align-items:center; justify-content:center; color:var(--lime); font-size:10px; } 
+.stat-label{ color:var(--muted); font-size:8px; } 
+.stat-value{ font-size:14px; font-weight:900; margin-top:6px; } 
 
-/* CARDS & TABLES */ 
-.card{ background:linear-gradient(145deg,#050a0c,#030607); border:none; border-radius:16px; box-shadow:var(--shadow); margin-bottom:15px; overflow:hidden; } 
-.card-head{ padding:12px 14px; border:none; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; } 
-.card-head h3{ font-size:12px; } 
-.card-body{ padding:14px; } 
+.card{ background:var(--panel); border-radius:14px; margin-bottom:12px; overflow:hidden; } 
+.card-head{ padding:10px 12px; display:flex; align-items:center; justify-content:space-between; } 
+.card-head h3{ font-size:11px; font-weight:800; } 
+.card-body{ padding:10px 12px; } 
 
-.table-wrap{ overflow-x:auto; width:100%; -webkit-overflow-scrolling:touch; } 
-table{ width:100%; border-collapse:collapse; min-width:600px; } 
-th{ color:var(--muted); font-size:9px; text-transform:uppercase; text-align:left; padding:10px; border:none; } 
-td{ padding:10px; border:none; font-size:11px; } 
-tr:hover td{ background:rgba(168,255,0,.02); } 
-.avatar{ width:28px; height:28px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; background:rgba(168,255,0,.1); color:var(--lime); font-weight:900; margin-right:6px; font-size:10px; } 
+.table-wrap{ overflow-x:auto; width:100%; } 
+table{ width:100%; border-collapse:collapse; min-width:500px; } 
+th{ color:var(--muted); font-size:8px; text-align:left; padding:8px; } 
+td{ padding:8px; font-size:10px; } 
+.avatar{ width:24px; height:24px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; background:rgba(168,255,0,.1); color:var(--lime); font-weight:900; margin-right:5px; font-size:9px; } 
 .client-cell{ display:flex; align-items:center; } 
-.badge{ display:inline-flex; padding:4px 7px; border-radius:8px; font-size:9px; font-weight:700; } 
+.badge{ display:inline-flex; padding:3px 6px; border-radius:6px; font-size:8px; font-weight:700; } 
 .badge-green{ color:var(--green); background:rgba(55,227,154,.08); } 
 .badge-lime{ color:var(--lime); background:rgba(168,255,0,.1); } 
 .badge-orange{ color:var(--orange); background:rgba(255,184,77,.08); } 
 .badge-blue{ color:var(--blue); background:rgba(85,184,255,.08); } 
-.actions{ display:flex; gap:4px; flex-wrap:wrap; } 
+.actions{ display:flex; gap:3px; } 
 
-/* FORMS */ 
-.search{ width:100%; background:#030607; border:none; color:white; outline:none; border-radius:12px; padding:10px 12px; font-size:11px; box-shadow:inset 0 0 10px rgba(0,0,0,0.5); } 
-.search-row{ margin-bottom:10px; } 
-.form-grid{ display:grid; grid-template-columns:1fr; gap:10px; } 
-.form-group{ display:flex; flex-direction:column; gap:5px; } 
+.search{ width:100%; background:#030607; color:white; outline:none; border-radius:10px; padding:8px 10px; font-size:10px; } 
+.form-grid{ display:grid; grid-template-columns:1fr; gap:8px; } 
+.form-group{ display:flex; flex-direction:column; gap:4px; } 
 .form-group.full{ grid-column:1/-1; } 
-.form-group label{ font-size:10px; color:var(--muted); } 
+.form-group label{ font-size:9px; color:var(--muted); } 
 
 .input, select, textarea, .custom-select-trigger { 
-  width:100%; 
-  background:#030607 !important; 
-  border:none !important; 
-  color:white !important; 
-  outline:none !important; 
-  border-radius:12px !important; 
-  padding:10px 14px !important; 
-  font-size:11px !important; 
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.6); 
+  width:100%; background:#030607 !important; color:white !important; outline:none !important; 
+  border-radius:10px !important; padding:9px 12px !important; font-size:10px !important; 
 } 
-textarea{ min-height:80px; resize:vertical; font-family:monospace; font-size:10px; } 
-option{ background:#030607; color:#fff; } 
-
-.custom-select-trigger {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-.custom-select-trigger:after {
-  content: '\f107';
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  color: var(--lime);
-  font-size: 10px;
-}
+.custom-select-trigger { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
 
 .custom-dropdown-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 4, 5, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 4000;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  display: none; position: fixed; inset: 0; background: rgba(2, 4, 5, 0.85); backdrop-filter: blur(8px); z-index: 4000; align-items: center; justify-content: center; padding: 15px;
 }
-.custom-dropdown-modal.show {
-  display: flex;
-}
+.custom-dropdown-modal.show { display: flex; }
 .custom-dropdown-content {
-  width: 100%;
-  max-width: 320px;
-  background: linear-gradient(145deg, #070d10 0%, #030607 100%);
-  border-radius: 20px;
-  padding: 14px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 20px rgba(168,255,0,0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-.custom-dropdown-header {
-  font-size: 12px;
-  font-weight: 900;
-  color: var(--lime);
-  padding: 8px 10px 12px;
-  border-bottom: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%; max-width: 300px; background: #070d10; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 5px; max-height: 75vh; overflow-y: auto;
 }
 .custom-dropdown-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #fff;
-  font-weight: 700;
-  font-size: 11px;
+  display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: 10px; background: rgba(255, 255, 255, 0.02); cursor: pointer; font-size: 10px; font-weight: 700;
 }
-.custom-dropdown-item:hover, .custom-dropdown-item.active {
-  background: rgba(168, 255, 0, 0.1);
-  color: var(--lime);
-}
+.custom-dropdown-item.active { background: rgba(168, 255, 0, 0.1); color: var(--lime); }
+.custom-radio { width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.custom-dropdown-item.active .custom-radio::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--lime); }
 
-.app-mini-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.app-icon-box {
-  width: 26px;
-  height: 26px;
-  min-width: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 900;
-  overflow: hidden;
-  background: #030607;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-.app-icon-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.badge-younes { color: var(--lime); background: rgba(168,255,0,0.15); box-shadow: 0 0 8px rgba(168,255,0,0.3); }
-.badge-ibo { color: #e50914; background: rgba(229,9,20,0.2); box-shadow: 0 0 8px rgba(229,9,20,0.3); }
-.badge-tod { color: var(--orange); background: rgba(255,184,77,0.2); box-shadow: 0 0 8px rgba(255,184,77,0.3); }
-.badge-bob { color: #ff7b00; background: rgba(255,123,0,0.2); box-shadow: 0 0 8px rgba(255,123,0,0.3); }
+.quick-actions{ display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; } 
+.quick{ padding:10px; border-radius:10px; background:#081014 !important; cursor:pointer; color:white; text-align:left; } 
+.quick-icon{ color:var(--lime); margin-bottom:4px; font-size:13px; } 
+.quick strong{ display:block; font-size:10px; } 
+.quick span{ display:block; color:var(--muted); font-size:8px; } 
 
-.custom-radio {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 2px solid var(--muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-.custom-dropdown-item.active .custom-radio {
-  border-color: var(--lime);
-  box-shadow: 0 0 10px rgba(168,255,0,0.5);
-}
-.custom-dropdown-item.active .custom-radio::after {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 6px var(--lime);
-}
+.channels-grid-circular { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.channel-mini-card { background: #081014; border-radius: 12px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+.channel-circle-icon { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; background: #030607; }
+.channel-mini-title { font-size: 8px; font-weight: 700; color: #fff; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
 
-/* QUICK ACTIONS GRID */
-.quick-actions{ display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; } 
-.quick{ padding:12px; border-radius:12px; background:rgba(8, 16, 20, 0.6) !important; border:none !important; cursor:pointer; color:white; text-align:left; transition:.2s; width:100%; } 
-.quick:active{ transform:scale(0.97); }
-.quick-icon{ color:var(--lime); margin-bottom:6px; font-size:15px; } 
-.quick strong{ display:block; font-size:11px; } 
-.quick span{ display:block; color:var(--muted); font-size:8px; margin-top:2px; } 
+.streaming-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stream-card { background: #060b0e; border-radius: 12px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.06) !important; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+.stream-card:active { transform: scale(0.96); }
+.stream-poster-wrap { width: 100%; height: 130px; position: relative; background: #030607; }
+.stream-poster { width: 100%; height: 100%; object-fit: cover; }
+.stream-info { padding: 6px; }
+.stream-title { font-size: 9px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.m3u-box, .xtream-box { background:rgba(6,12,15,0.8); border:none; border-radius:16px; padding:14px; margin-bottom:12px; }
-.m3u-title, .xtream-title { font-weight:800; font-size:11px; margin-bottom:8px; display:flex; align-items:center; gap:6px; color:var(--lime); }
-.m3u-status { font-size:10px; color:var(--muted); margin-top:6px; }
-.m3u-success { color: var(--green); }
-.m3u-error { color: var(--danger); }
+.netflix-details-container {
+  position: fixed; inset: 0; background: #020405; z-index: 9500; display: none; flex-direction: column; overflow-y: auto;
+}
+.netflix-hero-backdrop {
+  width: 100%; height: 220px; position: relative; background-size: cover; background-position: center;
+}
+.netflix-hero-overlay {
+  position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2,4,5,0.2) 0%, #020405 95%);
+}
+.netflix-content-body {
+  padding: 12px; margin-top: -30px; position: relative; z-index: 2; display: flex; flex-direction: column; gap: 10px;
+}
+.netflix-play-btn {
+  background: var(--text); color: #000; font-weight: 900; font-size: 11px; padding: 10px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+}
+.season-chip {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 9px; font-weight: 800; cursor: pointer; white-space: nowrap;
+}
+.season-chip.active { background: var(--text); color: #000; border-color: transparent; }
+.episode-row {
+  background: #070d10; border-radius: 10px; padding: 8px 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border: 1px solid rgba(255,255,255,0.04) !important;
+}
+.episode-row:hover { background: #0c151a; }
 
-.shimmer-title {
-  position: relative;
-  display: inline-block;
-  color: var(--lime);
-  font-size: 16px;
-  font-weight: 900;
-  margin-bottom: 6px;
-  background: linear-gradient(90deg, #a8ff00 0%, #ffffff 50%, #a8ff00 100%);
-  background-size: 200% auto;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shine 3s linear infinite;
+.language-selector-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.lang-btn {
+  background: rgba(8, 16, 20, 0.9); border-radius: 12px;
+  padding: 12px 8px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 6px;
 }
-@keyframes shine {
-  to { background-position: 200% center; }
-}
+.lang-btn:hover { transform: translateY(-2px); }
+.lang-btn.active { background: rgba(168, 255, 0, 0.12); box-shadow: 0 0 15px rgba(168, 255, 0, 0.2); }
+.lang-flag { font-size: 16px; }
+.lang-name { font-size: 10px; font-weight: 900; color: #fff; }
+.lang-btn.active .lang-name { color: var(--lime); }
 
-.glass-test-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: none;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 14px;
-  color: var(--lime);
-  font-weight: 800;
-  font-size: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-.glass-test-badge:hover {
-  background: rgba(168, 255, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.luxury-standalone-card {
-  background: linear-gradient(145deg, #091419 0%, #030607 100%);
-  border: none;
-  border-radius: 20px;
-  padding: 24px;
-  text-align: center;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.9);
-  margin-top: 10px;
-}
-
-.channels-grid-circular {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-@media (min-width: 600px) {
-  .channels-grid-circular { grid-template-columns: repeat(4, 1fr); gap: 14px; }
-}
-@media (min-width: 900px) {
-  .channels-grid-circular { grid-template-columns: repeat(6, 1fr); gap: 16px; }
-}
-
-.channel-mini-card {
-  background: rgba(8, 16, 20, 0.7);
-  border: none;
-  border-radius: 16px;
-  padding: 10px 6px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-}
-.channel-mini-card:active {
-  transform: scale(0.95);
-  background: rgba(168, 255, 0, 0.08);
-}
-.channel-circle-icon {
-  width: 52px;
-  height: 52px;
-  min-width: 52px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: none;
-  box-shadow: 0 0 15px rgba(168, 255, 0, 0.25);
-  background: #030607;
-}
-.channel-mini-title {
-  font-size: 9px;
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-}
-
-.streaming-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-@media (min-width: 600px) {
-  .streaming-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
-}
-@media (min-width: 900px) {
-  .streaming-grid { grid-template-columns: repeat(6, 1fr); gap: 12px; }
-}
-
-.stream-card {
-  background: #081014;
-  border-radius: 12px;
-  overflow: hidden;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-.stream-card:hover {
-  transform: translateY(-3px);
-}
-.stream-poster-wrap {
-  width: 100%;
-  height: 140px;
-  position: relative;
-  background: #030607;
-  overflow: hidden;
-}
-.stream-poster {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.stream-play-badge {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.stream-card:hover .stream-play-badge {
-  opacity: 1;
-}
-.stream-play-badge i {
-  width: 32px;
-  height: 32px;
-  background: var(--lime);
-  color: #030607;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  box-shadow: 0 0 12px var(--lime);
-}
-.stream-info {
-  padding: 6px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.stream-title {
-  font-size: 10px;
-  font-weight: 700;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.stream-sub {
-  font-size: 8px;
-  color: var(--muted);
-}
-
-/* MODALS */ 
-.modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); backdrop-filter:blur(5px); z-index:3000; align-items:center; justify-content:center; padding:12px; } 
+.modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); backdrop-filter:blur(4px); z-index:3000; align-items:center; justify-content:center; padding:10px; } 
 .modal.show{ display:flex; } 
-.modal-box{ width:100%; max-width:420px; max-height:85vh; overflow-y:auto; background:#050a0c; border:none; border-radius:16px; box-shadow:var(--shadow); } 
-.modal-head{ padding:12px 14px; border:none; display:flex; justify-content:space-between; align-items:center; } 
-.modal-head h3{ font-size:13px; } 
-.close{ border:0; background:#0a1215; color:var(--muted); width:28px; height:28px; border-radius:10px; cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center; } 
-.modal-body{ padding:14px; } 
-.modal-foot{ padding:12px 14px; border:none; display:flex; justify-content:flex-end; gap:6px; } 
+.modal-box{ width:100%; max-width:360px; max-height:80vh; overflow-y:auto; background:#050a0c; border-radius:14px; } 
+.modal-head{ padding:10px 12px; display:flex; justify-content:space-between; align-items:center; } 
+.modal-head h3{ font-size:11px; } 
+.close{ background:#0a1215; color:var(--muted); width:24px; height:24px; border-radius:8px; cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center; } 
+.modal-body{ padding:10px 12px; } 
+.modal-foot{ padding:10px 12px; display:flex; justify-content:flex-end; gap:5px; } 
 
-.toast{ position:fixed; right:15px; bottom:15px; background:#0a1215; border:none; color:white; padding:10px 14px; border-radius:12px; font-size:11px; z-index:5000; transform:translateY(80px); opacity:0; transition:.3s; box-shadow:0 10px 25px rgba(0,0,0,0.6); } 
+.toast{ position:fixed; right:12px; bottom:12px; background:#0a1215; color:white; padding:8px 12px; border-radius:10px; font-size:10px; z-index:5000; transform:translateY(60px); opacity:0; transition:.3s; } 
 .toast.show{ transform:translateY(0); opacity:1; } 
-.empty{ padding:35px 10px; text-align:center; color:var(--muted); font-size:10px; } 
+.empty{ padding:25px 10px; text-align:center; color:var(--muted); font-size:9px; } 
+
+.app-icon-mini {
+  width: 18px; height: 18px; border-radius: 4px; object-fit: cover; vertical-align: middle; margin-right: 5px;
+}
 </style>
 </head>
 <body>
 
+<div id="clientLoginOverlay">
+  <div class="client-card">
+    <div id="loginForm" style="width: 100%;">
+      <div style="margin-bottom: 16px;">
+        <i class="fa-solid fa-crown" id="headerIcon" style="font-size: 38px; color: var(--lime); margin-bottom: 8px; text-shadow: 0 0 12px rgba(168,255,0,0.4);"></i>
+        <img id="brandLogoPreview" class="brand-logo-preview" style="display:none;" alt="Brand Logo">
+        <h2 style="font-size: 15px; font-weight: 900; color: #fff;">YOUNES <span style="color:var(--lime);">TECHNIQUE</span></h2>
+        <p style="color: var(--muted); font-size: 9px; margin-top: 3px;" data-i18n="loginSub">أدخل كود التوكن (Token) الخاص بك للدخول</p>
+      </div>
+      <div class="form-group" style="margin-bottom: 10px; text-align: inherit;">
+        <label data-i18n="tokenLabel">كود التوكن (Token Code)</label>
+        <input class="input" type="text" id="tokenInput" placeholder="YT-XXXX-XXXX" style="text-align: center; font-weight: bold; letter-spacing: 1px;">
+      </div>
+      <button class="btn btn-lime" style="width: 100%; justify-content: center; padding: 10px; font-weight: 900;" onclick="verifyClientToken()">
+        <i class="fa-solid fa-key"></i> <span data-i18n="verifyBtn">فحص وتفعيل الحساب</span>
+      </button>
+    </div>
+
+    <div class="success-screen" id="successScreen" style="display:none; flex-direction:column; width:100%; gap:10px;">
+      <div style="font-size: 12px; font-weight: 900; color: var(--lime);" data-i18n="successTitle"><i class="fa-solid fa-circle-check"></i> تم التفعيل بنجاح!</div>
+      <div style="background: #030607; border-radius: 12px; padding: 12px; text-align: inherit;">
+        <div style="font-size: 10px; font-weight: 900; color: var(--lime); margin-bottom: 8px; text-align: center; border-bottom: 1px dashed rgba(168,255,0,0.2); padding-bottom: 6px;" data-i18n="invoiceTitle">فاتورة التفعيل الفاخرة</div>
+        <div class="invoice-row"><span data-i18n="clientNameLbl">الاسم:</span><span id="invName">-</span></div>
+        <div class="invoice-row"><span data-i18n="clientPhoneLbl">الهاتف:</span><span id="invPhone">-</span></div>
+        <div class="invoice-row"><span data-i18n="expiryLbl">انتهاء الصلاحية:</span><span id="invExpiry" style="color:var(--lime);">-</span></div>
+      </div>
+      <button class="btn btn-lime" style="width: 100%; justify-content: center; padding: 10px; font-weight: 900;" onclick="enterAppSmoothly()">
+        <span data-i18n="enterAppBtn">الدخول إلى لوحة التحكم والمشغل</span> <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="app">
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="logo"><i class="fa-solid fa-crown"></i></div>
       <div class="brand-text">YOUNES TECHNIQUE<span>PLAYER PRO</span></div>
     </div>
     <div class="admin-box">
-      <small>COMPTE ADMINISTRATEUR</small>
-      <strong><span class="status-dot"></span>Admin Panel</strong>
+      <small data-i18n="adminLabel">ADMINISTRATEUR</small>
+      <strong><span style="color:var(--lime);">●</span> Panel Mobile</strong>
     </div>
     <div class="nav">
       <button class="nav-item active" data-page="dashboard">
-        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></div>
-        <div class="nav-label"><span class="nav-fr">Dashboard</span><span class="nav-ar">الرئيسية</span></div>
+        <div class="nav-icon"><i class="fa-solid fa-chart-pie"></i></div>
+        <div class="nav-label"><span class="nav-fr" data-i18n="navDashboard">Dashboard</span></div>
       </button>
       <button class="nav-item" data-page="test-playlist">
-        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
-        <div class="nav-label"><span class="nav-fr">YOUNES TECHNIQUE Player</span><span class="nav-ar">مشغل يونيس تقنية المتكامل</span></div>
+        <div class="nav-icon"><i class="fa-solid fa-play"></i></div>
+        <div class="nav-label"><span class="nav-fr" data-i18n="navPlayer">YOUNES Player</span></div>
       </button>
       <button class="nav-item" data-page="clients">
-        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path></svg></div>
-        <div class="nav-label"><span class="nav-fr">Clients</span><span class="nav-ar">العملاء</span></div>
+        <div class="nav-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="nav-label"><span class="nav-fr" data-i18n="navClients">Clients</span></div>
       </button>
       <button class="nav-item" data-page="abonnements">
-        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
-        <div class="nav-label"><span class="nav-fr">Abonnements & Token</span><span class="nav-ar">الاشتراكات والتطوير</span></div>
+        <div class="nav-icon"><i class="fa-solid fa-key"></i></div>
+        <div class="nav-label"><span class="nav-fr" data-i18n="navAbonnements">Abonnements & Token</span></div>
       </button>
       <button class="nav-item" data-page="payments">
-        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M2 10h20"></path></svg></div>
-        <div class="nav-label"><span class="nav-fr">Paiements</span><span class="nav-ar">الدفعات</span></div>
-      </button>
-      <button class="nav-item" data-page="history">
-        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v6h6"></path></svg></div>
-        <div class="nav-label"><span class="nav-fr">Historique</span><span class="nav-ar">السجل</span></div>
+        <div class="nav-icon"><i class="fa-solid fa-credit-card"></i></div>
+        <div class="nav-label"><span class="nav-fr" data-i18n="navPayments">Paiements</span></div>
       </button>
       <button class="nav-item" data-page="activation">
-        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.2 6.6L21 11l-6.8 2.4L12 20l-2.2-6.6L3 11l6.8-2.4L12 2z"></path></svg></div>
-        <div class="nav-label"><span class="nav-fr">Activation</span><span class="nav-ar">التفعيل</span></div>
+        <div class="nav-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <div class="nav-label"><span class="nav-fr" data-i18n="navActivation">Activation</span></div>
       </button>
       <button class="nav-item" data-page="settings">
-        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle></svg></div>
-        <div class="nav-label"><span class="nav-fr">Paramètres</span><span class="nav-ar">الإعدادات</span></div>
+        <div class="nav-icon"><i class="fa-solid fa-gear"></i></div>
+        <div class="nav-label"><span class="nav-fr" data-i18n="navSettings">Paramètres</span></div>
       </button>
     </div>
-    <div class="sidebar-bottom">YOUNES TECHNIQUE PRO v4.2</div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
     <header class="topbar">
-      <div class="top-left">
-        <button class="menu-btn" id="menuBtn">☰</button>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button class="menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
         <div class="page-title">
           <h1 id="topTitle">Dashboard</h1>
-          <p>Panel Mobile • إدارة احترافية</p>
+          <p>Compact Mobile Edition</p>
         </div>
       </div>
-      <div class="top-right">
-        <div class="live-clock" id="liveClock">--:--</div>
-        <div class="online">● ON</div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <div id="liveClock" style="background:#070d10; padding:4px 8px; border-radius:8px; color:var(--lime); font-size:9px; font-weight:bold;">--:--</div>
       </div>
     </header>
 
-    <!-- DASHBOARD PAGE -->
     <div class="page active" id="dashboard">
       <div class="section-head">
-        <div><h2>Dashboard — الرئيسية</h2><p>نظرة عامة على اللوحة</p></div>
-        <button class="btn btn-lime btn-small" onclick="openClientModal()"> ＋ عميل </button>
+        <div><h2 data-i18n="dashTitle">Dashboard — الرئيسية</h2><p data-i18n="dashSub">نظرة عامة سريعة</p></div>
+        <button class="btn btn-lime btn-small" onclick="openClientModal()"><i class="fa-solid fa-plus"></i> <span data-i18n="clientBtn">عميل</span></button>
       </div>
       <div class="stats">
-        <div class="stat"><div class="stat-top"><span class="stat-label">Clients / العملاء</span><div class="stat-icon"><i class="fa-solid fa-users"></i></div></div><div class="stat-value" id="statClients">0</div><div class="stat-sub">إجمالي العملاء</div></div>
-        <div class="stat"><div class="stat-top"><span class="stat-label">À payer / المطلوب</span><div class="stat-icon"><i class="fa-solid fa-wallet"></i></div></div><div class="stat-value" id="statDue">0 DH</div><div class="stat-sub">المبلغ الإجمالي</div></div>
-        <div class="stat"><div class="stat-top"><span class="stat-label">Payé / المدفوع</span><div class="stat-icon"><i class="fa-solid fa-credit-card"></i></div></div><div class="stat-value" id="statPaid">0 DH</div><div class="stat-sub">المستلم</div></div>
-        <div class="stat"><div class="stat-top"><span class="stat-label">Reste / الباقي</span><div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div></div><div class="stat-value" id="statRemain">0 DH</div><div class="stat-sub">المتبقي</div></div>
+        <div class="stat"><div class="stat-top"><span class="stat-label" data-i18n="statClients">Clients / العملاء</span><div class="stat-icon"><i class="fa-solid fa-users"></i></div></div><div class="stat-value" id="statClients">0</div></div>
+        <div class="stat"><div class="stat-top"><span class="stat-label" data-i18n="statDue">À payer / المطلوب</span><div class="stat-icon"><i class="fa-solid fa-wallet"></i></div></div><div class="stat-value" id="statDue">0 DH</div></div>
+        <div class="stat"><div class="stat-top"><span class="stat-label" data-i18n="statPaid">Payé / المدفوع</span><div class="stat-icon"><i class="fa-solid fa-credit-card"></i></div></div><div class="stat-value" id="statPaid">0 DH</div></div>
+        <div class="stat"><div class="stat-top"><span class="stat-label" data-i18n="statRemain">Reste / الباقي</span><div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div></div><div class="stat-value" id="statRemain">0 DH</div></div>
       </div>
-      <div class="card">
-        <div class="card-head">
-          <h3>العملاء الجدد — Récents</h3>
-          <button class="btn btn-dark btn-small" onclick="showPage('clients')">الكل</button>
+
+      <!-- زر قائمة العملاء الجدد الفاخر -->
+      <div class="luxury-dropdown-card" id="recentClientsDropdown">
+        <div class="luxury-dropdown-header" onclick="toggleRecentClientsDropdown()">
+          <div class="luxury-dropdown-title">
+            <i class="fa-solid fa-users-viewfinder"></i>
+            <span data-i18n="recentClients">العملاء الجدد (Clients Récents)</span>
+            <span class="badge badge-lime" id="recentCountBadge">0</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-small" onclick="event.stopPropagation(); showPage('clients')" data-i18n="allBtn" style="padding: 3px 6px; font-size: 8px;">الكل</button>
+            <i class="fa-solid fa-chevron-down luxury-chevron"></i>
+          </div>
         </div>
-        <div class="table-wrap">
-          <table><thead><tr><th>Client</th><th>Compte</th><th>État</th><th>Reste</th></tr></thead><tbody id="dashboardTable"></tbody></table>
+        <div class="luxury-dropdown-body">
+          <div class="table-wrap" style="margin-top: 6px;">
+            <table>
+              <thead>
+                <tr>
+                  <th data-i18n="thClient">Client</th>
+                  <th data-i18n="thAccount">Compte</th>
+                  <th data-i18n="thState">État</th>
+                  <th data-i18n="thRemain">Reste</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardTable"></tbody>
+            </table>
+          </div>
         </div>
       </div>
+
       <div class="card">
-        <div class="card-head"><h3>إجراءات سريعة — Actions</h3></div>
+        <div class="card-head"><h3 data-i18n="quickActions">إجراءات سريعة</h3></div>
         <div class="card-body">
           <div class="quick-actions">
-            <button class="quick" onclick="openClientModal()"><div class="quick-icon">👤＋</div><strong>عميل جديد</strong><span>إضافة عميل</span></button>
-            <button class="quick" onclick="showPage('test-playlist')"><div class="quick-icon"><i class="fa-solid fa-crown"></i></div><strong>مشغل يونيس تقنية</strong><span>YOUNES TECHNIQUE</span></button>
-            <button class="quick" onclick="openPaymentModal()"><div class="quick-icon">💳</div><strong>تسجيل دفعة</strong><span>إضافة مبلغ</span></button>
-            <button class="quick" onclick="showPage('abonnements')"><div class="quick-icon">🔑</div><strong>مولد التوكن</strong><span>Token Generator</span></button>
+            <button class="quick" onclick="openClientModal()"><div class="quick-icon"><i class="fa-solid fa-user-plus"></i></div><strong data-i18n="qNewClient">عميل جديد</strong><span data-i18n="qNewClientSub">إضافة بيانات</span></button>
+            <button class="quick" onclick="showPage('test-playlist')"><div class="quick-icon"><i class="fa-solid fa-crown"></i></div><strong data-i18n="qPlayer">مشغل يونيس</strong><span>YOUNES PLAYER</span></button>
+            <button class="quick" onclick="openPaymentModal()"><div class="quick-icon"><i class="fa-solid fa-wallet"></i></div><strong data-i18n="qPay">تسجيل دفعة</strong><span data-i18n="qPaySub">إضافة مبلغ</span></button>
+            <button class="quick" onclick="showPage('abonnements')"><div class="quick-icon"><i class="fa-solid fa-key"></i></div><strong data-i18n="qToken">مولد التوكن</strong><span>Token Generator</span></button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- YOUNES TECHNIQUE PLAYER DEDICATED PAGE -->
     <div class="page" id="test-playlist">
-      <div class="section-head">
-        <div><h2>YOUNES TECHNIQUE PLAYER PRO</h2><p>المشغل الذكي المتكامل المشفر (Live, VOD, Series)</p></div>
-      </div>
-      
+      <div class="section-head"><div data-i18n="playerHeader"><h2>YOUNES TECHNIQUE PLAYER</h2><p>المشغل الذكي المشفر</p></div></div>
       <div class="card">
-        <div class="card-head"><h3>🔐 إعدادات وتفعيل المشغل الاحترافي</h3></div>
+        <div class="card-head"><h3 data-i18n="playerSettings">🔐 إعدادات السيرفر والمشغل</h3></div>
         <div class="card-body">
-          <div class="form-group full" style="margin-bottom:10px;">
-            <label>رابط Xtream / M3U (أدخل رابط السيرفر الخاص بك هنا):</label>
-            <input class="input" id="luxuryServerInput" placeholder="http://server.com:port/get.php?username=USER&password=PASS&type=m3u_plus" oninput="validateM3UInputLive(this.value)" value="">
-            <div id="m3uInputStatus" class="m3u-status" style="margin-top:6px;">أدخل رابط Xtream أو M3U صالح للتشغيل.</div>
+          <div class="form-group full" style="margin-bottom:8px;">
+            <label data-i18n="serverUrlLbl">رابط Xtream / M3U:</label>
+            <input class="input" id="luxuryServerInput" placeholder="http://server.com:port/get.php?username=USER&password=PASS" oninput="validateM3UInputLive(this.value)">
+            <div id="m3uInputStatus" style="font-size:9px; color:var(--muted); margin-top:4px;" data-i18n="serverStatus">أدخل رابط سيرفر صالح.</div>
           </div>
-          <div class="luxury-standalone-card">
-            <i class="fa-solid fa-crown" style="font-size:48px; color:var(--lime); margin-bottom:10px; text-shadow:0 0 20px rgba(168,255,0,0.4);"></i>
-            <h3 class="shimmer-title">YOUNES TECHNIQUE</h3>
-            <p style="color:var(--muted); font-size:11px; margin-bottom:16px;">مشغل فائق السرعة بمعايير التطبيقات الكبرى، قفل تلقائي عند نهاية اليومية وربط بالجهاز ورقم الزبون.</p>
-            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; align-items:center;">
-              <button class="btn btn-lime" onclick="launchStandaloneLuxuryApp()" style="padding:12px 20px; font-size:12px;"><i class="fa-solid fa-rocket"></i> تشغيل المشغل</button>
-              <div class="glass-test-badge" onclick="runQuickTestM3U()">
-                <i class="fa-solid fa-vial-circle-check"></i> Test M3U
-              </div>
+          <div style="background:#070d10; border-radius:14px; padding:16px; text-align:center;">
+            <i class="fa-solid fa-crown" style="font-size:36px; color:var(--lime); margin-bottom:8px;"></i>
+            <h3 style="color:var(--lime); font-size:13px; font-weight:900;">YOUNES TECHNIQUE</h3>
+            <p style="color:var(--muted); font-size:9px; margin-bottom:12px;" data-i18n="playerDesc">مشغل فائق السرعة ومتوافق مع الهواتف.</p>
+            <div style="display:flex; gap:8px; justify-content:center;">
+              <button class="btn btn-lime" onclick="launchStandaloneLuxuryApp()"><i class="fa-solid fa-rocket"></i> <span data-i18n="launchPlayerBtn">تشغيل المشغل</span></button>
+              <button class="btn" onclick="runQuickTestM3U()"><i class="fa-solid fa-vial"></i> <span data-i18n="testLinkBtn">فحص الرابط</span></button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- CLIENTS PAGE -->
     <div class="page" id="clients">
       <div class="section-head">
-        <div><h2>Clients — العملاء</h2><p>إدارة عملاء البانل</p></div>
-        <button class="btn btn-lime btn-small" onclick="openClientModal()"> ＋ عميل </button>
+        <div><h2 data-i18n="clientsHeader">Clients — العملاء</h2><p data-i18n="clientsSub">إدارة العملاء والفواتير</p></div>
+        <button class="btn btn-lime btn-small" onclick="openClientModal()"><i class="fa-solid fa-plus"></i> <span data-i18n="clientBtn">عميل</span></button>
       </div>
       <div class="card">
-        <div class="card-head">
-          <h3>قائمة العملاء</h3>
-          <span class="badge badge-lime" id="clientCountText">0</span>
-        </div>
+        <div class="card-head"><h3 data-i18n="clientsList">قائمة العملاء</h3><span class="badge badge-lime" id="clientCountText">0</span></div>
         <div class="card-body">
-          <div class="search-row"><input class="search" id="clientSearch" placeholder="بحث بالاسم أو الحساب..."></div>
+          <div style="margin-bottom:8px;"><input class="search" id="clientSearch" placeholder="بحث بالاسم أو الحساب..." data-i18n-placeholder="searchPlaceholder" oninput="renderClients()"></div>
           <div class="table-wrap">
-            <table><thead><tr><th>Client</th><th>Compte</th><th>Total</th><th>Payé</th><th>Reste</th><th>Actions</th></tr></thead><tbody id="clientsTable"></tbody></table>
+            <table><thead><tr><th data-i18n="thClient">Client</th><th data-i18n="thAccount">Compte</th><th data-i18n="thTotal">Total</th><th data-i18n="thPaid">Payé</th><th data-i18n="thRemain">Reste</th><th data-i18n="thActions">Actions</th></tr></thead><tbody id="clientsTable"></tbody></table>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ABONNEMENTS & TOKEN GENERATOR PAGE -->
     <div class="page" id="abonnements">
-      <div class="section-head">
-        <div><h2>Abonnements & Token Generator</h2><p>توليد وتصدير كود الـ Token للعميل والتحقق من الاشتراكات</p></div>
-      </div>
-      
-      <!-- نافذة مولد التوكن المدمجة -->
-      <div class="card" style="margin-bottom:15px; border:1px solid rgba(168,255,0,0.2);">
-        <div class="card-head"><h3><i class="fa-solid fa-key" style="color:var(--lime);"></i> مولد كود التوكن (Token Generator Pro)</h3></div>
+      <div class="section-head"><div data-i18n="aboHeader"><h2>Abonnements & Token</h2><p>توليد وتصدير كود الـ Token</p></div></div>
+      <div class="card">
+        <div class="card-head"><h3><i class="fa-solid fa-key" style="color:var(--lime);"></i> <span data-i18n="tokenGenTitle">مولد كود التوكن (Token Pro)</span></h3></div>
         <div class="card-body">
           <div class="form-grid">
             <div class="form-group full">
-              <label>العميل</label>
+              <label data-i18n="selectClientLbl">اختر من العملاء</label>
               <input type="hidden" id="abonnementClientVal" value="">
               <div class="custom-select-trigger" onclick="openClientDropdown('abonnementClientVal', 'abonnementClientText', 'genName', 'genPhone')">
-                <span id="abonnementClientText">اختر العميل من القائمة</span>
+                <span id="abonnementClientText" data-i18n="selectClientDefault">اختر العميل</span>
               </div>
             </div>
-
-            <div class="form-group"><label>اسم العميل</label><input class="input" id="genName" placeholder="مثال: يونس الفروقي"></div>
-            <div class="form-group"><label>رقم هاتف العميل (مع الرمز الدولي)</label><input class="input" id="genPhone" placeholder="+212600000000"></div>
-            <div class="form-group"><label>تاريخ انتهاء الصلاحية (اليومية)</label><input class="input" type="date" id="genExpiry"></div>
-            
-            <div class="form-group full"><button class="btn btn-lime" onclick="generateAndShowToken()"><i class="fa-solid fa-wand-magic-sparkles"></i> توليد وحفظ كود التوكن (Token)</button></div>
+            <div class="form-group"><label data-i18n="clientNameLbl">اسم العميل</label><input class="input" id="genName" placeholder="يونس الفروقي"></div>
+            <div class="form-group"><label data-i18n="clientPhoneLbl">رقم الهاتف</label><input class="input" id="genPhone" placeholder="+212600000000"></div>
+            <div class="form-group full"><label data-i18n="logoUrlLbl">رابط صورة الشعار / البراند (Logo Brand URL)</label><input class="input" id="genLogoUrl" placeholder="https://example.com/logo-brand.png"></div>
+            <div class="form-group">
+              <label data-i18n="expiryDateLbl">تاريخ الصلاحية / اليومية</label>
+              <div style="display:flex; gap:5px;">
+                <input class="input" type="date" id="genExpiry" style="flex:1;">
+                <button type="button" class="btn btn-small" onclick="setLifetimeExpiry()" style="color:var(--lime)!important;">∞</button>
+              </div>
+            </div>
+            <div class="form-group full"><button class="btn btn-lime" onclick="generateAndShowToken()"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="genTokenBtn">توليد وحفظ كود التوكن</span></button></div>
           </div>
-
-          <div class="result-box" id="resultBox" style="display:none; margin-top:14px; background:rgba(3,6,7,0.9); border-radius:14px; padding:12px; border:1px dashed rgba(168,255,0,0.3); flex-direction:column; gap:8px;">
-            <div style="font-size:10px; color:var(--muted); font-weight:700;">كود التوكن المولّد بنجاح:</div>
-            <div id="tokenOutput" style="background:#000; padding:10px; border-radius:10px; font-family:monospace; color:var(--lime); font-size:13px; font-weight:bold; text-align:center; letter-spacing:1px;">YT-XXXX-XXXX</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-              <button class="btn" style="background:rgba(255,255,255,0.05)!important;" onclick="copyToken()"><i class="fa-solid fa-copy"></i> نسخ الكود</button>
-              <button class="btn" style="background:rgba(55,227,154,0.15)!important; color:var(--green)!important;" onclick="sendViaWhatsApp()"><i class="fa-brands fa-whatsapp"></i> إرسال واتساب</button>
+          <div id="resultBox" style="display:none; margin-top:10px; background:#030607; border-radius:10px; padding:10px; flex-direction:column; gap:6px;">
+            <div style="font-size:9px; color:var(--muted);" data-i18n="tokenGeneratedLbl">كود التوكن المولّد:</div>
+            <div id="tokenOutput" style="background:#000; padding:8px; border-radius:8px; font-family:monospace; color:var(--lime); font-size:11px; font-weight:bold; text-align:center;">YT-XXXX-XXXX</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+              <button class="btn btn-small" onclick="copyToken()"><i class="fa-solid fa-copy"></i> <span data-i18n="copyBtn">نسخ</span></button>
+              <button class="btn btn-small" style="color:var(--green)!important;" onclick="sendViaWhatsApp()"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="whatsappBtn">واتساب</span></button>
             </div>
           </div>
         </div>
       </div>
-
       <div class="card">
-        <div class="card-head"><h3>الاشتراكات والتوكنات النشطة</h3><span class="badge badge-lime" id="abonnementCount">0</span></div>
+        <div class="card-head"><h3 data-i18n="activeAboTitle">الاشتراكات النشطة</h3><span class="badge badge-lime" id="abonnementCount">0</span></div>
         <div class="table-wrap">
-          <table><thead><tr><th>Client</th><th>Phone</th><th>Token</th><th>الصلاحية</th><th>Actions</th></tr></thead><tbody id="abonnementTable"></tbody></table>
+          <table><thead><tr><th data-i18n="thClient">Client</th><th data-i18n="thPhone">Phone</th><th data-i18n="thToken">Token</th><th data-i18n="thExpiry">الصلاحية</th><th data-i18n="thActions">Actions</th></tr></thead><tbody id="abonnementTable"></tbody></table>
         </div>
       </div>
     </div>
 
-    <!-- PAYMENTS PAGE -->
     <div class="page" id="payments">
-      <div class="section-head">
-        <div><h2>Paiements — الدفعات</h2><p>سجل المدفوعات</p></div>
-        <button class="btn btn-lime btn-small" onclick="openPaymentModal()"> ＋ دفعة </button>
-      </div>
+      <div class="section-head"><div data-i18n="payHeader"><h2>Paiements — الدفعات</h2></div><button class="btn btn-lime btn-small" onclick="openPaymentModal()"><i class="fa-solid fa-plus"></i> <span data-i18n="payBtn">دفعة</span></button></div>
       <div class="card">
-        <div class="card-head"><h3>الدفعات الأخيرة</h3></div>
+        <div class="card-head"><h3 data-i18n="payListTitle">سجل المدفوعات</h3></div>
         <div class="table-wrap">
-          <table><thead><tr><th>Date</th><th>Client</th><th>Montant</th><th>Note</th></tr></thead><tbody id="paymentsTable"></tbody></table>
+          <table><thead><tr><th data-i18n="thDate">Date</th><th data-i18n="thClient">Client</th><th data-i18n="thAmount">Montant</th><th data-i18n="thNote">Note</th></tr></thead><tbody id="paymentsTable"></tbody></table>
         </div>
       </div>
     </div>
 
-    <!-- HISTORY PAGE -->
-    <div class="page" id="history">
-      <div class="section-head"><div><h2>Historique — السجل</h2><p>سجل العمليات</p></div></div>
-      <div class="card"><div class="card-head"><h3>النشاطات</h3></div><div class="card-body"><div class="history-list" id="historyList"></div></div></div>
-    </div>
-
-    <!-- ACTIVATION PAGE -->
     <div class="page" id="activation">
-      <div class="section-head"><div><h2>Activation — التفعيل</h2><p>تفعيل شاشات Smart TV عبر MAC</p></div></div>
-      <div class="card" style="margin-bottom:15px;">
-        <div class="card-head"><h3>تفعيل جديد</h3></div>
+      <div class="section-head"><div data-i18n="actHeader"><h2>Activation — التفعيل</h2></div></div>
+      <div class="card" style="margin-bottom:10px;">
+        <div class="card-head"><h3 data-i18n="actTitle">تفعيل شاشات Smart TV وإصدار الفاتورة</h3></div>
         <div class="card-body">
           <div class="form-grid">
             <div class="form-group full">
-              <label>العميل</label>
+              <label data-i18n="selectClientLbl">العميل</label>
               <input type="hidden" id="activationClientVal" value="">
-              <div class="custom-select-trigger" onclick="openClientDropdown('activationClientVal', 'activationClientText', 'activationName', null)">
-                <span id="activationClientText">اختر العميل</span>
-              </div>
+              <div class="custom-select-trigger" onclick="openClientDropdown('activationClientVal', 'activationClientText', 'activationName', null)"><span id="activationClientText" data-i18n="selectClientDefault">اختر العميل</span></div>
             </div>
-
-            <div class="form-group"><label>اسم العميل</label><input class="input" id="activationName" placeholder="اسم العميل"></div>
-            <div class="form-group"><label>MAC Address</label><input class="input" id="activationMac" placeholder="00:11:22:33:44:55" maxlength="17"></div>
+            <div class="form-group"><label data-i18n="clientNameLbl">اسم العميل</label><input class="input" id="activationName" placeholder="الاسم"></div>
+            <div class="form-group"><label data-i18n="macLbl">MAC Address</label><input class="input" id="activationMac" placeholder="00:11:22:33:44:55"></div>
             
             <div class="form-group full">
-              <label>التطبيق</label>
-              <input type="hidden" id="activationApp" value="YOUNES TECHNIQUE">
-              <div class="custom-select-trigger" onclick="openCustomDropdown('activationApp')">
-                <span id="activationAppText">YOUNES TECHNIQUE</span>
-              </div>
+              <label style="color:var(--gold); font-weight:bold;"><i class="fa-solid fa-link"></i> رابط M3U / Xtream (الرئيسي):</label>
+              <input class="input" id="activationM3UUrl" placeholder="http://server.com:port/get.php?username=USER&password=PASS" oninput="validateM3UInputLive(this.value)">
             </div>
 
-            <div class="form-group"><label>اليومية الأصلية (تاريخ الصلاحية)</label><input class="input" type="date" id="activationDuration"></div>
-            <div class="form-group"><label>ملاحظة</label><input class="input" id="activationNote" placeholder="ملاحظة"></div>
-            <div class="form-group full"><button class="btn btn-lime" onclick="createActivation()">⚡ تفعيل الآن</button></div>
+            <div class="form-group full" style="background: rgba(255,215,0,0.03); border: 1px dashed var(--gold); border-radius: 12px; padding: 10px;">
+              <label style="color:var(--gold); font-weight:900;"><i class="fa-solid fa-file-invoice-dollar"></i> حقل M3U الإضافي (لاستخراج وتحليل بيانات الفاتورة):</label>
+              <div style="display:flex; gap:6px; margin-top:5px;">
+                <input class="input" id="activationM3UUrl2" placeholder="أدخل رابط M3U هنا للتحليل التلقائي ونسخه للفاتورة..." oninput="extractXtreamDataForInvoice(this.value)" style="border-color:var(--gold)!important;">
+                <button type="button" class="btn btn-luxury-invoice" onclick="extractXtreamDataForInvoice(document.getElementById('activationM3UUrl2').value)">استخراج</button>
+              </div>
+              <small id="extractStatus2" style="color:var(--muted); font-size:8px; margin-top:3px; display:block;">قيد الانتظار... ضع الرابط لاستخراج Host, Username, Password وتاريخ الصلاحية للفاتورة.</small>
+            </div>
+
+            <div class="form-group full">
+              <label data-i18n="appLbl">التطبيق المفعل</label>
+              <input type="hidden" id="activationApp" value="YOUNES TECHNIQUE">
+              <div class="custom-select-trigger" onclick="openCustomDropdown('activationApp')">
+                <span id="activationAppText"><i class="fa-solid fa-crown" style="color:var(--lime); margin-right:5px;"></i> YOUNES TECHNIQUE</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label data-i18n="expiryDateLbl">تاريخ الصلاحية / اليومية</label>
+              <div style="display:flex; gap:5px;"><input class="input" type="date" id="activationDuration" style="flex:1;"><button type="button" class="btn btn-small" onclick="setLifetimeActivation()" style="color:var(--lime)!important;">∞</button></div>
+            </div>
+            <div class="form-group"><label data-i18n="notePriceLbl">ملاحظة / السعر</label><input class="input" id="activationNote" placeholder="100 DH"></div>
+            <div class="form-group full"><button class="btn btn-lime" onclick="createActivation()"><i class="fa-solid fa-bolt"></i> <span data-i18n="actSaveBtn">تفعيل وتسجيل الفاتورة وحفظها</span></button></div>
           </div>
         </div>
       </div>
       <div class="card">
-        <div class="card-head"><h3>التفعيلات النشطة</h3><span class="badge badge-lime" id="activationCount">0</span></div>
+        <div class="card-head"><h3 data-i18n="activeActTitle">التفعيلات النشطة</h3><span class="badge badge-lime" id="activationCount">0</span></div>
         <div class="table-wrap">
-          <table><thead><tr><th>Client</th><th>MAC</th><th>App</th><th>اليومية</th><th>Actions</th></tr></thead><tbody id="activationTable"></tbody></table>
+          <table><thead><tr><th data-i18n="thClient">Client</th><th data-i18n="thMac">MAC</th><th data-i18n="thApp">App</th><th data-i18n="thExpiry">اليومية</th><th data-i18n="thActions">Actions</th></tr></thead><tbody id="activationTable"></tbody></table>
         </div>
       </div>
     </div>
 
-    <!-- SETTINGS PAGE -->
     <div class="page" id="settings">
-      <div class="section-head"><div><h2>Paramètres — الإعدادات</h2><p>إدارة البيانات والنسخ الاحتياطي</p></div></div>
+      <div class="section-head"><div data-i18n="settingsHeader"><h2>Paramètres — الإعدادات</h2><p>اختر لغة النظام المفضلة</p></div></div>
       <div class="card">
-        <div class="card-head"><h3>خيارات البيانات</h3></div>
+        <div class="card-head"><h3 data-i18n="langSectionTitle"><i class="fa-solid fa-globe" style="color:var(--lime);"></i> لغة النظام (System Language)</h3></div>
         <div class="card-body">
-          <div class="quick-actions">
-            <button class="quick" onclick="exportData()"><div class="quick-icon">⬇</div><strong>تصدير JSON</strong><span>حفظ نسخة</span></button>
-            <button class="quick" onclick="document.getElementById('importFile').click()"><div class="quick-icon">⬆</div><strong>استيراد JSON</strong><span>استرجاع البيانات</span></button>
-            <button class="quick" onclick="clearAllData()"><div class="quick-icon" style="color:#ff5b67">🗑</div><strong>حذف الكل</strong><span>تفريغ الذاكرة</span></button>
+          <div style="font-size:10px; color:var(--muted); margin-bottom:10px;" data-i18n="langSectionSub">اختر لغة التطبيق والواجهة بالكامل:</div>
+          <div class="language-selector-grid">
+            <div class="lang-btn" id="langBtn-fr" onclick="changeSystemLanguage('fr')">
+              <div class="lang-flag">🇫🇷</div>
+              <div class="lang-name">Français</div>
+              <small style="font-size:8px; color:var(--muted);">Original</small>
+            </div>
+            <div class="lang-btn" id="langBtn-en" onclick="changeSystemLanguage('en')">
+              <div class="lang-flag">🇬🇧</div>
+              <div class="lang-name">English</div>
+              <small style="font-size:8px; color:var(--muted);">Global</small>
+            </div>
+            <div class="lang-btn" id="langBtn-ar" onclick="changeSystemLanguage('ar')">
+              <div class="lang-flag">🇲🇦</div>
+              <div class="lang-name">العربية</div>
+              <small style="font-size:8px; color:var(--muted);">محلي</small>
+            </div>
           </div>
-          <input type="file" id="importFile" accept=".json" style="display:none">
         </div>
       </div>
     </div>
   </main>
 </div>
 
-<!-- نافذة الاختيار المنبثقة الفاخرة المخصصة للتطبيقات والعملاء -->
 <div class="custom-dropdown-modal" id="customDropdownModal">
   <div class="custom-dropdown-content">
-    <div class="custom-dropdown-header">
-      <span id="customModalTitle">اختر العنصر</span>
-      <button class="close" onclick="closeCustomDropdown()">×</button>
-    </div>
-    <div id="customDropdownItems" style="display:flex; flex-direction:column; gap:6px;"></div>
+    <div style="font-size:11px; font-weight:900; color:var(--lime); padding:5px 0 10px; display:flex; justify-content:space-between;"><span id="customModalTitle">اختر التطبيق</span><button class="close" onclick="closeCustomDropdown()">×</button></div>
+    <div id="customDropdownItems" style="display:flex; flex-direction:column; gap:4px;"></div>
   </div>
 </div>
 
-<!-- MODALS -->
-<div class="modal" id="clientModal"><div class="modal-box"><div class="modal-head"><h3 id="clientModalTitle">عميل جديد</h3><button class="close" onclick="closeModal('clientModal')">×</button></div><div class="modal-body"><input type="hidden" id="editClientId"><div class="form-grid"><div class="form-group full"><label>الاسم الكامل</label><input class="input" id="clientName" placeholder="اسم العميل"></div><div class="form-group full"><label>رقم الهاتف</label><input class="input" id="clientPhone" placeholder="+212600000000"></div><div class="form-group full"><label>الحساب / Username</label><input class="input" id="clientAccount" placeholder="حساب العميل"></div></div></div><div class="modal-foot"><button class="btn btn-dark btn-small" onclick="closeModal('clientModal')">إلغاء</button><button class="btn btn-danger btn-small" id="deleteClientModalBtn" onclick="deleteCurrentClient()" style="display:none">حذف</button><button class="btn btn-lime btn-small" onclick="saveClient()">حفظ</button></div></div></div>
-<div class="modal" id="debtModal"><div class="modal-box"><div class="modal-head"><h3>إضافة مبلغ</h3><button class="close" onclick="closeModal('debtModal')">×</button></div><div class="modal-body"><input type="hidden" id="debtClientId"><div class="form-grid"><div class="form-group"><label>المبلغ (DH)</label><input class="input" type="number" id="debtAmount" placeholder="0.00"></div><div class="form-group"><label>ملاحظة</label><input class="input" id="debtNote" placeholder="السبب"></div></div></div><div class="modal-foot"><button class="btn btn-dark btn-small" onclick="closeModal('debtModal')">إلغاء</button><button class="btn btn-lime btn-small" onclick="saveDebt()">إضافة</button></div></div></div>
-<div class="modal" id="paymentModal"><div class="modal-box"><div class="modal-head"><h3>تسجيل دفعة</h3><button class="close" onclick="closeModal('paymentModal')">×</button></div><div class="modal-body"><input type="hidden" id="paymentClientId"><div class="form-grid"><div class="form-group full"><label>العميل</label><select id="paymentClient"><option value="">اختر العميل</option></select></div><div class="form-group"><label>المبلغ (DH)</label><input class="input" type="number" id="paymentAmount" placeholder="0.00"></div><div class="form-group"><label>ملاحظة</label><input class="input" id="paymentNote" placeholder="ملاحظة"></div></div></div><div class="modal-foot"><button class="btn btn-dark btn-small" onclick="closeModal('paymentModal')">إلغاء</button><button class="btn btn-lime btn-small" onclick="savePayment()">حفظ</button></div></div></div>
-<div class="modal" id="detailModal"><div class="modal-box"><div class="modal-head"><h3>التفاصيل</h3><button class="close" onclick="closeModal('detailModal')">×</button></div><div class="modal-body" id="detailBody"></div></div></div>
+<div class="modal" id="clientModal"><div class="modal-box"><div class="modal-head"><h3 data-i18n="newClientModalTitle">عميل جديد</h3><button class="close" onclick="closeModal('clientModal')">×</button></div><div class="modal-body"><div class="form-grid"><div class="form-group full"><label data-i18n="fullNameLbl">الاسم الكامل</label><input class="input" id="clientName"></div><div class="form-group full"><label data-i18n="phoneLbl">رقم الهاتف</label><input class="input" id="clientPhone"></div><div class="form-group full"><label data-i18n="accountLbl">الحساب</label><input class="input" id="clientAccount"></div></div></div><div class="modal-foot"><button class="btn btn-small" onclick="closeModal('clientModal')" data-i18n="cancelBtn">إلغاء</button><button class="btn btn-lime btn-small" onclick="saveClient()" data-i18n="saveBtn">حفظ</button></div></div></div>
+<div class="modal" id="debtModal"><div class="modal-box"><div class="modal-head"><h3 data-i18n="addAmountTitle">إضافة مبلغ</h3><button class="close" onclick="closeModal('debtModal')">×</button></div><div class="modal-body"><input type="hidden" id="debtClientId"><div class="form-grid"><div class="form-group"><label data-i18n="amountLbl">المبلغ (DH)</label><input class="input" type="number" id="debtAmount"></div><div class="form-group"><label data-i18n="noteLbl">ملاحظة</label><input class="input" id="debtNote"></div></div></div><div class="modal-foot"><button class="btn btn-small" onclick="closeModal('debtModal')" data-i18n="cancelBtn">إلغاء</button><button class="btn btn-lime btn-small" onclick="saveDebt()" data-i18n="addBtn">إضافة</button></div></div></div>
+<div class="modal" id="paymentModal"><div class="modal-box"><div class="modal-head"><h3 data-i18n="payModalTitle">تسجيل دفعة</h3><button class="close" onclick="closeModal('paymentModal')">×</button></div><div class="modal-body"><input type="hidden" id="paymentClientId"><div class="form-grid"><div class="form-group full"><label data-i18n="clientLbl">العميل</label><select id="paymentClient" class="input"><option value="" data-i18n="selectClientDefault">اختر العميل</option></select></div><div class="form-group"><label data-i18n="amountLbl">المبلغ (DH)</label><input class="input" type="number" id="paymentAmount"></div><div class="form-group"><label data-i18n="noteLbl">ملاحظة</label><input class="input" id="paymentNote"></div></div></div><div class="modal-foot"><button class="btn btn-small" onclick="closeModal('paymentModal')" data-i18n="cancelBtn">إلغاء</button><button class="btn btn-lime btn-small" onclick="savePayment()" data-i18n="saveBtn">حفظ</button></div></div></div>
+<div class="modal" id="detailModal"><div class="modal-box" style="max-width: 350px;"><div class="modal-head"><h3 data-i18n="invoiceTitle">فاتورة التفعيل</h3><button class="close" onclick="closeModal('detailModal')">×</button></div><div class="modal-body" id="detailBody"></div></div></div>
+
+<div id="luxuryOverlayWrapper" style="display:none; position:fixed; inset:0; z-index:9000; background:#020405;">
+  <div id="appScreen" style="display:flex; flex-direction:column; justify-content:center; min-height:100vh; padding:12px; max-width:600px; margin:0 auto; position:absolute; inset:0; background:var(--bg);">
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#050a0c; padding:10px 14px; border-radius:14px; margin-bottom:10px;">
+      <div style="font-size:13px; font-weight:900; color:#fff;"><i class="fa-solid fa-crown" style="color:var(--lime);"></i> YOUNES <span style="color:var(--lime);">TECHNIQUE</span></div>
+      <button class="btn btn-small" onclick="exitLuxuryPlayer()"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">رجوع</span></button>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
+      <div class="card" style="padding:16px 8px; text-align:center; cursor:pointer;" onclick="openLiveSection()"><i class="fa-solid fa-tv" style="font-size:24px; color:var(--lime); margin-bottom:6px;"></i><h3 style="color:#fff; font-size:10px;">Live TV</h3></div>
+      <div class="card" style="padding:16px 8px; text-align:center; cursor:pointer;" onclick="openVodSection('vod')"><i class="fa-solid fa-film" style="font-size:24px; color:var(--lime); margin-bottom:6px;"></i><h3 style="color:#fff; font-size:10px;">Movies</h3></div>
+      <div class="card" style="padding:16px 8px; text-align:center; cursor:pointer;" onclick="openVodSection('series')"><i class="fa-solid fa-clapperboard" style="font-size:24px; color:var(--lime); margin-bottom:6px;"></i><h3 style="color:#fff; font-size:10px;">Series</h3></div>
+    </div>
+  </div>
+
+  <div id="liveMainLayout" style="display:none; height:100vh; width:100vw; flex-direction:column; background:#000; position:absolute; inset:0; z-index:9200;">
+    <div style="position:relative; height:32vh;"><video id="liveVideoPlayer" autoplay playsinline controls style="width:100%; height:100%; object-fit:contain;"></video></div>
+    <div style="flex:1; background:#050a0c; display:flex; flex-direction:column; overflow:hidden;">
+      <div style="padding:8px 10px; background:#020405; display:flex; align-items:center; justify-content:space-between;"><button class="btn btn-small" onclick="exitLiveSection()"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">رجوع</span></button><h4 style="color:#fff; font-size:10px;" id="liveCatHeader">Live Channels</h4><div></div></div>
+      <div id="liveCategoriesHorizontalBar" style="display:flex; gap:6px; overflow-x:auto; padding:6px; background:#030607;"></div>
+      <div id="liveChannelsGrid" style="flex:1; overflow-y:auto; padding:8px;" class="channels-grid-circular"></div>
+    </div>
+  </div>
+
+  <div id="vodMainLayout" style="display:none; height:100vh; width:100vw; flex-direction:column; background:#020405; position:absolute; inset:0; z-index:9200;">
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:10px; background:#050a0c;"><button class="btn btn-small" onclick="exitVodSection()"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">رجوع</span></button><span style="font-size:11px; font-weight:900; color:var(--lime);" id="vodMainTitle">Movies</span><div></div></div>
+    <div id="vodCategoriesBar" style="display:flex; gap:5px; overflow-x:auto; padding:6px; background:#030607;"></div>
+    <div style="flex:1; overflow-y:auto; padding:8px;"><div id="vodGridContainer" class="streaming-grid"></div></div>
+  </div>
+
+  <div id="netflixDetailsModal" class="netflix-details-container">
+    <div class="netflix-hero-backdrop" id="detailBackdrop">
+      <div class="netflix-hero-overlay"></div>
+      <div style="position: absolute; top: 12px; left: 12px; z-index: 5;">
+        <button class="btn btn-small" style="background: rgba(0,0,0,0.6)!important; backdrop-filter: blur(10px);" onclick="closeDetailsModal()"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">رجوع</span></button>
+      </div>
+    </div>
+    <div class="netflix-content-body">
+      <div style="display:flex; gap:12px; align-items:flex-start;">
+        <img id="detailPoster" src="" style="width:90px; height:130px; object-fit:cover; border-radius:10px; box-shadow:0 8px 25px rgba(0,0,0,0.8); border:1px solid rgba(255,255,255,0.1);">
+        <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+          <h3 id="detailTitle" style="color:#fff; font-size:14px; font-weight:900; line-height:1.2;">Title</h3>
+          <div style="display:flex; gap:6px; align-items:center; font-size:9px; color:var(--muted);">
+            <span style="color:var(--green); font-weight:bold;"><i class="fa-solid fa-star"></i> 8.9</span>
+            <span>• HD Pro</span>
+            <span class="badge badge-lime">VIP</span>
+          </div>
+          <p id="detailDesc" style="color:#a5b5b2; font-size:9px; line-height:1.4; max-height:60px; overflow-y:auto;"></p>
+        </div>
+      </div>
+      <div id="primaryPlayActionArea" style="margin-top:4px;">
+        <div class="netflix-play-btn" id="mainPlayBtnTrigger"><i class="fa-solid fa-play"></i> تشغيل الآن</div>
+      </div>
+      <div id="seasonsContainer" style="display:flex; gap:6px; overflow-x:auto; padding:6px 0;"></div>
+      <div id="episodesContainer" style="display:flex; flex-direction:column; gap:6px; margin-top:4px; max-height:45vh; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <div id="netflixPlayerModal" style="display:none; position:fixed; inset:0; background:#000; z-index:9600; flex-direction:column;">
+    <div style="flex:1; display:flex; align-items:center; justify-content:center; position:relative;">
+      <video id="vodVideoElement" autoplay playsinline controls style="width:100%; height:100%; object-fit:contain;"></video>
+      <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10;">
+        <button class="btn" style="background: rgba(0,0,0,0.75)!important; backdrop-filter: blur(12px); color: #fff; padding: 10px 16px; border-radius: 30px; font-weight: 900; border: 1px solid rgba(255,255,255,0.2)!important; box-shadow: 0 4px 20px rgba(0,0,0,0.8);" onclick="closeNetflixPlayer()">
+          <i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">رجوع</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
-<!-- واجهات مشغل YOUNES TECHNIQUE مقفل بالجهاز ورقم الزبون واليومية -->
-<div id="luxuryOverlayWrapper" style="display:none; position:fixed; inset:0; z-index:9000; background:#020405;">
-  <!-- شاشة إدخال كود Token والتحقق من القفل -->
-  <div id="loginScreen" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:20px; width:100vw; position:absolute; inset:0; background:radial-gradient(circle at 50% 10%, rgba(168,255,0,0.08) 0%, #020405 90%); z-index:9100;">
-    <div class="request-card" id="requestCard" style="background:rgba(5, 10, 12, 0.95); backdrop-filter:blur(20px); width:100%; max-width:380px; padding:30px 22px; border-radius:26px; box-shadow:0 20px 45px rgba(0,0,0,0.95), 0 0 25px rgba(168,255,0,0.15); margin-bottom:14px; text-align:center; display:flex; flex-direction:column; align-items:center;">
-      <i class="fa-solid fa-crown" style="font-size:50px; color:var(--lime); margin-bottom:8px; text-shadow:0 0 15px rgba(168,255,0,0.5);"></i>
-      <div style="font-size:20px; font-weight:900; color:#fff; margin-bottom:6px;">YOUNES <span style="color:var(--lime);">TECHNIQUE</span></div>
-      <p style="font-size:12px; color:var(--muted); font-weight:700; margin-bottom:22px; line-height:1.6;">التطبيق مقفل ومربوط برقم هاتف الزبون وجهازه. أدخل كود التوكن الخاص بك:</p>
-      
-      <div class="form-group full" style="width:100%; margin-bottom:14px;">
-        <input class="input" type="text" id="tokenInput" placeholder="أدخل Token التفعيل..." style="text-align:center; font-weight:bold; letter-spacing:1px;">
-      </div>
-
-      <button class="btn btn-lime" style="width:100%; justify-content:center; padding:12px; font-weight:900;" onclick="verifyAndUnlockWithToken()">
-        <i class="fa-solid fa-key"></i> <span>فحص وقفل الجهاز (Verify Token)</span>
-      </button>
-
-      <button class="btn" style="width:100%; margin-top:10px; background:rgba(255,255,255,0.05); color:var(--muted); justify-content:center;" onclick="exitLuxuryPlayer()">إلغاء</button>
-    </div>
-  </div>
-
-  <!-- شاشة التطبيق الداخلية الرئيسية -->
-  <div id="appScreen" style="display:none; flex-direction:column; justify-content:center; min-height:100vh; padding:15px 20px; max-width:1100px; margin:0 auto; position:absolute; inset:0; background:var(--bg);">
-    <div style="display:flex; justify-content:space-between; align-items:center; background:#050a0c; padding:14px 20px; border-radius:18px; margin-bottom:12px;">
-      <div style="font-size:16px; font-weight:900; color:#fff; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-crown" style="color:var(--lime);"></i> YOUNES <span style="color:var(--lime);">TECHNIQUE</span></div>
-      <button class="btn" style="background:#0a1215; color:var(--lime);" onclick="exitLuxuryPlayer()"><i class="fa-solid fa-arrow-left"></i> الرجوع للبانل</button>
-    </div>
-
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin-bottom:16px;">
-      <div class="card" style="padding:24px; text-align:center; cursor:pointer;" onclick="openLiveSection()"><i class="fa-solid fa-tv" style="font-size:32px; color:var(--lime); margin-bottom:8px;"></i><h3 style="color:#fff;">Live TV</h3></div>
-      <div class="card" style="padding:24px; text-align:center; cursor:pointer;" onclick="openVodSection('vod')"><i class="fa-solid fa-film" style="font-size:32px; color:var(--lime); margin-bottom:8px;"></i><h3 style="color:#fff;">Movies</h3></div>
-      <div class="card" style="padding:24px; text-align:center; cursor:pointer;" onclick="openVodSection('series')"><i class="fa-solid fa-clapperboard" style="font-size:32px; color:var(--lime); margin-bottom:8px;"></i><h3 style="color:#fff;">Series</h3></div>
-    </div>
-  </div>
-
-  <!-- شاشة البث المباشر -->
-  <div id="liveMainLayout" style="display:none; height:100vh; width:100vw; flex-direction:column; background:#000; position:absolute; inset:0; z-index:9200;">
-    <div style="position:relative; background:#000; height:35vh; display:flex;">
-      <video id="liveVideoPlayer" autoplay playsinline controls style="width:100%; height:100%; object-fit:contain;"></video>
-    </div>
-    <div style="flex:1; background:#050a0c; display:flex; flex-direction:column; overflow:hidden;">
-      <div style="padding:10px 14px; background:#020405; display:flex; align-items:center; justify-content:space-between;">
-        <button class="btn" style="background:#0a1215; color:var(--lime);" onclick="exitLiveSection()"><i class="fa-solid fa-arrow-left"></i> رجوع</button>
-        <h4 style="color:#fff;" id="liveCatHeader">Live Channels</h4>
-        <div></div>
-      </div>
-      <div id="liveCategoriesHorizontalBar" style="display:flex; gap:8px; overflow-x:auto; padding:10px; background:#030607;"></div>
-      <div id="liveChannelsGrid" style="flex:1; overflow-y:auto; padding:12px;" class="channels-grid-circular"></div>
-    </div>
-  </div>
-
-  <!-- شاشة الأفلام والمسلسلات VOD -->
-  <div id="vodMainLayout" style="display:none; height:100vh; width:100vw; flex-direction:column; background:#020405; position:absolute; inset:0; z-index:9200;">
-    <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 15px; background:#050a0c;">
-      <button class="btn" style="background:#0a1215; color:var(--lime);" onclick="exitVodSection()"><i class="fa-solid fa-arrow-left"></i> رجوع</button>
-      <span style="font-size:13px; font-weight:900; color:var(--lime);" id="vodMainTitle">Movies</span>
-      <div></div>
-    </div>
-    <div id="vodCategoriesBar" style="display:flex; gap:6px; overflow-x:auto; padding:8px 12px; background:#030607;"></div>
-    <div style="flex:1; overflow-y:auto; padding:10px; background:#020405;">
-      <div id="vodGridContainer" class="streaming-grid"></div>
-    </div>
-  </div>
-
-  <!-- نافذة تفاصيل الفيلم / المسلسل -->
-  <div id="netflixDetailsModal" style="display:none; position:fixed; inset:0; background:rgba(2,4,5,0.98); z-index:9500; flex-direction:column; padding:15px; overflow-y:auto;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <button class="btn" style="background:#0a1215; color:var(--lime);" onclick="closeDetailsModal()"><i class="fa-solid fa-arrow-left"></i> رجوع للمسلسلات</button>
-      <h3 id="detailTitle" style="color:var(--lime); font-size:13px;">Title</h3>
-      <div></div>
-    </div>
-    <div id="detailMainContent" style="display:flex; flex-direction:column; gap:12px; max-width:600px; margin:0 auto; width:100%;">
-      <div style="display:flex; gap:12px; align-items:center;">
-        <img id="detailPoster" src="" style="width:100px; height:140px; object-fit:cover; border-radius:12px;" onerror="this.src='https://via.placeholder.com/100x140?text=No+Image'">
-        <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
-          <p id="detailDesc" style="color:#fff; font-size:10px; max-height:80px; overflow-y:auto; color:var(--muted);">Desc</p>
-        </div>
-      </div>
-      <div id="seasonsContainer" style="display:flex; gap:8px; overflow-x:auto; padding:5px 0;"></div>
-      <div id="episodesContainer" style="display:grid; grid-template-columns:1fr; gap:8px; max-height:45vh; overflow-y:auto;"></div>
-    </div>
-  </div>
-
-  <!-- مشغل الفيديو الفعلي -->
-  <div id="netflixPlayerModal" style="display:none; position:fixed; inset:0; background:#000; z-index:9600; flex-direction:column;">
-    <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:#050a0c;">
-      <button class="btn" style="background:#0a1215; color:var(--lime);" onclick="closeNetflixPlayer()"><i class="fa-solid fa-arrow-left"></i> رجوع للحلقات</button>
-      <span id="netflixPlayerTitle" style="color:var(--lime); font-weight:bold; font-size:11px;">Player</span>
-      <div></div>
-    </div>
-    <div style="flex:1; display:flex; align-items:center; justify-content:center; background:#000;">
-      <video id="vodVideoElement" autoplay playsinline controls style="width:100%; height:100%; object-fit:contain;"></video>
-    </div>
-  </div>
-</div>
-
 <script>
-const KEYS={ clients:"credits_panel_clients", payments:"credits_panel_payments", history:"credits_panel_history", transactions:"credits_panel_transactions", activations:"credits_panel_activations", abonnements:"credits_panel_abonnements", tokens:"yt_valid_tokens" }; 
+const translations = {
+  fr: {
+    loginSub: "Entrez votre code Token pour accéder",
+    tokenLabel: "Code Token",
+    verifyBtn: "Vérifier & Activer",
+    successTitle: "Activé avec succès !",
+    invoiceTitle: "Facture Client Deluxe",
+    clientNameLbl: "Nom:",
+    clientPhoneLbl: "Téléphone:",
+    expiryLbl: "Expiration:",
+    enterAppBtn: "Entrer dans l'Application",
+    adminLabel: "ADMINISTRATEUR",
+    navDashboard: "Dashboard",
+    navPlayer: "YOUNES Player",
+    navClients: "Clients",
+    navAbonnements: "Abonnements & Token",
+    navPayments: "Paiements",
+    navActivation: "Activation",
+    navSettings: "Paramètres",
+    dashTitle: "Dashboard",
+    dashSub: "Vue d'ensemble",
+    clientBtn: "Client",
+    statClients: "Clients",
+    statDue: "À payer",
+    statPaid: "Payé",
+    statRemain: "Reste",
+    recentClients: "Clients Récents",
+    allBtn: "Tous",
+    quickActions: "Actions Rapides",
+    qNewClient: "Nouveau Client",
+    qNewClientSub: "Ajouter infos",
+    qPlayer: "YOUNES Player",
+    qPay: "Enregistrer Paiement",
+    qPaySub: "Ajouter montant",
+    qToken: "Générateur Token",
+    playerHeader: "YOUNES TECHNIQUE PLAYER",
+    playerSettings: "Configuration du Lecteur",
+    serverUrlLbl: "Lien Xtream / M3U:",
+    serverStatus: "Entrez un lien de serveur valide.",
+    playerDesc: "Lecteur ultra-rapide et optimisé mobile.",
+    launchPlayerBtn: "Lancer le Lecteur",
+    testLinkBtn: "Tester le Lien",
+    clientsHeader: "Clients",
+    clientsSub: "Gestion et facturation",
+    clientsList: "Liste des Clients",
+    searchPlaceholder: "Rechercher par nom...",
+    thClient: "Client",
+    thAccount: "Compte",
+    thTotal: "Total",
+    thPaid: "Payé",
+    thRemain: "Reste",
+    thActions: "Actions",
+    thPhone: "Téléphone",
+    thToken: "Token",
+    thExpiry: "Expiration",
+    thDate: "Date",
+    thAmount: "Montant",
+    thNote: "Note",
+    thMac: "MAC",
+    thApp: "App",
+    aboHeader: "Abonnements & Token",
+    tokenGenTitle: "Générateur de Token Pro",
+    selectClientLbl: "Sélectionner un client",
+    selectClientDefault: "Choisir un client",
+    logoUrlLbl: "URL du Logo de la Marque",
+    expiryDateLbl: "Date d'Expiration",
+    genTokenBtn: "Générer & Sauvegarder le Token",
+    tokenGeneratedLbl: "Token généré:",
+    copyBtn: "Copier",
+    whatsappBtn: "WhatsApp",
+    activeAboTitle: "Abonnements Actifs",
+    payHeader: "Paiements",
+    payBtn: "Paiement",
+    payListTitle: "Historique des Paiements",
+    actHeader: "Activation",
+    actTitle: "Activation Smart TV",
+    macLbl: "Adresse MAC",
+    appLbl: "Application",
+    notePriceLbl: "Note / Prix",
+    actSaveBtn: "Activer & Facturer",
+    activeActTitle: "Activations Actives",
+    settingsHeader: "Paramètres",
+    langSectionTitle: "Langue du Système (System Language)",
+    langSectionSub: "Choisissez la langue de l'interface :",
+    newClientModalTitle: "Nouveau Client",
+    fullNameLbl: "Nom Complet",
+    phoneLbl: "Téléphone",
+    accountLbl: "Compte",
+    cancelBtn: "Annuler",
+    saveBtn: "Enregistrer",
+    addAmountTitle: "Ajouter un Montant",
+    amountLbl: "Montant (DH)",
+    noteLbl: "Note",
+    addBtn: "Ajouter",
+    payModalTitle: "Enregistrer un Paiement",
+    backBtn: "Retour"
+  },
+  en: {
+    loginSub: "Enter your Token code to access",
+    tokenLabel: "Token Code",
+    verifyBtn: "Verify & Activate",
+    successTitle: "Activated successfully!",
+    invoiceTitle: "Deluxe Client Invoice",
+    clientNameLbl: "Name:",
+    clientPhoneLbl: "Phone:",
+    expiryLbl: "Expiry:",
+    enterAppBtn: "Enter Application",
+    adminLabel: "ADMINISTRATOR",
+    navDashboard: "Dashboard",
+    navPlayer: "YOUNES Player",
+    navClients: "Clients",
+    navAbonnements: "Abonnements & Token",
+    navPayments: "Payments",
+    navActivation: "Activation",
+    navSettings: "Settings",
+    dashTitle: "Dashboard",
+    dashSub: "Overview",
+    clientBtn: "Client",
+    statClients: "Clients",
+    statDue: "Due",
+    statPaid: "Paid",
+    statRemain: "Remain",
+    recentClients: "Recent Clients",
+    allBtn: "All",
+    quickActions: "Quick Actions",
+    qNewClient: "New Client",
+    qNewClientSub: "Add details",
+    qPlayer: "YOUNES Player",
+    qPay: "Record Payment",
+    qPaySub: "Add amount",
+    qToken: "Token Generator",
+    playerHeader: "YOUNES TECHNIQUE PLAYER",
+    playerSettings: "Player Settings",
+    serverUrlLbl: "Xtream / M3U Link:",
+    serverStatus: "Enter a valid server link.",
+    playerDesc: "Lightning-fast mobile optimized player.",
+    launchPlayerBtn: "Launch Player",
+    testLinkBtn: "Test Link",
+    clientsHeader: "Clients",
+    clientsSub: "Management & Invoices",
+    clientsList: "Clients List",
+    searchPlaceholder: "Search by name...",
+    thClient: "Client",
+    thAccount: "Account",
+    thTotal: "Total",
+    thPaid: "Paid",
+    thRemain: "Remain",
+    thActions: "Actions",
+    thPhone: "Phone",
+    thToken: "Token",
+    thExpiry: "Expiry",
+    thDate: "Date",
+    thAmount: "Amount",
+    thNote: "Note",
+    thMac: "MAC",
+    thApp: "App",
+    aboHeader: "Abonnements & Token",
+    tokenGenTitle: "Token Generator Pro",
+    selectClientLbl: "Select Client",
+    selectClientDefault: "Choose client",
+    logoUrlLbl: "Brand Logo URL",
+    expiryDateLbl: "Expiry Date",
+    genTokenBtn: "Generate & Save Token",
+    tokenGeneratedLbl: "Generated Token:",
+    copyBtn: "Copy",
+    whatsappBtn: "WhatsApp",
+    activeAboTitle: "Active Subscriptions",
+    payHeader: "Payments",
+    payBtn: "Payment",
+    payListTitle: "Payments History",
+    actHeader: "Activation",
+    actTitle: "Smart TV Activation",
+    macLbl: "MAC Address",
+    appLbl: "Application",
+    notePriceLbl: "Note / Price",
+    actSaveBtn: "Activate & Invoice",
+    activeActTitle: "Active Activations",
+    settingsHeader: "Settings",
+    langSectionTitle: "System Language",
+    langSectionSub: "Choose your interface language:",
+    newClientModalTitle: "New Client",
+    fullNameLbl: "Full Name",
+    phoneLbl: "Phone",
+    accountLbl: "Account",
+    cancelBtn: "Cancel",
+    saveBtn: "Save",
+    addAmountTitle: "Add Amount",
+    amountLbl: "Amount (DH)",
+    noteLbl: "Note",
+    addBtn: "Add",
+    payModalTitle: "Record Payment",
+    backBtn: "Back"
+  },
+  ar: {
+    loginSub: "أدخل كود التوكن (Token) الخاص بك للدخول",
+    tokenLabel: "كود التوكن (Token Code)",
+    verifyBtn: "فحص وتفعيل الحساب",
+    successTitle: "تم التفعيل بنجاح!",
+    invoiceTitle: "فاتورة التفعيل الفاخرة",
+    clientNameLbl: "الاسم:",
+    clientPhoneLbl: "الهاتف:",
+    expiryLbl: "انتهاء الصلاحية:",
+    enterAppBtn: "الدخول إلى لوحة التحكم والمشغل",
+    adminLabel: "مشرف النظام",
+    navDashboard: "الرئيسية",
+    navPlayer: "المشغل المتكامل",
+    navClients: "العملاء",
+    navAbonnements: "الاشتراكات والتوكن",
+    navPayments: "الدفعات",
+    navActivation: "التفعيل",
+    navSettings: "الإعدادات",
+    dashTitle: "الرئيسية",
+    dashSub: "نظرة عامة سريعة",
+    clientBtn: "عميل",
+    statClients: "العملاء",
+    statDue: "المطلوب",
+    statPaid: "المدفوع",
+    statRemain: "الباقي",
+    recentClients: "العملاء الجدد",
+    allBtn: "الكل",
+    quickActions: "إجراءات سريعة",
+    qNewClient: "عميل جديد",
+    qNewClientSub: "إضافة بيانات",
+    qPlayer: "مشغل يونيس",
+    qPay: "تسجيل دفعة",
+    qPaySub: "إضافة مبلغ",
+    qToken: "مولد التوكن",
+    playerHeader: "مشغل يونيس تقنية",
+    playerSettings: "إعدادات السيرفر والمشغل",
+    serverUrlLbl: "رابط Xtream / M3U:",
+    serverStatus: "أدخل رابط سيرفر صالح.",
+    playerDesc: "مشغل فائق السرعة ومتوافق مع الهواتف.",
+    launchPlayerBtn: "تشغيل المشغل",
+    testLinkBtn: "فحص الرابط",
+    clientsHeader: "العملاء",
+    clientsSub: "إدارة العملاء والفواتير",
+    clientsList: "قائمة العملاء",
+    searchPlaceholder: "بحث بالاسم أو الحساب...",
+    thClient: "العميل",
+    thAccount: "الحساب",
+    thTotal: "المجموع",
+    thPaid: "المدفوع",
+    thRemain: "المتبقي",
+    thActions: "الإجراءات",
+    thPhone: "الهاتف",
+    thToken: "التوكن",
+    thExpiry: "الصلاحية",
+    thDate: "التاريخ",
+    thAmount: "المبلغ",
+    thNote: "ملاحظة",
+    thMac: "MAC",
+    thApp: "التطبيق",
+    aboHeader: "الاشتراكات والتوكن",
+    tokenGenTitle: "مولد كود التوكن (Token Pro)",
+    selectClientLbl: "اختر من العملاء",
+    selectClientDefault: "اختر العميل",
+    logoUrlLbl: "رابط صورة الشعار / البراند (Logo Brand URL)",
+    expiryDateLbl: "تاريخ الصلاحية / اليومية",
+    genTokenBtn: "توليد وحفظ كود التوكن",
+    tokenGeneratedLbl: "كود التوكن المولّد:",
+    copyBtn: "نسخ",
+    whatsappBtn: "واتساب",
+    activeAboTitle: "الاشتراكات النشطة",
+    payHeader: "الدفعات",
+    payBtn: "دفعة",
+    payListTitle: "سجل المدفوعات",
+    actHeader: "التفعيل",
+    actTitle: "تفعيل شاشات Smart TV",
+    macLbl: "MAC Address",
+    appLbl: "التطبيق المفعل",
+    notePriceLbl: "ملاحظة / السعر",
+    actSaveBtn: "تفعيل وتسجيل الفاتورة",
+    activeActTitle: "التفعيلات النشطة",
+    settingsHeader: "الإعدادات",
+    langSectionTitle: "لغة النظام (System Language)",
+    langSectionSub: "اختر لغة التطبيق والواجهة بالكامل:",
+    newClientModalTitle: "عميل جديد",
+    fullNameLbl: "الاسم الكامل",
+    phoneLbl: "الهاتف",
+    accountLbl: "الحساب",
+    cancelBtn: "إلغاء",
+    saveBtn: "حفظ",
+    addAmountTitle: "إضافة مبلغ",
+    amountLbl: "المبلغ (DH)",
+    noteLbl: "ملاحظة",
+    addBtn: "إضافة",
+    payModalTitle: "تسجيل دفعة",
+    backBtn: "رجوع"
+  }
+};
+
+let currentLang = localStorage.getItem("yt_system_lang") || "fr";
+
+function changeSystemLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem("yt_system_lang", lang);
+  
+  const root = document.getElementById("htmlRoot");
+  if(lang === 'ar') {
+    root.setAttribute("dir", "rtl");
+    root.setAttribute("lang", "ar");
+  } else {
+    root.setAttribute("dir", "ltr");
+    root.setAttribute("lang", lang);
+  }
+
+  document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
+  const activeBtn = document.getElementById(`langBtn-${lang}`);
+  if(activeBtn) activeBtn.classList.add("active");
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if(translations[lang] && translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if(translations[lang] && translations[lang][key]) {
+      el.placeholder = translations[lang][key];
+    }
+  });
+
+  toast(lang === 'ar' ? "✓ تم تغيير اللغة إلى العربية" : (lang === 'en' ? "✓ Language changed to English" : "✓ Langue changée en Français"));
+}
+
+const KEYS={ clients:"cp_clients", payments:"cp_payments", history:"cp_history", activations:"cp_activations", abonnements:"cp_abonnements", tokens:"yt_valid_tokens" }; 
 let clients=load(KEYS.clients,[]); 
 let payments=load(KEYS.payments,[]); 
-let historyData=load(KEYS.history,[]); 
-let transactions=load(KEYS.transactions,[]); 
 let activations=load(KEYS.activations,[]); 
 let abonnements=load(KEYS.abonnements,[]); 
+let currentHlsInstance = null; 
+let temporaryExtractedXtream = null;
 
-function load(key,fallback){ try{ const value=localStorage.getItem(key); return value?JSON.parse(value):fallback; }catch(e){ return fallback; } } 
+function load(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){return d;} } 
 function saveData(){ 
   localStorage.setItem(KEYS.clients,JSON.stringify(clients)); 
   localStorage.setItem(KEYS.payments,JSON.stringify(payments)); 
-  localStorage.setItem(KEYS.history,JSON.stringify(historyData)); 
-  localStorage.setItem(KEYS.transactions,JSON.stringify(transactions)); 
   localStorage.setItem(KEYS.activations,JSON.stringify(activations)); 
   localStorage.setItem(KEYS.abonnements,JSON.stringify(abonnements)); 
 } 
-function makeId(){ return Date.now().toString(36)+Math.random().toString(36).substring(2,8); } 
-function money(value){ return Number(value||0).toLocaleString("fr-FR",{minimumFractionDigits:0,maximumFractionDigits:2})+" DH"; } 
+function makeId(){ return Date.now().toString(36)+Math.random().toString(36).substring(2,6); } 
+function money(v){ return Number(v||0).toLocaleString("fr-FR",{maximumFractionDigits:2})+" DH"; } 
 function now(){ return new Date().toLocaleTimeString("fr-FR",{hour:'2-digit',minute:'2-digit'}); } 
 function dateOnly(){ return new Date().toLocaleDateString("fr-FR"); } 
+function getTodayDefaultDate() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
 
-function getTodayDefaultDate() {
-  const d = new Date();
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+window.onload = function() {
+  changeSystemLanguage(currentLang);
+  const activeSession = JSON.parse(localStorage.getItem("yt_active_session") || "null");
+  if(activeSession) {
+    const today = new Date().toISOString().split('T')[0];
+    if(activeSession.expiry === '2099-12-31' || today <= activeSession.expiry) {
+      document.getElementById("clientLoginOverlay").style.display = "none";
+    }
+  }
+  renderAll();
+};
+
+function verifyClientToken() {
+  const tokenVal = document.getElementById("tokenInput").value.trim();
+  if(!tokenVal) { toast("Entrez le code Token"); return; }
+  const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
+  const tokenData = savedTokens[tokenVal];
+  if(!tokenData) { toast("Token invalide"); return; }
+  const today = new Date().toISOString().split('T')[0];
+  if(tokenData.expiry !== '2099-12-31' && today > tokenData.expiry) { toast("Token expiré"); return; }
+
+  if(tokenData.logoUrl) {
+    document.getElementById("brandLogoPreview").src = tokenData.logoUrl;
+    document.getElementById("brandLogoPreview").style.display = "inline-block";
+    document.getElementById("headerIcon").style.display = "none";
+  }
+
+  localStorage.setItem("yt_active_session", JSON.stringify({ name: tokenData.name, phone: tokenData.phone, expiry: tokenData.expiry, logoUrl: tokenData.logoUrl || "" }));
+  
+  document.getElementById("invName").textContent = tokenData.name;
+  document.getElementById("invPhone").textContent = tokenData.phone;
+  document.getElementById("invExpiry").textContent = tokenData.expiry === '2099-12-31' ? 'Lifetime' : tokenData.expiry;
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("successScreen").style.display = "flex";
+  toast("✓ OK 🚀");
 }
 
-function escapeHtml(value){ return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); } 
-function initials(name){ return String(name||"?").split(" ").filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase(); } 
-function getClient(id){ return clients.find(c=>c.id===id); } 
+function enterAppSmoothly() { document.getElementById("clientLoginOverlay").style.display = "none"; }
 
-const titles={ dashboard:"Dashboard", "test-playlist":"YOUNES TECHNIQUE Player", clients:"Clients", abonnements:"Abonnements & Token", payments:"Paiements", history:"Historique", activation:"Activation", settings:"Paramètres" }; 
-
-document.querySelectorAll(".nav-item").forEach(item=>{ 
-  item.addEventListener("click",function(){ 
-    showPage(this.dataset.page); 
-  }); 
-}); 
+const titles={ dashboard:"Dashboard", "test-playlist":"YOUNES Player", clients:"Clients", abonnements:"Abonnements & Token", payments:"Paiements", activation:"Activation", settings:"Paramètres" }; 
+document.querySelectorAll(".nav-item").forEach(item=>item.addEventListener("click",()=>showPage(item.dataset.page))); 
 
 function showPage(page){ 
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active")); 
-  const target=document.getElementById(page); 
-  if(target)target.classList.add("active"); 
-  document.querySelectorAll(".nav-item").forEach(item=>{ 
-    item.classList.toggle("active",item.dataset.page===page); 
-  }); 
+  const target=document.getElementById(page); if(target)target.classList.add("active"); 
+  document.querySelectorAll(".nav-item").forEach(item=>item.classList.toggle("active",item.dataset.page===page)); 
   document.getElementById("topTitle").textContent=titles[page]||"Dashboard"; 
   document.getElementById("sidebar").classList.remove("open"); 
-
-  if(page === 'abonnements') setDefaultDates();
-  if(page === 'activation') setDefaultDates();
+  if(page === 'abonnements' || page === 'activation') {
+    const today = getTodayDefaultDate();
+    if(document.getElementById("genExpiry") && !document.getElementById("genExpiry").value) document.getElementById("genExpiry").value = today;
+    if(document.getElementById("activationDuration") && !document.getElementById("activationDuration").value) document.getElementById("activationDuration").value = today;
+  }
 } 
 
-function setDefaultDates() {
-  const today = getTodayDefaultDate();
-  const genExpiry = document.getElementById("genExpiry");
-  const actDur = document.getElementById("activationDuration");
-  if(genExpiry && !genExpiry.value) genExpiry.value = today;
-  if(actDur && !actDur.value) actDur.value = today;
+document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open")); 
+setInterval(()=>document.getElementById("liveClock").textContent = now(),1000); 
+
+function setLifetimeExpiry() { document.getElementById("genExpiry").value = "2099-12-31"; toast("✓ Lifetime"); }
+function setLifetimeActivation() { document.getElementById("activationDuration").value = "2099-12-31"; toast("✓ Lifetime"); }
+
+function toggleRecentClientsDropdown() {
+  const card = document.getElementById("recentClientsDropdown");
+  card.classList.toggle("open");
 }
 
-document.getElementById("menuBtn").addEventListener("click",()=>{ document.getElementById("sidebar").classList.toggle("open"); }); 
-
-function updateClock(){ 
-  const d = new Date();
-  document.getElementById("liveClock").textContent = d.toLocaleTimeString("fr-FR", {hour: '2-digit', minute:'2-digit'}); 
-} 
-setInterval(updateClock,1000); 
-updateClock(); 
-
-const appsDetailedList = [
-  { name: "YOUNES TECHNIQUE", icon: '<i class="fa-solid fa-crown"></i>', badgeClass: "badge-younes" },
-  { name: "IBO Player", icon: '<i class="fa-solid fa-play"></i>', badgeClass: "badge-ibo" },
-  { name: "TOD Player", icon: '<img src="https://i.ibb.co/MmzxjC0/IMG-20261031-074328.jpg" alt="TOD">', badgeClass: "badge-tod" },
-  { name: "Bob Player", icon: '<img src="https://i.ibb.co/tPYc0tFM/bob-player.webp" alt="Bob">', badgeClass: "badge-bob" }
+const appsList = [
+  { name: "YOUNES TECHNIQUE", icon: '<i class="fa-solid fa-crown" style="color:var(--lime);"></i>', img: "https://i.ibb.co/MmzxjC0/IMG-20261031-074328.jpg" }, 
+  { name: "IBO Player", icon: '<i class="fa-solid fa-play" style="color:var(--blue);"></i>', img: "https://via.placeholder.com/20?text=IBO" }, 
+  { name: "TOD Player", icon: '<i class="fa-solid fa-tv" style="color:var(--green);"></i>', img: "https://via.placeholder.com/20?text=TOD" }, 
+  { name: "Bob Player", icon: '<i class="fa-solid fa-film" style="color:var(--orange);"></i>', img: "https://via.placeholder.com/20?text=BOB" }
 ];
 
 function openCustomDropdown(fieldId) {
-  const currentVal = document.getElementById(fieldId).value;
   document.getElementById("customModalTitle").textContent = "اختر التطبيق";
-  const itemsContainer = document.getElementById("customDropdownItems");
-  itemsContainer.innerHTML = "";
-  
-  appsDetailedList.forEach(app => {
-    const isSelected = (app.name === currentVal);
-    const item = document.createElement("div");
-    item.className = `custom-dropdown-item ${isSelected ? 'active' : ''}`;
+  const box = document.getElementById("customDropdownItems"); box.innerHTML = "";
+  appsList.forEach(app => {
+    const active = (app.name === document.getElementById(fieldId).value);
+    const item = document.createElement("div"); item.className = `custom-dropdown-item ${active?'active':''}`;
     item.innerHTML = `
-      <div class="app-mini-badge">
-        <div class="app-icon-box ${app.badgeClass}">${app.icon}</div>
-        <span>${escapeHtml(app.name)}</span>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <img src="${app.img}" class="app-icon-mini" onerror="this.style.display='none'">
+        <span>${app.icon} ${app.name}</span>
       </div>
       <div class="custom-radio"></div>
     `;
-    item.onclick = () => {
-      document.getElementById(fieldId).value = app.name;
-      document.getElementById(fieldId + "Text").textContent = app.name;
-      closeCustomDropdown();
+    item.onclick = () => { 
+      document.getElementById(fieldId).value = app.name; 
+      document.getElementById(fieldId+"Text").innerHTML = `
+        <img src="${app.img}" class="app-icon-mini" onerror="this.style.display='none'">
+        <span>${app.icon} ${app.name}</span>
+      `; 
+      closeCustomDropdown(); 
     };
-    itemsContainer.appendChild(item);
+    box.appendChild(item);
   });
-  
   document.getElementById("customDropdownModal").classList.add("show");
 }
 
-function openClientDropdown(valFieldId, textDisplayId, nameInputId, phoneInputId) {
-  document.getElementById("customModalTitle").textContent = "اختر العميل";
-  const itemsContainer = document.getElementById("customDropdownItems");
-  itemsContainer.innerHTML = "";
-  
-  if(!clients.length) {
-    itemsContainer.innerHTML = `<div class="empty">لا يوجد عملاء مضافون بعد</div>`;
-    document.getElementById("customDropdownModal").classList.add("show");
-    return;
-  }
-
+function openClientDropdown(valId, textId, nameId, phoneId) {
+  document.getElementById("customModalTitle").textContent = "Select Client";
+  const box = document.getElementById("customDropdownItems"); box.innerHTML = "";
+  if(!clients.length) { box.innerHTML = `<div class="empty">No clients</div>`; document.getElementById("customDropdownModal").classList.add("show"); return; }
   clients.forEach(c => {
-    const currentVal = document.getElementById(valFieldId).value;
-    const isSelected = (c.id === currentVal);
-    const item = document.createElement("div");
-    item.className = `custom-dropdown-item ${isSelected ? 'active' : ''}`;
-    item.innerHTML = `
-      <div class="app-mini-badge">
-        <div class="avatar">${escapeHtml(initials(c.name))}</div>
-        <span>${escapeHtml(c.name)}</span>
-      </div>
-      <div class="custom-radio"></div>
-    `;
+    const active = (c.id === document.getElementById(valId).value);
+    const item = document.createElement("div"); item.className = `custom-dropdown-item ${active?'active':''}`;
+    item.innerHTML = `<div>${c.name}</div><div class="custom-radio"></div>`;
     item.onclick = () => {
-      document.getElementById(valFieldId).value = c.id;
-      document.getElementById(textDisplayId).textContent = c.name;
-      if(nameInputId) document.getElementById(nameInputId).value = c.name;
-      if(phoneInputId && document.getElementById(phoneInputId)) {
-        document.getElementById(phoneInputId).value = c.phone || "";
-      }
+      document.getElementById(valId).value = c.id; document.getElementById(textId).textContent = c.name;
+      if(nameId) document.getElementById(nameId).value = c.name;
+      if(phoneId && document.getElementById(phoneId)) document.getElementById(phoneId).value = c.phone || "";
       closeCustomDropdown();
     };
-    itemsContainer.appendChild(item);
+    box.appendChild(item);
   });
-
   document.getElementById("customDropdownModal").classList.add("show");
 }
-
-function closeCustomDropdown() {
-  document.getElementById("customDropdownModal").classList.remove("show");
-}
+function closeCustomDropdown() { document.getElementById("customDropdownModal").classList.remove("show"); }
 
 function validateM3UString(urlStr) {
-  if(!urlStr || typeof urlStr !== 'string') return { valid: false, error: "الرابط فارغ" };
-  const trimmed = urlStr.trim();
+  if(!urlStr) return { valid: false };
   try {
-    const parsed = new URL(trimmed);
-    if(parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-      return { valid: false, error: "يجب أن يبدأ الرابط بـ http أو https" };
-    }
-    let username = parsed.searchParams.get("username") || parsed.searchParams.get("user") || "";
-    let password = parsed.searchParams.get("password") || parsed.searchParams.get("pass") || "";
-    return { valid: true, host: parsed.origin, username: username || "unknown", password: password || "unknown" };
-  } catch(e) {
-    return { valid: false, error: "صيغة الرابط غير صحيحة" };
+    const p = new URL(urlStr.trim());
+    return { valid: true, host: p.origin, username: p.searchParams.get("username") || p.searchParams.get("user") || "user", password: p.searchParams.get("password") || p.searchParams.get("pass") || "pass" };
+  }catch(e){ return { valid: false }; }
+}
+
+async function extractXtreamDataForInvoice(urlStr) {
+  const statusEl = document.getElementById("extractStatus2");
+  const res = validateM3UString(urlStr);
+  if(!res.valid) {
+    statusEl.style.color = "var(--danger)";
+    statusEl.textContent = "✗ رابط M3U الثاني غير صالح أو ناقص البارامترات";
+    temporaryExtractedXtream = null;
+    return;
   }
+  statusEl.style.color = "var(--gold)";
+  statusEl.textContent = "⏳ جاري الاتصال وتحليل السيرفر واستخراج البيانات للفاتورة...";
+  
+  let expiryFormatted = "دائم (Lifetime)";
+  try {
+    const apiInfoUrl = `${res.host}/player_api.php?username=${res.username}&password=${res.password}`;
+    const data = await safeFetch(apiInfoUrl);
+    if(data && data.user_info) {
+      let expTimestamp = data.user_info.exp_date;
+      if(expTimestamp && expTimestamp !== "null" && Number(expTimestamp) > 0) {
+        let dateObj = new Date(Number(expTimestamp) * 1000);
+        expiryFormatted = dateObj.toISOString().split('T')[0];
+        document.getElementById("activationDuration").value = expiryFormatted;
+      }
+    }
+  } catch(e){}
+
+  temporaryExtractedXtream = {
+    host: res.host,
+    username: res.username,
+    password: res.password,
+    expiry: expiryFormatted
+  };
+
+  statusEl.style.color = "var(--green)";
+  statusEl.textContent = `✓ تم الاستخراج والنسخ بنجاح | Host: ${res.host} | User: ${res.username} | انتهاء: ${expiryFormatted}`;
+  toast("✓ تم استخراج بيانات السيرفر وجاهزة للفاتورة");
 }
 
 function validateM3UInputLive(val) {
-  const statusEl = document.getElementById("m3uInputStatus");
-  if(!statusEl) return;
+  const st = document.getElementById("m3uInputStatus");
   const res = validateM3UString(val);
-  if(res.valid) {
-    statusEl.className = "m3u-status m3u-success";
-    statusEl.innerHTML = `✓ الرابط سليـم وموثوق (Server: ${res.host})`;
-  } else {
-    statusEl.className = "m3u-status m3u-error";
-    statusEl.innerHTML = `✗ تنبيه: ${res.error}`;
-  }
+  st.style.color = res.valid ? "var(--green)" : "var(--danger)";
+  st.textContent = res.valid ? "✓ Valid Link" : "✗ Invalid Link";
 }
-
 function runQuickTestM3U() {
-  const urlInput = document.getElementById("luxuryServerInput").value.trim();
-  const validation = validateM3UString(urlInput);
-  if(validation.valid) {
-    toast(`✓ اختبار ناجح: الرابط سليم ومتصل (${validation.host})`);
-  } else {
-    toast(`✗ اختبار فاشل: ${validation.error}`);
-  }
-}
-
-/* --- نظام توليد وتوحيد التوكن وقفل الجهاز --- */
-function getDeviceFingerprint() {
-  let deviceId = localStorage.getItem("yt_device_fingerprint");
-  if(!deviceId) {
-    deviceId = "DEV-" + Math.random().toString(36).substring(2, 10).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
-    localStorage.setItem("yt_device_fingerprint", deviceId);
-  }
-  return deviceId;
-}
-
-function generateUnifiedToken(phone, expiryDate) {
-  const cleanPhone = String(phone || "").trim().replace(/\D/g, '');
-  const cleanDate = String(expiryDate || "").trim();
-  if (!cleanPhone || !cleanDate) return null;
-
-  const rawStr = `YT-${cleanPhone}-${cleanDate}`;
-  let hash = 0;
-  for (let i = 0; i < rawStr.length; i++) {
-    hash = ((hash << 5) - hash) + rawStr.charCodeAt(i);
-    hash |= 0;
-  }
-  
-  const codeSegment = Math.abs(hash).toString(36).toUpperCase().padStart(6, '0').slice(0, 6);
-  const phoneSegment = cleanPhone.slice(-4) || "0000";
-  return `YT-${codeSegment}-${phoneSegment}`;
+  const res = validateM3UString(document.getElementById("luxuryServerInput").value);
+  toast(res.valid ? "✓ Server OK" : "✗ Error");
 }
 
 let generatedTokenText = "";
+function generateUnifiedToken(phone, expiry) {
+  let hash = 0; const str = `YT-${phone}-${expiry}`;
+  for(let i=0; i<str.length; i++){ hash = ((hash<<5)-hash)+str.charCodeAt(i); hash |= 0; }
+  return `YT-${Math.abs(hash).toString(36).toUpperCase().padStart(6,'0').slice(0,6)}-${phone.slice(-4)}`;
+}
 
 function generateAndShowToken() {
   const name = document.getElementById('genName').value.trim();
   const phone = document.getElementById('genPhone').value.trim();
+  const logoUrl = document.getElementById('genLogoUrl').value.trim();
   const expiry = document.getElementById('genExpiry').value;
   const clientId = document.getElementById('abonnementClientVal').value;
-
-  if(!name || !phone || !expiry) {
-    toast("المرجو ملء جميع الحقول أولاً");
-    return;
-  }
+  if(!name || !phone || !expiry) { toast("Required fields"); return; }
 
   generatedTokenText = generateUnifiedToken(phone, expiry);
   document.getElementById('tokenOutput').textContent = generatedTokenText;
   document.getElementById('resultBox').style.display = 'flex';
 
-  const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
-  savedTokens[generatedTokenText] = { name, phone, expiry, deviceId: getDeviceFingerprint() };
-  localStorage.setItem(KEYS.tokens, JSON.stringify(savedTokens));
+  const tokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
+  tokens[generatedTokenText] = { name, phone, expiry, logoUrl };
+  localStorage.setItem(KEYS.tokens, JSON.stringify(tokens));
 
-  abonnements.unshift({ 
-    id: makeId(), 
-    date: dateOnly(), 
-    clientId, 
-    name, 
-    phone, 
-    app: "YOUNES TECHNIQUE", 
-    duration: expiry, 
-    token: generatedTokenText 
-  });
-  saveData();
-  renderAbonnements();
+  let matchedClient = clients.find(x=>x.id===clientId || x.name.toLowerCase() === name.toLowerCase());
+  if(matchedClient) { 
+    matchedClient.logoUrl = logoUrl; 
+    matchedClient.token = generatedTokenText;
+    saveData(); 
+  }
 
-  toast("✓ تم توليد الكود وحفظه بنجاح 🚀");
+  abonnements.unshift({ id: makeId(), name, phone, logoUrl, duration: expiry, token: generatedTokenText });
+  saveData(); renderAbonnements();
+  toast("✓ Generated & Saved permanently");
 }
 
-function copyToken() {
-  navigator.clipboard.writeText(generatedTokenText);
-  toast("✓ تم نسخ الكود إلى الحافظة");
-}
-
+function copyToken() { navigator.clipboard.writeText(generatedTokenText); toast("✓ Copied"); }
 function sendViaWhatsApp() {
-  const phone = document.getElementById('genPhone').value.trim().replace(/\D/g, '');
-  const name = document.getElementById('genName').value.trim();
-  const expiry = document.getElementById('genExpiry').value;
-  
-  const msg = `مرحباً بك يا ${name} 👋\nإليك كود التفعيل (Token) الخاص بتطبيق YOUNES TECHNIQUE PLAYER:\n\n🔑 Token: *${generatedTokenText}*\n📅 صالح لغاية: ${expiry}\n\nاستمتع بالمشاهدة! 📺🚀`;
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+  const p = document.getElementById('genPhone').value.trim().replace(/\D/g,'');
+  window.open(`https://wa.me/${p}?text=${encodeURIComponent(`Token: ${generatedTokenText}`)}`, '_blank');
 }
 
 function launchStandaloneLuxuryApp() {
-  const activeSession = JSON.parse(localStorage.getItem("yt_active_session") || "null");
-  const today = getTodayDefaultDate();
-
-  if(activeSession) {
-    if(today > activeSession.expiry) {
-      toast("✗ انتهت صلاحية اليومية (انتهى الاشتراك)، يرجى التجديد.");
-      localStorage.removeItem("yt_active_session");
-    } else if(activeSession.deviceId !== getDeviceFingerprint()) {
-      toast("✗ خطأ أمني: هذا التوكن مسجل على جهاز آخر.");
-      localStorage.removeItem("yt_active_session");
-    } else {
-      openUnlockedAppScreen(activeSession);
-      return;
-    }
-  }
-
+  const val = validateM3UString(document.getElementById("luxuryServerInput").value);
+  if(!val.valid) { toast("Invalid server URL"); return; }
+  localStorage.setItem("faroukii_active_creds", JSON.stringify({ host: val.host, user: val.username, pass: val.password }));
   document.getElementById("luxuryOverlayWrapper").style.display = "block";
-  document.getElementById("loginScreen").style.display = "flex";
-  document.getElementById("appScreen").style.display = "none";
+}
+function exitLuxuryPlayer() { 
+  stopLiveStreamVideo();
+  document.getElementById("luxuryOverlayWrapper").style.display = "none"; 
 }
 
-function verifyAndUnlockWithToken() {
-  const tokenInput = document.getElementById("tokenInput").value.trim();
-  if(!tokenInput) {
-    toast("المرجو إدخال كود Token صالح");
-    return;
-  }
-
-  const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
-  const tokenData = savedTokens[tokenInput];
-
-  if(!tokenData) {
-    toast("✗ كود Token غير صحيح أو غير مسجل في النظام");
-    return;
-  }
-
-  const today = getTodayDefaultDate();
-  if(today > tokenData.expiry) {
-    toast("✗ عذراً، انتهت صلاحية هذا الاشتراك (انتهت اليومية)");
-    return;
-  }
-
-  const sessionData = {
-    phone: tokenData.phone,
-    expiry: tokenData.expiry,
-    deviceId: getDeviceFingerprint(),
-    m3uUrl: document.getElementById("luxuryServerInput").value.trim()
-  };
-  localStorage.setItem("yt_active_session", JSON.stringify(sessionData));
-
-  openUnlockedAppScreen(sessionData);
-  toast("✓ تم التحقق وقفل الجهاز بنجاح! أهلاً بك 🚀");
-}
-
-function openUnlockedAppScreen(session) {
-  const validation = validateM3UString(session.m3uUrl);
-  if(!validation.valid) {
-    toast("✗ تنبيه: يرجى إدخال رابط Xtream/M3U صالح في إعدادات المشغل أولاً");
-    exitLuxuryPlayer();
-    return;
-  }
-
-  const creds = { 
-    host: validation.host, 
-    user: validation.username, 
-    pass: validation.password, 
-    deviceId: session.deviceId 
-  };
-  localStorage.setItem("faroukii_active_creds", JSON.stringify(creds));
-
-  document.getElementById("luxuryOverlayWrapper").style.display = "block";
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("appScreen").style.display = "flex";
-}
-
-function exitLuxuryPlayer() {
-  document.getElementById("luxuryOverlayWrapper").style.display = "none";
-}
-
-/* --- دالة جلب البيانات الآمنة المدعومة بوكلاء CORS متعدّدة لتجاوز قيود GitHub Pages و Median --- */
 async function safeFetch(url) {
-  try {
-    const res = await fetch(url);
-    if (res.ok) return await res.json();
-  } catch(e) {}
-  
-  try {
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-    const pRes = await fetch(proxyUrl);
-    if(pRes.ok) {
-      const json = await pRes.json();
-      if(json.contents) return JSON.parse(json.contents);
-    }
-  } catch(e) {}
-
-  try {
-    const backupProxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-    const bRes = await fetch(backupProxy);
-    if(bRes.ok) return await bRes.json();
-  } catch(e) {}
-
+  try { const r = await fetch(url, {mode:'cors'}); if(r.ok) return await r.json(); } catch(e){}
+  try { const r2 = await fetch(url); if(r2.ok) return await r2.json(); } catch(e){}
   return null;
+}
+
+function stopLiveStreamVideo() {
+  const v = document.getElementById("liveVideoPlayer");
+  if(v) { v.pause(); v.removeAttribute("src"); v.load(); }
+  if(currentHlsInstance) { currentHlsInstance.destroy(); currentHlsInstance = null; }
 }
 
 async function openLiveSection() {
   document.getElementById("appScreen").style.display = "none";
   document.getElementById("liveMainLayout").style.display = "flex";
-  const bar = document.getElementById("liveCategoriesHorizontalBar");
-  const grid = document.getElementById("liveChannelsGrid");
-  bar.innerHTML = "Loading...";
-  grid.innerHTML = "Loading channels...";
-
+  const bar = document.getElementById("liveCategoriesHorizontalBar"); const grid = document.getElementById("liveChannelsGrid");
+  bar.innerHTML = "Loading..."; grid.innerHTML = "Loading...";
   const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
-  const categories = await safeFetch(`${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=get_live_categories`);
-  
-  if(!categories || !Array.isArray(categories)) {
-    bar.innerHTML = "";
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1;">تعذر جلب الأقسام (تأكد من صحة رابط السيرفر والاتصال)</div>`;
-    return;
-  }
+  const cats = await safeFetch(`${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=get_live_categories`);
+  if(!cats || !Array.isArray(cats)) { bar.innerHTML = ""; grid.innerHTML = `<div class="empty">No categories</div>`; return; }
   bar.innerHTML = "";
-  categories.forEach((cat) => {
+  cats.forEach(cat => {
     const chip = document.createElement("div");
-    chip.style.cssText = "background:#0a1215; color:#fff; padding:5px 12px; border-radius:12px; cursor:pointer; white-space:nowrap; font-weight:bold; font-size:10px;";
-    chip.innerHTML = `<i class="fa-solid fa-folder" style="color:var(--lime); margin-right:4px;"></i> ${escapeHtml(cat.category_name)}`;
+    chip.style.cssText = "background:#0a1215; color:#fff; padding:4px 10px; border-radius:8px; cursor:pointer; font-size:9px; font-weight:bold; white-space:nowrap;";
+    chip.textContent = cat.category_name;
     chip.onclick = () => loadLiveStreams(cat.category_id);
     bar.appendChild(chip);
   });
-  if(categories.length > 0) loadLiveStreams(categories[0].category_id);
+  if(cats.length > 0) loadLiveStreams(cats[0].category_id);
 }
 
 async function loadLiveStreams(catId) {
-  const grid = document.getElementById("liveChannelsGrid");
-  const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
-  let streams = await safeFetch(`${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=get_live_streams&category_id=${catId}`);
+  const grid = document.getElementById("liveChannelsGrid"); const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
+  const streams = await safeFetch(`${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=get_live_streams&category_id=${catId}`);
   grid.innerHTML = "";
-  if(!streams || !Array.isArray(streams)) {
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1;">لا توجد قنوات متاحة في هذا القسم</div>`;
-    return;
-  }
+  if(!streams || !Array.isArray(streams)) { grid.innerHTML = `<div class="empty">No channels</div>`; return; }
   streams.forEach(item => {
     const playUrl = `${acc.host}/live/${acc.user}/${acc.pass}/${item.stream_id}.m3u8`;
-    const card = document.createElement("div");
-    card.className = "channel-mini-card";
-    
-    const logoImg = item.stream_icon ? 
-      `<img src="${item.stream_icon}" class="channel-circle-icon" onerror="this.src='https://via.placeholder.com/52?text=TV'">` : 
-      `<div class="channel-circle-icon" style="display:flex; align-items:center; justify-content:center; color:var(--lime); font-size:16px;"><i class="fa-solid fa-tv"></i></div>`;
-
-    card.innerHTML = `${logoImg}<div class="channel-mini-title" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>`;
+    const card = document.createElement("div"); card.className = "channel-mini-card";
+    card.innerHTML = `<img src="${item.stream_icon||''}" class="channel-circle-icon" onerror="this.src='https://via.placeholder.com/42?text=TV'"><div class="channel-mini-title">${item.name}</div>`;
     card.onclick = () => {
-      const video = document.getElementById("liveVideoPlayer");
-      if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(playUrl);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-      } else { video.src = playUrl; video.play(); }
+      stopLiveStreamVideo();
+      const v = document.getElementById("liveVideoPlayer");
+      if (typeof Hls !== 'undefined' && Hls.isSupported()) { 
+        currentHlsInstance = new Hls(); 
+        currentHlsInstance.loadSource(playUrl); 
+        currentHlsInstance.attachMedia(v); 
+        currentHlsInstance.on(Hls.Events.MANIFEST_PARSED, ()=>v.play()); 
+      } else { v.src = playUrl; v.play(); }
     };
     grid.appendChild(card);
   });
 }
 
-function exitLiveSection() {
-  document.getElementById("liveMainLayout").style.display = "none";
-  document.getElementById("appScreen").style.display = "flex";
+function exitLiveSection() { 
+  stopLiveStreamVideo();
+  document.getElementById("liveMainLayout").style.display = "none"; 
+  document.getElementById("appScreen").style.display = "flex"; 
 }
 
 async function openVodSection(type) {
+  stopLiveStreamVideo();
   document.getElementById("appScreen").style.display = "none";
   document.getElementById("vodMainLayout").style.display = "flex";
-  document.getElementById("vodMainTitle").textContent = type === 'vod' ? 'Movies & VOD' : 'Series Library';
-  const bar = document.getElementById("vodCategoriesBar");
-  const grid = document.getElementById("vodGridContainer");
-  bar.innerHTML = "Loading...";
-  grid.innerHTML = "Loading...";
-
-  window.currentVodType = type;
+  document.getElementById("vodMainTitle").textContent = type === 'vod' ? 'Movies' : 'Series';
+  const bar = document.getElementById("vodCategoriesBar"); const grid = document.getElementById("vodGridContainer");
+  bar.innerHTML = "Loading..."; grid.innerHTML = "Loading...";
   const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
-  const catAction = type === 'vod' ? "get_vod_categories" : "get_series_categories";
-  let categories = await safeFetch(`${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=${catAction}`);
-  
-  if(!categories || !Array.isArray(categories)) {
-    bar.innerHTML = "";
-    loadVodStreams(type, "");
-    return;
-  }
-
+  const cats = await safeFetch(`${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=${type==='vod'?'get_vod_categories':'get_series_categories'}`);
   bar.innerHTML = "";
-  categories.forEach(cat => {
-    const chip = document.createElement("div");
-    chip.style.cssText = "background:#0a1215; color:#fff; padding:5px 12px; border-radius:12px; cursor:pointer; white-space:nowrap; font-weight:bold; font-size:10px;";
-    chip.innerHTML = `<i class="fa-solid fa-film" style="color:var(--lime); margin-right:4px;"></i> ${escapeHtml(cat.category_name)}`;
-    chip.onclick = () => loadVodStreams(type, cat.category_id);
-    bar.appendChild(chip);
-  });
-  loadVodStreams(type, categories[0].category_id);
+  if(cats && Array.isArray(cats)) {
+    cats.forEach(cat => {
+      const chip = document.createElement("div");
+      chip.style.cssText = "background:#0a1215; color:#fff; padding:4px 10px; border-radius:8px; cursor:pointer; font-size:9px; font-weight:bold; white-space:nowrap;";
+      chip.textContent = cat.category_name;
+      chip.onclick = () => loadVodStreams(type, cat.category_id);
+      bar.appendChild(chip);
+    });
+    loadVodStreams(type, cats[0].category_id);
+  } else { loadVodStreams(type, ""); }
 }
 
 async function loadVodStreams(type, catId) {
-  const grid = document.getElementById("vodGridContainer");
-  const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
-  const action = type === 'vod' ? "get_vod_streams" : "get_series";
-  let url = `${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=${action}`;
+  const grid = document.getElementById("vodGridContainer"); const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
+  let url = `${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=${type==='vod'?'get_vod_streams':'get_series'}`;
   if(catId) url += `&category_id=${catId}`;
-
-  let items = await safeFetch(url);
+  const items = await safeFetch(url);
   grid.innerHTML = "";
-  if(!items || !Array.isArray(items)) {
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1;">لا توجد محتويات متاحة في هذا القسم</div>`;
-    return;
-  }
-
+  if(!items || !Array.isArray(items)) { grid.innerHTML = `<div class="empty">No content</div>`; return; }
   items.forEach(item => {
-    const poster = item.stream_icon || item.cover || 'https://via.placeholder.com/120x170?text=No+Poster';
-    const title = item.name || item.title || "محتوى حصري";
-    
-    const card = document.createElement("div");
-    card.className = "stream-card";
-    card.innerHTML = `
-      <div class="stream-poster-wrap">
-        <img class="stream-poster" src="${poster}" onerror="this.src='https://via.placeholder.com/120x170?text=No+Image'">
-        <div class="stream-play-badge"><i class="fa-solid fa-play"></i></div>
-      </div>
-      <div class="stream-info">
-        <div class="stream-title" title="${escapeHtml(title)}">${escapeHtml(title)}</div>
-        <div class="stream-sub">HD • 2026</div>
-      </div>
-    `;
+    const poster = item.stream_icon || item.cover || '';
+    const title = item.name || item.title || "";
+    const card = document.createElement("div"); card.className = "stream-card";
+    card.innerHTML = `<div class="stream-poster-wrap"><img class="stream-poster" src="${poster}" onerror="this.src='https://via.placeholder.com/100x130?text=No+Img'"></div><div class="stream-info"><div class="stream-title">${title}</div></div>`;
     card.onclick = () => {
       if(type === 'vod') {
         document.getElementById("netflixDetailsModal").style.display = "flex";
+        document.getElementById("detailBackdrop").style.backgroundImage = `url('${poster}')`;
         document.getElementById("detailPoster").src = poster;
         document.getElementById("detailTitle").textContent = title;
-        document.getElementById("detailDesc").textContent = item.plot || item.description || "استمتع بمشاهدة هذا الفيلم حصرياً بجودة عالية.";
+        document.getElementById("detailDesc").textContent = item.plot || "استمتع بمشاهدة هذا الفيلم الحصري بجودة عالية ودون تقطيع عبر منصة يونيس للترفيه.";
         document.getElementById("seasonsContainer").style.display = "none";
-        document.getElementById("episodesContainer").innerHTML = `<button class="btn btn-lime" style="width:100%; justify-content:center; padding:12px;" onclick="launchMoviePlayer('${acc.host}/movie/${acc.user}/${acc.pass}/${item.stream_id}.${item.container_extension || 'mp4'}', '${escapeHtml(title)}')"><i class="fa-solid fa-play"></i> تشغيل الفيلم الآن</button>`;
-      } else {
-        loadSeriesDetails(item.series_id, title, poster, item.plot || item.description || "");
-      }
+        document.getElementById("episodesContainer").innerHTML = "";
+        document.getElementById("primaryPlayActionArea").innerHTML = `
+          <div class="netflix-play-btn" onclick="launchMoviePlayer('${acc.host}/movie/${acc.user}/${acc.pass}/${item.stream_id}.${item.container_extension||'mp4'}', '${title}')">
+            <i class="fa-solid fa-play"></i> تشغيل الفيلم الآن
+          </div>
+        `;
+      } else { loadSeriesDetails(item.series_id, title, poster, item.plot || "استمتع بمتابعة أروع المسلسلات الحصرية."); }
     };
     grid.appendChild(card);
   });
 }
 
-async function loadSeriesDetails(seriesId, seriesTitle, poster, desc) {
+async function loadSeriesDetails(seriesId, title, poster, desc) {
   document.getElementById("netflixDetailsModal").style.display = "flex";
-  document.getElementById("detailPoster").src = poster;
-  document.getElementById("detailTitle").textContent = seriesTitle;
+  document.getElementById("detailBackdrop").style.backgroundImage = `url('${poster}')`;
+  document.getElementById("detailPoster").src = poster; 
+  document.getElementById("detailTitle").textContent = title; 
   document.getElementById("detailDesc").textContent = desc;
+  document.getElementById("primaryPlayActionArea").innerHTML = "";
   
-  const seasonsBox = document.getElementById("seasonsContainer");
-  const episodesBox = document.getElementById("episodesContainer");
-  seasonsBox.style.display = "flex";
-  seasonsBox.innerHTML = "جاري تحميل المواسم...";
-  episodesBox.innerHTML = "";
-
+  const seasonsBox = document.getElementById("seasonsContainer"); 
+  const epBox = document.getElementById("episodesContainer");
+  seasonsBox.style.display = "flex"; seasonsBox.innerHTML = "جاري تحميل المواسم..."; epBox.innerHTML = "";
+  
   const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
   const data = await safeFetch(`${acc.host}/player_api.php?username=${acc.user}&password=${acc.pass}&action=get_series_info&series_id=${seriesId}`);
+  if(!data || !data.episodes) { seasonsBox.innerHTML = "لا توجد مواسم متاحة"; return; }
   
-  if(!data || !data.episodes) {
-    seasonsBox.innerHTML = "لا توجد مواسم متاحة";
-    return;
-  }
-
-  seasonsBox.innerHTML = "";
+  seasonsBox.innerHTML = ""; 
   const seasons = Object.keys(data.episodes);
-  
-  seasons.forEach((seasonNum, index) => {
+  seasons.forEach((sNum, idx) => {
     const chip = document.createElement("div");
-    chip.style.cssText = `background:${index===0?'rgba(168,255,0,0.2)':'#0a1215'}; color:${index===0?'var(--lime)':'#fff'}; padding:6px 14px; border-radius:12px; cursor:pointer; white-space:nowrap; font-weight:bold; font-size:10px;`;
-    chip.textContent = `الموسم ${seasonNum}`;
+    chip.className = `season-chip ${idx===0?'active':''}`;
+    chip.textContent = `الموسم ${sNum}`;
     chip.onclick = () => {
-      document.querySelectorAll("#seasonsContainer > div").forEach(c => {
-        c.style.background = '#0a1215';
-        c.style.color = '#fff';
-      });
-      chip.style.background = 'rgba(168,255,0,0.2)';
-      chip.style.color = 'var(--lime)';
-      renderEpisodes(data.episodes[seasonNum], seriesTitle);
+      document.querySelectorAll(".season-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      renderEpisodes(data.episodes[sNum], title);
     };
     seasonsBox.appendChild(chip);
   });
-
-  if(seasons.length > 0) {
-    renderEpisodes(data.episodes[seasons[0]], seriesTitle);
-  }
+  if(seasons.length > 0) renderEpisodes(data.episodes[seasons[0]], title);
 }
 
-function renderEpisodes(episodesList, seriesTitle) {
-  const episodesBox = document.getElementById("episodesContainer");
-  episodesBox.innerHTML = "";
-  if(!episodesList || !Array.isArray(episodesList)) {
-    episodesBox.innerHTML = `<div class="empty">لا توجد حلقات في هذا الموسم</div>`;
-    return;
-  }
-
-  episodesList.forEach(ep => {
+function renderEpisodes(eps, title) {
+  const epBox = document.getElementById("episodesContainer"); epBox.innerHTML = "";
+  eps.forEach(ep => {
     const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
-    const playUrl = `${acc.host}/series/${acc.user}/${acc.pass}/${ep.id}.${ep.container_extension || 'mp4'}`;
-    
-    const row = document.createElement("div");
-    row.style.cssText = "background:#0a1215; padding:10px; border-radius:10px; display:flex; align-items:center; justify-content:between; cursor:pointer; gap:10px;";
+    const url = `${acc.host}/series/${acc.user}/${acc.pass}/${ep.id}.${ep.container_extension||'mp4'}`;
+    const row = document.createElement("div"); row.className = "episode-row";
     row.innerHTML = `
-      <div style="width:28px; height:28px; background:rgba(168,255,0,0.1); color:var(--lime); border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:bold;"><i class="fa-solid fa-play"></i></div>
-      <div style="flex:1; font-weight:bold; font-size:10px; color:#fff;">الحلقة ${ep.episode_num}: ${escapeHtml(ep.title || 'حلقة جديدة')}</div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:26px; height:26px; border-radius:50%; background:rgba(168,255,0,0.1); color:var(--lime); display:flex; align-items:center; justify-content:center; font-size:9px;"><i class="fa-solid fa-play"></i></div>
+        <div style="font-weight:800; font-size:10px; color:#fff;">الحلقة ${ep.episode_num} ${ep.title ? '— '+ep.title : ''}</div>
+      </div>
+      <span style="font-size:8px; color:var(--muted);">تشغيل</span>
     `;
-    row.onclick = () => launchMoviePlayer(playUrl, `${seriesTitle} - حلقة ${ep.episode_num}`);
-    episodesBox.appendChild(row);
+    row.onclick = () => launchMoviePlayer(url, `${title} - حلقة ${ep.episode_num}`);
+    epBox.appendChild(row);
   });
 }
 
 function launchMoviePlayer(url, title) {
   document.getElementById("netflixDetailsModal").style.display = "none";
   document.getElementById("netflixPlayerModal").style.display = "flex";
-  document.getElementById("netflixPlayerTitle").textContent = title;
-  const video = document.getElementById("vodVideoElement");
-  video.src = url;
-  video.play().catch(()=>{});
+  const vid = document.getElementById("vodVideoElement"); vid.src = url; vid.play().catch(()=>{});
 }
-
-function closeDetailsModal() {
-  document.getElementById("netflixDetailsModal").style.display = "none";
-}
-
-function exitVodSection() {
-  document.getElementById("vodMainLayout").style.display = "none";
-  document.getElementById("appScreen").style.display = "flex";
-}
-
-function closeNetflixPlayer() {
-  document.getElementById("netflixPlayerModal").style.display = "none";
-  const video = document.getElementById("vodVideoElement");
-  video.pause(); video.src = "";
-  document.getElementById("netflixDetailsModal").style.display = "flex";
+function closeDetailsModal() { document.getElementById("netflixDetailsModal").style.display = "none"; }
+function exitVodSection() { document.getElementById("vodMainLayout").style.display = "none"; document.getElementById("appScreen").style.display = "flex"; }
+function closeNetflixPlayer() { 
+  document.getElementById("netflixPlayerModal").style.display = "none"; 
+  const vid = document.getElementById("vodVideoElement");
+  vid.pause(); vid.removeAttribute("src"); vid.load();
+  document.getElementById("netflixDetailsModal").style.display = "flex"; 
 }
 
 function renderStats(){ 
-  const due=clients.reduce((sum,c)=>sum+Number(c.totalDue||0),0); 
-  const paid=clients.reduce((sum,c)=>sum+Number(c.totalPaid||0),0); 
-  const remain=clients.reduce((sum,c)=>sum+Math.max(0,Number(c.totalDue||0)-Number(c.totalPaid||0)),0); 
-  document.getElementById("statClients").textContent=clients.length; 
-  document.getElementById("statDue").textContent=money(due); 
-  document.getElementById("statPaid").textContent=money(paid); 
-  document.getElementById("statRemain").textContent=money(remain); 
-} 
-
-function clientStatus(client){ 
-  const due=Number(client.totalDue||0); 
-  const paid=Number(client.totalPaid||0); 
-  const remain=Math.max(0,due-paid); 
-  if(due<=0) return{text:"خالص",cls:"badge-green"}; 
-  if(remain<=0) return{text:"مدفوع",cls:"badge-green"}; 
-  return{text:"باقي",cls:"badge-orange"}; 
+  const due = clients.reduce((s,c)=>s+Number(c.totalDue||0),0); 
+  const paid = clients.reduce((s,c)=>s+Number(c.totalPaid||0),0); 
+  document.getElementById("statClients").textContent = clients.length; 
+  document.getElementById("statDue").textContent = money(due); 
+  document.getElementById("statPaid").textContent = money(paid); 
+  document.getElementById("statRemain").textContent = money(Math.max(0, due - paid)); 
+  document.getElementById("recentCountBadge").textContent = clients.length;
 } 
 
 function renderDashboard(){ 
-  const body=document.getElementById("dashboardTable"); 
-  const recent=[...clients].slice(0,5); 
-  if(!recent.length){ body.innerHTML=`<tr><td colspan="4"><div class="empty">لا يوجد عملاء</div></td></tr>`; return; } 
-  body.innerHTML=recent.map(client=>{ 
-    const status=clientStatus(client); 
-    const remain=Math.max(0,Number(client.totalDue||0)-Number(client.totalPaid||0)); 
-    return`<tr><td><div class="client-cell"><span class="avatar">${escapeHtml(initials(client.name))}</span><strong>${escapeHtml(client.name)}</strong></div></td><td>${escapeHtml(client.account||"-")}</td><td><span class="badge ${status.cls}">${status.text}</span></td><td>${money(remain)}</td></tr>`; 
-  }).join(""); 
+  const body = document.getElementById("dashboardTable"); const rec = [...clients].slice(0,4); 
+  if(!rec.length){ body.innerHTML = `<tr><td colspan="4"><div class="empty">No clients</div></td></tr>`; return; } 
+  body.innerHTML = rec.map(c=>`<tr><td><div class="client-cell"><span class="avatar">${(c.name||"?")[0]}</span><strong>${c.name}</strong></div></td><td>${c.account||"-"}</td><td><span class="badge badge-green">Active</span></td><td>${money(Math.max(0,c.totalDue-c.totalPaid))}</td></tr>`).join(""); 
 } 
 
 function renderClients(){ 
-  const search=document.getElementById("clientSearch").value.trim().toLowerCase(); 
-  const list=clients.filter(c=>String(c.name||"").toLowerCase().includes(search)||String(c.account||"").toLowerCase().includes(search)); 
-  document.getElementById("clientCountText").textContent=clients.length; 
-  const body=document.getElementById("clientsTable"); 
-  if(!list.length){ body.innerHTML=`<tr><td colspan="6"><div class="empty">لا توجد نتائج</div></td></tr>`; return; } 
-  body.innerHTML=list.map(c=>{ 
-    const due=Number(c.totalDue||0); 
-    const paid=Number(c.totalPaid||0); 
-    const remain=Math.max(0,due-paid); 
-    return`<tr><td><div class="client-cell"><span class="avatar">${escapeHtml(initials(c.name))}</span><strong>${escapeHtml(c.name)}</strong></div></td><td>${escapeHtml(c.account||"-")}</td><td>${money(due)}</td><td>${money(paid)}</td><td>${money(remain)}</td><td><div class="actions"><button class="btn btn-dark btn-small" onclick="viewClient('${c.id}')">👁</button><button class="btn btn-blue btn-small" onclick="openDebtModal('${c.id}')">＋</button><button class="btn btn-lime btn-small" onclick="openPaymentModal('${c.id}')">💳</button><button class="btn btn-danger btn-small" onclick="deleteClient('${c.id}')">🗑</button></div></td></tr>`; 
-  }).join(""); 
+  const search = document.getElementById("clientSearch").value.trim().toLowerCase(); 
+  const list = clients.filter(c=>String(c.name||"").toLowerCase().includes(search)); 
+  document.getElementById("clientCountText").textContent = clients.length; 
+  const body = document.getElementById("clientsTable"); 
+  if(!list.length){ body.innerHTML = `<tr><td colspan="6"><div class="empty">No results</div></td></tr>`; return; } 
+  body.innerHTML = list.map(c=>`<tr><td><div class="client-cell"><span class="avatar">${(c.name||"?")[0]}</span><strong>${c.name}</strong></div></td><td>${c.account||"-"}</td><td>${money(c.totalDue)}</td><td>${money(c.totalPaid)}</td><td>${money(Math.max(0,c.totalDue-c.totalPaid))}</td><td><div class="actions"><button class="btn btn-luxury-invoice btn-small" onclick="viewClient('${c.id}')"><i class="fa-solid fa-file-invoice"></i></button><button class="btn btn-blue btn-small" onclick="openDebtModal('${c.id}')">＋</button><button class="btn btn-lime btn-small" onclick="openPaymentModal('${c.id}')">💳</button><button class="btn btn-danger btn-small" onclick="deleteClient('${c.id}')"><i class="fa-solid fa-trash"></i></button></div></td></tr>`).join(""); 
 } 
 
-function openClientModal(){ 
-  document.getElementById("editClientId").value=""; 
-  document.getElementById("clientName").value=""; 
-  document.getElementById("clientPhone").value=""; 
-  document.getElementById("clientAccount").value=""; 
-  document.getElementById("clientModalTitle").textContent="عميل جديد"; 
-  openModal("clientModal"); 
-} 
-
+function openClientModal(){ openModal("clientModal"); } 
 function saveClient(){ 
-  const name=document.getElementById("clientName").value.trim(); 
-  const phone=document.getElementById("clientPhone").value.trim(); 
-  const account=document.getElementById("clientAccount").value.trim(); 
-  if(!name){ toast("أدخل اسم العميل"); return; } 
-  clients.unshift({id:makeId(),name,phone,account,totalDue:0,totalPaid:0,date:dateOnly()}); 
-  saveData(); closeModal("clientModal"); renderAll(); toast("تم إضافة العميل بنجاح"); 
+  const name = document.getElementById("clientName").value.trim(); 
+  if(!name){ toast("Name required"); return; } 
+  
+  let existing = clients.find(c => c.name.toLowerCase() === name.toLowerCase());
+  if(existing) {
+    existing.phone = document.getElementById("clientPhone").value || existing.phone;
+    existing.account = document.getElementById("clientAccount").value || existing.account;
+    toast("✓ Client updated");
+  } else {
+    clients.unshift({ id: makeId(), name, phone: document.getElementById("clientPhone").value, account: document.getElementById("clientAccount").value, totalDue:0, totalPaid:0, transactions:[] });
+    toast("✓ Saved");
+  }
+  saveData(); closeModal("clientModal"); renderAll();
 } 
 
 function deleteClient(id){ 
-  if(!confirm("حذف العميل؟")) return; 
-  clients=clients.filter(c=>c.id!==id); 
-  saveData(); renderAll(); toast("تم الحذف"); 
+  if(!confirm("هل أنت متأكد من مسح هذا العميل نهائياً؟")) return; 
+  clients = clients.filter(c => String(c.id) !== String(id)); 
+  saveData(); 
+  renderAll(); 
+  toast("✓ تم مسح العميل بنجاح"); 
 } 
 
 function viewClient(id){ 
-  const c=getClient(id); 
-  if(!c)return; 
-  const remain=Math.max(0,Number(c.totalDue||0)-Number(c.totalPaid||0)); 
-  document.getElementById("detailBody").innerHTML=`<div class="form-grid"><div class="form-group"><label>الاسم</label><div class="input">${escapeHtml(c.name)}</div></div><div class="form-group"><label>الهاتف</label><div class="input">${escapeHtml(c.phone||"-")}</div></div><div class="form-group"><label>الحساب</label><div class="input">${escapeHtml(c.account||"-")}</div></div><div class="form-group"><label>المجموع</label><div class="input">${money(c.totalDue)}</div></div><div class="form-group"><label>المتبقي</label><div class="input" style="color:var(--orange);">${money(remain)}</div></div></div>`; 
+  const c = clients.find(x=>x.id===id); if(!c) return; 
+  const activeSession = JSON.parse(localStorage.getItem("yt_active_session") || "{}");
+  const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
+  
+  let brandLogo = c.logoUrl;
+  if(!brandLogo && c.token && savedTokens[c.token]) {
+    brandLogo = savedTokens[c.token].logoUrl;
+  }
+  if(!brandLogo) {
+    brandLogo = activeSession.logoUrl || "https://i.ibb.co/MmzxjC0/IMG-20261031-074328.jpg";
+  }
+  
+  let xtreamHtml = "";
+  if(c.xtreamInfo) {
+    xtreamHtml = `
+      <div class="invoice-xtream-section">
+        <div style="font-size:9px; font-weight:900; color:var(--gold); margin-bottom:6px; display:flex; align-items:center; gap:5px;"><i class="fa-solid fa-server"></i> بيانات سيرفر Xtream المعتمدة:</div>
+        <div class="invoice-row"><span>Host:</span><span style="font-family:monospace; color:var(--lime);">${c.xtreamInfo.host}</span></div>
+        <div class="invoice-row"><span>Username:</span><span style="font-family:monospace; color:#fff;">${c.xtreamInfo.username}</span></div>
+        <div class="invoice-row"><span>Password:</span><span style="font-family:monospace; color:#fff;">${c.xtreamInfo.password}</span></div>
+        <div class="invoice-row"><span>انتهاء الاشتراك:</span><span style="color:var(--gold); font-weight:bold;">${c.xtreamInfo.expiry}</span></div>
+      </div>
+    `;
+  }
+
+  document.getElementById("detailBody").innerHTML=`
+    <div id="printableInvoiceCard" class="invoice-luxury-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed rgba(255,215,0,0.2); padding-bottom:8px; margin-bottom:10px;">
+        <div class="glass-client-badge">
+          <img src="${brandLogo}" style="width:22px;height:22px;border-radius:50%;object-fit:cover;box-shadow:0 0 8px rgba(255,215,0,0.4);" onerror="this.src='https://via.placeholder.com/22?text=Brand'">
+          <span class="glass-client-name"><i class="fa-solid fa-user-check" style="font-size:9px; color:var(--lime); margin-right:3px;"></i> ${c.name}</span>
+        </div>
+        <span class="badge" style="background:rgba(255,215,0,0.12); color:var(--gold);">Deluxe VIP</span>
+      </div>
+      <div class="invoice-row"><span>Due (المطلوب):</span><span style="color:var(--orange);">${money(c.totalDue)}</span></div>
+      <div class="invoice-row"><span>Paid (المدفوع):</span><span style="color:var(--green);">${money(c.totalPaid)}</span></div>
+      <div class="invoice-row"><span>Remain (المتبقي):</span><span style="color:var(--gold); font-weight:bold;">${money(Math.max(0, c.totalDue - c.totalPaid))}</span></div>
+      ${xtreamHtml}
+    </div>
+    <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+      <button class="btn btn-luxury-invoice btn-small" onclick="downloadInvoiceImage()"><i class="fa-solid fa-camera"></i> حفظ صورة من الفاتورة</button>
+    </div>
+  `;
   openModal("detailModal"); 
 } 
 
-function openDebtModal(id){ 
-  document.getElementById("debtClientId").value=id; 
-  document.getElementById("debtAmount").value=""; 
-  document.getElementById("debtNote").value=""; 
-  openModal("debtModal"); 
-} 
+function downloadInvoiceImage() {
+  const invoiceElement = document.getElementById("printableInvoiceCard");
+  if(!invoiceElement) return;
+  toast("⏳ جاري توليد صورة زجاجية فاخرة...");
 
+  html2canvas(invoiceElement, { 
+    backgroundColor: '#020405', 
+    scale: 3,
+    logging: false,
+    useCORS: true,
+    width: invoiceElement.offsetWidth,
+    height: invoiceElement.offsetHeight,
+    windowWidth: 360
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = `VIP-Invoice-${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+    toast("✓ تم حفظ صورة الفاتورة بنجاح");
+  }).catch(err => {
+    toast("✗ حدث خطأ أثناء حفظ الصورة");
+  });
+}
+
+function openDebtModal(id){ document.getElementById("debtClientId").value=id; openModal("debtModal"); } 
 function saveDebt(){ 
-  const id=document.getElementById("debtClientId").value; 
-  const amount=Number(document.getElementById("debtAmount").value); 
-  const c=getClient(id); 
-  if(!c||amount<=0){ toast("مبلغ غير صالح"); return; } 
-  c.totalDue=Number(c.totalDue||0)+amount; 
-  saveData(); closeModal("debtModal"); renderAll(); toast("تم إضافة المبلغ"); 
+  const id = document.getElementById("debtClientId").value; const amt = Number(document.getElementById("debtAmount").value); const note = document.getElementById("debtNote").value || 'إضافة مبلغ'; const c = clients.find(x=>x.id===id); 
+  if(!c || amt<=0) return; 
+  c.totalDue = Number(c.totalDue||0) + amt; 
+  c.transactions.unshift({ title:note, amount:amt, date:dateOnly() });
+  saveData(); closeModal("debtModal"); renderAll(); viewClient(id); toast("✓ Added & Invoice Updated"); 
 } 
 
 function openPaymentModal(clientId=""){ 
-  const select=document.getElementById("paymentClient"); 
-  select.innerHTML=`<option value="">اختر العميل</option>`+clients.map(c=>`<option value="${c.id}">${escapeHtml(c.name)}</option>`).join(""); 
-  select.value=clientId||""; 
-  document.getElementById("paymentAmount").value=""; 
-  openModal("paymentModal"); 
+  const sel = document.getElementById("paymentClient"); sel.innerHTML = `<option value="">Select client</option>` + clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join(""); 
+  sel.value = clientId; openModal("paymentModal"); 
 } 
-
 function savePayment(){ 
-  const id=document.getElementById("paymentClient").value; 
-  const amount=Number(document.getElementById("paymentAmount").value); 
-  const note=document.getElementById("paymentNote").value.trim(); 
-  const c=getClient(id); 
-  if(!c||amount<=0){ toast("بيانات غير صالحة"); return; } 
-  c.totalPaid=Number(c.totalPaid||0)+amount; 
-  payments.unshift({id:makeId(),clientId:id,name:c.name,amount,note,date:now()}); 
-  saveData(); closeModal("paymentModal"); renderAll(); toast("تم تسجيل الدفعة بنجاح"); 
+  const id = document.getElementById("paymentClient").value; const amt = Number(document.getElementById("paymentAmount").value); const note = document.getElementById("paymentNote").value || 'تسجيل دفعة'; const c = clients.find(x=>x.id===id); 
+  if(!c || amt<=0) return; 
+  c.totalPaid = Number(c.totalPaid||0) + amt; 
+  c.transactions.unshift({ title:note, amount:-amt, date:dateOnly() });
+  payments.unshift({ date:now(), name:c.name, amount:amt, note:note });
+  saveData(); closeModal("paymentModal"); renderAll(); viewClient(id); toast("✓ Payment recorded & Invoice Updated"); 
 } 
 
 function renderPayments(){ 
-  const body=document.getElementById("paymentsTable"); 
-  if(!payments.length){ body.innerHTML=`<tr><td colspan="4"><div class="empty">لا توجد دفعات</div></td></tr>`; return; } 
-  body.innerHTML=payments.map(p=>`<tr><td>${escapeHtml(p.date)}</td><td><strong>${escapeHtml(p.name)}</strong></td><td><span class="badge badge-green">+${money(p.amount)}</span></td><td>${escapeHtml(p.note||"-")}</td></tr>`).join(""); 
+  const body = document.getElementById("paymentsTable"); 
+  if(!payments.length){ body.innerHTML = `<tr><td colspan="4"><div class="empty">No payments</div></td></tr>`; return; } 
+  body.innerHTML = payments.map(p=>`<tr><td>${p.date}</td><td><strong>${p.name}</strong></td><td><span class="badge badge-green">+${money(p.amount)}</span></td><td>${p.note||"-"}</td></tr>`).join(""); 
 } 
 
 function renderAbonnements(){ 
-  document.getElementById("abonnementCount").textContent=abonnements.length; 
-  const body=document.getElementById("abonnementTable"); 
-  if(!abonnements.length){ body.innerHTML=`<tr><td colspan="5"><div class="empty">لا توجد اشتراكات مسجلة</div></td></tr>`; return; } 
-  body.innerHTML=abonnements.map(a=>`<tr><td><strong>${escapeHtml(a.name)}</strong></td><td>${escapeHtml(a.phone||"-")}</td><td><code>${escapeHtml(a.token)}</code></td><td>${escapeHtml(a.duration)}</td><td><button class="btn btn-danger btn-small" onclick="deleteAbonnement('${a.id}')">🗑</button></td></tr>`).join(""); 
+  document.getElementById("abonnementCount").textContent = abonnements.length; 
+  const body = document.getElementById("abonnementTable"); 
+  if(!abonnements.length){ body.innerHTML = `<tr><td colspan="5"><div class="empty">No subscriptions</div></td></tr>`; return; } 
+  body.innerHTML = abonnements.map(a=>`<tr><td><strong>${a.name}</strong></td><td>${a.phone||"-"}</td><td><code>${a.token}</code></td><td>${a.duration}</td><td><button class="btn btn-danger btn-small" onclick="abonnements=abonnements.filter(x=>x.id!=='${a.id}');saveData();renderAbonnements();"><i class="fa-solid fa-trash"></i></button></td></tr>`).join(""); 
 } 
 
-function deleteAbonnement(id){ 
-  abonnements=abonnements.filter(x=>x.id!==id); 
-  saveData(); renderAbonnements(); toast("تم حذف الاشتراك"); 
+async function createActivation(){ 
+  const name = document.getElementById("activationName").value.trim(); 
+  const mac = document.getElementById("activationMac").value.trim(); 
+  const app = document.getElementById("activationApp").value; 
+  const duration = document.getElementById("activationDuration").value; 
+  const note = document.getElementById("activationNote").value.trim(); 
+  
+  if(!name || !mac) { toast("المرجو ملء الاسم والـ MAC"); return; } 
+
+  let xtreamDetails = temporaryExtractedXtream;
+  if(xtreamDetails && duration) {
+    xtreamDetails.expiry = duration;
+  }
+  
+  let existingAct = activations.find(a => a.mac.toLowerCase() === mac.toLowerCase());
+  if(existingAct) {
+    existingAct.name = name;
+    existingAct.app = app;
+    existingAct.duration = xtreamDetails ? xtreamDetails.expiry : duration;
+    existingAct.xtreamInfo = xtreamDetails;
+    existingAct.notifiedExpired = false;
+  } else {
+    activations.unshift({ id: makeId(), name, mac, app, duration: xtreamDetails ? xtreamDetails.expiry : duration, xtreamInfo: xtreamDetails, notifiedExpired:false });
+  } 
+
+  let matchedClient = clients.find(c => c.name.toLowerCase() === name.toLowerCase());
+  if(!matchedClient) {
+    matchedClient = { id: makeId(), name, phone: "", account: mac, totalDue:0, totalPaid:0, transactions:[], xtreamInfo: xtreamDetails };
+    clients.unshift(matchedClient);
+  } else {
+    if(xtreamDetails) matchedClient.xtreamInfo = xtreamDetails;
+  }
+
+  if(note) {
+    const priceNum = parseFloat(note.replace(/[^\d.]/g, '')) || 0;
+    if(priceNum > 0) {
+      matchedClient.totalDue = Number(matchedClient.totalDue||0) + priceNum;
+      matchedClient.transactions.unshift({ title:`تفعيل ${app} (${mac})`, amount:priceNum, date:dateOnly() });
+    }
+  }
+  
+  saveData(); renderActivations(); renderClients(); renderStats(); 
+  toast("⚡ تم التفعيل ونسخ بيانات السيرفر في الفاتورة بنجاح");
+  
+  temporaryExtractedXtream = null;
+  document.getElementById("activationM3UUrl2").value = "";
+  document.getElementById("extractStatus2").textContent = "قيد الانتظار... ضع الرابط لاستخراج Host, Username, Password وتاريخ الصلاحية للفاتورة.";
+
+  viewClient(matchedClient.id);
 } 
 
-function renderHistory(){ 
-  document.getElementById("historyList").innerHTML=`<div class="empty">السجل فارغ</div>`; 
+function deleteActivation(id) {
+  if(!confirm("هل أنت متأكد من مسح هذا التفعيل؟")) return;
+  activations = activations.filter(a => String(a.id) !== String(id));
+  saveData();
+  renderActivations();
+  toast("✓ تم مسح التفعيل بنجاح");
+}
+
+function renderActivations(){ 
+  document.getElementById("activationCount").textContent = activations.length; 
+  const body = document.getElementById("activationTable"); 
+  if(!activations.length){ body.innerHTML = `<tr><td colspan="5"><div class="empty">No activations</div></td></tr>`; return; } 
+  body.innerHTML = activations.map(a=>`<tr><td><strong>${a.name}</strong></td><td><code>${a.mac}</code></td><td><span class="badge badge-blue">${a.app}</span></td><td>${a.duration}</td><td><button class="btn btn-danger btn-small" onclick="deleteActivation('${a.id}')"><i class="fa-solid fa-trash"></i></button></td></tr>`).join(""); 
 } 
 
 function openModal(id){ document.getElementById(id).classList.add("show"); } 
 function closeModal(id){ document.getElementById(id).classList.remove("show"); } 
+function toast(msg){ const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 2500); } 
 
-function toast(msg){ 
-  const t=document.getElementById("toast"); 
-  t.textContent=msg; 
-  t.classList.add("show"); 
-  setTimeout(()=>t.classList.remove("show"),3000); 
-} 
-
-function exportData(){ 
-  const data={clients,payments,activations,abonnements}; 
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:"json"}); 
-  const url=URL.createObjectURL(blob); 
-  const a=document.createElement("a"); 
-  a.href=url; a.download="panel_backup.json"; a.click(); 
-  toast("تم التصدير"); 
-} 
-
-function clearAllData(){ 
-  if(!confirm("حذف كافة البيانات؟")) return; 
-  clients=[]; payments=[]; activations=[]; abonnements=[]; 
-  localStorage.removeItem(KEYS.tokens);
-  saveData(); renderAll(); toast("تمت التصفية"); 
-} 
-
-function renderAll(){ 
-  renderStats(); renderDashboard(); renderClients(); renderPayments(); renderAbonnements(); renderActivations(); renderHistory(); 
-  setDefaultDates();
-} 
-
-renderAll();
+function renderAll(){ renderStats(); renderDashboard(); renderClients(); renderPayments(); renderAbonnements(); renderActivations(); } 
 </script>
 </body>
 </html>
