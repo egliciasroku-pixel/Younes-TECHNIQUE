@@ -876,6 +876,8 @@ td{ padding:6px; font-size:9px; }
 
     <div class="page" id="settings">
       <div class="section-head"><div data-i18n="settingsHeader"><h2>Paramètres — الإعدادات</h2><p>اختر لغة النظام المفضلة</p></div></div>
+      
+      <!-- بطاقة لغة النظام -->
       <div class="card">
         <div class="card-head"><h3 data-i18n="langSectionTitle"><i class="fa-solid fa-globe" style="color:var(--lime);"></i> لغة النظام (System Language)</h3></div>
         <div class="card-body">
@@ -897,6 +899,19 @@ td{ padding:6px; font-size:9px; }
               <small style="font-size:7px; color:var(--muted);">محلي</small>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- بطاقة تسجيل الخروج من الاشتراك -->
+      <div class="card" style="margin-top: 10px;">
+        <div class="card-head">
+          <h3><i class="fa-solid fa-right-from-bracket" style="color:var(--danger);"></i> إدارة الجلسة والاشتراك</h3>
+        </div>
+        <div class="card-body">
+          <p style="font-size: 8px; color: var(--muted); margin-bottom: 10px;">الخروج سيؤدي إلى إبطال الجلسة الحالية والعودة لشاشة إدخال كود التوكن.</p>
+          <button class="btn btn-danger" style="width: 100%; justify-content: center; padding: 10px; font-weight: 900;" onclick="logoutClientSubscription()">
+            <i class="fa-solid fa-power-off"></i> <span>تسجيل الخروج من الاشتراك (Déconnexion)</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1497,6 +1512,22 @@ function verifyClientToken() {
 }
 
 function enterAppSmoothly() { document.getElementById("clientLoginOverlay").style.display = "none"; }
+
+function logoutClientSubscription() {
+  if (confirm("هل أنت متأكد من رغبتك في تسجيل الخروج من الاشتراك؟")) {
+    localStorage.removeItem("yt_active_session");
+    const loginOverlay = document.getElementById("clientLoginOverlay");
+    if (loginOverlay) {
+      loginOverlay.style.display = "flex";
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("successScreen").style.display = "none";
+      document.getElementById("tokenInput").value = "";
+      const previewEl = document.getElementById("brandLogoPreview");
+      if(previewEl) previewEl.style.display = "none";
+    }
+    toast("✓ تم تسجيل الخروج بنجاح");
+  }
+}
 
 const titles={ dashboard:"Dashboard", "test-playlist":"YOUNES Player", clients:"Clients", abonnements:"Abonnements & Token", payments:"Paiements", activation:"Activation", settings:"Paramètres" }; 
 document.querySelectorAll(".nav-item").forEach(item=>item.addEventListener("click",()=>showPage(item.dataset.page))); 
