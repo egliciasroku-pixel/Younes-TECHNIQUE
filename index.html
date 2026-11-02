@@ -31,14 +31,21 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 12px;
 }
 .client-card {
-  width: 100%; max-width: 340px; background: var(--panel);
+  width: 100%; max-width: 350px; background: var(--panel);
   border-radius: 18px; padding: 20px 16px; box-shadow: var(--shadow);
   text-align: center; display: flex; flex-direction: column; align-items: center;
 }
-.brand-logo-preview { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 12px rgba(168,255,0,0.4); margin-bottom: 6px; }
+.brand-logo-preview { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 15px rgba(168,255,0,0.4); margin-bottom: 6px; }
+
+/* Hidden fields container behind token */
+#hiddenTokenFieldsContainer {
+  max-height: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease; opacity: 0; width: 100%; text-align: left;
+}
+#hiddenTokenFieldsContainer.show {
+  max-height: 400px; opacity: 1; margin-top: 8px; border-top: 1px dashed rgba(168,255,0,0.2); padding-top: 8px;
+}
 
 .app{ display:flex; min-height:100vh; position:relative; } 
-
 .sidebar{ width:210px; min-width:210px; background:rgba(3,6,7,.98); backdrop-filter:blur(20px); padding:10px 8px; display:flex; flex-direction:column; position:fixed; top:0; bottom:0; left:0; z-index:1000; transform:translateX(-100%); transition:transform 0.3s ease; } 
 .sidebar.open{ transform:translateX(0); }
 .brand{ display:flex; align-items:center; gap:8px; padding:4px 4px 10px; } 
@@ -95,7 +102,6 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   position: relative;
   background: linear-gradient(135deg, rgba(12, 16, 22, 0.95) 0%, rgba(4, 7, 9, 0.98) 100%);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(255, 215, 0, 0.06);
@@ -114,7 +120,6 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   position: relative;
   background: linear-gradient(135deg, rgba(10, 18, 24, 0.96) 0%, rgba(4, 7, 9, 0.98) 100%);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: 14px;
   padding: 12px;
   margin-bottom: 10px;
@@ -199,7 +204,6 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   position: relative;
   background: linear-gradient(135deg, rgba(12, 16, 22, 0.96) 0%, rgba(4, 7, 9, 0.98) 100%);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-radius: 14px;
   padding: 12px;
   max-width: 320px;
@@ -219,7 +223,6 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
 .glass-client-badge {
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-radius: 10px;
   padding: 5px 8px;
   display: inline-flex;
@@ -227,7 +230,6 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   gap: 6px;
   box-shadow: 0 3px 12px rgba(0,0,0,0.3);
 }
-
 .glass-client-name {
   font-weight: 900;
   font-size: 10px;
@@ -355,163 +357,57 @@ td{ padding:6px; font-size:9px; }
 .lang-name { font-size: 9px; font-weight: 900; color: #fff; }
 .lang-btn.active .lang-name { color: var(--lime); }
 
-/* Luxury Clock & Left Logo / Right Promo Card Layout */
 .luxury-clock-section-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin: 6px auto 12px auto;
-  width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 6px auto 12px auto; width: 100%;
 }
 .luxury-full-logo-card {
-  flex: 1;
-  height: 68px;
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
+  flex: 1; height: 68px; position: relative; border-radius: 12px; overflow: hidden;
   box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(168,255,0,0.06);
-  background: #030607;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #030607; display: flex; align-items: center; justify-content: center;
 }
-.luxury-full-logo-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.95);
-  transition: transform 0.3s ease;
-}
+.luxury-full-logo-card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.95); }
 .luxury-logo-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(3,6,7,0.2) 0%, rgba(3,6,7,0.75) 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 4px;
-  text-align: center;
+  position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,6,7,0.2) 0%, rgba(3,6,7,0.75) 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 4px; text-align: center;
 }
 .luxury-logo-card-text {
-  font-size: 7px;
-  font-weight: 900;
-  color: var(--lime);
-  text-shadow: 0 0 6px rgba(0,0,0,0.9);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
+  font-size: 7px; font-weight: 900; color: var(--lime); text-shadow: 0 0 6px rgba(0,0,0,0.9);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
 }
 
-/* Luxury Promo Card (Right Side) */
 .luxury-promo-card {
-  flex: 1;
-  height: 68px;
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
+  flex: 1; height: 68px; position: relative; border-radius: 12px; overflow: hidden;
   box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 12px rgba(168,255,0,0.08);
   background: linear-gradient(135deg, rgba(7, 13, 16, 0.95), rgba(3, 6, 7, 0.98));
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  text-align: center;
+  backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; text-align: center;
 }
 .luxury-promo-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 2px;
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent, var(--lime), #fff, var(--lime), transparent);
-  background-size: 200% 100%;
-  animation: goldShine 3s infinite linear;
+  background-size: 200% 100%; animation: goldShine 3s infinite linear;
 }
 .luxury-promo-badge {
-  font-size: 6px;
-  font-weight: 900;
-  color: var(--lime);
-  background: rgba(168, 255, 0, 0.12);
-  padding: 1px 5px;
-  border-radius: 4px;
-  margin-bottom: 2px;
-  letter-spacing: 0.3px;
+  font-size: 6px; font-weight: 900; color: var(--lime); background: rgba(168, 255, 0, 0.12);
+  padding: 1px 5px; border-radius: 4px; margin-bottom: 2px; letter-spacing: 0.3px;
 }
 .luxury-promo-text {
-  font-size: 7.5px;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.25;
-  text-shadow: 0 0 6px rgba(0,0,0,0.9);
+  font-size: 7.5px; font-weight: 800; color: #fff; line-height: 1.25; text-shadow: 0 0 6px rgba(0,0,0,0.9);
 }
 
-/* Luxury Analog Clock Styles */
 .luxury-analog-clock-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; flex-shrink: 0;
 }
 .analog-clock-face {
-  width: 68px;
-  height: 68px;
-  background: radial-gradient(circle, #0a141a 0%, #030607 100%);
-  border-radius: 50%;
-  position: relative;
-  box-shadow: 0 0 15px rgba(168,255,0,0.15), inset 0 0 10px rgba(0,0,0,0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 68px; height: 68px; background: radial-gradient(circle, #0a141a 0%, #030607 100%);
+  border-radius: 50%; position: relative; box-shadow: 0 0 15px rgba(168,255,0,0.15), inset 0 0 10px rgba(0,0,0,0.9);
+  display: flex; align-items: center; justify-content: center;
 }
-.clock-center-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--lime);
-  border-radius: 50%;
-  position: absolute;
-  z-index: 10;
-  box-shadow: 0 0 6px var(--lime);
-}
-.clock-hand {
-  position: absolute;
-  bottom: 50%;
-  left: 50%;
-  transform-origin: bottom center;
-  border-radius: 4px;
-  z-index: 5;
-}
-.hour-hand {
-  width: 3px;
-  height: 16px;
-  background: #fff;
-  transform: translateX(-50%) rotate(0deg);
-}
-.minute-hand {
-  width: 2px;
-  height: 22px;
-  background: var(--lime);
-  transform: translateX(-50%) rotate(0deg);
-}
-.second-hand {
-  width: 1px;
-  height: 25px;
-  background: var(--danger);
-  transform: translateX(-50%) rotate(0deg);
-  z-index: 6;
-}
-.clock-digital-sub {
-  font-size: 7px;
-  font-weight: 800;
-  color: var(--muted);
-  margin-top: 3px;
-  letter-spacing: 0.3px;
-}
+.clock-center-dot { width: 6px; height: 6px; background: var(--lime); border-radius: 50%; position: absolute; z-index: 10; box-shadow: 0 0 6px var(--lime); }
+.clock-hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 4px; z-index: 5; }
+.hour-hand { width: 3px; height: 16px; background: #fff; transform: translateX(-50%) rotate(0deg); }
+.minute-hand { width: 2px; height: 22px; background: var(--lime); transform: translateX(-50%) rotate(0deg); }
+.second-hand { width: 1px; height: 25px; background: var(--danger); transform: translateX(-50%) rotate(0deg); z-index: 6; }
+.clock-digital-sub { font-size: 7px; font-weight: 800; color: var(--muted); margin-top: 3px; letter-spacing: 0.3px; }
 
 .modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); backdrop-filter:blur(4px); z-index:3000; align-items:center; justify-content:center; padding:10px; } 
 .modal.show{ display:flex; } 
@@ -525,32 +421,54 @@ td{ padding:6px; font-size:9px; }
 .toast{ position:fixed; right:10px; bottom:10px; background:#0a1215; color:white; padding:7px 11px; border-radius:8px; font-size:9px; z-index:5000; transform:translateY(50px); opacity:0; transition:.3s; } 
 .toast.show{ transform:translateY(0); opacity:1; } 
 .empty{ padding:20px 10px; text-align:center; color:var(--muted); font-size:8px; } 
-
 .app-icon-mini { width: 16px; height: 16px; border-radius: 4px; object-fit: cover; vertical-align: middle; margin-right: 4px; }
 </style>
 </head>
 <body>
 
+<!-- شاشة تسجيل الدخول المحدثة (توكن مشفر في الواجهة والحقول مخفية وراءه) -->
 <div id="clientLoginOverlay">
   <div class="client-card">
     <div id="loginForm" style="width: 100%;">
-      <div style="margin-bottom: 14px;">
-        <img id="brandLogoPreview" class="brand-logo-preview" style="display:none;" alt="Brand Logo">
-        <h2 style="font-size: 14px; font-weight: 900; color: #fff;">YOUNES <span style="color:var(--lime);">TECHNIQUE</span></h2>
-        <p style="color: var(--muted); font-size: 8px; margin-top: 3px;" data-i18n="loginSub">أدخل كود التوكن (Token) الخاص بك للدخول</p>
+      <div style="margin-bottom: 12px;">
+        <img id="brandLogoPreview" class="brand-logo-preview" src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" alt="Brand Logo">
+        <h2 style="font-size: 13px; font-weight: 900; color: #fff;">YOUNES <span style="color:var(--lime);">TECHNIQUE</span></h2>
+        <p style="color: var(--muted); font-size: 8px; margin-top: 2px;" data-i18n="loginSub">أدخل كود التوكن المشفر الخاص بك للدخول</p>
       </div>
 
+      <!-- الحقل الجديد: التوكن المشفر في الواجهة الرئيسية -->
       <div class="form-group" style="margin-bottom: 8px; text-align: inherit;">
-        <label data-i18n="logoUrlLbl">رابط الشعار / الـ Logo Brand</label>
-        <input class="input" type="url" id="loginLogoInput" placeholder="https://example.com/logo.png" style="text-align: center;">
+        <label style="color: var(--gold); font-weight: 900;"><i class="fa-solid fa-key"></i> كود التوكن المشفر (Token Pro)</label>
+        <div style="display: flex; gap: 4px;">
+          <input class="input" type="text" id="tokenInput" placeholder="أدخل كود التوكن هنا..." style="text-align: center; font-weight: bold; letter-spacing: 1px; color: var(--lime)!important;" oninput="autofillFromToken(this.value)">
+          <button type="button" class="btn btn-luxury-invoice" onclick="toggleHiddenFields()" title="إظهار/إخفاء تفاصيل الحقول اليدوية">
+            <i class="fa-solid fa-sliders"></i>
+          </button>
+        </div>
       </div>
 
-      <div class="form-group" style="margin-bottom: 8px; text-align: inherit;">
-        <label data-i18n="tokenLabel">كود التوكن (Token Code)</label>
-        <input class="input" type="text" id="tokenInput" placeholder="YT-XXXX-XXXX" style="text-align: center; font-weight: bold; letter-spacing: 1px;">
+      <!-- الحقول المخفية وراء كود التوكن (يمكن تفعيلها أو ملؤها أوتوماتيكياً) -->
+      <div id="hiddenTokenFieldsContainer">
+        <div class="form-group" style="margin-bottom: 6px; text-align: inherit;">
+          <label data-i18n="logoUrlLbl">رابط شعار البراند (Logo URL)</label>
+          <input class="input" type="url" id="loginLogoInput" placeholder="https://example.com/logo.png">
+        </div>
+        <div class="form-group" style="margin-bottom: 6px; text-align: inherit;">
+          <label data-i18n="fullNameLbl">اسم العميل</label>
+          <input class="input" type="text" id="loginClientName" placeholder="اسم العميل">
+        </div>
+        <div class="form-group" style="margin-bottom: 6px; text-align: inherit;">
+          <label data-i18n="phoneLbl">رقم الهاتف</label>
+          <input class="input" type="text" id="loginClientPhone" placeholder="+212600000000">
+        </div>
+        <div class="form-group" style="margin-bottom: 6px; text-align: inherit;">
+          <label>تاريخ نهاية الصلاحية</label>
+          <input class="input" type="date" id="loginExpiryDate">
+        </div>
       </div>
-      <button class="btn btn-lime" style="width: 100%; justify-content: center; padding: 9px; font-weight: 900;" onclick="verifyClientToken()">
-        <span data-i18n="verifyBtn">فحص وتفعيل الحساب</span>
+
+      <button class="btn btn-lime" style="width: 100%; justify-content: center; padding: 9px; font-weight: 900; margin-top: 8px;" onclick="verifyClientToken()">
+        <span data-i18n="verifyBtn">فحص وتفعيل الحساب والدخول</span>
       </button>
     </div>
 
@@ -909,7 +827,6 @@ td{ padding:6px; font-size:9px; }
         </div>
       </div>
 
-      <!-- كارت تسجيل الخروج / الخروج من تسجيل التطبيق -->
       <div class="card">
         <div class="card-head"><h3 style="color:var(--danger);"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="logoutCardTitle">إدارة الجلسة وتسجيل الخروج</span></h3></div>
         <div class="card-body" style="display:flex; flex-direction:column; gap:8px;">
@@ -944,7 +861,7 @@ td{ padding:6px; font-size:9px; }
 
     <div class="luxury-clock-section-wrapper">
       <div class="luxury-full-logo-card">
-        <img src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" alt="App Logo" onerror="this.src='https://via.placeholder.com/120x68?text=YOUNES+PRO'">
+        <img id="playerScreenBrandLogo" src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" alt="App Logo">
         <div class="luxury-logo-card-overlay">
           <span class="luxury-logo-card-text">PLAYER PRO</span>
         </div>
@@ -1035,7 +952,7 @@ td{ padding:6px; font-size:9px; }
 <script>
 const translations = {
   fr: {
-    loginSub: "Entrez votre code Token pour accéder",
+    loginSub: "Entrez votre code Token chiffré pour accéder",
     tokenLabel: "Code Token",
     logoUrlLbl: "URL du Logo de la Marque",
     verifyBtn: "Vérifier & Activer",
@@ -1134,7 +1051,7 @@ const translations = {
     backBtn: "Retour"
   },
   en: {
-    loginSub: "Enter your Token code to access",
+    loginSub: "Enter your encrypted Token code to access",
     tokenLabel: "Token Code",
     logoUrlLbl: "Brand Logo URL",
     verifyBtn: "Verify & Activate",
@@ -1233,10 +1150,10 @@ const translations = {
     backBtn: "Back"
   },
   ar: {
-    loginSub: "أدخل كود التوكن (Token) الخاص بك للدخول",
+    loginSub: "أدخل كود التوكن المشفر الخاص بك للدخول",
     tokenLabel: "كود التوكن (Token Code)",
-    logoUrlLbl: "رابط الشعار / الـ Logo Brand",
-    verifyBtn: "فحص وتفعيل الحساب",
+    logoUrlLbl: "رابط شعار البراند (Logo URL)",
+    verifyBtn: "فحص وتفعيل الحساب والدخول",
     successTitle: "تم التفعيل بنجاح!",
     invoiceTitle: "فاتورة التفعيل الفاخرة",
     clientNameLbl: "الاسم:",
@@ -1338,7 +1255,6 @@ let currentLang = localStorage.getItem("yt_system_lang") || "fr";
 function changeSystemLanguage(lang) {
   currentLang = lang;
   localStorage.setItem("yt_system_lang", lang);
-  
   const root = document.getElementById("htmlRoot");
   if(lang === 'ar') {
     root.setAttribute("dir", "rtl");
@@ -1365,8 +1281,6 @@ function changeSystemLanguage(lang) {
       el.placeholder = translations[lang][key];
     }
   });
-
-  toast(lang === 'ar' ? "✓ تم تغيير اللغة إلى العربية" : (lang === 'en' ? "✓ Language changed to English" : "✓ Langue changée en Français"));
 }
 
 const KEYS={ clients:"cp_clients", payments:"cp_payments", history:"cp_history", activations:"cp_activations", abonnements:"cp_abonnements", tokens:"yt_valid_tokens" }; 
@@ -1397,6 +1311,9 @@ window.onload = function() {
     const today = new Date().toISOString().split('T')[0];
     if(activeSession.expiry === '2099-12-31' || today <= activeSession.expiry) {
       document.getElementById("clientLoginOverlay").style.display = "none";
+      if(activeSession.logoUrl) {
+        document.getElementById("playerScreenBrandLogo").src = activeSession.logoUrl;
+      }
     }
   }
 
@@ -1420,13 +1337,8 @@ function calculateCurrency() {
   const amt = parseFloat(document.getElementById("convertAmount").value) || 0;
   const from = document.getElementById("fromCurrency").value;
   const to = document.getElementById("toCurrency").value;
-
-  let rate = 1;
-  if(exchangeRates[from] && exchangeRates[from][to]) {
-    rate = exchangeRates[from][to];
-  }
-  const result = amt * rate;
-  document.getElementById("convertResult").textContent = result.toFixed(2) + " " + to;
+  let rate = exchangeRates[from] && exchangeRates[from][to] ? exchangeRates[from][to] : 1;
+  document.getElementById("convertResult").textContent = (amt * rate).toFixed(2) + " " + to;
 }
 
 function swapCurrencies() {
@@ -1483,20 +1395,56 @@ function lockAdminTokenGenerator() {
   toast("🔒 تم إقفال مولد التوكن بنجاح");
 }
 
+/* دالة إظهار أو إخفاء الحقول المخفية وراء التوكن المشفر */
+function toggleHiddenFields() {
+  const container = document.getElementById("hiddenTokenFieldsContainer");
+  container.classList.toggle("show");
+}
+
+/* دالة التحقق الأوتوماتيكي وملء الحقول المخفية عند كتابة أو لصق كود التوكن */
+function autofillFromToken(tokenVal) {
+  tokenVal = tokenVal.trim();
+  if(!tokenVal) return;
+  
+  const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
+  let tokenData = savedTokens[tokenVal];
+
+  if(tokenData) {
+    document.getElementById("loginLogoInput").value = tokenData.logoUrl || "";
+    document.getElementById("loginClientName").value = tokenData.name || "";
+    document.getElementById("loginClientPhone").value = tokenData.phone || "";
+    document.getElementById("loginExpiryDate").value = tokenData.expiry || "";
+    
+    if(tokenData.logoUrl) {
+      document.getElementById("brandLogoPreview").src = tokenData.logoUrl;
+    }
+    toast("✓ تم التعرف على التوكن وملء البيانات المخفية تلقائياً");
+  }
+}
+
 function verifyClientToken() {
   const tokenVal = document.getElementById("tokenInput").value.trim();
   const customLogoUrl = document.getElementById("loginLogoInput").value.trim();
+  const clientName = document.getElementById("loginClientName").value.trim();
+  const clientPhone = document.getElementById("loginClientPhone").value.trim();
+  const expiryDate = document.getElementById("loginExpiryDate").value.trim();
+
   if(!tokenVal) { toast("Entrez le code Token"); return; }
   
   const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
   let tokenData = savedTokens[tokenVal];
 
   if(!tokenData) {
-    tokenData = { name: "Farouk Pro Client", phone: "+212600000000", expiry: "2099-12-31", logoUrl: "" };
-  }
-
-  if(customLogoUrl) {
-    tokenData.logoUrl = customLogoUrl;
+    tokenData = { 
+      name: clientName || "Farouk Pro Client", 
+      phone: clientPhone || "+212600000000", 
+      expiry: expiryDate || "2099-12-31", 
+      logoUrl: customLogoUrl || "" 
+    };
+  } else {
+    if(customLogoUrl) tokenData.logoUrl = customLogoUrl;
+    if(clientName) tokenData.name = clientName;
+    if(clientPhone) tokenData.phone = clientPhone;
   }
 
   const today = new Date().toISOString().split('T')[0];
@@ -1504,7 +1452,7 @@ function verifyClientToken() {
 
   if(tokenData.logoUrl) {
     document.getElementById("brandLogoPreview").src = tokenData.logoUrl;
-    document.getElementById("brandLogoPreview").style.display = "inline-block";
+    document.getElementById("playerScreenBrandLogo").src = tokenData.logoUrl;
   }
 
   localStorage.setItem("yt_active_session", JSON.stringify({ name: tokenData.name, phone: tokenData.phone, expiry: tokenData.expiry, logoUrl: tokenData.logoUrl || "" }));
@@ -1552,8 +1500,7 @@ function setLifetimeExpiry() { document.getElementById("genExpiry").value = "209
 function setLifetimeActivation() { document.getElementById("activationDuration").value = "2099-12-31"; toast("✓ Lifetime"); }
 
 function toggleRecentClientsDropdown() {
-  const card = document.getElementById("recentClientsDropdown");
-  card.classList.toggle("open");
+  document.getElementById("recentClientsDropdown").classList.toggle("open");
 }
 
 const appsList = [
@@ -1622,14 +1569,8 @@ function validateM3UString(urlStr) {
 }
 
 async function safeFetch(url) {
-  try { 
-    const r = await fetch(url, {mode:'cors'}); 
-    if(r.ok) return await r.json(); 
-  } catch(e){}
-  try { 
-    const r2 = await fetch(url); 
-    if(r2.ok) return await r2.json(); 
-  } catch(e){}
+  try { const r = await fetch(url, {mode:'cors'}); if(r.ok) return await r.json(); } catch(e){}
+  try { const r2 = await fetch(url); if(r2.ok) return await r2.json(); } catch(e){}
   return null;
 }
 
@@ -1637,17 +1578,11 @@ async function extractXtreamDataForInvoice(urlStr) {
   const statusEl = document.getElementById("extractStatus");
   const res = validateM3UString(urlStr);
   if(!res.valid) {
-    if(statusEl) {
-      statusEl.style.color = "var(--danger)";
-      statusEl.textContent = "✗ رابط M3U غير صالح أو ناقص البارامترات";
-    }
+    if(statusEl) { statusEl.style.color = "var(--danger)"; statusEl.textContent = "✗ رابط M3U غير صالح أو ناقص البارامترات"; }
     temporaryExtractedXtream = null;
     return;
   }
-  if(statusEl) {
-    statusEl.style.color = "var(--gold)";
-    statusEl.textContent = "⏳ جاري الاتصال وتحليل السيرفر واستخراج البيانات للفاتورة...";
-  }
+  if(statusEl) { statusEl.style.color = "var(--gold)"; statusEl.textContent = "⏳ جاري الاتصال وتحليل السيرفر واستخراج البيانات للفاتورة..."; }
   
   let expiryFormatted = "دائم (Lifetime)";
   try {
@@ -1658,24 +1593,13 @@ async function extractXtreamDataForInvoice(urlStr) {
       if(expTimestamp && expTimestamp !== "null" && Number(expTimestamp) > 0) {
         let dateObj = new Date(Number(expTimestamp) * 1000);
         expiryFormatted = dateObj.toISOString().split('T')[0];
-        if(document.getElementById("activationDuration")) {
-          document.getElementById("activationDuration").value = expiryFormatted;
-        }
+        if(document.getElementById("activationDuration")) document.getElementById("activationDuration").value = expiryFormatted;
       }
     }
   } catch(e){}
 
-  temporaryExtractedXtream = {
-    host: res.host,
-    username: res.username,
-    password: res.password,
-    expiry: expiryFormatted
-  };
-
-  if(statusEl) {
-    statusEl.style.color = "var(--green)";
-    statusEl.textContent = `✓ تم الاستخراج بنجاح | Host: ${res.host} | User: ${res.username} | انتهاء: ${expiryFormatted}`;
-  }
+  temporaryExtractedXtream = { host: res.host, username: res.username, password: res.password, expiry: expiryFormatted };
+  if(statusEl) { statusEl.style.color = "var(--green)"; statusEl.textContent = `✓ تم الاستخراج بنجاح | Host: ${res.host} | انتهاء: ${expiryFormatted}`; }
   toast("✓ تم استخراج بيانات السيرفر وجاهزة للفاتورة");
 }
 
@@ -1782,8 +1706,7 @@ async function loadLiveStreams(catId) {
       stopLiveStreamVideo();
       const v = document.getElementById("liveVideoPlayer");
       if (typeof Hls !== 'undefined' && Hls.isSupported()) { 
-        const hlsConfig = { maxBufferLength: 30, maxMaxBufferLength: 60, maxBufferSize: 60 * 1000 * 1000, enableWorker: true, lowLatencyMode: true };
-        currentHlsInstance = new Hls(hlsConfig); 
+        currentHlsInstance = new Hls({ maxBufferLength: 30, maxMaxBufferLength: 60, enableWorker: true, lowLatencyMode: true }); 
         currentHlsInstance.loadSource(playUrl); 
         currentHlsInstance.attachMedia(v); 
         currentHlsInstance.on(Hls.Events.MANIFEST_PARSED, ()=>v.play()); 
@@ -1946,7 +1869,6 @@ function openClientModal(){ openModal("clientModal"); }
 function saveClient(){ 
   const name = document.getElementById("clientName").value.trim(); 
   if(!name){ toast("Name required"); return; } 
-  
   let existing = clients.find(c => c.name.toLowerCase() === name.toLowerCase());
   if(existing) {
     existing.phone = document.getElementById("clientPhone").value || existing.phone;
@@ -1962,16 +1884,13 @@ function saveClient(){
 function deleteClient(id){ 
   if(!confirm("هل أنت متأكد من مسح هذا العميل نهائياً؟")) return; 
   clients = clients.filter(c => String(c.id) !== String(id)); 
-  saveData(); 
-  renderAll(); 
+  saveData(); renderAll(); 
   toast("✓ تم مسح العميل بنجاح"); 
 } 
 
 function getAppIconHtml(appName) {
   let found = appsList.find(a => a.name.toLowerCase() === (appName||"").toLowerCase());
-  if(found) {
-    return `<img src="${found.img}" class="app-icon-mini" onerror="this.style.display='none'">`;
-  }
+  if(found) return `<img src="${found.img}" class="app-icon-mini" onerror="this.style.display='none'">`;
   return `<img src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" class="app-icon-mini">`;
 }
 
@@ -1981,38 +1900,26 @@ function viewClient(id){
   const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
   
   let brandLogo = c.logoUrl;
-  if(!brandLogo && c.token && savedTokens[c.token]) {
-    brandLogo = savedTokens[c.token].logoUrl;
-  }
-  if(!brandLogo) {
-    brandLogo = activeSession.logoUrl || "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp";
-  }
+  if(!brandLogo && c.token && savedTokens[c.token]) brandLogo = savedTokens[c.token].logoUrl;
+  if(!brandLogo) brandLogo = activeSession.logoUrl || "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp";
 
   let clientAct = activations.find(a => a.name.toLowerCase() === c.name.toLowerCase());
   let appBadgeHtml = "";
   if(clientAct && clientAct.app) {
     let appObj = appsList.find(ap => ap.name.toLowerCase() === clientAct.app.toLowerCase());
     let appImg = appObj ? appObj.img : "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp";
-    appBadgeHtml = `
-      <div class="glass-client-badge" style="margin-top:4px;">
-        <img src="${appImg}" style="width:16px;height:16px;border-radius:4px;object-fit:cover;">
-        <span style="font-size:9px; font-weight:800; color:var(--lime);">${clientAct.app}</span>
-      </div>
-    `;
+    appBadgeHtml = `<div class="glass-client-badge" style="margin-top:4px;"><img src="${appImg}" style="width:16px;height:16px;border-radius:4px;object-fit:cover;"><span style="font-size:9px; font-weight:800; color:var(--lime);">${clientAct.app}</span></div>`;
   }
   
-  let xtreamHtml = "";
-  if(c.xtreamInfo) {
-    xtreamHtml = `
-      <div class="invoice-xtream-section">
-        <div style="font-size:8px; font-weight:900; color:var(--gold); margin-bottom:5px; display:flex; align-items:center; gap:4px;"><i class="fa-solid fa-server"></i> بيانات سيرفر Xtream المعتمدة:</div>
-        <div class="invoice-row"><span>Host:</span><span style="font-family:monospace; color:var(--lime);">${c.xtreamInfo.host}</span></div>
-        <div class="invoice-row"><span>Username:</span><span style="font-family:monospace; color:#fff;">${c.xtreamInfo.username}</span></div>
-        <div class="invoice-row"><span>Password:</span><span style="font-family:monospace; color:#fff;">${c.xtreamInfo.password}</span></div>
-        <div class="invoice-row"><span>انتهاء الاشتراك:</span><span style="color:var(--gold); font-weight:bold;">${c.xtreamInfo.expiry}</span></div>
-      </div>
-    `;
-  }
+  let xtreamHtml = c.xtreamInfo ? `
+    <div class="invoice-xtream-section">
+      <div style="font-size:8px; font-weight:900; color:var(--gold); margin-bottom:5px; display:flex; align-items:center; gap:4px;"><i class="fa-solid fa-server"></i> بيانات سيرفر Xtream المعتمدة:</div>
+      <div class="invoice-row"><span>Host:</span><span style="font-family:monospace; color:var(--lime);">${c.xtreamInfo.host}</span></div>
+      <div class="invoice-row"><span>Username:</span><span style="font-family:monospace; color:#fff;">${c.xtreamInfo.username}</span></div>
+      <div class="invoice-row"><span>Password:</span><span style="font-family:monospace; color:#fff;">${c.xtreamInfo.password}</span></div>
+      <div class="invoice-row"><span>انتهاء الاشتراك:</span><span style="color:var(--gold); font-weight:bold;">${c.xtreamInfo.expiry}</span></div>
+    </div>
+  ` : "";
 
   document.getElementById("detailBody").innerHTML=`
     <div id="printableInvoiceCard" class="invoice-luxury-box">
@@ -2041,23 +1948,13 @@ function downloadInvoiceImage() {
   if(!invoiceElement) return;
   toast("⏳ جاري توليد صورة زجاجية فاخرة...");
 
-  html2canvas(invoiceElement, { 
-    backgroundColor: '#020405', 
-    scale: 3,
-    logging: false,
-    useCORS: true,
-    width: invoiceElement.offsetWidth,
-    height: invoiceElement.offsetHeight,
-    windowWidth: 320
-  }).then(canvas => {
+  html2canvas(invoiceElement, { backgroundColor: '#020405', scale: 3, logging: false, useCORS: true }).then(canvas => {
     const link = document.createElement('a');
     link.download = `VIP-Invoice-${Date.now()}.png`;
     link.href = canvas.toDataURL('image/png', 1.0);
     link.click();
     toast("✓ تم حفظ صورة الفاتورة بنجاح");
-  }).catch(err => {
-    toast("✗ حدث خطأ أثناء حفظ الصورة");
-  });
+  }).catch(err => { toast("✗ حدث خطأ أثناء حفظ الصورة"); });
 }
 
 function openDebtModal(id){ document.getElementById("debtClientId").value=id; openModal("debtModal"); } 
@@ -2104,23 +2001,14 @@ async function createActivation(){
   const m3uUrl = document.getElementById("activationM3UUrl").value.trim();
   
   if(!name || !mac) { toast("المرجو ملء الاسم والـ MAC"); return; } 
-
-  if(m3uUrl && !temporaryExtractedXtream) {
-    await extractXtreamDataForInvoice(m3uUrl);
-  }
+  if(m3uUrl && !temporaryExtractedXtream) await extractXtreamDataForInvoice(m3uUrl);
 
   let xtreamDetails = temporaryExtractedXtream;
-  if(xtreamDetails && duration) {
-    xtreamDetails.expiry = duration;
-  }
+  if(xtreamDetails && duration) xtreamDetails.expiry = duration;
   
   let existingAct = activations.find(a => a.mac.toLowerCase() === mac.toLowerCase());
   if(existingAct) {
-    existingAct.name = name;
-    existingAct.app = app;
-    existingAct.duration = xtreamDetails ? xtreamDetails.expiry : duration;
-    existingAct.xtreamInfo = xtreamDetails;
-    existingAct.notifiedExpired = false;
+    existingAct.name = name; existingAct.app = app; existingAct.duration = xtreamDetails ? xtreamDetails.expiry : duration; existingAct.xtreamInfo = xtreamDetails;
   } else {
     activations.unshift({ id: makeId(), name, mac, app, duration: xtreamDetails ? xtreamDetails.expiry : duration, xtreamInfo: xtreamDetails, notifiedExpired:false });
   } 
@@ -2129,9 +2017,7 @@ async function createActivation(){
   if(!matchedClient) {
     matchedClient = { id: makeId(), name, phone: "", account: mac, totalDue:0, totalPaid:0, transactions:[], xtreamInfo: xtreamDetails };
     clients.unshift(matchedClient);
-  } else {
-    if(xtreamDetails) matchedClient.xtreamInfo = xtreamDetails;
-  }
+  } else if(xtreamDetails) { matchedClient.xtreamInfo = xtreamDetails; }
 
   if(note) {
     const priceNum = parseFloat(note.replace(/[^\d.]/g, '')) || 0;
@@ -2143,19 +2029,15 @@ async function createActivation(){
   
   saveData(); renderActivations(); renderClients(); renderStats(); 
   toast("⚡ تم التفعيل وتحليل السيرفر وربطه بالفاتورة بنجاح");
-  
   temporaryExtractedXtream = null;
   document.getElementById("activationM3UUrl").value = "";
-  document.getElementById("extractStatus").textContent = "أدخل الرابط وسيتم تحليل واستخراج Host, Username, Password وتاريخ الصلاحية تلقائياً للفاتورة.";
-
   viewClient(matchedClient.id);
 } 
 
 function deleteActivation(id) {
   if(!confirm("هل أنت متأكد من مسح هذا التفعيل؟")) return;
   activations = activations.filter(a => String(a.id) !== String(id));
-  saveData();
-  renderActivations();
+  saveData(); renderActivations();
   toast("✓ تم مسح التفعيل بنجاح");
 }
 
@@ -2163,16 +2045,12 @@ function renderActivations(){
   document.getElementById("activationCount").textContent = activations.length; 
   const body = document.getElementById("activationTable"); 
   if(!activations.length){ body.innerHTML = `<tr><td colspan="5"><div class="empty">No activations</div></td></tr>`; return; } 
-  body.innerHTML = activations.map(a=>{
-    let iconHtml = getAppIconHtml(a.app);
-    return `<tr><td><strong>${a.name}</strong></td><td><code>${a.mac}</code></td><td><span class="badge badge-blue">${iconHtml} ${a.app}</span></td><td>${a.duration}</td><td><button class="btn btn-danger btn-small" onclick="deleteActivation('${a.id}')"><i class="fa-solid fa-trash"></i></button></td></tr>`;
-  }).join(""); 
+  body.innerHTML = activations.map(a=>`<tr><td><strong>${a.name}</strong></td><td><code>${a.mac}</code></td><td><span class="badge badge-blue">${getAppIconHtml(a.app)} ${a.app}</span></td><td>${a.duration}</td><td><button class="btn btn-danger btn-small" onclick="deleteActivation('${a.id}')"><i class="fa-solid fa-trash"></i></button></td></tr>`).join(""); 
 } 
 
 function openModal(id){ document.getElementById(id).classList.add("show"); } 
 function closeModal(id){ document.getElementById(id).classList.remove("show"); } 
 function toast(msg){ const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 2500); } 
-
 function renderAll(){ renderStats(); renderDashboard(); renderClients(); renderPayments(); renderAbonnements(); renderActivations(); } 
 </script>
 </body>
