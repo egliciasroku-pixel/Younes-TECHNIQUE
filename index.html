@@ -540,7 +540,6 @@ td{ padding:6px; font-size:9px; }
         <p style="color: var(--muted); font-size: 8px; margin-top: 3px;" data-i18n="loginSub">أدخل كود التوكن (Token) الخاص بك للدخول</p>
       </div>
 
-      <!-- حقل رابط الشعار (Logo Brand URL) فوق كود Token -->
       <div class="form-group" style="margin-bottom: 8px; text-align: inherit;">
         <label data-i18n="logoUrlLbl">رابط الشعار / الـ Logo Brand</label>
         <input class="input" type="url" id="loginLogoInput" placeholder="https://example.com/logo.png" style="text-align: center;">
@@ -885,8 +884,8 @@ td{ padding:6px; font-size:9px; }
     </div>
 
     <div class="page" id="settings">
-      <div class="section-head"><div data-i18n="settingsHeader"><h2>Paramètres — الإعدادات</h2><p>اختر لغة النظام المفضلة</p></div></div>
-      <div class="card">
+      <div class="section-head"><div data-i18n="settingsHeader"><h2>Paramètres — الإعدادات</h2><p>اختر لغة النظام المفضلة وإدارة الحساب</p></div></div>
+      <div class="card" style="margin-bottom: 10px;">
         <div class="card-head"><h3 data-i18n="langSectionTitle"><i class="fa-solid fa-globe" style="color:var(--lime);"></i> لغة النظام (System Language)</h3></div>
         <div class="card-body">
           <div style="font-size:9px; color:var(--muted); margin-bottom:8px;" data-i18n="langSectionSub">اختر لغة التطبيق والواجهة بالكامل:</div>
@@ -907,6 +906,17 @@ td{ padding:6px; font-size:9px; }
               <small style="font-size:7px; color:var(--muted);">محلي</small>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- كارت تسجيل الخروج / الخروج من تسجيل التطبيق -->
+      <div class="card">
+        <div class="card-head"><h3 style="color:var(--danger);"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="logoutCardTitle">إدارة الجلسة وتسجيل الخروج</span></h3></div>
+        <div class="card-body" style="display:flex; flex-direction:column; gap:8px;">
+          <p style="font-size:8px; color:var(--muted); line-height:1.4;" data-i18n="logoutCardDesc">الخروج من تسجيل التطبيق سيؤدي إلى مسح كود التوكن الحالي والعودة إلى شاشة تفعيل الدخول.</p>
+          <button class="btn btn-danger" style="width:100%; justify-content:center; padding:9px; font-weight:900;" onclick="logoutAppSession()">
+            <i class="fa-solid fa-power-off"></i> <span data-i18n="logoutBtn">تسجيل الخروج (Déconnexion)</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1107,6 +1117,9 @@ const translations = {
     settingsHeader: "Paramètres",
     langSectionTitle: "Langue du Système (System Language)",
     langSectionSub: "Choisissez la langue de l'interface :",
+    logoutCardTitle: "Gestion de Session",
+    logoutCardDesc: "La déconnexion effacera le token actuel et vous ramènera à l'écran de connexion.",
+    logoutBtn: "Déconnexion",
     newClientModalTitle: "Nouveau Client",
     fullNameLbl: "Nom Complet",
     phoneLbl: "Téléphone",
@@ -1203,6 +1216,9 @@ const translations = {
     settingsHeader: "Settings",
     langSectionTitle: "System Language",
     langSectionSub: "Choose your interface language:",
+    logoutCardTitle: "Session Management",
+    logoutCardDesc: "Logging out will clear your current token and return you to the login screen.",
+    logoutBtn: "Logout (Déconnexion)",
     newClientModalTitle: "New Client",
     fullNameLbl: "Full Name",
     phoneLbl: "Phone",
@@ -1299,6 +1315,9 @@ const translations = {
     settingsHeader: "الإعدادات",
     langSectionTitle: "لغة النظام (System Language)",
     langSectionSub: "اختر لغة التطبيق والواجهة بالكامل:",
+    logoutCardTitle: "إدارة الجلسة وتسجيل الخروج",
+    logoutCardDesc: "الخروج من تسجيل التطبيق سيؤدي إلى مسح كود التوكن الحالي والعودة إلى شاشة تفعيل الدخول.",
+    logoutBtn: "تسجيل الخروج (Déconnexion)",
     newClientModalTitle: "عميل جديد",
     fullNameLbl: "الاسم الكامل",
     phoneLbl: "الهاتف",
@@ -1476,7 +1495,6 @@ function verifyClientToken() {
     tokenData = { name: "Farouk Pro Client", phone: "+212600000000", expiry: "2099-12-31", logoUrl: "" };
   }
 
-  // Si l'utilisateur a saisi un logo personnalisé à la connexion, on l'utilise prioritairement
   if(customLogoUrl) {
     tokenData.logoUrl = customLogoUrl;
   }
@@ -1500,6 +1518,16 @@ function verifyClientToken() {
 }
 
 function enterAppSmoothly() { document.getElementById("clientLoginOverlay").style.display = "none"; }
+
+function logoutAppSession() {
+  if(!confirm("هل أنت متأكد من تسجيل الخروج ومسح الجلسة الحالية؟")) return;
+  localStorage.removeItem("yt_active_session");
+  document.getElementById("successScreen").style.display = "none";
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("tokenInput").value = "";
+  document.getElementById("clientLoginOverlay").style.display = "flex";
+  toast("✓ تم تسجيل الخروج بنجاح");
+}
 
 const titles={ dashboard:"Dashboard", "test-playlist":"YOUNES Player", clients:"Clients", abonnements:"Abonnements & Token", payments:"Paiements", activation:"Activation", settings:"Paramètres" }; 
 document.querySelectorAll(".nav-item").forEach(item=>item.addEventListener("click",()=>showPage(item.dataset.page))); 
