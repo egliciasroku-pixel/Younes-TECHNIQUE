@@ -91,6 +91,25 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   100% { background-position: 200% 0; }
 }
 
+.luxury-gold-lock-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(12, 16, 22, 0.95) 0%, rgba(4, 7, 9, 0.98) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(255, 215, 0, 0.06);
+  margin-bottom: 10px;
+}
+.luxury-gold-lock-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), #fff, var(--gold), transparent);
+  background-size: 200% 100%;
+  animation: goldShine 3s infinite linear;
+}
+
 .luxury-converter-card {
   position: relative;
   background: linear-gradient(135deg, rgba(10, 18, 24, 0.96) 0%, rgba(4, 7, 9, 0.98) 100%);
@@ -518,26 +537,21 @@ td{ padding:6px; font-size:9px; }
       <div style="margin-bottom: 14px;">
         <img id="brandLogoPreview" class="brand-logo-preview" style="display:none;" alt="Brand Logo">
         <h2 style="font-size: 14px; font-weight: 900; color: #fff;">YOUNES <span style="color:var(--lime);">TECHNIQUE</span></h2>
-        <p style="color: var(--muted); font-size: 8px; margin-top: 3px;" data-i18n="loginSub">أدخل بياناتك لتوليد التوكن المشفر والدخول</p>
+        <p style="color: var(--muted); font-size: 8px; margin-top: 3px;" data-i18n="loginSub">أدخل كود التوكن (Token) الخاص بك للدخول</p>
       </div>
 
-      <div class="form-group" style="margin-bottom: 8px; text-align: inherit;">
-        <label data-i18n="fullNameLbl">الاسم الكامل (Full Name)</label>
-        <input class="input" type="text" id="loginNameInput" placeholder="يونس الفروقي" style="text-align: center; font-weight: bold;">
-      </div>
-
-      <div class="form-group" style="margin-bottom: 8px; text-align: inherit;">
-        <label data-i18n="phoneLbl">رقم الهاتف (Phone)</label>
-        <input class="input" type="text" id="loginPhoneInput" placeholder="+212600000000" style="text-align: center; font-weight: bold;">
-      </div>
-
+      <!-- حقل رابط الشعار (Logo Brand URL) فوق كود Token -->
       <div class="form-group" style="margin-bottom: 8px; text-align: inherit;">
         <label data-i18n="logoUrlLbl">رابط الشعار / الـ Logo Brand</label>
         <input class="input" type="url" id="loginLogoInput" placeholder="https://example.com/logo.png" style="text-align: center;">
       </div>
 
+      <div class="form-group" style="margin-bottom: 8px; text-align: inherit;">
+        <label data-i18n="tokenLabel">كود التوكن (Token Code)</label>
+        <input class="input" type="text" id="tokenInput" placeholder="YT-XXXX-XXXX" style="text-align: center; font-weight: bold; letter-spacing: 1px;">
+      </div>
       <button class="btn btn-lime" style="width: 100%; justify-content: center; padding: 9px; font-weight: 900;" onclick="verifyClientToken()">
-        <span data-i18n="verifyBtn">توليد التوكن المشفر والدخول</span>
+        <span data-i18n="verifyBtn">فحص وتفعيل الحساب</span>
       </button>
     </div>
 
@@ -547,7 +561,7 @@ td{ padding:6px; font-size:9px; }
         <div style="font-size: 9px; font-weight: 900; color: var(--lime); margin-bottom: 6px; text-align: center; border-bottom: 1px dashed rgba(168,255,0,0.2); padding-bottom: 5px;" data-i18n="invoiceTitle">فاتورة التفعيل الفاخرة</div>
         <div class="invoice-row"><span data-i18n="clientNameLbl">الاسم:</span><span id="invName">-</span></div>
         <div class="invoice-row"><span data-i18n="clientPhoneLbl">الهاتف:</span><span id="invPhone">-</span></div>
-        <div class="invoice-row"><span>Token:</span><span id="invTokenVal" style="color:var(--lime); font-family:monospace;">-</span></div>
+        <div class="invoice-row"><span data-i18n="expiryLbl">انتهاء الصلاحية:</span><span id="invExpiry" style="color:var(--lime);">-</span></div>
       </div>
       <button class="btn btn-lime" style="width: 100%; justify-content: center; padding: 9px; font-weight: 900;" onclick="enterAppSmoothly()">
         <span data-i18n="enterAppBtn">الدخول إلى لوحة التحكم والمشغل</span>
@@ -578,6 +592,10 @@ td{ padding:6px; font-size:9px; }
       <button class="nav-item" data-page="clients">
         <div class="nav-icon"><i class="fa-solid fa-users"></i></div>
         <div class="nav-label"><span class="nav-fr" data-i18n="navClients">Clients</span></div>
+      </button>
+      <button class="nav-item" data-page="abonnements">
+        <div class="nav-icon"><i class="fa-solid fa-key"></i></div>
+        <div class="nav-label"><span class="nav-fr" data-i18n="navAbonnements">Abonnements & Token</span></div>
       </button>
       <button class="nav-item" data-page="payments">
         <div class="nav-icon"><i class="fa-solid fa-credit-card"></i></div>
@@ -696,7 +714,7 @@ td{ padding:6px; font-size:9px; }
             <button class="quick" onclick="openClientModal()"><div class="quick-icon"><i class="fa-solid fa-user-plus"></i></div><strong data-i18n="qNewClient">عميل جديد</strong><span data-i18n="qNewClientSub">إضافة بيانات</span></button>
             <button class="quick" onclick="showPage('test-playlist')"><div class="quick-icon"><i class="fa-solid fa-crown"></i></div><strong data-i18n="qPlayer">مشغل يونيس</strong><span>YOUNES PLAYER</span></button>
             <button class="quick" onclick="openPaymentModal()"><div class="quick-icon"><i class="fa-solid fa-wallet"></i></div><strong data-i18n="qPay">تسجيل دفعة</strong><span data-i18n="qPaySub">إضافة مبلغ</span></button>
-            <button class="quick" onclick="logoutAppSession()" style="background:rgba(255,91,103,0.08)!important; color:var(--danger);"><div class="quick-icon" style="color:var(--danger);"><i class="fa-solid fa-right-from-bracket"></i></div><strong data-i18n="qLogout">خروج من الاشتراك</strong><span>Sign Out</span></button>
+            <button class="quick" onclick="showPage('abonnements')"><div class="quick-icon"><i class="fa-solid fa-key"></i></div><strong data-i18n="qToken">مولد التوكن</strong><span>Token Generator</span></button>
           </div>
         </div>
       </div>
@@ -737,6 +755,74 @@ td{ padding:6px; font-size:9px; }
           <div class="table-wrap">
             <table><thead><tr><th data-i18n="thClient">Client</th><th data-i18n="thAccount">Compte</th><th data-i18n="thTotal">Total</th><th data-i18n="thPaid">Payé</th><th data-i18n="thRemain">Reste</th><th data-i18n="thActions">Actions</th></tr></thead><tbody id="clientsTable"></tbody></table>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="abonnements">
+      <div class="section-head"><div data-i18n="aboHeader"><h2>Abonnements & Token</h2><p>توليد وتصدير كود الـ Token</p></div></div>
+      
+      <div id="adminTokenLockCard" class="luxury-gold-lock-card">
+        <div style="padding: 28px 18px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(0,0,0,0.6)); color: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 0 20px rgba(255,215,0,0.3);">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div>
+            <h3 style="color: #fff; font-size: 13px; font-weight: 900; margin-bottom: 3px; letter-spacing: 0.5px;">منطقة إدارية مقفلة (Admin Only)</h3>
+            <p style="color: var(--muted); font-size: 8px; max-width: 240px; margin: 0 auto; line-height: 1.4;">هذا القسم محمي بالكامل. أدخل كلمة مرور المشرف لفتح الكارت والوصول لمولد التوكن.</p>
+          </div>
+          <div style="width: 100%; max-width: 260px; display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+            <input class="input" type="password" id="adminTokenPassInput" placeholder="أدخل كلمة مرور المشرف..." style="text-align: center; font-weight: bold; font-size: 10px; background: rgba(3,6,7,0.8)!important;">
+            <button class="btn btn-luxury-invoice" style="width: 100%; justify-content: center; padding: 9px; font-weight: 900;" onclick="unlockAdminTokenGenerator()">
+              <i class="fa-solid fa-key"></i> <span>فك القفل والدخول للمولد</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="adminTokenProtectedContent" style="display: none;">
+        <div class="card">
+          <div class="card-head" style="background: rgba(168,255,0,0.04);">
+            <h3><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--lime);"></i> <span data-i18n="tokenGenTitle">مولد كود التوكن (Token Pro)</span></h3>
+            <button class="btn btn-danger btn-small" onclick="lockAdminTokenGenerator()"><i class="fa-solid fa-lock"></i> قفل اللوحة</button>
+          </div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label data-i18n="selectClientLbl">اختر من العملاء</label>
+                <input type="hidden" id="abonnementClientVal" value="">
+                <div class="custom-select-trigger" onclick="openClientDropdown('abonnementClientVal', 'abonnementClientText', 'genName', 'genPhone')">
+                  <span id="abonnementClientText" data-i18n="selectClientDefault">اختر العميل</span>
+                </div>
+              </div>
+              <div class="form-group"><label data-i18n="clientNameLbl">اسم العميل</label><input class="input" id="genName" placeholder="يونس الفروقي"></div>
+              <div class="form-group"><label data-i18n="clientPhoneLbl">رقم الهاتف</label><input class="input" id="genPhone" placeholder="+212600000000"></div>
+              <div class="form-group full"><label data-i18n="logoUrlLbl">رابط صورة الشعار / البراند (Logo Brand URL)</label><input class="input" id="genLogoUrl" placeholder="https://example.com/logo-brand.png"></div>
+              <div class="form-group">
+                <label data-i18n="expiryDateLbl">تاريخ الصلاحية / اليومية</label>
+                <div style="display:flex; gap:4px;">
+                  <input class="input" type="date" id="genExpiry" style="flex:1;">
+                  <button type="button" class="btn btn-small" onclick="setLifetimeExpiry()" style="color:var(--lime)!important;">∞</button>
+                </div>
+              </div>
+              <div class="form-group full"><button class="btn btn-lime" onclick="generateAndShowToken()"><i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="genTokenBtn">توليد وحفظ كود التوكن</span></button></div>
+            </div>
+            <div id="resultBox" style="display:none; margin-top:8px; background:#030607; border-radius:8px; padding:9px; flex-direction:column; gap:5px;">
+              <div style="font-size:8px; color:var(--muted);" data-i18n="tokenGeneratedLbl">كود التوكن المولّد:</div>
+              <div id="tokenOutput" style="background:#000; padding:7px; border-radius:6px; font-family:monospace; color:var(--lime); font-size:10px; font-weight:bold; text-align:center;">YT-XXXX-XXXX</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+                <button class="btn btn-small" onclick="copyToken()"><i class="fa-solid fa-copy"></i> <span data-i18n="copyBtn">نسخ</span></button>
+                <button class="btn btn-small" style="color:var(--green)!important;" onclick="sendViaWhatsApp()"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="whatsappBtn">واتساب</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="activeAboTitle">الاشتراكات النشطة</h3><span class="badge badge-lime" id="abonnementCount">0</span></div>
+        <div class="table-wrap">
+          <table><thead><tr><th data-i18n="thClient">Client</th><th data-i18n="thPhone">Phone</th><th data-i18n="thToken">Token</th><th data-i18n="thExpiry">الصلاحية</th><th data-i18n="thActions">Actions</th></tr></thead><tbody id="abonnementTable"></tbody></table>
         </div>
       </div>
     </div>
@@ -799,8 +885,8 @@ td{ padding:6px; font-size:9px; }
     </div>
 
     <div class="page" id="settings">
-      <div class="section-head"><div data-i18n="settingsHeader"><h2>Paramètres — الإعدادات</h2><p>اختر لغة النظام المفضلة وإدارة الحساب</p></div></div>
-      <div class="card" style="margin-bottom: 10px;">
+      <div class="section-head"><div data-i18n="settingsHeader"><h2>Paramètres — الإعدادات</h2><p>اختر لغة النظام المفضلة</p></div></div>
+      <div class="card">
         <div class="card-head"><h3 data-i18n="langSectionTitle"><i class="fa-solid fa-globe" style="color:var(--lime);"></i> لغة النظام (System Language)</h3></div>
         <div class="card-body">
           <div style="font-size:9px; color:var(--muted); margin-bottom:8px;" data-i18n="langSectionSub">اختر لغة التطبيق والواجهة بالكامل:</div>
@@ -823,16 +909,6 @@ td{ padding:6px; font-size:9px; }
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-head"><h3 style="color:var(--danger);"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="subscriptionMgmt">إدارة الاشتراك والجلسة</span></h3></div>
-        <div class="card-body" style="display:flex; flex-direction:column; gap:8px;">
-          <p style="font-size:8px; color:var(--muted);" data-i18n="logoutDesc">الخروج من الاشتراك الحالي لإدخال توكن جديد أو تغيير شعار العميل والبراند الخاص بك.</p>
-          <button class="btn btn-danger" style="width:100%; justify-content:center; padding:9px; font-weight:900;" onclick="logoutAppSession()">
-            <i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="logoutBtn">خروج من الاشتراك (Sign Out)</span>
-          </button>
-        </div>
-      </div>
     </div>
   </main>
 </div>
@@ -844,7 +920,7 @@ td{ padding:6px; font-size:9px; }
   </div>
 </div>
 
-<div class="modal" id="clientModal"><div class="modal-box"><div class="modal-head"><h3 data-i18n="newClientModalTitle">عميل جديد</h3><button class="close" onclick="closeModal('clientModal')">×</button></div><div class="modal-body"><div class="form-grid"><div class="form-group full"><label data-i18n="fullNameLbl">الاسم الكامل</label><input class="input" id="clientName"></div><div class="form-group full"><label data-i18n="phoneLbl">رقم الهاتف</label><input class="input" id="clientPhone"></div><div class="form-group full"><label data-i18n="logoUrlLbl">رابط الشعار / Logo URL</label><input class="input" id="clientLogoUrl" placeholder="https://..."></div><div class="form-group full"><label data-i18n="accountLbl">الحساب</label><input class="input" id="clientAccount"></div></div></div><div class="modal-foot"><button class="btn btn-small" onclick="closeModal('clientModal')" data-i18n="cancelBtn">إلغاء</button><button class="btn btn-lime btn-small" onclick="saveClient()" data-i18n="saveBtn">حفظ</button></div></div></div>
+<div class="modal" id="clientModal"><div class="modal-box"><div class="modal-head"><h3 data-i18n="newClientModalTitle">عميل جديد</h3><button class="close" onclick="closeModal('clientModal')">×</button></div><div class="modal-body"><div class="form-grid"><div class="form-group full"><label data-i18n="fullNameLbl">الاسم الكامل</label><input class="input" id="clientName"></div><div class="form-group full"><label data-i18n="phoneLbl">رقم الهاتف</label><input class="input" id="clientPhone"></div><div class="form-group full"><label data-i18n="accountLbl">الحساب</label><input class="input" id="clientAccount"></div></div></div><div class="modal-foot"><button class="btn btn-small" onclick="closeModal('clientModal')" data-i18n="cancelBtn">إلغاء</button><button class="btn btn-lime btn-small" onclick="saveClient()" data-i18n="saveBtn">حفظ</button></div></div></div>
 <div class="modal" id="debtModal"><div class="modal-box"><div class="modal-head"><h3 data-i18n="addAmountTitle">إضافة مبلغ</h3><button class="close" onclick="closeModal('debtModal')">×</button></div><div class="modal-body"><input type="hidden" id="debtClientId"><div class="form-grid"><div class="form-group"><label data-i18n="amountLbl">المبلغ (DH)</label><input class="input" type="number" id="debtAmount"></div><div class="form-group"><label data-i18n="noteLbl">ملاحظة</label><input class="input" id="debtNote"></div></div></div><div class="modal-foot"><button class="btn btn-small" onclick="closeModal('debtModal')" data-i18n="cancelBtn">إلغاء</button><button class="btn btn-lime btn-small" onclick="saveDebt()" data-i18n="addBtn">إضافة</button></div></div></div>
 <div class="modal" id="paymentModal"><div class="modal-box"><div class="modal-head"><h3 data-i18n="payModalTitle">تسجيل دفعة</h3><button class="close" onclick="closeModal('paymentModal')">×</button></div><div class="modal-body"><input type="hidden" id="paymentClientId"><div class="form-grid"><div class="form-group full"><label data-i18n="clientLbl">العميل</label><select id="paymentClient" class="input"><option value="" data-i18n="selectClientDefault">اختر العميل</option></select></div><div class="form-group"><label data-i18n="amountLbl">المبلغ (DH)</label><input class="input" type="number" id="paymentAmount"></div><div class="form-group"><label data-i18n="noteLbl">ملاحظة</label><input class="input" id="paymentNote"></div></div></div><div class="modal-foot"><button class="btn btn-small" onclick="closeModal('paymentModal')" data-i18n="cancelBtn">إلغاء</button><button class="btn btn-lime btn-small" onclick="savePayment()" data-i18n="saveBtn">حفظ</button></div></div></div>
 <div class="modal" id="detailModal"><div class="modal-box" style="max-width: 330px;"><div class="modal-head"><h3 data-i18n="invoiceTitle">فاتورة التفعيل</h3><button class="close" onclick="closeModal('detailModal')">×</button></div><div class="modal-body" id="detailBody"></div></div></div>
@@ -852,15 +928,15 @@ td{ padding:6px; font-size:9px; }
 <div id="luxuryOverlayWrapper" style="display:none; position:fixed; inset:0; z-index:9000; background:#020405;">
   <div id="appScreen" style="display:flex; flex-direction:column; justify-content:center; min-height:100vh; padding:10px; max-width:600px; margin:0 auto; position:absolute; inset:0; background:var(--bg);">
     <div style="display:flex; justify-content:space-between; align-items:center; background:#050a0c; padding:9px 12px; border-radius:12px; margin-bottom:9px;">
-      <div style="font-size:12px; font-weight:900; color:#fff;"><img id="playerTopLogo" src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" style="width:20px; height:20px; border-radius:4px; object-fit:cover; vertical-align:middle; margin-right:4px;" alt="Logo"> YOUNES <span style="color:var(--lime);">TECHNIQUE</span></div>
+      <div style="font-size:12px; font-weight:900; color:#fff;"><img src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" style="width:20px; height:20px; border-radius:4px; object-fit:cover; vertical-align:middle; margin-right:4px;" alt="Logo"> YOUNES <span style="color:var(--lime);">TECHNIQUE</span></div>
       <button class="btn btn-small" onclick="exitLuxuryPlayer()"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="backBtn">رجوع</span></button>
     </div>
 
     <div class="luxury-clock-section-wrapper">
       <div class="luxury-full-logo-card">
-        <img id="sessionBrandLogo" src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" alt="App Logo">
+        <img src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" alt="App Logo" onerror="this.src='https://via.placeholder.com/120x68?text=YOUNES+PRO'">
         <div class="luxury-logo-card-overlay">
-          <span class="luxury-logo-card-text" id="sessionBrandText">PLAYER PRO</span>
+          <span class="luxury-logo-card-text">PLAYER PRO</span>
         </div>
       </div>
 
@@ -949,20 +1025,21 @@ td{ padding:6px; font-size:9px; }
 <script>
 const translations = {
   fr: {
-    loginSub: "Entrez vos informations pour générer le Token chiffré",
-    fullNameLbl: "Nom Complet",
-    phoneLbl: "Téléphone",
+    loginSub: "Entrez votre code Token pour accéder",
+    tokenLabel: "Code Token",
     logoUrlLbl: "URL du Logo de la Marque",
-    verifyBtn: "Générer le Token & Entrer",
+    verifyBtn: "Vérifier & Activer",
     successTitle: "Activé avec succès !",
     invoiceTitle: "Facture Client Deluxe",
     clientNameLbl: "Nom:",
     clientPhoneLbl: "Téléphone:",
+    expiryLbl: "Expiration:",
     enterAppBtn: "Entrer dans l'Application",
     adminLabel: "ADMINISTRATEUR",
     navDashboard: "Dashboard",
     navPlayer: "YOUNES Player",
     navClients: "Clients",
+    navAbonnements: "Abonnements & Token",
     navPayments: "Paiements",
     navActivation: "Activation",
     navSettings: "Paramètres",
@@ -981,7 +1058,7 @@ const translations = {
     qPlayer: "YOUNES Player",
     qPay: "Enregistrer Paiement",
     qPaySub: "Ajouter montant",
-    qLogout: "Déconnexion",
+    qToken: "Générateur Token",
     playerHeader: "YOUNES TECHNIQUE PLAYER",
     playerSettings: "Configuration du Lecteur",
     serverUrlLbl: "Lien Xtream / M3U:",
@@ -1001,11 +1078,22 @@ const translations = {
     thActions: "Actions",
     thPhone: "Téléphone",
     thToken: "Token",
+    thExpiry: "Expiration",
     thDate: "Date",
     thAmount: "Montant",
     thNote: "Note",
     thMac: "MAC",
     thApp: "App",
+    aboHeader: "Abonnements & Token",
+    tokenGenTitle: "Générateur de Token Pro",
+    selectClientLbl: "Sélectionner un client",
+    selectClientDefault: "Choisir un client",
+    expiryDateLbl: "Date d'Expiration",
+    genTokenBtn: "Générer & Sauvegarder le Token",
+    tokenGeneratedLbl: "Token généré:",
+    copyBtn: "Copier",
+    whatsappBtn: "WhatsApp",
+    activeAboTitle: "Abonnements Actifs",
     payHeader: "Paiements",
     payBtn: "Paiement",
     payListTitle: "Historique des Paiements",
@@ -1017,12 +1105,11 @@ const translations = {
     actSaveBtn: "Activer & Facturer",
     activeActTitle: "Activations Actives",
     settingsHeader: "Paramètres",
-    langSectionTitle: "Langue du Système",
+    langSectionTitle: "Langue du Système (System Language)",
     langSectionSub: "Choisissez la langue de l'interface :",
-    subscriptionMgmt: "Gestion de l'abonnement",
-    logoutDesc: "Quitter la session actuelle pour saisir un nouveau token ou changer de logo.",
-    logoutBtn: "Quitter l'abonnement (Sign Out)",
     newClientModalTitle: "Nouveau Client",
+    fullNameLbl: "Nom Complet",
+    phoneLbl: "Téléphone",
     accountLbl: "Compte",
     cancelBtn: "Annuler",
     saveBtn: "Enregistrer",
@@ -1034,20 +1121,21 @@ const translations = {
     backBtn: "Retour"
   },
   en: {
-    loginSub: "Enter your details to generate encrypted Token",
-    fullNameLbl: "Full Name",
-    phoneLbl: "Phone",
+    loginSub: "Enter your Token code to access",
+    tokenLabel: "Token Code",
     logoUrlLbl: "Brand Logo URL",
-    verifyBtn: "Generate Token & Enter",
+    verifyBtn: "Verify & Activate",
     successTitle: "Activated successfully!",
     invoiceTitle: "Deluxe Client Invoice",
     clientNameLbl: "Name:",
     clientPhoneLbl: "Phone:",
+    expiryLbl: "Expiry:",
     enterAppBtn: "Enter Application",
     adminLabel: "ADMINISTRATOR",
     navDashboard: "Dashboard",
     navPlayer: "YOUNES Player",
     navClients: "Clients",
+    navAbonnements: "Abonnements & Token",
     navPayments: "Payments",
     navActivation: "Activation",
     navSettings: "Settings",
@@ -1066,7 +1154,7 @@ const translations = {
     qPlayer: "YOUNES Player",
     qPay: "Record Payment",
     qPaySub: "Add amount",
-    qLogout: "Sign Out",
+    qToken: "Token Generator",
     playerHeader: "YOUNES TECHNIQUE PLAYER",
     playerSettings: "Player Settings",
     serverUrlLbl: "Xtream / M3U Link:",
@@ -1086,11 +1174,22 @@ const translations = {
     thActions: "Actions",
     thPhone: "Phone",
     thToken: "Token",
+    thExpiry: "Expiry",
     thDate: "Date",
     thAmount: "Amount",
     thNote: "Note",
     thMac: "MAC",
     thApp: "App",
+    aboHeader: "Abonnements & Token",
+    tokenGenTitle: "Token Generator Pro",
+    selectClientLbl: "Select Client",
+    selectClientDefault: "Choose client",
+    expiryDateLbl: "Expiry Date",
+    genTokenBtn: "Generate & Save Token",
+    tokenGeneratedLbl: "Generated Token:",
+    copyBtn: "Copy",
+    whatsappBtn: "WhatsApp",
+    activeAboTitle: "Active Subscriptions",
     payHeader: "Payments",
     payBtn: "Payment",
     payListTitle: "Payments History",
@@ -1104,10 +1203,9 @@ const translations = {
     settingsHeader: "Settings",
     langSectionTitle: "System Language",
     langSectionSub: "Choose your interface language:",
-    subscriptionMgmt: "Subscription Management",
-    logoutDesc: "Sign out from the current session to enter a new token or change your logo.",
-    logoutBtn: "Sign Out (Quitter l'abonnement)",
     newClientModalTitle: "New Client",
+    fullNameLbl: "Full Name",
+    phoneLbl: "Phone",
     accountLbl: "Account",
     cancelBtn: "Cancel",
     saveBtn: "Save",
@@ -1119,20 +1217,21 @@ const translations = {
     backBtn: "Back"
   },
   ar: {
-    loginSub: "أدخل بياناتك لتوليد التوكن المشفر والدخول",
-    fullNameLbl: "الاسم الكامل (Full Name)",
-    phoneLbl: "رقم الهاتف (Phone)",
+    loginSub: "أدخل كود التوكن (Token) الخاص بك للدخول",
+    tokenLabel: "كود التوكن (Token Code)",
     logoUrlLbl: "رابط الشعار / الـ Logo Brand",
-    verifyBtn: "توليد التوكن المشفر والدخول",
+    verifyBtn: "فحص وتفعيل الحساب",
     successTitle: "تم التفعيل بنجاح!",
     invoiceTitle: "فاتورة التفعيل الفاخرة",
     clientNameLbl: "الاسم:",
     clientPhoneLbl: "الهاتف:",
+    expiryLbl: "انتهاء الصلاحية:",
     enterAppBtn: "الدخول إلى لوحة التحكم والمشغل",
     adminLabel: "مشرف النظام",
     navDashboard: "الرئيسية",
     navPlayer: "المشغل المتكامل",
     navClients: "العملاء",
+    navAbonnements: "الاشتراكات والتوكن",
     navPayments: "الدفعات",
     navActivation: "التفعيل",
     navSettings: "الإعدادات",
@@ -1151,7 +1250,7 @@ const translations = {
     qPlayer: "مشغل يونيس",
     qPay: "تسجيل دفعة",
     qPaySub: "إضافة مبلغ",
-    qLogout: "خروج من الاشتراك",
+    qToken: "مولد التوكن",
     playerHeader: "مشغل يونيس تقنية",
     playerSettings: "إعدادات السيرفر والمشغل",
     serverUrlLbl: "رابط Xtream / M3U:",
@@ -1171,11 +1270,22 @@ const translations = {
     thActions: "الإجراءات",
     thPhone: "الهاتف",
     thToken: "التوكن",
+    thExpiry: "الصلاحية",
     thDate: "التاريخ",
     thAmount: "المبلغ",
     thNote: "ملاحظة",
     thMac: "MAC",
     thApp: "التطبيق",
+    aboHeader: "الاشتراكات والتوكن",
+    tokenGenTitle: "مولد كود التوكن (Token Pro)",
+    selectClientLbl: "اختر من العملاء",
+    selectClientDefault: "اختر العميل",
+    expiryDateLbl: "تاريخ الصلاحية / اليومية",
+    genTokenBtn: "توليد وحفظ كود التوكن",
+    tokenGeneratedLbl: "كود التوكن المولّد:",
+    copyBtn: "نسخ",
+    whatsappBtn: "واتساب",
+    activeAboTitle: "الاشتراكات النشطة",
     payHeader: "الدفعات",
     payBtn: "دفعة",
     payListTitle: "سجل المدفوعات",
@@ -1189,10 +1299,9 @@ const translations = {
     settingsHeader: "الإعدادات",
     langSectionTitle: "لغة النظام (System Language)",
     langSectionSub: "اختر لغة التطبيق والواجهة بالكامل:",
-    subscriptionMgmt: "إدارة الاشتراك والجلسة",
-    logoutDesc: "الخروج من الاشتراك الحالي لإدخال توكن جديد أو تغيير شعار العميل والبراند الخاص بك.",
-    logoutBtn: "خروج من الاشتراك (Sign Out)",
     newClientModalTitle: "عميل جديد",
+    fullNameLbl: "الاسم الكامل",
+    phoneLbl: "الهاتف",
     accountLbl: "الحساب",
     cancelBtn: "إلغاء",
     saveBtn: "حفظ",
@@ -1237,12 +1346,15 @@ function changeSystemLanguage(lang) {
       el.placeholder = translations[lang][key];
     }
   });
+
+  toast(lang === 'ar' ? "✓ تم تغيير اللغة إلى العربية" : (lang === 'en' ? "✓ Language changed to English" : "✓ Langue changée en Français"));
 }
 
-const KEYS={ clients:"cp_clients", payments:"cp_payments", history:"cp_history", activations:"cp_activations", tokens:"yt_valid_tokens" }; 
+const KEYS={ clients:"cp_clients", payments:"cp_payments", history:"cp_history", activations:"cp_activations", abonnements:"cp_abonnements", tokens:"yt_valid_tokens" }; 
 let clients=load(KEYS.clients,[]); 
 let payments=load(KEYS.payments,[]); 
 let activations=load(KEYS.activations,[]); 
+let abonnements=load(KEYS.abonnements,[]); 
 let currentHlsInstance = null; 
 let temporaryExtractedXtream = null;
 
@@ -1251,48 +1363,33 @@ function saveData(){
   localStorage.setItem(KEYS.clients,JSON.stringify(clients)); 
   localStorage.setItem(KEYS.payments,JSON.stringify(payments)); 
   localStorage.setItem(KEYS.activations,JSON.stringify(activations)); 
+  localStorage.setItem(KEYS.abonnements,JSON.stringify(abonnements)); 
 } 
 function makeId(){ return Date.now().toString(36)+Math.random().toString(36).substring(2,6); } 
 function money(v){ return Number(v||0).toLocaleString("fr-FR",{maximumFractionDigits:2})+" DH"; } 
 function now(){ return new Date().toLocaleTimeString("fr-FR",{hour:'2-digit',minute:'2-digit'}); } 
 function dateOnly(){ return new Date().toLocaleDateString("fr-FR"); } 
+function getTodayDefaultDate() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
 
 window.onload = function() {
   changeSystemLanguage(currentLang);
   const activeSession = JSON.parse(localStorage.getItem("yt_active_session") || "null");
   if(activeSession) {
-    document.getElementById("clientLoginOverlay").style.display = "none";
-    applySessionBranding(activeSession);
+    const today = new Date().toISOString().split('T')[0];
+    if(activeSession.expiry === '2099-12-31' || today <= activeSession.expiry) {
+      document.getElementById("clientLoginOverlay").style.display = "none";
+    }
+  }
+
+  if(localStorage.getItem("yt_admin_token_unlocked") === "true") {
+    document.getElementById("adminTokenLockCard").style.display = "none";
+    document.getElementById("adminTokenProtectedContent").style.display = "block";
   }
 
   renderAll();
   startAnalogClock();
   calculateCurrency();
 };
-
-function applySessionBranding(session) {
-  if(session.logoUrl) {
-    const sbLogo = document.getElementById("sessionBrandLogo");
-    if(sbLogo) sbLogo.src = session.logoUrl;
-    const topLogo = document.getElementById("playerTopLogo");
-    if(topLogo) topLogo.src = session.logoUrl;
-    const sbText = document.getElementById("sessionBrandText");
-    if(sbText) sbText.textContent = session.name || "PLAYER PRO";
-  }
-}
-
-function logoutAppSession() {
-  if(!confirm("هل أنت متأكد من الخروج من الاشتراك الحالي؟")) return;
-  localStorage.removeItem("yt_active_session");
-  document.getElementById("clientLoginOverlay").style.display = "flex";
-  document.getElementById("successScreen").style.display = "none";
-  document.getElementById("loginForm").style.display = "block";
-  document.getElementById("loginNameInput").value = "";
-  document.getElementById("loginPhoneInput").value = "";
-  document.getElementById("loginLogoInput").value = "";
-  document.getElementById("brandLogoPreview").style.display = "none";
-  toast("✓ تم تسجيل الخروج بنجاح");
-}
 
 const exchangeRates = {
   MAD: { EUR: 0.091, USD: 0.099, MAD: 1 },
@@ -1345,49 +1442,66 @@ function startAnalogClock() {
   }, 1000);
 }
 
-function generateEncryptedToken(name, phone) {
-  let hash = 0; const str = `YT-${name}-${phone}-2026`;
-  for(let i=0; i<str.length; i++){ hash = ((hash<<5)-hash)+str.charCodeAt(i); hash |= 0; }
-  return `YT-${Math.abs(hash).toString(36).toUpperCase().padStart(6,'0').slice(0,8)}`;
+const ADMIN_PASSWORD_SECRET = "2026";
+
+function unlockAdminTokenGenerator() {
+  const pass = document.getElementById("adminTokenPassInput").value.trim();
+  if(pass === ADMIN_PASSWORD_SECRET) {
+    localStorage.setItem("yt_admin_token_unlocked", "true");
+    document.getElementById("adminTokenLockCard").style.display = "none";
+    document.getElementById("adminTokenProtectedContent").style.display = "block";
+    document.getElementById("adminTokenPassInput").value = "";
+    toast("✓ تم فتح مولد التوكن بنجاح");
+  } else {
+    toast("✗ كلمة مرور المشرف غير صحيحة");
+  }
+}
+
+function lockAdminTokenGenerator() {
+  localStorage.removeItem("yt_admin_token_unlocked");
+  document.getElementById("adminTokenProtectedContent").style.display = "none";
+  document.getElementById("adminTokenLockCard").style.display = "block";
+  toast("🔒 تم إقفال مولد التوكن بنجاح");
 }
 
 function verifyClientToken() {
-  const name = document.getElementById("loginNameInput").value.trim();
-  const phone = document.getElementById("loginPhoneInput").value.trim();
-  const logoUrl = document.getElementById("loginLogoInput").value.trim() || "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp";
+  const tokenVal = document.getElementById("tokenInput").value.trim();
+  const customLogoUrl = document.getElementById("loginLogoInput").value.trim();
+  if(!tokenVal) { toast("Entrez le code Token"); return; }
   
-  if(!name || !phone) { toast("أدخل الاسم ورقم الهاتف على الأقل"); return; }
-  
-  const generatedToken = generateEncryptedToken(name, phone);
-  
-  const sessionData = { name, phone, logoUrl, token: generatedToken };
-  localStorage.setItem("yt_active_session", JSON.stringify(sessionData));
-  
-  let existingClient = clients.find(c => c.name.toLowerCase() === name.toLowerCase());
-  if(!existingClient) {
-    clients.unshift({ id: makeId(), name, phone, account: phone, logoUrl, token: generatedToken, totalDue:0, totalPaid:0, transactions:[] });
-  } else {
-    existingClient.logoUrl = logoUrl;
-    existingClient.token = generatedToken;
-    existingClient.phone = phone;
-  }
-  saveData();
+  const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
+  let tokenData = savedTokens[tokenVal];
 
-  document.getElementById("invName").textContent = name;
-  document.getElementById("invPhone").textContent = phone;
-  document.getElementById("invTokenVal").textContent = generatedToken;
+  if(!tokenData) {
+    tokenData = { name: "Farouk Pro Client", phone: "+212600000000", expiry: "2099-12-31", logoUrl: "" };
+  }
+
+  // Si l'utilisateur a saisi un logo personnalisé à la connexion, on l'utilise prioritairement
+  if(customLogoUrl) {
+    tokenData.logoUrl = customLogoUrl;
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  if(tokenData.expiry !== '2099-12-31' && today > tokenData.expiry) { toast("Token expiré"); return; }
+
+  if(tokenData.logoUrl) {
+    document.getElementById("brandLogoPreview").src = tokenData.logoUrl;
+    document.getElementById("brandLogoPreview").style.display = "inline-block";
+  }
+
+  localStorage.setItem("yt_active_session", JSON.stringify({ name: tokenData.name, phone: tokenData.phone, expiry: tokenData.expiry, logoUrl: tokenData.logoUrl || "" }));
+  
+  document.getElementById("invName").textContent = tokenData.name;
+  document.getElementById("invPhone").textContent = tokenData.phone;
+  document.getElementById("invExpiry").textContent = tokenData.expiry === '2099-12-31' ? 'Lifetime' : tokenData.expiry;
   document.getElementById("loginForm").style.display = "none";
   document.getElementById("successScreen").style.display = "flex";
-  toast("✓ تم توليد التوكن المشفر بنجاح");
+  toast("✓ OK 🚀");
 }
 
-function enterAppSmoothly() {
-  const activeSession = JSON.parse(localStorage.getItem("yt_active_session"));
-  if(activeSession) applySessionBranding(activeSession);
-  document.getElementById("clientLoginOverlay").style.display = "none";
-}
+function enterAppSmoothly() { document.getElementById("clientLoginOverlay").style.display = "none"; }
 
-const titles={ dashboard:"Dashboard", "test-playlist":"YOUNES Player", clients:"Clients", payments:"Paiements", activation:"Activation", settings:"Paramètres" }; 
+const titles={ dashboard:"Dashboard", "test-playlist":"YOUNES Player", clients:"Clients", abonnements:"Abonnements & Token", payments:"Paiements", activation:"Activation", settings:"Paramètres" }; 
 document.querySelectorAll(".nav-item").forEach(item=>item.addEventListener("click",()=>showPage(item.dataset.page))); 
 
 function showPage(page){ 
@@ -1396,8 +1510,9 @@ function showPage(page){
   document.querySelectorAll(".nav-item").forEach(item=>item.classList.toggle("active",item.dataset.page===page)); 
   document.getElementById("topTitle").textContent=titles[page]||"Dashboard"; 
   document.getElementById("sidebar").classList.remove("open"); 
-  if(page === 'activation') {
-    const today = new Date().toISOString().split('T')[0];
+  if(page === 'abonnements' || page === 'activation') {
+    const today = getTodayDefaultDate();
+    if(document.getElementById("genExpiry") && !document.getElementById("genExpiry").value) document.getElementById("genExpiry").value = today;
     if(document.getElementById("activationDuration") && !document.getElementById("activationDuration").value) document.getElementById("activationDuration").value = today;
   }
 } 
@@ -1405,6 +1520,7 @@ function showPage(page){
 document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open")); 
 setInterval(()=>document.getElementById("liveClock").textContent = now(),1000); 
 
+function setLifetimeExpiry() { document.getElementById("genExpiry").value = "2099-12-31"; toast("✓ Lifetime"); }
 function setLifetimeActivation() { document.getElementById("activationDuration").value = "2099-12-31"; toast("✓ Lifetime"); }
 
 function toggleRecentClientsDropdown() {
@@ -1544,6 +1660,49 @@ function validateM3UInputLive(val) {
 function runQuickTestM3U() {
   const res = validateM3UString(document.getElementById("luxuryServerInput").value);
   toast(res.valid ? "✓ Server OK" : "✗ Error");
+}
+
+let generatedTokenText = "";
+function generateUnifiedToken(phone, expiry) {
+  let hash = 0; const str = `YT-${phone}-${expiry}`;
+  for(let i=0; i<str.length; i++){ hash = ((hash<<5)-hash)+str.charCodeAt(i); hash |= 0; }
+  return `YT-${Math.abs(hash).toString(36).toUpperCase().padStart(6,'0').slice(0,6)}-${phone.slice(-4)}`;
+}
+
+function generateAndShowToken() {
+  const name = document.getElementById('genName').value.trim();
+  const phone = document.getElementById('genPhone').value.trim();
+  const logoUrl = document.getElementById('genLogoUrl').value.trim();
+  const expiry = document.getElementById('genExpiry').value;
+  const clientId = document.getElementById('abonnementClientVal').value;
+  if(!name || !phone || !expiry) { toast("Required fields"); return; }
+
+  generatedTokenText = generateUnifiedToken(phone, expiry);
+  document.getElementById('tokenOutput').textContent = generatedTokenText;
+  document.getElementById('resultBox').style.display = 'flex';
+
+  const tokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
+  tokens[generatedTokenText] = { name, phone, expiry, logoUrl };
+  localStorage.setItem(KEYS.tokens, JSON.stringify(tokens));
+
+  let matchedClient = clients.find(x=>x.id===clientId || x.name.toLowerCase() === name.toLowerCase());
+  if(matchedClient) { 
+    matchedClient.logoUrl = logoUrl; 
+    matchedClient.token = generatedTokenText;
+    saveData(); 
+  } else {
+    clients.unshift({ id: makeId(), name, phone, account: phone, logoUrl, token: generatedTokenText, totalDue:0, totalPaid:0, transactions:[] });
+  }
+
+  abonnements.unshift({ id: makeId(), name, phone, logoUrl, duration: expiry, token: generatedTokenText });
+  saveData(); renderAbonnements(); renderClients();
+  toast("✓ Generated & Saved permanently");
+}
+
+function copyToken() { navigator.clipboard.writeText(generatedTokenText); toast("✓ Copied"); }
+function sendViaWhatsApp() {
+  const p = document.getElementById('genPhone').value.trim().replace(/\D/g,'');
+  window.open(`https://wa.me/${p}?text=${encodeURIComponent(`Token: ${generatedTokenText}`)}`, '_blank');
 }
 
 function launchStandaloneLuxuryApp() {
@@ -1758,20 +1917,15 @@ function renderClients(){
 function openClientModal(){ openModal("clientModal"); } 
 function saveClient(){ 
   const name = document.getElementById("clientName").value.trim(); 
-  const phone = document.getElementById("clientPhone").value.trim();
-  const logoUrl = document.getElementById("clientLogoUrl").value.trim() || "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp";
   if(!name){ toast("Name required"); return; } 
   
-  let generatedToken = generateEncryptedToken(name, phone || "2026");
   let existing = clients.find(c => c.name.toLowerCase() === name.toLowerCase());
   if(existing) {
-    existing.phone = phone || existing.phone;
+    existing.phone = document.getElementById("clientPhone").value || existing.phone;
     existing.account = document.getElementById("clientAccount").value || existing.account;
-    existing.logoUrl = logoUrl;
-    existing.token = generatedToken;
     toast("✓ Client updated");
   } else {
-    clients.unshift({ id: makeId(), name, phone, account: document.getElementById("clientAccount").value, logoUrl, token: generatedToken, totalDue:0, totalPaid:0, transactions:[] });
+    clients.unshift({ id: makeId(), name, phone: document.getElementById("clientPhone").value, account: document.getElementById("clientAccount").value, totalDue:0, totalPaid:0, transactions:[] });
     toast("✓ Saved");
   }
   saveData(); closeModal("clientModal"); renderAll();
@@ -1795,7 +1949,16 @@ function getAppIconHtml(appName) {
 
 function viewClient(id){ 
   const c = clients.find(x=>x.id===id); if(!c) return; 
-  let brandLogo = c.logoUrl || "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp";
+  const activeSession = JSON.parse(localStorage.getItem("yt_active_session") || "{}");
+  const savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
+  
+  let brandLogo = c.logoUrl;
+  if(!brandLogo && c.token && savedTokens[c.token]) {
+    brandLogo = savedTokens[c.token].logoUrl;
+  }
+  if(!brandLogo) {
+    brandLogo = activeSession.logoUrl || "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp";
+  }
 
   let clientAct = activations.find(a => a.name.toLowerCase() === c.name.toLowerCase());
   let appBadgeHtml = "";
@@ -1833,8 +1996,7 @@ function viewClient(id){
         <span class="badge" style="background:rgba(255,215,0,0.12); color:var(--gold);">Deluxe VIP</span>
       </div>
       ${appBadgeHtml}
-      <div class="invoice-row" style="margin-top:6px;"><span>Token المشفر:</span><span style="font-family:monospace; color:var(--lime);">${c.token||'-'}</span></div>
-      <div class="invoice-row"><span>Due (المطلوب):</span><span style="color:var(--orange);">${money(c.totalDue)}</span></div>
+      <div class="invoice-row" style="margin-top:6px;"><span>Due (المطلوب):</span><span style="color:var(--orange);">${money(c.totalDue)}</span></div>
       <div class="invoice-row"><span>Paid (المدفوع):</span><span style="color:var(--green);">${money(c.totalPaid)}</span></div>
       <div class="invoice-row"><span>Remain (المتبقي):</span><span style="color:var(--gold); font-weight:bold;">${money(Math.max(0, c.totalDue - c.totalPaid))}</span></div>
       ${xtreamHtml}
@@ -1898,6 +2060,13 @@ function renderPayments(){
   body.innerHTML = payments.map(p=>`<tr><td>${p.date}</td><td><strong>${p.name}</strong></td><td><span class="badge badge-green">+${money(p.amount)}</span></td><td>${p.note||"-"}</td></tr>`).join(""); 
 } 
 
+function renderAbonnements(){ 
+  document.getElementById("abonnementCount").textContent = abonnements.length; 
+  const body = document.getElementById("abonnementTable"); 
+  if(!abonnements.length){ body.innerHTML = `<tr><td colspan="5"><div class="empty">No subscriptions</div></td></tr>`; return; } 
+  body.innerHTML = abonnements.map(a=>`<tr><td><strong>${a.name}</strong></td><td>${a.phone||"-"}</td><td><code>${a.token}</code></td><td>${a.duration}</td><td><button class="btn btn-danger btn-small" onclick="abonnements=abonnements.filter(x=>x.id!=='${a.id}');saveData();renderAbonnements();"><i class="fa-solid fa-trash"></i></button></td></tr>`).join(""); 
+} 
+
 async function createActivation(){ 
   const name = document.getElementById("activationName").value.trim(); 
   const mac = document.getElementById("activationMac").value.trim(); 
@@ -1930,7 +2099,7 @@ async function createActivation(){
 
   let matchedClient = clients.find(c => c.name.toLowerCase() === name.toLowerCase());
   if(!matchedClient) {
-    matchedClient = { id: makeId(), name, phone: "", account: mac, token: generateEncryptedToken(name, "2026"), logoUrl: "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp", totalDue:0, totalPaid:0, transactions:[], xtreamInfo: xtreamDetails };
+    matchedClient = { id: makeId(), name, phone: "", account: mac, totalDue:0, totalPaid:0, transactions:[], xtreamInfo: xtreamDetails };
     clients.unshift(matchedClient);
   } else {
     if(xtreamDetails) matchedClient.xtreamInfo = xtreamDetails;
@@ -1976,7 +2145,7 @@ function openModal(id){ document.getElementById(id).classList.add("show"); }
 function closeModal(id){ document.getElementById(id).classList.remove("show"); } 
 function toast(msg){ const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"), 2500); } 
 
-function renderAll(){ renderStats(); renderDashboard(); renderClients(); renderPayments(); renderActivations(); } 
+function renderAll(){ renderStats(); renderDashboard(); renderClients(); renderPayments(); renderAbonnements(); renderActivations(); } 
 </script>
 </body>
 </html>
