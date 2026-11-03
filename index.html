@@ -296,7 +296,6 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
 .luxury-chevron { color: var(--lime); font-size: 10px; transition: transform 0.3s ease; }
 .luxury-dropdown-card.open .luxury-chevron { transform: rotate(180deg); }
 
-/* 🌟 فاتورة التفعيل الرسمية */
 .invoice-deluxe-official {
   position: relative;
   background: rgba(3, 6, 9, 0.78);
@@ -308,7 +307,6 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   margin: 0 auto;
   overflow: hidden;
   box-shadow: 0 15px 40px rgba(0,0,0,0.95), inset 0 0 25px rgba(168, 255, 0, 0.08);
-  
   border: 2px solid transparent;
   background-image: linear-gradient(rgba(3, 6, 9, 0.78), rgba(3, 6, 9, 0.78)), 
                     linear-gradient(120deg, var(--lime), #ffffff, var(--green), var(--lime));
@@ -317,7 +315,6 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   background-size: 300% 300%;
   animation: invoiceBorderShine 5s infinite linear;
 }
-
 .invoice-deluxe-official::after {
   content: '';
   position: absolute;
@@ -331,12 +328,7 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   pointer-events: none;
   z-index: 0;
 }
-
-.invoice-deluxe-official > * {
-  position: relative;
-  z-index: 2;
-}
-
+.invoice-deluxe-official > * { position: relative; z-index: 2; }
 .invoice-deluxe-official::before {
   content: '';
   position: absolute;
@@ -355,243 +347,94 @@ body{ background: radial-gradient(circle at 50% 0%, rgba(168,255,0,.06), transpa
   padding-bottom: 8px;
   margin-bottom: 8px;
 }
-.invoice-brand-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.invoice-brand-info { display: flex; align-items: center; gap: 8px; }
 .invoice-brand-avatar {
   width: 38px; height: 38px; border-radius: 50%; object-fit: cover;
   border: 2px solid var(--lime);
   box-shadow: 0 0 15px rgba(168,255,0,0.6);
 }
-.invoice-brand-title {
-  font-size: 12px; font-weight: 900; color: #fff; text-shadow: 0 0 8px rgba(0,0,0,0.8);
-}
-.invoice-brand-sub {
-  font-size: 7.5px; color: var(--gold); font-weight: 700;
-}
+.invoice-brand-title { font-size: 12px; font-weight: 900; color: #fff; text-shadow: 0 0 8px rgba(0,0,0,0.8); }
+.invoice-brand-sub { font-size: 7.5px; color: var(--gold); font-weight: 700; }
 
-/* 🌟 تصميم دائري فاخر مع تمرير ضوئي متحرك لـ SERVICE TV في أعلى يمين الفاتورة */
 .invoice-service-tv-circle {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border-radius: 100%;
+  position: relative; width: 48px; height: 48px; border-radius: 100%;
   background: radial-gradient(circle, rgba(7, 18, 24, 0.95) 0%, rgba(2, 5, 7, 0.99) 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
   box-shadow: 0 0 15px rgba(168, 255, 0, 0.25), inset 0 0 8px rgba(168, 255, 0, 0.15);
-  
   border: 2px solid transparent;
   background-image: linear-gradient(rgba(3, 6, 9, 0.9), rgba(3, 6, 9, 0.9)), 
                     linear-gradient(135deg, var(--lime), var(--gold), #ffffff, var(--lime));
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  background-size: 250% 250%;
-  animation: invoiceBorderShine 3.5s infinite linear;
+  background-origin: border-box; background-clip: padding-box, border-box;
+  background-size: 250% 250%; animation: invoiceBorderShine 3.5s infinite linear;
 }
-.invoice-service-tv-circle i {
-  color: var(--lime);
-  font-size: 11px;
-  margin-bottom: 1px;
-  text-shadow: 0 0 6px rgba(168,255,0,0.6);
-}
-.invoice-service-tv-text {
-  font-size: 6px;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: 0.3px;
-  text-shadow: 0 0 4px rgba(255,255,255,0.4);
-}
+.invoice-service-tv-circle i { color: var(--lime); font-size: 11px; margin-bottom: 1px; text-shadow: 0 0 6px rgba(168,255,0,0.6); }
+.invoice-service-tv-text { font-size: 6px; font-weight: 900; color: #fff; letter-spacing: 0.3px; text-shadow: 0 0 4px rgba(255,255,255,0.4); }
 
 .invoice-title-banner {
-  background: rgba(168, 255, 0, 0.18);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--lime);
-  text-align: center;
-  padding: 7px;
-  border-radius: 8px;
-  font-size: 10px;
-  font-weight: 900;
-  margin-bottom: 8px;
-  border: 1px solid rgba(168,255,0,0.35);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  text-shadow: 0 0 8px rgba(168,255,0,0.4);
+  background: rgba(168, 255, 0, 0.18); backdrop-filter: blur(10px); color: var(--lime);
+  text-align: center; padding: 7px; border-radius: 8px; font-size: 10px; font-weight: 900;
+  margin-bottom: 8px; border: 1px solid rgba(168,255,0,0.35); box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-.invoice-fields-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin-bottom: 8px;
-}
+.invoice-fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 8px; }
 .invoice-field-box {
-  background: rgba(2, 5, 8, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 8px;
-  padding: 6px 8px;
-  border: 1px solid rgba(168, 255, 0, 0.2);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  background: rgba(2, 5, 8, 0.55); backdrop-filter: blur(12px); border-radius: 8px; padding: 6px 8px;
+  border: 1px solid rgba(168, 255, 0, 0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 .invoice-field-box.full { grid-column: 1 / -1; }
-.invoice-field-label {
-  font-size: 7px; color: var(--muted); display: block; margin-bottom: 2px; font-weight: 700;
-}
-.invoice-field-value {
-  font-size: 9.5px; font-weight: 900; color: #fff;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  text-shadow: 0 0 8px rgba(0,0,0,0.9);
-}
+.invoice-field-label { font-size: 7px; color: var(--muted); display: block; margin-bottom: 2px; font-weight: 700; }
+.invoice-field-value { font-size: 9.5px; font-weight: 900; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .invoice-glass-details-box {
-  background: rgba(2, 5, 8, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 10px;
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  border: 1px solid rgba(168, 255, 0, 0.35);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4), inset 0 0 12px rgba(168,255,0,0.08);
+  background: rgba(2, 5, 8, 0.55); backdrop-filter: blur(12px); border-radius: 10px; padding: 8px 10px;
+  margin-bottom: 8px; border: 1px solid rgba(168, 255, 0, 0.35); box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 
 .invoice-table-box {
-  background: rgba(2, 5, 8, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 8px;
-  border: 1px solid rgba(168, 255, 0, 0.2);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  background: rgba(2, 5, 8, 0.55); backdrop-filter: blur(12px); border-radius: 8px;
+  overflow: hidden; margin-bottom: 8px; border: 1px solid rgba(168, 255, 0, 0.2);
 }
 .invoice-table-header {
-  display: grid;
-  grid-template-columns: 2fr 0.5fr 1fr 1fr;
-  background: rgba(168,255,0,0.15);
-  padding: 5px 8px;
-  font-size: 7.5px;
-  font-weight: 900;
-  color: var(--lime);
+  display: grid; grid-template-columns: 2fr 0.5fr 1fr 1fr; background: rgba(168,255,0,0.15);
+  padding: 5px 8px; font-size: 7.5px; font-weight: 900; color: var(--lime);
   border-bottom: 1px solid rgba(255,255,255,0.1);
-  text-shadow: 0 0 6px rgba(168,255,0,0.4);
 }
 .invoice-table-row {
-  display: grid;
-  grid-template-columns: 2fr 0.5fr 1fr 1fr;
-  padding: 6px 8px;
-  font-size: 8.5px;
-  font-weight: 800;
-  align-items: center;
-  color: #fff;
-  text-shadow: 0 0 6px rgba(0,0,0,0.9);
+  display: grid; grid-template-columns: 2fr 0.5fr 1fr 1fr; padding: 6px 8px;
+  font-size: 8.5px; font-weight: 800; align-items: center; color: #fff;
 }
 
 .invoice-summary-box {
-  background: rgba(2, 5, 8, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 8px;
-  padding: 8px;
-  margin-bottom: 8px;
-  border: 1px solid rgba(168, 255, 0, 0.25);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  background: rgba(2, 5, 8, 0.6); backdrop-filter: blur(12px); border-radius: 8px;
+  padding: 8px; margin-bottom: 8px; border: 1px solid rgba(168, 255, 0, 0.25);
+  display: flex; flex-direction: column; gap: 4px;
 }
-.invoice-summary-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 8.5px;
-  font-weight: 800;
-}
+.invoice-summary-row { display: flex; justify-content: space-between; align-items: center; font-size: 8.5px; font-weight: 800; }
 .invoice-summary-row span:first-child { color: var(--muted); }
-.invoice-summary-row span:last-child { font-weight: 900; color: #fff; text-shadow: 0 0 8px rgba(0,0,0,0.9); }
-.invoice-summary-row.total-row {
-  border-top: 1px dashed rgba(255,255,255,0.25);
-  padding-top: 5px;
-  margin-top: 2px;
-}
-.invoice-summary-row.total-row span:last-child { color: var(--lime); font-size: 11px; font-weight: 900; text-shadow: 0 0 8px rgba(168,255,0,0.6); }
+.invoice-summary-row span:last-child { font-weight: 900; color: #fff; }
+.invoice-summary-row.total-row { border-top: 1px dashed rgba(255,255,255,0.25); padding-top: 5px; margin-top: 2px; }
+.invoice-summary-row.total-row span:last-child { color: var(--lime); font-size: 11px; font-weight: 900; }
 
-/* 🌟 بانر الواتساب الثابت الخاص بصاحب التوكن */
 .invoice-whatsapp-footer-banner {
-  margin-top: 8px;
-  background: linear-gradient(135deg, rgba(7, 24, 16, 0.85) 0%, rgba(2, 8, 5, 0.95) 100%);
-  border: 1px solid rgba(37, 211, 102, 0.4);
-  border-radius: 10px;
-  padding: 8px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.6), inset 0 0 10px rgba(37, 211, 102, 0.15);
+  margin-top: 8px; background: linear-gradient(135deg, rgba(7, 24, 16, 0.85) 0%, rgba(2, 8, 5, 0.95) 100%);
+  border: 1px solid rgba(37, 211, 102, 0.4); border-radius: 10px; padding: 8px 10px;
+  display: flex; align-items: center; justify-content: space-between;
 }
-.invoice-whatsapp-left {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
+.invoice-whatsapp-left { display: flex; align-items: center; gap: 7px; }
 .invoice-whatsapp-icon-wrap {
-  width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(37, 211, 102, 0.2);
-  border: 1px solid rgba(37, 211, 102, 0.6);
-  display: flex; align-items: center; justify-content: center;
-  color: #25d366; font-size: 15px;
-  box-shadow: 0 0 10px rgba(37, 211, 102, 0.4);
+  width: 30px; height: 30px; border-radius: 50%; background: rgba(37, 211, 102, 0.2);
+  border: 1px solid rgba(37, 211, 102, 0.6); display: flex; align-items: center; justify-content: center; color: #25d366; font-size: 15px;
 }
-.invoice-whatsapp-texts {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.25;
-}
-.invoice-whatsapp-title {
-  font-size: 9.5px;
-  font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 6px rgba(0,0,0,0.9);
-}
-.invoice-whatsapp-sub {
-  font-size: 8px;
-  font-weight: 800;
-  color: var(--lime);
-  text-shadow: 0 0 6px rgba(168,255,0,0.4);
-}
-.invoice-whatsapp-client-info {
-  font-size: 7.5px;
-  font-weight: 700;
-  color: var(--gold);
-  margin-top: 1px;
-}
+.invoice-whatsapp-texts { display: flex; flex-direction: column; line-height: 1.25; }
+.invoice-whatsapp-title { font-size: 9.5px; font-weight: 900; color: #fff; }
+.invoice-whatsapp-sub { font-size: 8px; font-weight: 800; color: var(--lime); }
+.invoice-whatsapp-client-info { font-size: 7.5px; font-weight: 700; color: var(--gold); margin-top: 1px; }
 .invoice-whatsapp-badge-24 {
-  background: rgba(37, 211, 102, 0.15);
-  border: 1px solid rgba(37, 211, 102, 0.35);
-  color: #25d366;
-  font-size: 8px;
-  font-weight: 900;
-  padding: 4px 8px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  text-shadow: 0 0 8px rgba(37,211,102,0.5);
+  background: rgba(37, 211, 102, 0.15); border: 1px solid rgba(37, 211, 102, 0.35);
+  color: #25d366; font-size: 8px; font-weight: 900; padding: 4px 8px; border-radius: 6px;
+  display: flex; align-items: center; gap: 4px;
 }
-
-.invoice-footer-copyright {
-  text-align: center;
-  font-size: 7.5px;
-  color: var(--muted);
-  margin-top: 7px;
-  font-weight: 800;
-  border-top: 1px dashed rgba(255,255,255,0.1);
-  padding-top: 5px;
-}
+.invoice-footer-copyright { text-align: center; font-size: 7.5px; color: var(--muted); margin-top: 7px; font-weight: 800; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 5px; }
 
 .stats{ display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; margin-bottom:10px; } 
 .stat{ background:var(--panel); border-radius:12px; padding:10px; border: 1px solid rgba(168,255,0,0.06); } 
@@ -667,15 +510,9 @@ td{ padding:6px; font-size:9px; border-bottom: 1px solid rgba(255,255,255,0.02);
 .netflix-details-container {
   position: fixed; inset: 0; background: #020405; z-index: 9500; display: none; flex-direction: column; overflow-y: auto;
 }
-.netflix-hero-backdrop {
-  width: 100%; height: 200px; position: relative; background-size: cover; background-position: center;
-}
-.netflix-hero-overlay {
-  position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2,4,5,0.2) 0%, #020405 95%);
-}
-.netflix-content-body {
-  padding: 10px; margin-top: -25px; position: relative; z-index: 2; display: flex; flex-direction: column; gap: 8px;
-}
+.netflix-hero-backdrop { width: 100%; height: 200px; position: relative; background-size: cover; background-position: center; }
+.netflix-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(2,4,5,0.2) 0%, #020405 95%); }
+.netflix-content-body { padding: 10px; margin-top: -25px; position: relative; z-index: 2; display: flex; flex-direction: column; gap: 8px; }
 .netflix-play-btn {
   background: var(--text); color: #000; font-weight: 900; font-size: 10px; padding: 9px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; box-shadow: 0 3px 12px rgba(255,255,255,0.2);
@@ -770,7 +607,7 @@ td{ padding:6px; font-size:9px; border-bottom: 1px solid rgba(255,255,255,0.02);
 </head>
 <body>
 
-<div id="clientLoginOverlay">
+<div id="clientLoginOverlay" style="display:none;">
   <div class="client-card">
     <div id="loginForm" style="width: 100%;">
       <div style="margin-bottom: 12px;">
@@ -908,7 +745,7 @@ td{ padding:6px; font-size:9px; border-bottom: 1px solid rgba(255,255,255,0.02);
             <img id="dashboardClientAvatar" src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" class="luxury-client-avatar" alt="Client Logo">
             <div>
               <div class="luxury-client-name-title" id="dashboardClientName">يونس الفروقي (Farouk VIP)</div>
-              <span class="luxury-client-token-sub"><i class="fa-solid fa-shield-halved"></i> نشط بكود التوكن المشفر</span>
+              <span class="luxury-client-token-sub"><i class="fa-solid fa-shield-halved"></i> نشط ودائم (Persistent Master Session)</span>
             </div>
           </div>
           <span class="badge badge-lime" id="dashboardClientExpiry">Lifetime</span>
@@ -1169,10 +1006,10 @@ td{ padding:6px; font-size:9px; border-bottom: 1px solid rgba(255,255,255,0.02);
             </div>
             <div class="form-group"><label data-i18n="clientNameLbl">اسم العميل (المفعل)</label><input class="input" id="activationName" placeholder="الاسم"></div>
             <div class="form-group"><label data-i18n="phoneLbl">رقم هاتف العميل</label><input class="input" id="activationPhone" placeholder="+212600000000"></div>
-            <div class="form-group"><label data-i18n="macLbl">MAC Address</label><input class="input" id="activationMac" placeholder="00:11:22:33:44:55"></div>
+            <div class="form-group"><label data-i18n="macLbl">MAC Address (اختياري)</label><input class="input" id="activationMac" placeholder="00:11:22:33:44:55"></div>
             
             <div class="form-group full" style="background: rgba(255,215,0,0.02); border-radius: 10px; padding: 9px; border: 1px solid rgba(255,215,0,0.1);">
-              <label style="color:var(--gold); font-weight:900;"><i class="fa-solid fa-link"></i> رابط M3U / Xtream (الرئيسي والوحيد):</label>
+              <label style="color:var(--gold); font-weight:900;"><i class="fa-solid fa-link"></i> رابط M3U / Xtream (اختياري):</label>
               <div style="display:flex; gap:5px; margin-top:4px;">
                 <input class="input" id="activationM3UUrl" placeholder="http://server.com:port/get.php?username=USER&password=PASS" oninput="extractXtreamDataForInvoice(this.value)">
                 <button type="button" class="btn btn-luxury-invoice" onclick="extractXtreamDataForInvoice(document.getElementById('activationM3UUrl').value)">فحص</button>
@@ -1188,10 +1025,10 @@ td{ padding:6px; font-size:9px; border-bottom: 1px solid rgba(255,255,255,0.02);
               </div>
             </div>
             <div class="form-group">
-              <label data-i18n="expiryDateLbl">تاريخ الصلاحية / اليومية</label>
+              <label data-i18n="expiryDateLbl">تاريخ الصلاحية / اليومية (اختياري)</label>
               <div style="display:flex; gap:4px;"><input class="input" type="date" id="activationDuration" style="flex:1;"><button type="button" class="btn btn-small" onclick="setLifetimeActivation()" style="color:var(--lime)!important;">∞</button></div>
             </div>
-            <div class="form-group"><label data-i18n="notePriceLbl">ملاحظة / السعر</label><input class="input" id="activationNote" placeholder="100 DH"></div>
+            <div class="form-group"><label data-i18n="notePriceLbl">ملاحظة / السعر (اختياري)</label><input class="input" id="activationNote" placeholder="مثال: 100 DH"></div>
             <div class="form-group full"><button class="btn btn-lime" onclick="createActivation()"><i class="fa-solid fa-bolt"></i> <span data-i18n="actSaveBtn">تفعيل وتسجيل الفاتورة وحفظها</span></button></div>
           </div>
         </div>
@@ -1725,14 +1562,7 @@ function changeSystemLanguage(lang) {
 
 const KEYS={ clients:"cp_clients", payments:"cp_payments", history:"cp_history", activations:"cp_activations", abonnements:"cp_abonnements", tokens:"yt_valid_tokens", cloudBackup:"yt_smart_cloud_backup" }; 
 
-const defaultInitialClients = [
-  { id: "c1", name: "يونس الفروقي", phone: "+212630473498", address: "المغرب - تطوان", account: "PRO-VIP", totalDue: 200, totalPaid: 200, logoUrl: "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp", token: "YT-FAROUK-98", transactions: [] }
-];
-const defaultInitialTokens = {
-  "YT-FAROUK-98": { name: "يونس الفروقي", phone: "+212630473498", address: "المغرب - تطوان", expiry: "2099-12-31", logoUrl: "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" }
-};
-
-let clients = load(KEYS.clients, defaultInitialClients); 
+let clients = load(KEYS.clients, []); 
 let payments = load(KEYS.payments, []); 
 let activations = load(KEYS.activations, []); 
 let abonnements = load(KEYS.abonnements, []); 
@@ -1757,36 +1587,57 @@ function saveData(){
     localStorage.setItem(KEYS.activations, JSON.stringify(activations)); 
     localStorage.setItem(KEYS.abonnements, JSON.stringify(abonnements)); 
 
+    const universalBackup = {
+      clients,
+      payments,
+      activations,
+      abonnements,
+      timestamp: Date.now()
+    };
+    localStorage.setItem("yt_universal_persistent_backup", JSON.stringify(universalBackup));
+
     const activeSession = JSON.parse(localStorage.getItem("yt_active_session") || "null");
     if(activeSession && activeSession.token) {
-      const backupBundle = {
-        clients,
-        payments,
-        activations,
-        abonnements,
-        timestamp: Date.now()
-      };
-      localStorage.setItem(`${KEYS.cloudBackup}_${activeSession.token}`, JSON.stringify(backupBundle));
+      localStorage.setItem(`${KEYS.cloudBackup}_${activeSession.token}`, JSON.stringify(universalBackup));
     }
   } catch(e) { console.error("Storage error:", e); }
 } 
 
 function smartSyncBotRestore(tokenVal) {
   try {
-    const backupData = localStorage.getItem(`${KEYS.cloudBackup}_${tokenVal}`);
-    if(backupData) {
-      const parsed = JSON.parse(backupData);
-      if(parsed && parsed.clients) {
-        clients = parsed.clients;
-        payments = parsed.payments || [];
-        activations = parsed.activations || [];
-        abonnements = parsed.abonnements || [];
+    const universalData = localStorage.getItem("yt_universal_persistent_backup");
+    if(universalData) {
+      const parsedUniv = JSON.parse(universalData);
+      if(parsedUniv && parsedUniv.clients && parsedUniv.clients.length > 0) {
+        clients = parsedUniv.clients;
+        payments = parsedUniv.payments || [];
+        activations = parsedUniv.activations || [];
+        abonnements = parsedUniv.abonnements || [];
         
         localStorage.setItem(KEYS.clients, JSON.stringify(clients));
         localStorage.setItem(KEYS.payments, JSON.stringify(payments));
         localStorage.setItem(KEYS.activations, JSON.stringify(activations));
         localStorage.setItem(KEYS.abonnements, JSON.stringify(abonnements));
         return true;
+      }
+    }
+
+    if(tokenVal) {
+      const backupData = localStorage.getItem(`${KEYS.cloudBackup}_${tokenVal}`);
+      if(backupData) {
+        const parsed = JSON.parse(backupData);
+        if(parsed && parsed.clients) {
+          clients = parsed.clients;
+          payments = parsed.payments || [];
+          activations = parsed.activations || [];
+          abonnements = parsed.abonnements || [];
+          
+          localStorage.setItem(KEYS.clients, JSON.stringify(clients));
+          localStorage.setItem(KEYS.payments, JSON.stringify(payments));
+          localStorage.setItem(KEYS.activations, JSON.stringify(activations));
+          localStorage.setItem(KEYS.abonnements, JSON.stringify(abonnements));
+          return true;
+        }
       }
     }
   } catch(e) { console.error("Restore error:", e); }
@@ -1907,16 +1758,27 @@ window.onload = function() {
   
   let savedTokens = JSON.parse(localStorage.getItem(KEYS.tokens) || "{}");
   if(Object.keys(savedTokens).length === 0) {
+    let defaultInitialTokens = {
+      "YT-FAROUK-98": { name: "يونس الفروقي", phone: "+212630473498", address: "المغرب - تطوان", expiry: "2099-12-31", logoUrl: "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" }
+    };
     localStorage.setItem(KEYS.tokens, JSON.stringify(defaultInitialTokens));
   }
 
-  const activeSession = JSON.parse(localStorage.getItem("yt_active_session") || "null");
-  if(activeSession) {
-    const today = new Date().toISOString().split('T')[0];
-    if(activeSession.expiry === '2099-12-31' || today <= activeSession.expiry) {
-      document.getElementById("clientLoginOverlay").style.display = "none";
-      updateActiveClientHeaderBadge(activeSession);
-    }
+  smartSyncBotRestore();
+
+  let activeSession = JSON.parse(localStorage.getItem("yt_active_session") || "null");
+  const lockedIdentity = JSON.parse(localStorage.getItem("yt_locked_client_identity") || "null");
+
+  if(lockedIdentity) {
+    activeSession = lockedIdentity;
+    localStorage.setItem("yt_active_session", JSON.stringify(lockedIdentity));
+  }
+
+  if(activeSession && activeSession.token) {
+    document.getElementById("clientLoginOverlay").style.display = "none";
+    updateActiveClientHeaderBadge(activeSession);
+  } else {
+    document.getElementById("clientLoginOverlay").style.display = "flex";
   }
 
   if(localStorage.getItem("yt_admin_token_unlocked") === "true") {
@@ -2072,7 +1934,7 @@ function verifyClientToken() {
   const clientAddress = document.getElementById("loginClientAddress").value.trim();
   const expiryDate = document.getElementById("loginExpiryDate").value.trim();
 
-  if(!tokenVal) { toast("Entrez le code Token"); return; }
+  if(!tokenVal) { toast("المرجو إدخال كود التوكن"); return; }
   
   let tokenData = decodeUnifiedToken(tokenVal);
   if(!tokenData) {
@@ -2082,11 +1944,11 @@ function verifyClientToken() {
 
   if(!tokenData) {
     tokenData = { 
-      name: clientName || "يونس الفروقي", 
-      phone: clientPhone || "+212630473498", 
-      address: clientAddress || "المغرب - تطوان",
+      name: clientName || "عميل VIP", 
+      phone: clientPhone || "", 
+      address: clientAddress || "المغرب",
       expiry: expiryDate || "2099-12-31", 
-      logoUrl: customLogoUrl || "" 
+      logoUrl: customLogoUrl || "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" 
     };
   } else {
     if(customLogoUrl) tokenData.logoUrl = customLogoUrl;
@@ -2095,31 +1957,36 @@ function verifyClientToken() {
     if(clientAddress) tokenData.address = clientAddress;
   }
 
-  const today = new Date().toISOString().split('T')[0];
-  if(tokenData.expiry !== '2099-12-31' && today > tokenData.expiry) { toast("Token expiré"); return; }
-
   smartSyncBotRestore(tokenVal);
 
   const activeSessionObj = { 
     token: tokenVal, 
     name: tokenData.name, 
     phone: tokenData.phone, 
-    address: tokenData.address || "المغرب - تطوان",
+    address: tokenData.address,
     expiry: tokenData.expiry, 
-    logoUrl: tokenData.logoUrl || "" 
+    logoUrl: tokenData.logoUrl 
   };
 
   localStorage.setItem("yt_active_session", JSON.stringify(activeSessionObj));
+  localStorage.setItem("yt_locked_client_identity", JSON.stringify(activeSessionObj));
+  
+  if (navigator.storage && navigator.storage.persist) {
+    navigator.storage.persist().then(granted => {
+      if (granted) console.log("Storage persistence granted.");
+    });
+  }
+
   updateActiveClientHeaderBadge(activeSessionObj);
 
   document.getElementById("invName").textContent = tokenData.name;
   document.getElementById("invPhone").textContent = tokenData.phone;
-  document.getElementById("invAddress").textContent = tokenData.address || "المغرب - تطوان";
+  document.getElementById("invAddress").textContent = tokenData.address;
   document.getElementById("invExpiry").textContent = tokenData.expiry === '2099-12-31' ? 'Lifetime' : tokenData.expiry;
   document.getElementById("loginForm").style.display = "none";
   document.getElementById("successScreen").style.display = "flex";
   renderAll();
-  toast("✓ تم استعادة اللوجو، العنوان والصلاحية بنجاح");
+  toast("✓ تم تفعيل الجلسة وثبات هوية العميل بنجاح");
 }
 
 function enterAppSmoothly() { document.getElementById("clientLoginOverlay").style.display = "none"; }
@@ -2127,6 +1994,7 @@ function enterAppSmoothly() { document.getElementById("clientLoginOverlay").styl
 function logoutAppSession() {
   if(!confirm("هل أنت متأكد من تسجيل الخروج ومسح الجلسة الحالية؟")) return;
   localStorage.removeItem("yt_active_session");
+  localStorage.removeItem("yt_locked_client_identity");
   document.getElementById("successScreen").style.display = "none";
   document.getElementById("loginForm").style.display = "block";
   document.getElementById("tokenInput").value = "";
@@ -2243,7 +2111,7 @@ async function extractXtreamDataForInvoice(urlStr) {
   }
   if(statusEl) { statusEl.style.color = "var(--gold)"; statusEl.textContent = "⏳ جاري الاتصال وتحليل السيرفر واستخراج البيانات للفاتورة..."; }
   
-  let expiryFormatted = "دائم (Lifetime)";
+  let expiryFormatted = "";
   try {
     const apiInfoUrl = `${res.host}/player_api.php?username=${res.username}&password=${res.password}`;
     const data = await safeFetch(apiInfoUrl);
@@ -2258,7 +2126,7 @@ async function extractXtreamDataForInvoice(urlStr) {
   } catch(e){}
 
   temporaryExtractedXtream = { host: res.host, username: res.username, password: res.password, expiry: expiryFormatted };
-  if(statusEl) { statusEl.style.color = "var(--green)"; statusEl.textContent = `✓ تم الاستخراج بنجاح | Host: ${res.host} | انتهاء: ${expiryFormatted}`; }
+  if(statusEl) { statusEl.style.color = "var(--green)"; statusEl.textContent = `✓ تم الاستخراج بنجاح | Host: ${res.host}`; }
   toast("✓ تم استخراج بيانات السيرفر وجاهزة للفاتورة");
 }
 
@@ -2578,37 +2446,78 @@ function viewClient(id){
   if(!brandLogo && c.token && savedTokens[c.token]) brandLogo = savedTokens[c.token].logoUrl;
   if(!brandLogo) brandLogo = activeSession.logoUrl || "https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp";
 
-  // استرجاع معلومات صاحب التوكن الأساسي (الاسم، الهاتف، العنوان من التوكن)
   let masterTokenName = (activeSession && activeSession.name) ? activeSession.name : ((tokenDataDecoded && tokenDataDecoded.name) ? tokenDataDecoded.name : "يونس الفروقي");
   let masterTokenPhone = (activeSession && activeSession.phone) ? activeSession.phone : ((tokenDataDecoded && tokenDataDecoded.phone) ? tokenDataDecoded.phone : "+212630473498");
   let masterTokenAddress = (activeSession && activeSession.address) ? activeSession.address : ((tokenDataDecoded && tokenDataDecoded.address) ? tokenDataDecoded.address : (c.address || "المغرب - تطوان"));
 
-  // بيانات العميل الذي تتم عملية التفعيل له
-  let clientAct = activations.find(a => String(a.name).trim().toLowerCase() === String(c.name).trim().toLowerCase() || (c.account && a.mac.toLowerCase() === c.account.toLowerCase()));
+  let clientAct = activations.find(a => String(a.name).trim().toLowerCase() === String(c.name).trim().toLowerCase() || (c.account && a.mac && a.mac.toLowerCase() === c.account.toLowerCase()));
   
   let targetClientName = c.name || (clientAct ? clientAct.name : "عميل VIP");
-  let targetClientPhone = c.phone || (clientAct ? clientAct.phone : "+212600000000");
-  let macAddress = clientAct ? clientAct.mac : (c.account || "00:11:22:33:44:55");
-  let appName = clientAct ? clientAct.app : "YOUNES TECHNIQUE";
-  let expiryDate = clientAct ? clientAct.duration : "دائم (Lifetime)";
-
-  let clientEmail = c.email || `${targetClientName.replace(/\s+/g,'').toLowerCase()}@gmail.com`;
+  let targetClientPhone = c.phone || (clientAct ? clientAct.phone : "");
+  let macAddress = (clientAct && clientAct.mac) ? clientAct.mac : (c.account || "");
+  let appName = (clientAct && clientAct.app) ? clientAct.app : "";
+  let expiryDate = (clientAct && clientAct.duration) ? clientAct.duration : "";
   let invoiceNo = `FAC-2026-${Math.floor(100 + Math.random() * 900)}`;
   let invoiceDate = dateOnly();
   let currentYear = new Date().getFullYear();
 
   let selectedAppObj = appsList.find(a => a.name.toLowerCase() === appName.toLowerCase());
-  let appImageHtml = selectedAppObj ? `<img src="${selectedAppObj.img}" class="app-icon-mini" style="width:16px; height:16px; border-radius:4px; vertical-align:middle; margin-left:4px;" onerror="this.style.display='none'">` : `<img src="https://i.ibb.co/RGVnJmKH/IMG-20261101-200058.webp" class="app-icon-mini" style="width:16px; height:16px; border-radius:4px; vertical-align:middle; margin-left:4px;">`;
+  let appImageHtml = selectedAppObj ? `<img src="${selectedAppObj.img}" class="app-icon-mini" style="width:16px; height:16px; border-radius:4px; vertical-align:middle; margin-left:4px;" onerror="this.style.display='none'">` : ``;
 
   const cardEl = document.getElementById("printableInvoiceCard");
   if(cardEl) {
     cardEl.style.setProperty('--invoice-bg-logo', `url('${brandLogo}')`);
   }
 
+  let invoiceFieldsHtml = `
+    <div class="invoice-field-box">
+      <span class="invoice-field-label">N° facture :</span>
+      <div class="invoice-field-value">${invoiceNo}</div>
+    </div>
+    <div class="invoice-field-box">
+      <span class="invoice-field-label">Client :</span>
+      <div class="invoice-field-value">${targetClientName}</div>
+    </div>
+    <div class="invoice-field-box">
+      <span class="invoice-field-label">Date :</span>
+      <div class="invoice-field-value">${invoiceDate}</div>
+    </div>
+  `;
+  if(targetClientPhone) {
+    invoiceFieldsHtml += `
+      <div class="invoice-field-box">
+        <span class="invoice-field-label">Téléphone :</span>
+        <div class="invoice-field-value">${targetClientPhone}</div>
+      </div>
+    `;
+  }
+
+  let glassDetailsHtml = "";
+  if(appName || macAddress || expiryDate) {
+    glassDetailsHtml = `
+      <div class="invoice-glass-details-box">
+        <div style="font-size: 8.5px; font-weight: 900; color: var(--lime); margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
+          <i class="fa-solid fa-microchip"></i> تفاصيل بيانات التفعيل والشاشة :
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 9px; font-weight: 900;">
+          ${appName ? `<div style="display: flex; justify-content: space-between; align-items:center;"><span style="color:var(--muted);">التطبيق المفعل :</span><strong style="color:var(--lime); display:flex; align-items:center; gap:4px;">${appImageHtml} ${appName}</strong></div>` : ''}
+          ${macAddress ? `<div style="display: flex; justify-content: space-between;"><span style="color:var(--muted);">عنوان MAC :</span><code style="color:var(--blue); font-size:9.5px;">${macAddress}</code></div>` : ''}
+          ${expiryDate ? `<div style="display: flex; justify-content: space-between;"><span style="color:var(--muted);">تاريخ الصلاحية :</span><strong style="color:var(--gold);">${expiryDate}</strong></div>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  let itemDescription = appName ? `تفعيل ${appImageHtml} ${appName}` : `خدمة تفعيل رقمية`;
+  if(macAddress) itemDescription += ` (MAC: ${macAddress})`;
+
+  let totalDueAmount = Number(c.totalDue || 0);
+  let totalPaidAmount = Number(c.totalPaid || 0);
+  let remainAmount = Math.max(0, totalDueAmount - totalPaidAmount);
+
   document.getElementById("detailBody").innerHTML=`
     <div id="printableInvoiceCard" class="invoice-deluxe-official" style="--invoice-bg-logo: url('${brandLogo}');">
       
-      <!-- رأس الفاتورة (يحتوي على اللوجو واسم البراند يميناً، ودائرة Service TV المتوهجة يساراً/أعلى يمين الفاتورة) -->
       <div class="invoice-header-top">
         <div class="invoice-brand-info">
           <img id="dynamicInvLogo" src="${brandLogo}" class="invoice-brand-avatar" onerror="this.src='https://via.placeholder.com/38?text=Logo'">
@@ -2618,51 +2527,22 @@ function viewClient(id){
           </div>
         </div>
         
-        <!-- 🌟 دائرة SERVICE TV الفاخرة مع تمرير ضوئي متوهج في الـ Border و border-radius: 100% -->
         <div class="invoice-service-tv-circle">
           <i class="fa-solid fa-tv"></i>
           <span class="invoice-service-tv-text">SERVICE TV</span>
         </div>
       </div>
 
-      <!-- بانر عنوان الفاتورة -->
       <div class="invoice-title-banner">
         <i class="fa-solid fa-file-invoice-dollar"></i> FACTURE / فاتورة تفعيل وتطبيقات رقمية
       </div>
 
-      <!-- تفاصيل الفاتورة والعميل المفعل -->
       <div class="invoice-fields-grid">
-        <div class="invoice-field-box">
-          <span class="invoice-field-label">N° facture :</span>
-          <div class="invoice-field-value">${invoiceNo}</div>
-        </div>
-        <div class="invoice-field-box">
-          <span class="invoice-field-label">Client :</span>
-          <div class="invoice-field-value">${targetClientName}</div>
-        </div>
-        <div class="invoice-field-box">
-          <span class="invoice-field-label">Date :</span>
-          <div class="invoice-field-value">${invoiceDate}</div>
-        </div>
-        <div class="invoice-field-box">
-          <span class="invoice-field-label">Téléphone :</span>
-          <div class="invoice-field-value">${targetClientPhone}</div>
-        </div>
+        ${invoiceFieldsHtml}
       </div>
 
-      <!-- تفاصيل التفعيل الشاملة -->
-      <div class="invoice-glass-details-box">
-        <div style="font-size: 8.5px; font-weight: 900; color: var(--lime); margin-bottom: 5px; display: flex; align-items: center; gap: 5px; text-shadow: 0 0 8px rgba(168,255,0,0.4);">
-          <i class="fa-solid fa-microchip"></i> تفاصيل بيانات التفعيل والشاشة :
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 9px; font-weight: 900;">
-          <div style="display: flex; justify-content: space-between; align-items:center;"><span style="color:var(--muted);">التطبيق المفعل :</span><strong style="color:var(--lime); text-shadow:0 0 8px rgba(0,0,0,0.9); display:flex; align-items:center; gap:4px;">${appImageHtml} ${appName}</strong></div>
-          <div style="display: flex; justify-content: space-between;"><span style="color:var(--muted);">عنوان MAC :</span><code style="color:var(--blue); font-size:9.5px; text-shadow:0 0 8px rgba(0,0,0,0.9);">${macAddress}</code></div>
-          <div style="display: flex; justify-content: space-between;"><span style="color:var(--muted);">تاريخ الصلاحية :</span><strong style="color:var(--gold); text-shadow:0 0 8px rgba(0,0,0,0.9);">${expiryDate}</strong></div>
-        </div>
-      </div>
+      ${glassDetailsHtml}
 
-      <!-- جدول الخدمات -->
       <div class="invoice-table-box">
         <div class="invoice-table-header">
           <span>Désignation / الوصف</span>
@@ -2671,14 +2551,13 @@ function viewClient(id){
           <span style="text-align:right;">Total</span>
         </div>
         <div class="invoice-table-row">
-          <span style="display:flex; align-items:center; gap:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">تفعيل ${appImageHtml} ${appName} (MAC: ${macAddress})</span>
+          <span style="display:flex; align-items:center; gap:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${itemDescription}</span>
           <span style="text-align:center;">1</span>
-          <span style="text-align:center;">${c.totalDue || 150} DH</span>
-          <span style="text-align:right; font-weight:900; color:var(--lime);">${c.totalDue || 150} DH</span>
+          <span style="text-align:center;">${totalDueAmount} DH</span>
+          <span style="text-align:right; font-weight:900; color:var(--lime);">${totalDueAmount} DH</span>
         </div>
       </div>
 
-      <!-- ملخص الدفع المالي الشفاف -->
       <div class="invoice-summary-box">
         <div class="invoice-summary-row">
           <span>Mode de paiement :</span>
@@ -2686,23 +2565,19 @@ function viewClient(id){
         </div>
         <div class="invoice-summary-row">
           <span>Sous-total :</span>
-          <span>${c.totalDue || 150} DH</span>
-        </div>
-        <div class="invoice-summary-row">
-          <span>Remise :</span>
-          <span>0 DH</span>
+          <span>${totalDueAmount} DH</span>
         </div>
         <div class="invoice-summary-row total-row">
           <span>Total à payer (DH) :</span>
-          <span>${c.totalDue || 150} DH</span>
+          <span>${totalDueAmount} DH</span>
         </div>
         <div class="invoice-summary-row">
           <span>Montant payé :</span>
-          <span style="color:var(--green); font-weight:900;">${c.totalPaid || 150} DH</span>
+          <span style="color:var(--green); font-weight:900;">${totalPaidAmount} DH</span>
         </div>
         <div class="invoice-summary-row">
           <span>Reste à payer :</span>
-          <span style="color:var(--orange); font-weight:900;">${Math.max(0, (c.totalDue || 150) - (c.totalPaid || 150))} DH</span>
+          <span style="color:var(--orange); font-weight:900;">${remainAmount} DH</span>
         </div>
         <div class="invoice-summary-row" style="margin-top:4px; border-top:1px dashed rgba(255,255,255,0.25); padding-top:4px;">
           <span>Signature / Cachet :</span>
@@ -2710,7 +2585,6 @@ function viewClient(id){
         </div>
       </div>
 
-      <!-- 🌟 بانر الواتساب السفلي الثابت (يحتوي على اسم، هاتف وعنوان صاحب التوكن) -->
       <div class="invoice-whatsapp-footer-banner">
         <div class="invoice-whatsapp-left">
           <div class="invoice-whatsapp-icon-wrap">
@@ -2727,7 +2601,6 @@ function viewClient(id){
         </div>
       </div>
 
-      <!-- حقوق الحفظ -->
       <div class="invoice-footer-copyright">
         © ${currentYear} ${masterTokenName} (${masterTokenAddress}) — All Rights Reserved.
       </div>
@@ -2799,41 +2672,49 @@ async function createActivation(){
   const note = document.getElementById("activationNote").value.trim(); 
   const m3uUrl = document.getElementById("activationM3UUrl").value.trim();
   
-  if(!name || !mac) { toast("المرجو ملء الاسم والـ MAC"); return; } 
+  if(!name) { toast("المرجو إدخال اسم العميل على الأقل"); return; } 
   if(m3uUrl && !temporaryExtractedXtream) await extractXtreamDataForInvoice(m3uUrl);
 
   let xtreamDetails = temporaryExtractedXtream;
   if(xtreamDetails && duration) xtreamDetails.expiry = duration;
   
-  let existingAct = activations.find(a => a.mac.toLowerCase() === mac.toLowerCase());
+  let existingAct = activations.find(a => a.name.toLowerCase() === name.toLowerCase() || (mac && a.mac && a.mac.toLowerCase() === mac.toLowerCase()));
   if(existingAct) {
-    existingAct.name = name; existingAct.phone = phone; existingAct.app = app; existingAct.duration = xtreamDetails ? xtreamDetails.expiry : duration; existingAct.xtreamInfo = xtreamDetails;
+    existingAct.name = name; existingAct.phone = phone; existingAct.mac = mac; existingAct.app = app; existingAct.duration = xtreamDetails ? xtreamDetails.expiry : duration; existingAct.xtreamInfo = xtreamDetails;
   } else {
     activations.unshift({ id: makeId(), name, phone, mac, app, duration: xtreamDetails ? xtreamDetails.expiry : duration, xtreamInfo: xtreamDetails, notifiedExpired:false });
   } 
 
   let matchedClient = clients.find(c => c.name.toLowerCase() === name.toLowerCase());
+  let priceNum = 0;
+  if(note) {
+    priceNum = parseFloat(note.replace(/[^\d.]/g, '')) || 0;
+  }
+
   if(!matchedClient) {
-    matchedClient = { id: makeId(), name, phone: phone || "", account: mac, totalDue:0, totalPaid:0, transactions:[], xtreamInfo: xtreamDetails };
+    matchedClient = { id: makeId(), name, phone: phone || "", account: mac || "", totalDue: priceNum, totalPaid:0, transactions:[], xtreamInfo: xtreamDetails };
+    if(priceNum > 0) {
+      matchedClient.transactions.unshift({ title:note, amount:priceNum, date:dateOnly() });
+    }
     clients.unshift(matchedClient);
   } else {
     matchedClient.phone = phone || matchedClient.phone;
     matchedClient.account = mac || matchedClient.account;
     if(xtreamDetails) matchedClient.xtreamInfo = xtreamDetails;
-  }
-
-  if(note) {
-    const priceNum = parseFloat(note.replace(/[^\d.]/g, '')) || 0;
     if(priceNum > 0) {
-      matchedClient.totalDue = Number(matchedClient.totalDue||0) + priceNum;
-      matchedClient.transactions.unshift({ title:`تفعيل ${app} (${mac})`, amount:priceNum, date:dateOnly() });
+      matchedClient.totalDue = Number(matchedClient.totalDue || 0) + priceNum;
+      matchedClient.transactions.unshift({ title:note, amount:priceNum, date:dateOnly()});
     }
   }
   
   saveData(); renderActivations(); renderClients(); renderStats(); 
-  toast("⚡ تم التفعيل وتحليل السيرفر وربطه بالفاتورة بنجاح");
+  toast("⚡ تم التفعيل وتسجيل الفاتورة بنجاح وحفظ السجل بشكل دائم");
   temporaryExtractedXtream = null;
   document.getElementById("activationM3UUrl").value = "";
+  document.getElementById("activationName").value.trim = "";
+  document.getElementById("activationPhone").value = "";
+  document.getElementById("activationMac").value = "";
+  document.getElementById("activationNote").value = "";
   viewClient(matchedClient.id);
 } 
 
@@ -2848,7 +2729,7 @@ function renderActivations(){
   document.getElementById("activationCount").textContent = activations.length; 
   const body = document.getElementById("activationTable"); 
   if(!activations.length){ body.innerHTML = `<tr><td colspan="5"><div class="empty">No activations</div></td></tr>`; return; } 
-  body.innerHTML = activations.map(a=>`<tr><td><strong>${a.name}</strong></td><td><code>${a.mac}</code></td><td><span class="badge badge-blue">${getAppIconHtml(a.app)} ${a.app}</span></td><td>${a.duration}</td><td><button class="btn btn-danger btn-small" onclick="deleteActivation('${a.id}')"><i class="fa-solid fa-trash"></i></button></td></tr>`).join(""); 
+  body.innerHTML = activations.map(a=>`<tr><td><strong>${a.name}</strong></td><td><code>${a.mac || '-'}</code></td><td><span class="badge badge-blue">${getAppIconHtml(a.app)} ${a.app}</span></td><td>${a.duration || '-'}</td><td><button class="btn btn-danger btn-small" onclick="deleteActivation('${a.id}')"><i class="fa-solid fa-trash"></i></button></td></tr>`).join(""); 
 } 
 
 function openModal(id){ document.getElementById(id).classList.add("show"); } 
