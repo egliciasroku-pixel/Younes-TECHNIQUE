@@ -2095,9 +2095,40 @@ function validateM3UString(urlStr) {
   }catch(e){ return { valid: false }; }
 }
 
-async function safeFetch(url) {
-  try { const r = await fetch(url, {mode:'cors'}); if(r.ok) return await r.json(); } catch(e){}
-  try { const r2 = await fetch(url); if(r2.ok) return await r2.json(); } catch(e){}
+// دالة الاتصال المحدثة لتجاوز الـ CORS والـ Mixed Content تلقائياً عند الرفع على GitHub Pages
+async function safeFetch(targetUrl) {
+  const proxies = [
+    (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    (url) => `https://thingproxy.freeboard.io/fetch/${url}`
+  ];
+
+  // إذا كنا نعمل محلياً localhost نتصل مباشرة
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') {
+    try {
+      const r = await fetch(targetUrl);
+      if (r.ok) return await r.json();
+    } catch (e) {}
+  }
+
+  // إذا كنا على GitHub Pages، نستخدم البروكسي المباشر لتشغيل الـ HTTP على الـ HTTPS
+  for (let proxyFn of proxies) {
+    try {
+      const pUrl = proxyFn(targetUrl);
+      const res = await fetch(pUrl);
+      if (res.ok) {
+        const data = await res.json();
+        if (data) return data;
+      }
+    } catch (e) {}
+  }
+
+  // محاولة نهائية مباشرة
+  try {
+    const rDirect = await fetch(targetUrl, { mode: 'cors' });
+    if (rDirect.ok) return await rDirect.json();
+  } catch (e) {}
+
   return null;
 }
 
@@ -2237,7 +2268,12 @@ async function loadLiveStreams(catId) {
   grid.innerHTML = "";
   if(!streams || !Array.isArray(streams)) { grid.innerHTML = `<div class="empty">No channels</div>`; return; }
   streams.forEach(item => {
-    const playUrl = `${acc.host}/live/${acc.user}/${acc.pass}/${item.stream_id}.m3u8`;
+    let rawPlayUrl = `${acc.host}/live/${acc.user}/${acc.pass}/${item.stream_id}.m3u8`;
+    // تعديل البرتوكول لتفادي Mixed content على github
+    let playUrl = rawPlayUrl;
+    if (window.location.protocol === 'https:' && playUrl.startsWith('http:')) {
+      playUrl = playUrl.replace('http:', 'https:');
+    }
     const card = document.createElement("div"); card.className = "channel-mini-card";
     card.innerHTML = `<img src="${item.stream_icon||''}" class="channel-circle-icon" onerror="this.src='https://via.placeholder.com/38?text=TV'"><div class="channel-mini-title">${item.name}</div>`;
     card.onclick = () => {
@@ -2303,8 +2339,14 @@ async function loadVodStreams(type, catId) {
         document.getElementById("detailDesc").textContent = item.plot || "استمتع بمشاهدة هذا الفيلم الحصري بجودة عالية ودون تقطيع عبر منصة يونيس للترفيه.";
         document.getElementById("seasonsContainer").style.display = "none";
         document.getElementById("episodesContainer").innerHTML = "";
+        
+        let moviePlayUrl = `${acc.host}/movie/${acc.user}/${acc.pass}/${item.stream_id}.${item.container_extension||'mp4'}`;
+        if (window.location.protocol === 'https:' && moviePlayUrl.startsWith('http:')) {
+          moviePlayUrl = moviePlayUrl.replace('http:', 'https:');
+        }
+
         document.getElementById("primaryPlayActionArea").innerHTML = `
-          <div class="netflix-play-btn" onclick="launchMoviePlayer('${acc.host}/movie/${acc.user}/${acc.pass}/${item.stream_id}.${item.container_extension||'mp4'}', '${title}')">
+          <div class="netflix-play-btn" onclick="launchMoviePlayer('${moviePlayUrl}', '${title}')">
             <i class="fa-solid fa-play"></i> تشغيل الفيلم الآن
           </div>
         `;
@@ -2350,7 +2392,10 @@ function renderEpisodes(eps, title) {
   const epBox = document.getElementById("episodesContainer"); epBox.innerHTML = "";
   eps.forEach(ep => {
     const acc = JSON.parse(localStorage.getItem("faroukii_active_creds"));
-    const url = `${acc.host}/series/${acc.user}/${acc.pass}/${ep.id}.${ep.container_extension||'mp4'}`;
+    let url = `${acc.host}/series/${acc.user}/${acc.pass}/${ep.id}.${ep.container_extension||'mp4'}`;
+    if (window.location.protocol === 'https:' && url.startsWith('http:')) {
+      url = url.replace('http:', 'https:');
+    }
     const row = document.createElement("div"); row.className = "episode-row";
     row.innerHTML = `
       <div style="display:flex; align-items:center; gap:6px;">
