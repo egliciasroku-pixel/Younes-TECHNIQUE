@@ -278,10 +278,10 @@
 
     <!-- 3. لوحة التحكم والاتصال -->
     <div class="control-panel">
-        <input type="text" id="apiInput" placeholder="أدخل رابط Xtream Codes الكامل هنا...">
+        <input type="text" id="apiInput" placeholder="أدخل رابط Xtream أو رابط get.php هنا...">
         <button class="btn-gold" onclick="saveAndConnect()">حفظ والاتصال بالسيرفر ⚡</button>
         <div class="console-log" id="consoleLog">
-            [FAROUKII] أدخل الرابط واضغط اتصال...
+            [FAROUKII] النظام جاهز للاتصال الذكي...
         </div>
     </div>
 
@@ -346,7 +346,7 @@
     function saveAndConnect() {
         const rawUrl = document.getElementById('apiInput').value.trim();
         if (!rawUrl) {
-            alert('يرجى إدخال رابط Xtream Codes أولاً.');
+            alert('يرجى إدخال الرابط أولاً.');
             return;
         }
 
@@ -366,8 +366,8 @@
             return;
         }
 
-        log("✅ تم حفظ البيانات بنجاح! اختر أي قسم (Live TV أو Movies أو Series) لجلب محتواه فوراً.");
-        alert("تم الحفظ بنجاح! يمكنك الآن الضغط على أي قسم لعرض القنوات.");
+        log("✅ تم حفظ البيانات واستخراج معلومات الاتصال بنجاح!");
+        alert("تم الحفظ بنجاح! يمكنك الآن النقر على Live TV أو Movies أو Series.");
     }
 
     async function switchCategory(cat, element) {
@@ -383,13 +383,12 @@
         const sidebar = document.getElementById('sidebarChannels');
         sidebar.classList.add('open');
 
-        // إذا كانت البيانات مخزنة مسبقاً، اعرضها فوراً بدون طلب جديد لسرعة فائقة
         if (cachedData[cat].length > 0) {
             renderList();
             return;
         }
 
-        // جلب البيانات للقسم المحدد فقط منعاً للضغط على السيرفر
+        // تحويل الطلب تلقائياً إلى صيغة player_api.php الصحيحة بغض النظر عن الرابط المدخل
         let action = "";
         if (cat === 'live') action = "get_live_streams";
         else if (cat === 'films') action = "get_vod_streams";
@@ -426,7 +425,7 @@
         if (success) {
             renderList();
         } else {
-            container.innerHTML = '<div style="text-align:center; color:#f87171; font-size:0.8rem; padding:15px;">⚠️ فشل جلب البيانات، تأكد من صحة الرابط أو حالة السيرفر.</div>';
+            container.innerHTML = '<div style="text-align:center; color:#f87171; font-size:0.8rem; padding:15px;">⚠️ فشل جلب البيانات، تأكد من أن السيرفر يدعم الـ API المباشر.</div>';
             log(`❌ فشل جلب بيانات ${cat.toUpperCase()}.`);
         }
     }
@@ -505,4 +504,3 @@
 
 </body>
 </html>
-
