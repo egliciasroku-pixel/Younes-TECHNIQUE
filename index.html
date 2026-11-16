@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>LuxStream IPTV Ultra - Supercharged Edition</title>
+    <!-- تجاوز حظر Mixed Content والـ CORS داخل تطبيقات الويب والـ APK -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>LuxStream IPTV Ultra - APK Optimized Edition</title>
 
     <!-- Font Awesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -180,7 +182,7 @@
             </div>
 
             <div class="mt-6 pt-3 text-center border-t border-gray-800/40">
-                <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Eglicias ROKU. All rights reserved.</p>
+                <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Farouk IPTV & ROKU. All rights reserved.</p>
             </div>
         </div>
     </div>
@@ -303,7 +305,7 @@
                 </div>
 
                 <div class="py-2 text-center shrink-0">
-                    <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Eglicias ROKU. All rights reserved.</p>
+                    <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Farouk IPTV & ROKU. All rights reserved.</p>
                 </div>
             </div>
 
@@ -324,7 +326,7 @@
                 <div id="gridContainer" onscroll="handleScroll(this)" class="flex-1 overflow-y-auto p-4 sm:p-8 min-h-0 flex flex-col justify-between">
                     <div id="itemsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 pb-6"></div>
                     <div class="py-3 text-center shrink-0 border-t border-gray-800/40 mt-4">
-                        <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Eglicias ROKU. All rights reserved.</p>
+                        <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Farouk IPTV & ROKU. All rights reserved.</p>
                     </div>
                 </div>
             </div>
@@ -488,15 +490,15 @@
             return host.replace(/\/+$/, '');
         }
 
-        /* نظام متعدد البروكسيات لتجاوز CORS والبروتوكولات (HTTP/HTTPS) بالكامل */
+        /* محرك الاتصال الذكي المدعم بالبروكسي لتجاوز الحظر في الـ APK */
         async function fetchXtreamApi(actionUrl) {
             const useProxy = document.getElementById('useProxy')?.checked;
             
             let urlsToTry = [actionUrl];
             if (useProxy) {
                 urlsToTry = [
-                    `https://api.allorigins.win/raw?url=` + encodeURIComponent(actionUrl),
                     `https://corsproxy.io/?` + encodeURIComponent(actionUrl),
+                    `https://api.allorigins.win/raw?url=` + encodeURIComponent(actionUrl),
                     `https://api.codetabs.com/v1/proxy?quest=` + encodeURIComponent(actionUrl),
                     actionUrl
                 ];
@@ -505,7 +507,7 @@
             for (const targetUrl of urlsToTry) {
                 try {
                     const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 7000);
+                    const timeoutId = setTimeout(() => controller.abort(), 8000);
                     const res = await fetch(targetUrl, { signal: controller.signal });
                     clearTimeout(timeoutId);
                     
@@ -521,11 +523,11 @@
                         }
                     }
                 } catch (err) {
-                    // الانتقال للبروكسي الموالي تلقائياً عند أي فشل
+                    // تجربة الرابط التالي في القائمة تلقائياً
                 }
             }
 
-            throw new Error("تعذر جلب البيانات من السيرفر. تحقق من صحة رابط الـ Host أو حالة الاشتراك.");
+            throw new Error("تعذر الاتصال بالسيرفر داخل تطبيق APK. تأكد من اتصال الإنترنت أو صحة بيانات Host.");
         }
 
         async function handleLogin(e) {
@@ -875,12 +877,6 @@
                 streamUrl = `${state.host}/movie/${state.username}/${state.password}/${item.stream_id}.${item.container_extension || 'mp4'}`;
             } else {
                 streamUrl = `${state.host}/series/${state.username}/${state.password}/${item.stream_id}.m3u8`;
-            }
-
-            // إذا أردت تمرير روابط الـ Stream أيضاً عبر البروكسي عند الحاجة لتجاوز Mixed Content
-            const useProxy = document.getElementById('useProxy')?.checked;
-            if (useProxy && !state.isDemoMode) {
-                streamUrl = `https://corsproxy.io/?` + encodeURIComponent(streamUrl);
             }
 
             document.getElementById('playerOverlay').classList.remove('hidden-screen');
