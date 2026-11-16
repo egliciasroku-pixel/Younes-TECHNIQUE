@@ -1,1029 +1,1010 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr" class="h-full overflow-hidden">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN PANEL & STORE | FAROUK</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>LuxStream IPTV Ultra - Supercharged Edition</title>
+
+    <!-- Font Awesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- HLS.js for Ultra Low-Latency Fast Streaming -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#fff8e1',
+                            300: '#f7d368',
+                            400: '#e6ba39',
+                            500: '#d4af37',
+                            600: '#b89025',
+                            700: '#8e6d19',
+                        },
+                        darkbg: '#040609',
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'gold-glow': '0 10px 35px -5px rgba(212, 175, 55, 0.35)',
+                        'gold-focus': '0 0 35px rgba(212, 175, 55, 0.9)',
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
+        *, *::before, *::after {
             box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-tap-highlight-color: transparent;
             border: none !important;
             outline: none !important;
         }
 
-        :root {
-            --bg-deep: #070709;
-            --bg-card: #111116;
-            --bg-card-hover: #191922;
-            --gold-primary: #d4af37;
-            --gold-light: #f9f1cd;
-            --gold-dark: #8c711f;
-            --text-main: #f8f8fa;
-            --text-muted: #8e8e99;
-            --accent-green: #25d366;
-            --glow-gold: rgba(212, 175, 55, 0.15);
-        }
-
-        body {
-            background: radial-gradient(circle at center, #14141c 0%, var(--bg-deep) 100%);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px var(--glow-gold);
-            overflow: hidden;
-            padding: 24px;
-            position: relative;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 18px;
-            box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.1);
-        }
-
-        .logo {
-            font-size: 1.3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1.5px;
-            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .btn-luxury-store {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
-            color: var(--bg-deep);
-            padding: 10px 18px;
-            border-radius: 14px;
-            font-size: 0.85rem;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.35);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .currency-toggle {
-            background: var(--bg-card-hover);
-            color: var(--gold-primary);
-            padding: 8px 14px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.05);
-            transition: all 0.3s ease;
-        }
-
-        .currency-toggle:hover {
-            background: rgba(212, 175, 55, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            margin-bottom: 18px;
-            color: var(--gold-light);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 25px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .section-title:first-of-type {
-            margin-top: 0;
-        }
-
-        .image-banner-box {
-            width: 100%;
-            height: 190px;
-            border-radius: 18px;
-            overflow: hidden;
-            margin-bottom: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 20px rgba(212, 175, 55, 0.08);
-            position: relative;
-            background: var(--bg-card-hover);
-        }
-
-        .image-banner-box img {
-            width: 100%;
+        html, body {
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .image-banner-box:hover img {
-            transform: scale(1.04);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 18px;
-            margin-bottom: 18px;
-        }
-
-        .product-card {
-            background: var(--bg-card-hover);
-            border-radius: 18px;
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.04);
-            transition: all 0.4s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.7), 0 0 25px rgba(212, 175, 55, 0.12);
-        }
-
-        .product-icon {
-            font-size: 2.2rem;
-            color: var(--gold-primary);
-            margin-bottom: 12px;
-            filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.3));
-        }
-
-        .product-name {
-            font-size: 1.05rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-            color: var(--text-main);
-        }
-
-        .product-desc {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 12px;
-            padding-top: 10px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
-        }
-
-        .product-price {
-            font-size: 1.1rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .btn-buy {
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
-            color: var(--bg-deep);
-            padding: 9px 18px;
-            border-radius: 12px;
-            font-size: 0.82rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
-            transition: all 0.3s ease;
-        }
-
-        .btn-buy:hover {
-            filter: brightness(1.15);
-            transform: translateY(-1px);
-        }
-
-        .bottom-extraction-container {
-            text-align: center;
-            margin: 30px 0 20px 0;
-        }
-
-        .btn-bottom-extract {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
-            color: var(--bg-deep);
-            padding: 14px 28px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer-rights {
-            text-align: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.1);
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-
-        .footer-rights span {
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background: rgba(4, 4, 6, 0.88);
+            overflow: hidden;
+            background-color: #040609;
+            color: #f1f5f9;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #fff8e1 25%, #f7d368 55%, #d4af37 85%, #997819 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tv-focusable:focus, .tv-focusable.active-focus {
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.95), inset 0 0 15px rgba(212, 175, 55, 0.3) !important;
+            transform: scale(1.04) translateY(-2px);
+            z-index: 40 !important;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(4, 6, 9, 0.95); }
+        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.4); border-radius: 9999px; }
+
+        .ibo-glass-panel {
+            background: rgba(10, 14, 24, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+        }
+
+        .ibo-card {
+            background: linear-gradient(145deg, rgba(18, 24, 38, 0.85) 0%, rgba(8, 11, 18, 0.9) 100%);
             backdrop-filter: blur(12px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            will-change: transform;
         }
 
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease forwards;
+        .ibo-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.3);
+            transform: translateY(-4px) scale(1.02);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+        .hidden-screen { display: none !important; }
+
+        .player-overlay-gradient {
+            background: linear-gradient(180deg, rgba(4,6,9,0.98) 0%, rgba(4,6,9,0.2) 50%, rgba(4,6,9,0.98) 100%);
         }
 
-        .modal-content {
-            background: var(--bg-card);
-            width: 100%;
-            max-width: 520px;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.95), 0 0 30px rgba(212, 175, 55, 0.2);
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
+        @keyframes pulse-live {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.85); }
         }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-            padding-bottom: 10px;
-            box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.1);
-        }
-
-        .modal-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--gold-light);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .close-modal {
-            background: var(--bg-card-hover);
-            color: var(--text-muted);
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .admin-panel-box {
-            background: var(--bg-deep);
-            padding: 15px;
-            border-radius: 14px;
-            margin-bottom: 15px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            font-size: 0.78rem;
-            color: var(--gold-light);
-            font-weight: 700;
-        }
-
-        .form-group input {
-            background: var(--bg-card);
-            color: var(--text-main);
-            padding: 11px 14px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .generator-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            margin-top: 5px;
-        }
-
-        .generator-row input {
-            flex: 1;
-            background: var(--bg-card);
-            color: var(--gold-primary);
-            padding: 11px 14px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 800;
-            direction: ltr;
-            text-align: left;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .btn-generate {
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
-            color: var(--bg-deep);
-            padding: 11px 16px;
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 0.8rem;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .copy-link-btn {
-            background: var(--bg-card);
-            color: var(--gold-primary);
-            padding: 11px 14px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        .input-group-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .input-group-grid input {
-            background: var(--bg-deep);
-            color: var(--text-main);
-            padding: 11px 14px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            width: 100%;
-        }
-
-        .btn-check {
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
-            color: var(--bg-deep);
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 0.88rem;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 8px;
-        }
-
-        .bank-info-box {
-            background: var(--bg-card-hover);
-            padding: 15px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            font-size: 0.82rem;
-        }
-
-        .bank-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-
-        .phone-display-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            direction: ltr;
-        }
-
-        .luxury-phone-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--bg-deep);
-            font-size: 0.85rem;
-        }
-
-        .formatted-phone {
-            font-size: 0.95rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .copy-btn {
-            background: var(--gold-primary);
-            color: var(--bg-deep);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        .warning-notice {
-            background: rgba(212, 175, 55, 0.08);
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 0.78rem;
-            color: var(--gold-light);
-            text-align: center;
-            margin-bottom: 15px;
-            line-height: 1.6;
-            font-weight: 700;
-        }
-
-        .whatsapp-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .btn-whatsapp {
-            flex: 1;
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: #fff;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.35);
-        }
-
-        @media (max-width: 600px) {
-            body { padding: 4px; }
-            .container { padding: 14px; border-radius: 16px; }
-            .products-grid { grid-template-columns: 1fr; }
-            .image-banner-box { height: 160px; }
-        }
+        .live-dot { animation: pulse-live 1.5s infinite ease-in-out; }
     </style>
 </head>
-<body>
+<body class="bg-darkbg text-gray-100 flex flex-col h-full w-full overflow-hidden select-none">
 
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="logo">
-                <i class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i>
-                ADMIN PANEL & STORE
-            </div>
-            <div class="header-actions">
-                <div class="currency-toggle" onclick="toggleCurrency()">
-                    <span id="curr-label">MAD (د.م)</span>
+    <!-- =================LOGIN SCREEN================ -->
+    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-cover bg-center" style="background-image: radial-gradient(circle at center, rgba(10, 14, 24, 0.88) 0%, rgba(4, 6, 9, 0.98) 100%), url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1920');">
+        <div class="ibo-glass-panel max-w-md w-full rounded-3xl p-6 sm:p-8 shadow-gold-glow relative overflow-hidden flex flex-col justify-between">
+            <div>
+                <div class="text-center mb-5">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 mb-2 shadow-gold-glow">
+                        <i class="fa-solid fa-crown text-gold-500 text-3xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-black tracking-widest font-cairo gold-gradient-text">LUXSTREAM IBO</h1>
+                    <p class="text-xs text-gold-400 mt-0.5 font-semibold">Supercharged VIP Golden Player</p>
                 </div>
-                <!-- زر Activation الخاص بك (يظهر في رابطك الرسمي فقط) -->
-                <button id="admin-activation-btn" onclick="openActivationModal()" class="btn-luxury-store">
-                    <i class="fa-solid fa-key"></i> Activation
+
+                <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-3.5">
+                    <div>
+                        <label class="block text-xs font-semibold text-gold-400 mb-1">Host URL</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-server absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
+                            <input type="text" id="hostInput" required placeholder="http://my-iptv-host.com:8080" class="tv-focusable w-full bg-black/60 rounded-xl py-3 pl-10 pr-3 text-xs text-gray-100 focus:bg-black/80 font-mono dir-ltr text-left">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gold-400 mb-1">Username</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
+                            <input type="text" id="userInput" required placeholder="Username" class="tv-focusable w-full bg-black/60 rounded-xl py-3 pl-10 pr-3 text-xs text-gray-100 focus:bg-black/80 font-mono dir-ltr text-left">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gold-400 mb-1">Password</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
+                            <input type="password" id="passInput" required placeholder="Password" class="tv-focusable w-full bg-black/60 rounded-xl py-3 pl-10 pr-3 text-xs text-gray-100 focus:bg-black/80 font-mono dir-ltr text-left">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between text-xs text-gray-400 px-1 pt-1">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" id="useProxy" checked class="rounded text-gold-500 bg-black/50">
+                            <span class="ml-2">Enable Smart Multi-Proxy Bypass</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="loginBtn" class="tv-focusable w-full py-3.5 px-4 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 text-black font-extrabold rounded-xl shadow-gold-glow hover:scale-105 transition-all flex items-center justify-center space-x-2 text-sm">
+                        <span>Fast Account Login</span>
+                        <i class="fa-solid fa-bolt"></i>
+                    </button>
+                </form>
+
+                <div class="mt-4 pt-3 text-center border-t border-gray-800/60">
+                    <button onclick="startDemoMode()" class="tv-focusable text-xs text-gold-400 hover:text-gold-300 font-bold underline">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Quick Demo Mode (Full Sample Content)
+                    </button>
+                </div>
+
+                <div id="loginError" class="hidden mt-3 p-3 rounded-xl bg-red-950/80 text-red-300 text-xs text-center font-medium shadow-lg"></div>
+            </div>
+
+            <div class="mt-6 pt-3 text-center border-t border-gray-800/40">
+                <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Eglicias ROKU. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================MAIN DASHBOARD================ -->
+    <div id="mainDashboard" class="flex flex-col h-full w-full hidden-screen relative overflow-hidden bg-darkbg">
+        <header class="h-16 shrink-0 ibo-glass-panel px-4 sm:px-8 flex items-center justify-between z-30">
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 rounded-2xl bg-gold-500/15 flex items-center justify-center shadow-gold-glow">
+                        <i class="fa-solid fa-crown text-gold-500 text-lg"></i>
+                    </div>
+                    <div>
+                        <span class="font-cairo font-black text-xl tracking-wider gold-gradient-text block leading-tight">LUXSTREAM</span>
+                        <span class="text-[10px] text-gray-400 font-semibold tracking-widest block">SUPERCHARGED IPTV</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <div id="dashboardSearchContainer" class="relative hidden sm:block w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-500 text-xs"></i>
+                    <input type="text" id="globalSearchInput" oninput="handleGlobalSearch(this.value)" placeholder="Instant search..." class="tv-focusable w-full bg-black/60 rounded-full py-1.5 pl-9 pr-4 text-xs text-gray-200 focus:bg-black/90">
+                </div>
+
+                <button id="backToHomeBtn" onclick="showHomeScreen()" class="hidden tv-focusable px-3.5 py-1.5 rounded-xl bg-gold-500/20 text-gold-400 text-xs font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </button>
+                <button onclick="showAccountModal()" class="tv-focusable p-2.5 rounded-xl bg-gray-800/50 hover:bg-gold-500/20 text-gold-400 text-xs">
+                    <i class="fa-solid fa-user-shield text-base"></i>
+                </button>
+                <button onclick="logout()" class="tv-focusable p-2.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 text-red-400 text-xs">
+                    <i class="fa-solid fa-power-off text-base"></i>
                 </button>
             </div>
         </header>
 
-        <!-- الواجهة الرئيسية -->
-        <div>
-            <div class="section-title">
-                <i class="fa-solid fa-bullhorn"></i> كتالوج الصفحات الإشهارية للموزعين والبائعين
-            </div>
-
-            <div class="image-banner-box">
-                <img src="https://i.ibb.co/MxzFgQp1/1794307372727.jpg" alt="عروض الصفحات الإشهارية">
-            </div>
-
-            <div class="products-grid" id="promo-grid"></div>
-
-            <div class="section-title">
-                <i class="fa-solid fa-code"></i> كتالوج تطبيقات الويب المخصصة
-            </div>
-
-            <div class="image-banner-box">
-                <img src="https://i.ibb.co/SpS2GWq/1794783850863.jpg" alt="عروض تطبيقات الويب">
-            </div>
-
-            <div class="products-grid" id="webapps-grid"></div>
-        </div>
-
-        <!-- زر بوابة استخراج البيانات الفاخر في الأسفل -->
-        <div class="bottom-extraction-container">
-            <button onclick="openExtractionModal()" class="btn-bottom-extract">
-                <i class="fa-solid fa-database"></i> بوابة استخراج البيانات والاشتراكات
-            </button>
-        </div>
-
-        <!-- حقوق الحفظ والسنة في أسفل الصفحة -->
-        <div class="footer-rights">
-            جميع الحقوق محفوظة &copy; 2026 | تم التطوير بواسطة <span>FAROUK</span>
-        </div>
-    </div>
-
-    <!-- Modal Activation Hub -->
-    <div class="modal" id="activation-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title"><i class="fa-solid fa-server"></i> Xtream Codes & WebApp Generator</div>
-                <div class="close-modal" onclick="closeActivationModal()"><i class="fa-solid fa-xmark"></i></div>
-            </div>
-
-            <div style="font-size: 0.82rem; font-weight: 800; color: var(--gold-light); margin-bottom: 6px;">
-                <i class="fa-solid fa-code-branch"></i> توليد رابط المتجر للعامة (بدون زر Activation):
-            </div>
-            <div class="admin-panel-box">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
-                    <input type="text" id="gh-username" value="storefarouk" placeholder="مستخدم GitHub">
-                    <input type="text" id="gh-repo" value="store" placeholder="المستودع">
-                </div>
-                <div class="generator-row">
-                    <input type="text" id="generated-store-url" readonly>
-                    <button class="btn-generate" onclick="generateStoreLink()">توليد</button>
-                    <span class="copy-link-btn" onclick="copyGeneratedLink()"><i class="fa-solid fa-copy"></i></span>
-                </div>
-            </div>
-
-            <div style="font-size: 0.82rem; font-weight: 800; color: var(--gold-light); margin-bottom: 6px; margin-top: 10px;">
-                <i class="fa-solid fa-bolt"></i> تفعيل بيانات Xtream وحفظها تلقائياً:
-            </div>
-            <div class="admin-panel-box">
-                <div class="form-group">
-                    <label>البريد الإلكتروني للزبون (Gmail):</label>
-                    <input type="email" id="xtream-gmail" placeholder="customer@gmail.com" dir="ltr">
-                </div>
-                <div class="form-group">
-                    <label>رابط تطبيق الويب أو اسم المتجر (App URL / Brand):</label>
-                    <input type="text" id="app-base-url" placeholder="https://myapp.com أو FaroukStore" dir="ltr">
-                </div>
-                <div class="form-group">
-                    <label>Xtream Host (السيرفر):</label>
-                    <input type="text" id="xtream-host" placeholder="http://line.server.com:8080" dir="ltr">
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                    <div class="form-group">
-                        <label>Username:</label>
-                        <input type="text" id="xtream-user" placeholder="username" dir="ltr">
-                    </div>
-                    <div class="form-group">
-                        <label>Password:</label>
-                        <input type="text" id="xtream-pass" placeholder="password" dir="ltr">
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                    <div class="form-group">
-                        <label>تاريخ البدء:</label>
-                        <input type="date" id="xtream-start">
-                    </div>
-                    <div class="form-group">
-                        <label>تاريخ الانتهاء:</label>
-                        <input type="date" id="xtream-expire">
-                    </div>
-                </div>
-                <button class="btn-check" onclick="saveAndGenerateXtream()">حفظ وتوليد الرابط التلقائي</button>
-
-                <div class="form-group" style="margin-top: 10px;">
-                    <label>الرابط المتولد للزبون:</label>
-                    <div class="generator-row">
-                        <input type="text" id="generated-webapp-url" readonly placeholder="سيظهر الرابط هنا بعد الحفظ...">
-                        <span class="copy-link-btn" onclick="copyWebAppUrl()"><i class="fa-solid fa-copy"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Extraction Hub -->
-    <div class="modal" id="extraction-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title"><i class="fa-solid fa-database"></i> بوابة استخراج البيانات</div>
-                <div class="close-modal" onclick="closeExtractionModal()"><i class="fa-solid fa-xmark"></i></div>
-            </div>
-            
-            <p class="product-desc">أدخل حساب الـ Gmail المسجل واسم المتجر أو رابط التطبيق لاستخراج بياناتك:</p>
-            <div class="input-group-grid" style="margin-top: 12px;">
-                <input type="email" id="check-gmail-input" placeholder="حساب الـ Gmail المسجل">
-                <input type="text" id="check-target-input" placeholder="اسم المتجر أو رابط التطبيق">
-                <button class="btn-check" onclick="checkOrderDirect()">استخراج البيانات والاشتراك</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Checkout & Bank Transfer -->
-    <div class="modal" id="checkout-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title" id="modal-product-title">طلب الخدمة</div>
-                <div class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></div>
-            </div>
-            
-            <div class="bank-info-box">
-                <div style="font-weight: 800; color: var(--gold-primary); margin-bottom: 10px;">
-                    <i class="fa-solid fa-building-columns"></i> معلومات الحساب والاتصال:
-                </div>
-                <div class="bank-row">
-                    <span>RIB: <strong id="rib-text" style="letter-spacing: 1px;">230 810 00000000 24</strong></span>
-                    <span class="copy-btn" onclick="copyText('2308100000000024')">نسخ</span>
-                </div>
-                <div class="bank-row" style="margin-top: 8px; align-items: center;">
-                    <div class="phone-display-container">
-                        <div class="luxury-phone-icon">
-                            <i class="fa-solid fa-phone"></i>
+        <main class="flex-1 flex flex-col min-h-0 overflow-hidden relative">
+            <!-- HOME TILES -->
+            <div id="iboHomeScreen" class="flex-1 overflow-y-auto p-4 sm:p-8 flex flex-col items-center justify-between">
+                <div class="max-w-6xl w-full grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 my-auto">
+                    <div onclick="openDashboardCategory('live')" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-black flex items-center justify-center text-2xl shadow-gold-glow">
+                                <i class="fa-solid fa-tv"></i>
+                            </div>
+                            <span class="text-xs bg-gold-500/20 text-gold-300 font-bold px-3 py-1 rounded-full" id="homeLiveCount">0 Channels</span>
                         </div>
-                        <span class="formatted-phone">+212 630-473498</span>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">Live TV</h2>
+                            <p class="text-xs text-gray-400 mt-1">Sports & News 4K Channels</p>
+                        </div>
                     </div>
-                    <span class="copy-btn" onclick="copyText('+212630473498')">نسخ</span>
+
+                    <div onclick="openDashboardCategory('vod')" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-black flex items-center justify-center text-2xl shadow-gold-glow">
+                                <i class="fa-solid fa-film"></i>
+                            </div>
+                            <span class="text-xs bg-amber-500/20 text-amber-300 font-bold px-3 py-1 rounded-full" id="homeVodCount">0 Movies</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">VOD Movies</h2>
+                            <p class="text-xs text-gray-400 mt-1">Massive library in highest definition</p>
+                        </div>
+                    </div>
+
+                    <div onclick="openDashboardCategory('series')" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 text-black flex items-center justify-center text-2xl shadow-gold-glow">
+                                <i class="fa-solid fa-clapperboard"></i>
+                            </div>
+                            <span class="text-xs bg-yellow-500/20 text-yellow-300 font-bold px-3 py-1 rounded-full" id="homeSeriesCount">0 Series</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">Series & Shows</h2>
+                            <p class="text-xs text-gray-400 mt-1">Full seasons & latest episodes</p>
+                        </div>
+                    </div>
+
+                    <div onclick="openDashboardCategory('favorites')" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-300 to-gold-500 text-black flex items-center justify-center text-2xl shadow-gold-glow">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-xs bg-amber-500/20 text-amber-300 font-bold px-3 py-1 rounded-full" id="homeFavCount">0</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">My Favorites</h2>
+                            <p class="text-xs text-gray-400 mt-1">Saved channels for fast access</p>
+                        </div>
+                    </div>
+
+                    <div onclick="showAccountModal()" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-black flex items-center justify-center text-2xl shadow-gold-glow">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-300 font-bold px-3 py-1 rounded-full">VIP Speed</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">Subscription</h2>
+                            <p class="text-xs text-gray-400 mt-1">Server details & validity</p>
+                        </div>
+                    </div>
+
+                    <div onclick="loadXtreamData()" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
+                        <div class="flex items-center justify-between">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600 text-white flex items-center justify-center text-2xl shadow-gold-glow">
+                                <i class="fa-solid fa-rotate"></i>
+                            </div>
+                            <span class="text-xs bg-blue-500/20 text-blue-300 font-bold px-3 py-1 rounded-full">Sync</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">Reload Data</h2>
+                            <p class="text-xs text-gray-400 mt-1">Instant server synchronization</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-2 text-center shrink-0">
+                    <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Eglicias ROKU. All rights reserved.</p>
                 </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 12px;">
-                <label>حساب Gmail الخاص بك:</label>
-                <input type="email" id="buyer-gmail" placeholder="example@gmail.com">
-            </div>
-
-            <div class="form-group" style="margin-bottom: 12px;" id="dynamic-input-group">
-                <label id="buyer-target-label">اسم المتجر (Store Name / Brand):</label>
-                <input type="text" id="buyer-target" placeholder="مثال: Farouk Store أو رابط التطبيق">
-            </div>
-
-            <div class="warning-notice">
-                ⚠️ تنبيه هام: يرجى إرفاق صورة الحوالة من جهازك في محادثة الواتساب مباشرة عند طلب الخدمة لضمان سرعة تفعيل طلبك.
-            </div>
-
-            <div class="whatsapp-buttons">
-                <div class="btn-whatsapp" onclick="sendWhatsApp('+212630473498')">
-                    <i class="fa-brands fa-whatsapp"></i> واتساب 1
+            <!-- CONTENT VIEW -->
+            <div id="iboContentView" class="flex-1 flex flex-col min-h-0 overflow-hidden hidden-screen">
+                <div class="shrink-0 ibo-glass-panel px-4 sm:px-8 py-3 z-20">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-layer-group text-gold-500 text-xs"></i>
+                            <span id="activeTabTitle" class="text-xs font-bold text-gray-300 uppercase tracking-wider">Categories</span>
+                            <span id="catCount" class="text-[10px] bg-gold-500/20 text-gold-400 px-2.5 py-0.5 rounded-full font-bold">0</span>
+                        </div>
+                        <span id="itemsCount" class="text-xs text-gray-400 font-medium">(0 items)</span>
+                    </div>
+                    <div id="categoriesTrack" class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1"></div>
                 </div>
-                <div class="btn-whatsapp" onclick="sendWhatsApp('+212650443149')">
-                    <i class="fa-brands fa-whatsapp"></i> واتساب 2
+
+                <div id="gridContainer" onscroll="handleScroll(this)" class="flex-1 overflow-y-auto p-4 sm:p-8 min-h-0 flex flex-col justify-between">
+                    <div id="itemsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 pb-6"></div>
+                    <div class="py-3 text-center shrink-0 border-t border-gray-800/40 mt-4">
+                        <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Eglicias ROKU. All rights reserved.</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Modal Activation Result -->
-    <div class="modal" id="result-modal">
-        <div class="modal-content" style="text-align: center;">
-            <div class="modal-header">
-                <div class="modal-title">بيانات ورابط التفعيل الفوري</div>
-                <div class="close-modal" onclick="closeResultModal()"><i class="fa-solid fa-xmark"></i></div>
-            </div>
-            <div id="result-body" style="font-size: 0.88rem; line-height: 1.7; margin: 15px 0;"></div>
-            <button class="btn-buy" onclick="closeResultModal()" style="width: 100%; padding: 12px;">إغلاق</button>
-        </div>
-    </div>
+    <!-- =================DETAILS MODAL================ -->
+    <div id="detailsModal" class="fixed inset-0 z-40 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 hidden-screen">
+        <div class="ibo-glass-panel max-w-4xl w-full rounded-3xl overflow-hidden relative shadow-2xl flex flex-col max-h-[92vh]">
+            <button onclick="closeDetailsModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/80 text-gray-300 hover:text-gold-400 flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
 
-    <script>
-        let currentCurrency = 'MAD';
-        let rate = 10;
-        let selectedProduct = null;
-
-        let authorizedOrdersDB = JSON.parse(localStorage.getItem('store_farouk_auth_db')) || [
-            { 
-                gmail: 'egliciasroku@gmail.com', 
-                key: 'farouktv', 
-                type: 'promo', 
-                product: 'صفحة إشهارية VIP للموزعين', 
-                promoLink: 'https://storefarouk.github.io/promo/farouktv' 
-            },
-            { 
-                gmail: 'hot.younes244@gmail.com', 
-                key: 'https://myapp.com', 
-                type: 'webapp', 
-                product: 'NETROTOD WEB PLAYER', 
-                appUrl: 'https://myapp.com', 
-                server: 'http://line.farouktv.com:8080', 
-                username: 'frk_younes99', 
-                password: 'farouk2026',
-                startDate: '2026-01-01',
-                expireDate: '2027-01-01'
-            }
-        ];
-
-        const promoProducts = [
-            { id: 1, name: "صفحة إشهارية VIP للموزعين", desc: "صفحة هبوط احترافية مخصصة للترويج لخدماتك ومنتجاتك وزيادة مبيعاتك.", priceMAD: 200, icon: "fa-bullhorn", type: "promo" },
-            { id: 2, name: "حملة إشهارية شاملة للتطبيقات", desc: "إشهار تطبيقاتك ومنتجاتك الرقمية واستهداف آلاف الزبائن مباشرة.", priceMAD: 350, icon: "fa-rocket", type: "promo" }
-        ];
-
-        const webappProducts = [
-            { id: 3, name: "NETROTOD WEB PLAYER", desc: "مشغل ويب متطور خاص بالبث المباشر مع تخصيص اللوجو والألوان بالكامل.", priceMAD: 300, icon: "fa-globe", type: "webapp" },
-            { id: 4, name: "FAROUK STREAM PANEL", desc: "لوحة تحكم ويب احترافية لإدارة الاشتراكات والعملاء بمرونة تامة.", priceMAD: 500, icon: "fa-server", type: "webapp" }
-        ];
-
-        function openActivationModal() {
-            generateStoreLink();
-            document.getElementById('activation-modal').classList.add('active');
-        }
-
-        function closeActivationModal() {
-            document.getElementById('activation-modal').classList.remove('active');
-        }
-
-        function openExtractionModal() {
-            document.getElementById('extraction-modal').classList.add('active');
-        }
-
-        function closeExtractionModal() {
-            document.getElementById('extraction-modal').classList.remove('active');
-        }
-
-        // توليد رابط المتجر النظيف للعامة (مضاف إليه باراميتر ?mode=store لإخفاء زر Activation تلقائياً)
-        function generateStoreLink() {
-            const username = document.getElementById('gh-username').value.trim() || 'storefarouk';
-            const repo = document.getElementById('gh-repo').value.trim() || 'store';
-            const storeUrl = `https://${username}.github.io/${repo}/?mode=store`;
-            document.getElementById('generated-store-url').value = storeUrl;
-        }
-
-        function copyGeneratedLink() {
-            const urlInput = document.getElementById('generated-store-url');
-            if(!urlInput.value) return;
-            navigator.clipboard.writeText(urlInput.value);
-            alert('تم نسخ رابط المتجر المخصص للعامة بنجاح!');
-        }
-
-        function saveAndGenerateXtream() {
-            const gmail = document.getElementById('xtream-gmail').value.trim().toLowerCase();
-            const target = document.getElementById('app-base-url').value.trim().toLowerCase();
-            const host = document.getElementById('xtream-host').value.trim();
-            const user = document.getElementById('xtream-user').value.trim();
-            const pass = document.getElementById('xtream-pass').value.trim();
-            const start = document.getElementById('xtream-start').value;
-            const expire = document.getElementById('xtream-expire').value;
-
-            if(!gmail || !target || !host || !user || !pass) {
-                alert('الرجاء إدخال جميع البيانات الأساسية');
-                return;
-            }
-
-            const dataObj = { h: host, u: user, p: pass, s: start, e: expire };
-            const encodedData = btoa(JSON.stringify(dataObj));
-            const directPlayUrl = target.startsWith('http') ? `${target}?auth=${encodedData}` : `https://${target}?auth=${encodedData}`;
-
-            document.getElementById('generated-webapp-url').value = directPlayUrl;
-
-            const newOrder = {
-                gmail: gmail,
-                key: target.replace(/https?:\/\//,'').replace(/\/$/, ''),
-                type: 'webapp',
-                product: 'NETROTOD WEB PLAYER (Xtream)',
-                appUrl: target.startsWith('http') ? target : `https://${target}`,
-                server: host,
-                username: user,
-                password: pass,
-                startDate: start,
-                expireDate: expire
-            };
-
-            const existingIndex = authorizedOrdersDB.findIndex(o => o.gmail === gmail);
-            if(existingIndex >= 0) {
-                authorizedOrdersDB[existingIndex] = newOrder;
-            } else {
-                authorizedOrdersDB.push(newOrder);
-            }
-
-            localStorage.setItem('store_farouk_auth_db', JSON.stringify(authorizedOrdersDB));
-            alert('تم حفظ البيانات وتوليد الرابط بنجاح!');
-        }
-
-        function copyWebAppUrl() {
-            const input = document.getElementById('generated-webapp-url');
-            if(!input.value) return;
-            navigator.clipboard.writeText(input.value);
-            alert('تم نسخ رابط التشغيل للزبون بنجاح!');
-        }
-
-        function renderProducts() {
-            const promoGrid = document.getElementById('promo-grid');
-            promoGrid.innerHTML = '';
-            promoProducts.forEach(p => {
-                let priceDisplay = currentCurrency === 'MAD' ? `${p.priceMAD} د.م` : `$${(p.priceMAD / rate).toFixed(2)}`;
-                promoGrid.innerHTML += createCardHTML(p, priceDisplay);
-            });
-
-            const webappGrid = document.getElementById('webapps-grid');
-            webappGrid.innerHTML = '';
-            webappProducts.forEach(p => {
-                let priceDisplay = currentCurrency === 'MAD' ? `${p.priceMAD} د.م` : `$${(p.priceMAD / rate).toFixed(2)}`;
-                webappGrid.innerHTML += createCardHTML(p, priceDisplay);
-            });
-        }
-
-        function createCardHTML(p, priceDisplay) {
-            return `
-                <div class="product-card">
+            <div class="relative h-60 sm:h-80 w-full bg-black/80 shrink-0">
+                <img id="modalBackdrop" src="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/40 to-transparent"></div>
+                <div class="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 flex items-end justify-between">
                     <div>
-                        <div class="product-icon"><i class="fa-solid ${p.icon}"></i></div>
-                        <div class="product-name">${p.name}</div>
-                        <div class="product-desc">${p.desc}</div>
+                        <span id="modalBadge" class="text-[10px] bg-gold-500 text-black font-black px-3 py-1 rounded-full mb-2 inline-block">LUX VIP</span>
+                        <h2 id="modalTitle" class="text-xl sm:text-3xl font-black text-white gold-gradient-text line-clamp-1">Title</h2>
+                        <div class="flex items-center space-x-3 text-xs text-gray-300 mt-2 font-semibold">
+                            <span id="modalYear" class="text-gold-400">2026</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
+                            <span id="modalRating" class="bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-md"><i class="fa-solid fa-star text-xs mr-1"></i> 8.9</span>
+                        </div>
                     </div>
-                    <div class="product-footer">
-                        <span class="product-price">${priceDisplay}</span>
-                        <button class="btn-buy" onclick="openCheckout(${p.id}, '${p.type}')">طلب الخدمة</button>
+                    <button id="modalPlayBtn" onclick="" class="tv-focusable px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-gold-500 to-gold-600 text-black font-extrabold rounded-2xl shadow-gold-glow flex items-center gap-2 text-xs sm:text-sm shrink-0">
+                        <i class="fa-solid fa-play text-lg"></i>
+                        <span>Instant Play</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-4">
+                <p id="modalPlot" class="text-xs sm:text-sm text-gray-300 leading-relaxed">Description & plot...</p>
+                <div id="seriesEpisodesSection" class="hidden-screen space-y-3 pt-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs sm:text-sm font-bold text-gold-400">Episodes & Seasons</h3>
+                    </div>
+                    <div id="episodesList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================ACCOUNT MODAL================ -->
+    <div id="accountModal" class="fixed inset-0 z-40 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden-screen">
+        <div class="ibo-glass-panel max-w-md w-full rounded-3xl p-6 relative">
+            <button onclick="closeAccountModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gold-400 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center space-x-3 mb-6">
+                <i class="fa-solid fa-user-shield text-gold-500 text-3xl"></i>
+                <div>
+                    <h3 class="text-base font-bold text-gray-100">Account Details</h3>
+                    <p class="text-xs text-gray-400">IBO Fast Engine Server</p>
+                </div>
+            </div>
+            <div id="accountInfoDetails" class="space-y-3 text-xs"></div>
+            <button onclick="closeAccountModal()" class="w-full mt-6 py-3 bg-gradient-to-r from-gold-500 to-gold-600 text-black font-extrabold rounded-xl shadow-gold-glow text-xs">Close</button>
+        </div>
+    </div>
+
+    <!-- =================PLAYER OVERLAY================ -->
+    <div id="playerOverlay" class="fixed inset-0 z-50 bg-black flex flex-col justify-between hidden-screen">
+        <video id="videoElement" class="w-full h-full object-contain bg-black cursor-pointer" playsinline autoplay onclick="togglePlayPause()"></video>
+
+        <div class="player-overlay-gradient absolute top-0 inset-x-0 p-4 sm:p-6 flex justify-between items-center z-10">
+            <div class="flex items-center space-x-4">
+                <button onclick="closePlayer()" class="tv-focusable w-11 h-11 rounded-full bg-black/80 text-gray-200 hover:text-gold-400 flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-left text-lg"></i>
+                </button>
+                <div>
+                    <h3 id="playerTitle" class="text-sm sm:text-base font-bold text-gray-100 truncate max-w-xs sm:max-w-md">Stream Name</h3>
+                    <span id="playerCategory" class="text-xs text-gold-400">Instant Play - Zero Delay</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="playerBuffer" class="absolute inset-0 flex items-center justify-center pointer-events-none hidden-screen">
+            <div class="flex flex-col items-center space-y-3 bg-black/85 p-6 rounded-3xl backdrop-blur-md shadow-gold-glow">
+                <i class="fa-solid fa-bolt fa-spin text-gold-500 text-4xl"></i>
+                <span class="text-xs text-gold-300 font-bold">Buffering fast stream...</span>
+            </div>
+        </div>
+
+        <div class="player-overlay-gradient absolute bottom-0 inset-x-0 p-4 sm:p-6 flex flex-col gap-3 z-10">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button onclick="togglePlayPause()" id="btnPlayPause" class="tv-focusable w-12 h-12 rounded-full bg-gold-500 text-black flex items-center justify-center text-xl shadow-gold-glow">
+                        <i class="fa-solid fa-pause"></i>
+                    </button>
+                    <div class="flex items-center space-x-2 bg-black/70 rounded-full px-4 py-2">
+                        <button onclick="toggleMute()" id="btnMute" class="text-gray-300 hover:text-gold-400 text-sm"><i class="fa-solid fa-volume-high"></i></button>
+                        <input type="range" id="volumeBar" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)" class="w-16 sm:w-24 accent-gold-500 h-1">
                     </div>
                 </div>
+
+                <div class="flex items-center space-x-3">
+                    <button onclick="toggleAspect()" class="tv-focusable px-3.5 py-2 rounded-xl bg-black/70 text-xs text-gray-300 font-bold">
+                        <span id="aspectLabel">16:9</span>
+                    </button>
+                    <button onclick="toggleFullscreen()" class="tv-focusable w-10 h-10 rounded-full bg-black/70 text-gray-300 hover:text-gold-400 flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =================ENGINE SCRIPT================ -->
+    <script>
+        const state = {
+            host: '',
+            username: '',
+            password: '',
+            isDemoMode: false,
+            userInfo: null,
+            activeTab: 'live',
+            liveCategories: [],
+            vodCategories: [],
+            seriesCategories: [],
+            activeCategory: 'all',
+            liveChannels: [],
+            vodMovies: [],
+            seriesList: [],
+            favorites: JSON.parse(localStorage.getItem('lux_favs_ibo') || '[]'),
+            currentItems: [],
+            renderedCount: 0,
+            batchSize: 40,
+            currentItem: null,
+            hlsInstance: null
+        };
+
+        const demoData = {
+            userInfo: { username: 'LuxStream VIP Demo', status: 'Active', exp_date: '1893456000' },
+            liveCategories: [{ category_id: '1', category_name: '⚽ beIN Sports 4K Channels' }],
+            vodCategories: [{ category_id: '2', category_name: '🔥 Latest 2026 Movies' }],
+            seriesCategories: [{ category_id: '3', category_name: '💎 Netflix & Shahid Series' }],
+            live: [
+                { stream_id: '1', name: 'beIN SPORTS 1 Premium 4K', category_id: '1', stream_icon: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400' },
+                { stream_id: '2', name: 'SSC SPORTS 1 HD Live', category_id: '1', stream_icon: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400' }
+            ],
+            vod: [
+                { stream_id: '101', name: 'Dune: Part Two (2026 4K)', category_id: '2', stream_icon: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400', rating: '8.8', container_extension: 'mp4' }
+            ],
+            series: [
+                { series_id: '201', name: 'House of the Dragon S2', category_id: '3', cover: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400', rating: '8.7' }
+            ]
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initAutoLogin();
+            initTVNavigation();
+            bindPlayerEvents();
+        });
+
+        function cleanHostUrl(rawHost) {
+            let host = rawHost.trim();
+            if (!host.startsWith('http://') && !host.startsWith('https://')) host = 'http://' + host;
+            return host.replace(/\/+$/, '');
+        }
+
+        /* نظام متعدد البروكسيات لضمان نجاح الاتصال على GitHub Pages وتجاوز أي حظر */
+        async function fetchXtreamApi(actionUrl) {
+            const useProxy = document.getElementById('useProxy')?.checked;
+            
+            // قائمة البروكسيات المتاحة لتجربتها بالترتيب
+            let urlsToTry = [actionUrl];
+            if (useProxy) {
+                urlsToTry = [
+                    `https://api.allorigins.win/raw?url=` + encodeURIComponent(actionUrl),
+                    `https://corsproxy.io/?` + encodeURIComponent(actionUrl),
+                    actionUrl // الاتصال المباشر كخيار أخير
+                ];
+            }
+
+            for (const targetUrl of urlsToTry) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 7000);
+                    const res = await fetch(targetUrl, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    
+                    if (res.ok) {
+                        const text = await res.text();
+                        try {
+                            const json = JSON.parse(text);
+                            if (json) return json;
+                        } catch (e) {
+                            if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
+                                return JSON.parse(text);
+                            }
+                        }
+                    }
+                } catch (err) {
+                    // الانتقال للبروكسي الموالي في القائمة في حال فشل الحالي
+                }
+            }
+
+            throw new Error("تعذر جلب البيانات من السيرفر. تحقق من صحة رابط الـ Host أو حالة الاشتراك.");
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const host = cleanHostUrl(document.getElementById('hostInput').value);
+            const user = document.getElementById('userInput').value.trim();
+            const pass = document.getElementById('passInput').value.trim();
+
+            localStorage.setItem('lux_host', host);
+            localStorage.setItem('lux_user', user);
+            localStorage.setItem('lux_pass', pass);
+
+            await performLogin(host, user, pass);
+        }
+
+        async function performLogin(host, user, pass) {
+            showLoginError('');
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Connecting to server...</span>`;
+
+            state.host = host;
+            state.username = user;
+            state.password = pass;
+            state.isDemoMode = false;
+
+            try {
+                const authUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}`;
+                const data = await fetchXtreamApi(authUrl);
+
+                if (data && data.user_info && (data.user_info.auth === 1 || data.user_info.status === "Active")) {
+                    state.userInfo = data.user_info;
+                    document.getElementById('loginScreen').classList.add('hidden-screen');
+                    document.getElementById('mainDashboard').classList.remove('hidden-screen');
+                    await loadXtreamData();
+                } else {
+                    throw new Error('Invalid account details or subscription expired.');
+                }
+            } catch (err) {
+                showLoginError(err.message || 'Connection failed.');
+            } finally {
+                loginBtn.innerHTML = `<span>Fast Account Login</span> <i class="fa-solid fa-bolt"></i>`;
+            }
+        }
+
+        function startDemoMode() {
+            state.isDemoMode = true;
+            state.userInfo = demoData.userInfo;
+            state.liveChannels = demoData.live;
+            state.vodMovies = demoData.vod;
+            state.seriesList = demoData.series;
+            state.liveCategories = demoData.liveCategories;
+            state.vodCategories = demoData.vodCategories;
+            state.seriesCategories = demoData.seriesCategories;
+
+            document.getElementById('loginScreen').classList.add('hidden-screen');
+            document.getElementById('mainDashboard').classList.remove('hidden-screen');
+
+            updateHomeCounters();
+            showHomeScreen();
+        }
+
+        function initAutoLogin() {
+            const h = localStorage.getItem('lux_host');
+            const u = localStorage.getItem('lux_user');
+            const p = localStorage.getItem('lux_pass');
+            if (h) document.getElementById('hostInput').value = h;
+            if (u) document.getElementById('userInput').value = u;
+            if (p) document.getElementById('passInput').value = p;
+            if (h && u && p) performLogin(h, u, p);
+        }
+
+        async function loadXtreamData() {
+            if (state.isDemoMode) return;
+
+            try {
+                const liveCatUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_live_categories`;
+                const vodCatUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_vod_categories`;
+                const seriesCatUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_series_categories`;
+
+                const liveStreamUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_live_streams`;
+                const vodStreamUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_vod_streams`;
+                const seriesUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_series`;
+
+                const [liveCats, vodCats, seriesCats, live, vod, series] = await Promise.all([
+                    fetchXtreamApi(liveCatUrl).catch(() => []),
+                    fetchXtreamApi(vodCatUrl).catch(() => []),
+                    fetchXtreamApi(seriesCatUrl).catch(() => []),
+                    fetchXtreamApi(liveStreamUrl).catch(() => []),
+                    fetchXtreamApi(vodStreamUrl).catch(() => []),
+                    fetchXtreamApi(seriesUrl).catch(() => [])
+                ]);
+
+                state.liveCategories = Array.isArray(liveCats) ? liveCats : [];
+                state.vodCategories = Array.isArray(vodCats) ? vodCats : [];
+                state.seriesCategories = Array.isArray(seriesCats) ? seriesCats : [];
+
+                state.liveChannels = Array.isArray(live) ? live : [];
+                state.vodMovies = Array.isArray(vod) ? vod : [];
+                state.seriesList = Array.isArray(series) ? series : [];
+
+                if (!state.liveChannels.length && !state.vodMovies.length) {
+                    state.liveChannels = demoData.live;
+                    state.vodMovies = demoData.vod;
+                    state.seriesList = demoData.series;
+                }
+
+                updateHomeCounters();
+                showHomeScreen();
+            } catch (err) {
+                startDemoMode();
+            }
+        }
+
+        function updateHomeCounters() {
+            document.getElementById('homeLiveCount').innerText = `${state.liveChannels.length} Channels`;
+            document.getElementById('homeVodCount').innerText = `${state.vodMovies.length} Movies`;
+            document.getElementById('homeSeriesCount').innerText = `${state.seriesList.length} Series`;
+            document.getElementById('homeFavCount').innerText = `${state.favorites.length}`;
+        }
+
+        function showHomeScreen() {
+            document.getElementById('iboHomeScreen').classList.remove('hidden-screen');
+            document.getElementById('iboContentView').classList.add('hidden-screen');
+            document.getElementById('backToHomeBtn').classList.add('hidden');
+        }
+
+        function openDashboardCategory(tabName) {
+            state.activeTab = tabName;
+            state.activeCategory = 'all';
+
+            document.getElementById('iboHomeScreen').classList.add('hidden-screen');
+            document.getElementById('iboContentView').classList.remove('hidden-screen');
+            document.getElementById('backToHomeBtn').classList.remove('hidden');
+
+            const titleMap = { live: 'Live TV', vod: 'VOD Movies', series: 'Series', favorites: 'Favorites' };
+            document.getElementById('activeTabTitle').innerText = titleMap[tabName] || 'Categories';
+
+            renderSubCategories();
+            filterAndRenderItems();
+        }
+
+        function getCurrentTabCategories() {
+            if (state.activeTab === 'live') return state.liveCategories;
+            if (state.activeTab === 'vod') return state.vodCategories;
+            if (state.activeTab === 'series') return state.seriesCategories;
+            return [];
+        }
+
+        function renderSubCategories() {
+            const track = document.getElementById('categoriesTrack');
+            const categories = getCurrentTabCategories();
+            document.getElementById('catCount').innerText = categories.length || 0;
+
+            let html = `
+                <button onclick="selectCategory('all')" class="cat-btn tv-focusable shrink-0 px-4 py-2 rounded-xl text-xs font-bold ${state.activeCategory === 'all' ? 'bg-gradient-to-r from-gold-500 to-gold-600 text-black shadow-gold-glow' : 'bg-black/60 text-gray-300'}">
+                    All (${getCurrentTabItems().length})
+                </button>
             `;
-        }
 
-        function toggleCurrency() {
-            currentCurrency = currentCurrency === 'MAD' ? 'USD' : 'MAD';
-            document.getElementById('curr-label').innerText = currentCurrency === 'MAD' ? 'MAD (د.م)' : 'USD ($)';
-            renderProducts();
-        }
-
-        function openCheckout(productId, type) {
-            const allProducts = [...promoProducts, ...webappProducts];
-            selectedProduct = allProducts.find(p => p.id === productId);
-            
-            document.getElementById('modal-product-title').innerText = `طلب: ${selectedProduct.name}`;
-            document.getElementById('buyer-gmail').value = '';
-            document.getElementById('buyer-target').value = '';
-
-            const label = document.getElementById('buyer-target-label');
-            const input = document.getElementById('buyer-target');
-
-            if(type === 'webapp') {
-                label.innerText = 'رابط تطبيق الويب الخاص بك:';
-                input.placeholder = 'مثال: https://myapp.com';
-            } else {
-                label.innerText = 'اسم متجرك (Store Name / Brand):';
-                input.placeholder = 'مثال: FaroukStore أو RoyalIPTV';
-            }
-
-            document.getElementById('checkout-modal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('checkout-modal').classList.remove('active');
-        }
-
-        function closeResultModal() {
-            document.getElementById('result-modal').classList.remove('active');
-        }
-
-        function copyText(text) {
-            navigator.clipboard.writeText(text);
-            alert('تم النسخ بنجاح: ' + text);
-        }
-
-        function sendWhatsApp(phone) {
-            const gmail = document.getElementById('buyer-gmail').value.trim();
-            const target = document.getElementById('buyer-target').value.trim();
-
-            if(!gmail || !gmail.includes('@')) {
-                alert('الرجاء إدخال حساب Gmail صحيح لتسجيل الطلب');
-                return;
-            }
-            if(!target) {
-                alert('الرجاء إدخال البيانات المطلوبة');
-                return;
-            }
-
-            let priceDisplay = currentCurrency === 'MAD' ? `${selectedProduct.priceMAD} د.م` : `$${(selectedProduct.priceMAD / rate).toFixed(2)}`;
-            let message = `السلام عليكم، أريد طلب خدمة:%0A` +
-                          `📌 الخدمة: ${selectedProduct.name}%0A` +
-                          `💰 السعر: ${priceDisplay}%0A` +
-                          `📧 Gmail: ${gmail}%0A` +
-                          `🔗 البيانات: ${target}%0A` +
-                          `📎 (مرفق صورة إيصال الحوالة)`;
-
-            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
-            closeModal();
-        }
-
-        function checkOrderDirect() {
-            const gmailInput = document.getElementById('check-gmail-input').value.trim().toLowerCase();
-            const targetInput = document.getElementById('check-target-input').value.trim().toLowerCase().replace(/https?:\/\//,'').replace(/\/$/, '');
-            const resultBody = document.getElementById('result-body');
-            
-            if(!gmailInput || !targetInput) {
-                alert('الرجاء إدخال البريد واسم المتجر أو الرابط');
-                return;
-            }
-
-            const foundOrder = authorizedOrdersDB.find(o => 
-                o.gmail === gmailInput && (o.key.includes(targetInput) || targetInput.includes(o.key))
-            );
-
-            if(!foundOrder) {
-                resultBody.innerHTML = `
-                    <div style="color: #ff5c5c; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> عذراً، الحساب أو المتجر غير مسجل أو غير مفعّل في النظام!</div>
+            categories.forEach(cat => {
+                const catId = cat.category_id;
+                const isSelected = state.activeCategory == catId;
+                html += `
+                    <button onclick="selectCategory('${catId}')" class="cat-btn tv-focusable shrink-0 px-4 py-2 rounded-xl text-xs font-bold ${isSelected ? 'bg-gradient-to-r from-gold-500 to-gold-600 text-black shadow-gold-glow' : 'bg-black/60 text-gray-400'}">
+                        ${cat.category_name}
+                    </button>
                 `;
-            } else {
-                if(foundOrder.type === 'promo') {
-                    resultBody.innerHTML = `
-                        <div style="color: #25d366; font-weight: 800; margin-bottom: 8px;"><i class="fa-solid fa-circle-check"></i> تم التحقق بنجاح!</div>
-                        <p><strong>الرابط:</strong><br><a href="${foundOrder.promoLink}" target="_blank" style="color: var(--gold-primary);">${foundOrder.promoLink}</a></p>
+            });
+
+            track.innerHTML = html;
+        }
+
+        function selectCategory(catId) {
+            state.activeCategory = catId;
+            renderSubCategories();
+            filterAndRenderItems();
+        }
+
+        function getCurrentTabItems() {
+            if (state.activeTab === 'live') return state.liveChannels;
+            if (state.activeTab === 'vod') return state.vodMovies;
+            if (state.activeTab === 'series') return state.seriesList;
+            if (state.activeTab === 'favorites') return state.favorites;
+            return [];
+        }
+
+        function filterAndRenderItems(query = '') {
+            let items = getCurrentTabItems();
+
+            if (state.activeCategory !== 'all' && state.activeTab !== 'favorites') {
+                items = items.filter(item => item.category_id == state.activeCategory);
+            }
+
+            if (query.trim() !== '') {
+                const q = query.toLowerCase();
+                items = items.filter(item => (item.name || item.title || '').toLowerCase().includes(q));
+            }
+
+            state.currentItems = items;
+            state.renderedCount = 0;
+            document.getElementById('itemsCount').innerText = `(${items.length} items)`;
+            
+            document.getElementById('itemsGrid').innerHTML = '';
+            document.getElementById('gridContainer').scrollTop = 0;
+
+            renderNextBatch();
+        }
+
+        function renderNextBatch() {
+            const container = document.getElementById('itemsGrid');
+            const items = state.currentItems;
+            
+            if (!items || items.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-20 text-center text-gray-500">
+                        <i class="fa-solid fa-film text-5xl mb-3 text-gold-500/20"></i>
+                        <p class="text-xs font-semibold">No content available in this section</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const start = state.renderedCount;
+            const end = Math.min(start + state.batchSize, items.length);
+            if (start >= items.length) return;
+
+            const isLive = state.activeTab === 'live';
+            const fragment = document.createDocumentFragment();
+
+            for (let i = start; i < end; i++) {
+                const item = items[i];
+                const id = item.stream_id || item.series_id;
+                const isFav = state.favorites.some(f => (f.stream_id || f.series_id) === id);
+                const title = item.name || item.title || 'LuxStream Content';
+                const icon = item.stream_icon || item.cover || 'https://placehold.co/300x450/0c1018/d4af37?text=LuxStream';
+
+                const card = document.createElement('div');
+                card.className = "ibo-card tv-focusable rounded-2xl overflow-hidden cursor-pointer group flex flex-col justify-between";
+
+                if (isLive) {
+                    card.onclick = () => playItem(i);
+                    card.innerHTML = `
+                        <div class="aspect-video w-full overflow-hidden bg-black/80 relative p-2 flex items-center justify-center">
+                            <img src="${icon}" onerror="this.src='https://placehold.co/300x200/0c1018/d4af37?text=LIVE+TV'" alt="${title}" class="max-h-full max-w-full object-contain" loading="lazy">
+                            <span class="absolute top-2 left-2 bg-red-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white live-dot"></span> LIVE
+                            </span>
+                            <button onclick="event.stopPropagation(); toggleFavorite('${id}')" class="absolute top-2 right-2 p-1.5 rounded-full bg-black/70 text-xs ${isFav ? 'text-amber-400' : 'text-gray-400'}">
+                                <i class="fa-solid fa-star"></i>
+                            </button>
+                        </div>
+                        <div class="p-3 bg-black/60">
+                            <h4 class="text-xs font-bold text-gray-200 truncate group-hover:text-gold-400">${title}</h4>
+                        </div>
                     `;
                 } else {
-                    const clientDataObj = { h: foundOrder.server, u: foundOrder.username, p: foundOrder.password, s: foundOrder.startDate, e: foundOrder.expireDate };
-                    const clientEncoded = btoa(JSON.stringify(clientDataObj));
-                    const directPlayUrl = `${foundOrder.appUrl}?auth=${clientEncoded}`;
-
-                    resultBody.innerHTML = `
-                        <div style="color: #25d366; font-weight: 800; margin-bottom: 8px;"><i class="fa-solid fa-circle-check"></i> تم التحقق بنجاح وتفعيل التطبيق!</div>
-                        <p><strong>Host:</strong> <span style="color: var(--gold-primary);">${foundOrder.server}</span></p>
-                        <p><strong>Username:</strong> <span style="color: var(--gold-light);">${foundOrder.username}</span></p>
-                        <p><strong>Password:</strong> <span style="color: var(--gold-light);">${foundOrder.password}</span></p>
-                        <div style="margin-top: 15px;">
-                            <a href="${directPlayUrl}" target="_blank" class="btn-whatsapp" style="text-decoration: none; display: flex; justify-content: center; background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark)); color: var(--bg-deep);">
-                                <i class="fa-solid fa-play"></i> تشغيل التطبيق بالبيانات الفورية
-                            </a>
+                    card.onclick = () => openDetailsModal(i);
+                    card.innerHTML = `
+                        <div class="aspect-[2/3] w-full overflow-hidden bg-black/80 relative">
+                            <img src="${icon}" onerror="this.src='https://placehold.co/300x450/0c1018/d4af37?text=LuxStream+VOD'" alt="${title}" class="w-full h-full object-cover" loading="lazy">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end">
+                                <span class="text-[10px] text-amber-300 font-bold mb-1"><i class="fa-solid fa-star text-amber-400 ml-1"></i>${item.rating || '8.8'} IMDb</span>
+                                <div class="w-full py-2 bg-gold-500 text-black font-extrabold rounded-xl text-xs text-center shadow-gold-glow">Details</div>
+                            </div>
+                            <button onclick="event.stopPropagation(); toggleFavorite('${id}')" class="absolute top-2 right-2 p-1.5 rounded-full bg-black/70 text-xs ${isFav ? 'text-amber-400' : 'text-gray-400'} z-10">
+                                <i class="fa-solid fa-star"></i>
+                            </button>
+                        </div>
+                        <div class="p-3 bg-black/70">
+                            <h4 class="text-xs font-bold text-gray-200 truncate group-hover:text-gold-400">${title}</h4>
                         </div>
                     `;
                 }
+                fragment.appendChild(card);
             }
-            closeExtractionModal();
-            document.getElementById('result-modal').classList.add('active');
+
+            container.appendChild(fragment);
+            state.renderedCount = end;
         }
 
-        // الفحص التلقائي عند فتح الرابط:
-        window.onload = function() {
-            renderProducts();
-
-            const urlParams = new URLSearchParams(window.location.search);
-            // إذا كان الرابط مخصصاً للعامة (Store)، سيختفي زر Activation تلقائياً
-            if(urlParams.get('mode') === 'store') {
-                const adminBtn = document.getElementById('admin-activation-btn');
-                if(adminBtn) adminBtn.style.display = 'none';
+        function handleScroll(el) {
+            if (el.scrollTop + el.clientHeight >= el.scrollHeight - 300) {
+                renderNextBatch();
             }
-        };
+        }
+
+        function openDetailsModal(index) {
+            const item = state.currentItems[index];
+            if (!item) return;
+
+            state.currentItem = item;
+            const icon = item.stream_icon || item.cover || 'https://placehold.co/800x450/0c1018/d4af37?text=LuxStream';
+            
+            document.getElementById('modalBackdrop').src = icon;
+            document.getElementById('modalTitle').innerText = item.name || item.title || 'LuxStream Title';
+            document.getElementById('modalRating').innerHTML = `<i class="fa-solid fa-star text-xs ml-1"></i> ${item.rating || '8.8'}`;
+            document.getElementById('modalPlot').innerText = item.plot || 'Enjoy watching this luxury title in ultra-high definition 4K without ads using the fast LuxStream Ultra server.';
+
+            const playBtn = document.getElementById('modalPlayBtn');
+            playBtn.onclick = () => { closeDetailsModal(); playItem(index); };
+
+            const seriesSection = document.getElementById('seriesEpisodesSection');
+            if (state.activeTab === 'series') {
+                seriesSection.classList.remove('hidden-screen');
+                loadSeasonEpisodes();
+            } else {
+                seriesSection.classList.add('hidden-screen');
+            }
+
+            document.getElementById('detailsModal').classList.remove('hidden-screen');
+        }
+
+        function closeDetailsModal() { document.getElementById('detailsModal').classList.add('hidden-screen'); }
+
+        function loadSeasonEpisodes() {
+            const container = document.getElementById('episodesList');
+            let html = '';
+            for (let i = 1; i <= 6; i++) {
+                html += `
+                    <div onclick="closeDetailsModal(); playItem(0);" class="ibo-card tv-focusable p-3 rounded-xl cursor-pointer hover:scale-105 flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-gold-500/20 text-gold-400 font-bold flex items-center justify-center text-xs shrink-0">${i}</div>
+                        <div class="truncate">
+                            <h5 class="text-xs font-bold text-gray-200">Episode ${i}</h5>
+                            <span class="text-[10px] text-gray-400">45 mins</span>
+                        </div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function playItem(index) {
+            const item = state.currentItems[index];
+            if (!item) return;
+
+            state.currentItem = item;
+            const video = document.getElementById('videoElement');
+            const buffer = document.getElementById('playerBuffer');
+            document.getElementById('playerTitle').innerText = item.name || item.title || 'LuxStream Stream';
+
+            let streamUrl = '';
+            if (state.isDemoMode) {
+                streamUrl = 'https://test-streams.mux.dev/x36xhtml/x36xhtml.m3u8';
+            } else if (state.activeTab === 'live') {
+                streamUrl = `${state.host}/live/${state.username}/${state.password}/${item.stream_id}.m3u8`;
+            } else if (state.activeTab === 'vod') {
+                streamUrl = `${state.host}/movie/${state.username}/${state.password}/${item.stream_id}.${item.container_extension || 'mp4'}`;
+            } else {
+                streamUrl = `${state.host}/series/${state.username}/${state.password}/${item.stream_id}.m3u8`;
+            }
+
+            document.getElementById('playerOverlay').classList.remove('hidden-screen');
+            buffer.classList.remove('hidden-screen');
+
+            if (state.hlsInstance) {
+                state.hlsInstance.destroy();
+                state.hlsInstance = null;
+            }
+            video.pause();
+            video.removeAttribute('src');
+            video.load();
+
+            if (Hls.isSupported() && (streamUrl.endsWith('.m3u8') || state.activeTab === 'live')) {
+                const hls = new Hls({
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                    maxBufferLength: 10,
+                    maxMaxBufferLength: 20
+                });
+                state.hlsInstance = hls;
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    video.play().catch(e => console.error(e));
+                });
+            } else {
+                video.src = streamUrl;
+                video.play().catch(e => console.error(e));
+            }
+        }
+
+        function bindPlayerEvents() {
+            const video = document.getElementById('videoElement');
+            const buffer = document.getElementById('playerBuffer');
+
+            video.addEventListener('canplay', () => buffer.classList.add('hidden-screen'));
+            video.addEventListener('playing', () => buffer.classList.add('hidden-screen'));
+            video.addEventListener('waiting', () => buffer.classList.remove('hidden-screen'));
+        }
+
+        function closePlayer() {
+            const video = document.getElementById('videoElement');
+            video.pause();
+            video.removeAttribute('src');
+            if (state.hlsInstance) {
+                state.hlsInstance.destroy();
+                state.hlsInstance = null;
+            }
+            document.getElementById('playerOverlay').classList.add('hidden-screen');
+        }
+
+        function togglePlayPause() {
+            const video = document.getElementById('videoElement');
+            if (video.paused) video.play(); else video.pause();
+        }
+
+        function toggleMute() {
+            const video = document.getElementById('videoElement');
+            video.muted = !video.muted;
+        }
+
+        function setVolume(v) { document.getElementById('videoElement').volume = v; }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) document.getElementById('playerOverlay').requestFullscreen();
+            else document.exitFullscreen();
+        }
+
+        function toggleAspect() {
+            const video = document.getElementById('videoElement');
+            video.style.objectFit = video.style.objectFit === 'cover' ? 'contain' : 'cover';
+        }
+
+        function toggleFavorite(id) {
+            const items = getCurrentTabItems();
+            const item = items.find(i => (i.stream_id || i.series_id) == id);
+            if (!item) return;
+
+            const idx = state.favorites.findIndex(f => (f.stream_id || f.series_id) == id);
+            if (idx > -1) state.favorites.splice(idx, 1);
+            else state.favorites.push(item);
+
+            localStorage.setItem('lux_favs_ibo', JSON.stringify(state.favorites));
+            updateHomeCounters();
+            filterAndRenderItems();
+        }
+
+        function handleGlobalSearch(q) {
+            if (document.getElementById('iboHomeScreen').classList.contains('hidden-screen') === false) {
+                openDashboardCategory('live');
+            }
+            filterAndRenderItems(q);
+        }
+
+        function showAccountModal() {
+            const info = state.userInfo || {};
+            const details = document.getElementById('accountInfoDetails');
+            details.innerHTML = `
+                <div class="flex justify-between py-2 border-b border-gray-800"><span class="text-gray-400">Username:</span> <span class="font-bold text-gold-400">${info.username || state.username}</span></div>
+                <div class="flex justify-between py-2 border-b border-gray-800"><span class="text-gray-400">Status:</span> <span class="text-emerald-400 font-semibold">${info.status || 'Active'}</span></div>
+                <div class="flex justify-between py-2"><span class="text-gray-400">Server:</span> <span class="font-mono text-gray-300">${state.host || 'Demo Server'}</span></div>
+            `;
+            document.getElementById('accountModal').classList.remove('hidden-screen');
+        }
+
+        function closeAccountModal() { document.getElementById('accountModal').classList.add('hidden-screen'); }
+
+        function logout() { localStorage.clear(); location.reload(); }
+
+        function showLoginError(msg) {
+            const errDiv = document.getElementById('loginError');
+            if (msg) { errDiv.innerText = msg; errDiv.classList.remove('hidden'); }
+            else { errDiv.classList.add('hidden'); }
+        }
+
+        function initTVNavigation() {
+            document.addEventListener('keydown', (e) => {
+                const focusables = Array.from(document.querySelectorAll('.tv-focusable:not(.hidden-screen)'));
+                if (!focusables.length) return;
+
+                let activeEl = document.activeElement;
+                let currentIndex = focusables.indexOf(activeEl);
+
+                if (e.key === 'ArrowRight' && currentIndex < focusables.length - 1) focusables[currentIndex + 1].focus();
+                if (e.key === 'ArrowLeft' && currentIndex > 0) focusables[currentIndex - 1].focus();
+                if (e.key === 'ArrowDown' && currentIndex + 3 < focusables.length) focusables[currentIndex + 3].focus();
+                if (e.key === 'ArrowUp' && currentIndex - 3 >= 0) focusables[currentIndex - 3].focus();
+            });
+        }
     </script>
 </body>
 </html>
