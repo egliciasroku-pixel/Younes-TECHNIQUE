@@ -3,504 +3,1027 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAROUKII LUXURY - Media Player Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>ADMIN PANEL & STORE | FAROUK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-base: #0d0608;
-            --card-luxury: linear-gradient(145deg, #180b10, #0a0407);
-            --accent-gold: #f59e0b;
-            --accent-gold-light: #fcd34d;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Cairo', sans-serif;
-            border: none;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            border: none !important;
+            outline: none !important;
+        }
+
+        :root {
+            --bg-deep: #070709;
+            --bg-card: #111116;
+            --bg-card-hover: #191922;
+            --gold-primary: #d4af37;
+            --gold-light: #f9f1cd;
+            --gold-dark: #8c711f;
+            --text-main: #f8f8fa;
+            --text-muted: #8e8e99;
+            --accent-green: #25d366;
+            --glow-gold: rgba(212, 175, 55, 0.15);
         }
 
         body {
-            background: var(--bg-base);
+            background: radial-gradient(circle at center, #14141c 0%, var(--bg-deep) 100%);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .main-container {
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .top-brand-card, .clock-card, .control-panel, .menu-card, .sidebar-channels, .player-box, .footer-card {
-            background: var(--card-luxury);
-            border-radius: 20px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-        }
-
-        .top-brand-card {
-            padding: 18px 22px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand-title h2 {
-            font-size: 1.25rem;
-            font-weight: 900;
-            color: #fff;
-            line-height: 1.1;
-        }
-
-        .brand-title span {
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            letter-spacing: 2px;
-        }
-
-        .device-status {
-            background: rgba(245, 158, 11, 0.1);
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 0.72rem;
-            color: var(--accent-gold);
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .clock-card {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .clock-card .crown {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .clock-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            letter-spacing: 1px;
-        }
-
-        .control-panel {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .control-panel input {
-            width: 100%;
-            padding: 12px 14px;
-            background: #050203;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 0.85rem;
-            direction: ltr;
-            text-align: left;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
-        }
-
-        .control-panel input:focus {
-            outline: none;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 0 10px rgba(245, 158, 11, 0.3);
-        }
-
-        .btn-gold {
-            background: linear-gradient(135deg, var(--accent-gold), #b45309);
-            color: #000;
-            font-weight: 900;
-            border-radius: 12px;
             padding: 12px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
-            transition: 0.2s;
-        }
-
-        .btn-gold:hover { opacity: 0.9; transform: translateY(-1px); }
-
-        .console-log {
-            background: #020102;
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-family: monospace;
-            font-size: 0.72rem;
-            color: #34d399;
-            max-height: 65px;
-            overflow-y: auto;
-            direction: ltr;
-            text-align: left;
-        }
-
-        .grid-menu {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .menu-card {
-            padding: 25px 15px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.25s ease;
+            align-items: center;
         }
 
-        .menu-card:hover, .menu-card.active {
-            background: linear-gradient(145deg, #241018, #120509);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.25);
-        }
-
-        .menu-card svg {
-            width: 38px;
-            height: 38px;
-            fill: var(--accent-gold);
-        }
-
-        .menu-card span {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .sidebar-channels {
-            padding: 15px;
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 380px;
-            overflow-y: auto;
-        }
-
-        .sidebar-channels.open {
-            display: flex;
-        }
-
-        .channel-row {
-            padding: 12px 14px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            color: #fff;
-            transition: 0.2s;
-        }
-
-        .channel-row:hover {
-            background: rgba(245, 158, 11, 0.2);
-            padding-right: 18px;
-        }
-
-        .player-box {
-            background: #000;
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px var(--glow-gold);
             overflow: hidden;
-            display: none;
-            aspect-ratio: 16 / 9;
+            padding: 24px;
+            position: relative;
         }
 
-        .player-box video {
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 18px;
+            box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.1);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-luxury-store {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
+            color: var(--bg-deep);
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .currency-toggle {
+            background: var(--bg-card-hover);
+            color: var(--gold-primary);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .currency-toggle:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .image-banner-box {
+            width: 100%;
+            height: 190px;
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 20px rgba(212, 175, 55, 0.08);
+            position: relative;
+            background: var(--bg-card-hover);
+        }
+
+        .image-banner-box img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .footer-card {
-            padding: 15px;
-            text-align: center;
+        .image-banner-box:hover img {
+            transform: scale(1.04);
         }
 
-        .footer-card .crown-icon {
-            color: var(--accent-gold);
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .product-card {
+            background: var(--bg-card-hover);
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.04);
+            transition: all 0.4s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.7), 0 0 25px rgba(212, 175, 55, 0.12);
+        }
+
+        .product-icon {
+            font-size: 2.2rem;
+            color: var(--gold-primary);
+            margin-bottom: 12px;
+            filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.3));
+        }
+
+        .product-name {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .product-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 10px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+        }
+
+        .product-price {
             font-size: 1.1rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .footer-card h3 {
+        .btn-buy {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: var(--bg-deep);
+            padding: 9px 18px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .btn-buy:hover {
+            filter: brightness(1.15);
+            transform: translateY(-1px);
+        }
+
+        .bottom-extraction-container {
+            text-align: center;
+            margin: 30px 0 20px 0;
+        }
+
+        .btn-bottom-extract {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
+            color: var(--bg-deep);
+            padding: 14px 28px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-rights {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.1);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .footer-rights span {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 4, 6, 0.88);
+            backdrop-filter: blur(12px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            width: 100%;
+            max-width: 520px;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.95), 0 0 30px rgba(212, 175, 55, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.1);
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-modal {
+            background: var(--bg-card-hover);
+            color: var(--text-muted);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .admin-panel-box {
+            background: var(--bg-deep);
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+        .form-group input {
+            background: var(--bg-card);
+            color: var(--text-main);
+            padding: 11px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .generator-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .generator-row input {
+            flex: 1;
+            background: var(--bg-card);
+            color: var(--gold-primary);
+            padding: 11px 14px;
+            border-radius: 12px;
             font-size: 0.85rem;
             font-weight: 800;
-            color: var(--accent-gold);
-            letter-spacing: 1px;
-            margin-top: 3px;
+            direction: ltr;
+            text-align: left;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        .footer-card p {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            margin-top: 2px;
+        .btn-generate {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: var(--bg-deep);
+            padding: 11px 16px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .copy-link-btn {
+            background: var(--bg-card);
+            color: var(--gold-primary);
+            padding: 11px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .input-group-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .input-group-grid input {
+            background: var(--bg-deep);
+            color: var(--text-main);
+            padding: 11px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: var(--bg-deep);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 0.88rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .bank-info-box {
+            background: var(--bg-card-hover);
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            font-size: 0.82rem;
+        }
+
+        .bank-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .phone-display-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            direction: ltr;
+        }
+
+        .luxury-phone-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--bg-deep);
+            font-size: 0.85rem;
+        }
+
+        .formatted-phone {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .copy-btn {
+            background: var(--gold-primary);
+            color: var(--bg-deep);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .warning-notice {
+            background: rgba(212, 175, 55, 0.08);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            color: var(--gold-light);
+            text-align: center;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-weight: 700;
+        }
+
+        .whatsapp-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .btn-whatsapp {
+            flex: 1;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.35);
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 4px; }
+            .container { padding: 14px; border-radius: 16px; }
+            .products-grid { grid-template-columns: 1fr; }
+            .image-banner-box { height: 160px; }
         }
     </style>
 </head>
 <body>
 
-<div class="main-container">
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i>
+                ADMIN PANEL & STORE
+            </div>
+            <div class="header-actions">
+                <div class="currency-toggle" onclick="toggleCurrency()">
+                    <span id="curr-label">MAD (د.م)</span>
+                </div>
+                <!-- زر Activation الخاص بك (يظهر في رابطك الرسمي فقط) -->
+                <button id="admin-activation-btn" onclick="openActivationModal()" class="btn-luxury-store">
+                    <i class="fa-solid fa-key"></i> Activation
+                </button>
+            </div>
+        </header>
 
-    <!-- 1. بطاقة الهوية العلوية -->
-    <div class="top-brand-card">
-        <div class="brand-title">
-            <h2>FAROUKII</h2>
-            <span>LUXURY</span>
-        </div>
-        <div class="device-status">
-            🛡️ Active & Locked<br>🔒 Device
-        </div>
-    </div>
+        <!-- الواجهة الرئيسية -->
+        <div>
+            <div class="section-title">
+                <i class="fa-solid fa-bullhorn"></i> كتالوج الصفحات الإشهارية للموزعين والبائعين
+            </div>
 
-    <!-- 2. بطاقة الساعة والتاج -->
-    <div class="clock-card">
-        <div class="crown">👑</div>
-        <div class="clock-header">
-            <span>FAROUKII</span>
-            <span id="liveClock">00:00:00</span>
-            <span>LUXURY</span>
-        </div>
-    </div>
+            <div class="image-banner-box">
+                <img src="https://i.ibb.co/MxzFgQp1/1794307372727.jpg" alt="عروض الصفحات الإشهارية">
+            </div>
 
-    <!-- 3. لوحة التحكم والاتصال -->
-    <div class="control-panel">
-        <input type="text" id="apiInput" placeholder="أدخل رابط Xtream أو رابط get.php هنا...">
-        <button class="btn-gold" onclick="saveAndConnect()">حفظ والاتصال بالسيرفر ⚡</button>
-        <div class="console-log" id="consoleLog">
-            [FAROUKII] النظام جاهز للاتصال الذكي...
-        </div>
-    </div>
+            <div class="products-grid" id="promo-grid"></div>
 
-    <!-- 4. الأقسام الأربعة الرئيسية -->
-    <div class="grid-menu">
-        <div class="menu-card" onclick="switchCategory('live', this)">
-            <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
-            <span>Live TV</span>
-        </div>
-        <div class="menu-card" onclick="switchCategory('films', this)">
-            <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
-            <span>Movies</span>
-        </div>
-        <div class="menu-card" onclick="switchCategory('series', this)">
-            <svg viewBox="0 0 24 24"><path d="M4 6.47L5.76 4H20v15H4V6.47M22 2H2v20h20V2z"/></svg>
-            <span>Series</span>
-        </div>
-        <div class="menu-card" onclick="alert('قسم المفضلة قيد التفعيل')">
-            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            <span>Favorites</span>
-        </div>
-    </div>
+            <div class="section-title">
+                <i class="fa-solid fa-code"></i> كتالوج تطبيقات الويب المخصصة
+            </div>
 
-    <!-- 5. نافذة القنوات المخفية -->
-    <div class="sidebar-channels" id="sidebarChannels">
-        <input type="text" id="searchBox" placeholder="بحث سريع..." oninput="filterItems()" style="width:100%; padding:10px; background:#050203; border-radius:10px; color:#fff; font-size:0.85rem;">
-        <div id="itemsContainer" style="display:flex; flex-direction:column; gap:6px;">
-            <div style="text-align:center; color:var(--text-muted); font-size:0.8rem; padding:15px;">اختر قسماً لعرض المحتوى...</div>
+            <div class="image-banner-box">
+                <img src="https://i.ibb.co/SpS2GWq/1794783850863.jpg" alt="عروض تطبيقات الويب">
+            </div>
+
+            <div class="products-grid" id="webapps-grid"></div>
+        </div>
+
+        <!-- زر بوابة استخراج البيانات الفاخر في الأسفل -->
+        <div class="bottom-extraction-container">
+            <button onclick="openExtractionModal()" class="btn-bottom-extract">
+                <i class="fa-solid fa-database"></i> بوابة استخراج البيانات والاشتراكات
+            </button>
+        </div>
+
+        <!-- حقوق الحفظ والسنة في أسفل الصفحة -->
+        <div class="footer-rights">
+            جميع الحقوق محفوظة &copy; 2026 | تم التطوير بواسطة <span>FAROUK</span>
         </div>
     </div>
 
-    <!-- 6. مشغل الفيديو -->
-    <div class="player-box" id="playerBox">
-        <video id="mainVideo" controls></video>
+    <!-- Modal Activation Hub -->
+    <div class="modal" id="activation-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fa-solid fa-server"></i> Xtream Codes & WebApp Generator</div>
+                <div class="close-modal" onclick="closeActivationModal()"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+
+            <div style="font-size: 0.82rem; font-weight: 800; color: var(--gold-light); margin-bottom: 6px;">
+                <i class="fa-solid fa-code-branch"></i> توليد رابط المتجر للعامة (بدون زر Activation):
+            </div>
+            <div class="admin-panel-box">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                    <input type="text" id="gh-username" value="storefarouk" placeholder="مستخدم GitHub">
+                    <input type="text" id="gh-repo" value="store" placeholder="المستودع">
+                </div>
+                <div class="generator-row">
+                    <input type="text" id="generated-store-url" readonly>
+                    <button class="btn-generate" onclick="generateStoreLink()">توليد</button>
+                    <span class="copy-link-btn" onclick="copyGeneratedLink()"><i class="fa-solid fa-copy"></i></span>
+                </div>
+            </div>
+
+            <div style="font-size: 0.82rem; font-weight: 800; color: var(--gold-light); margin-bottom: 6px; margin-top: 10px;">
+                <i class="fa-solid fa-bolt"></i> تفعيل بيانات Xtream وحفظها تلقائياً:
+            </div>
+            <div class="admin-panel-box">
+                <div class="form-group">
+                    <label>البريد الإلكتروني للزبون (Gmail):</label>
+                    <input type="email" id="xtream-gmail" placeholder="customer@gmail.com" dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label>رابط تطبيق الويب أو اسم المتجر (App URL / Brand):</label>
+                    <input type="text" id="app-base-url" placeholder="https://myapp.com أو FaroukStore" dir="ltr">
+                </div>
+                <div class="form-group">
+                    <label>Xtream Host (السيرفر):</label>
+                    <input type="text" id="xtream-host" placeholder="http://line.server.com:8080" dir="ltr">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" id="xtream-user" placeholder="username" dir="ltr">
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="text" id="xtream-pass" placeholder="password" dir="ltr">
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div class="form-group">
+                        <label>تاريخ البدء:</label>
+                        <input type="date" id="xtream-start">
+                    </div>
+                    <div class="form-group">
+                        <label>تاريخ الانتهاء:</label>
+                        <input type="date" id="xtream-expire">
+                    </div>
+                </div>
+                <button class="btn-check" onclick="saveAndGenerateXtream()">حفظ وتوليد الرابط التلقائي</button>
+
+                <div class="form-group" style="margin-top: 10px;">
+                    <label>الرابط المتولد للزبون:</label>
+                    <div class="generator-row">
+                        <input type="text" id="generated-webapp-url" readonly placeholder="سيظهر الرابط هنا بعد الحفظ...">
+                        <span class="copy-link-btn" onclick="copyWebAppUrl()"><i class="fa-solid fa-copy"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- 7. شريط الحقوق في الأسفل -->
-    <div class="footer-card">
-        <span class="crown-icon">👑</span>
-        <h3>FAROUKII LUXURY MEDIA PLAYER</h3>
-        <p>All Rights Reserved &copy; 2026</p>
+    <!-- Modal Extraction Hub -->
+    <div class="modal" id="extraction-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fa-solid fa-database"></i> بوابة استخراج البيانات</div>
+                <div class="close-modal" onclick="closeExtractionModal()"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+            
+            <p class="product-desc">أدخل حساب الـ Gmail المسجل واسم المتجر أو رابط التطبيق لاستخراج بياناتك:</p>
+            <div class="input-group-grid" style="margin-top: 12px;">
+                <input type="email" id="check-gmail-input" placeholder="حساب الـ Gmail المسجل">
+                <input type="text" id="check-target-input" placeholder="اسم المتجر أو رابط التطبيق">
+                <button class="btn-check" onclick="checkOrderDirect()">استخراج البيانات والاشتراك</button>
+            </div>
+        </div>
     </div>
 
-</div>
+    <!-- Modal Checkout & Bank Transfer -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-product-title">طلب الخدمة</div>
+                <div class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+            
+            <div class="bank-info-box">
+                <div style="font-weight: 800; color: var(--gold-primary); margin-bottom: 10px;">
+                    <i class="fa-solid fa-building-columns"></i> معلومات الحساب والاتصال:
+                </div>
+                <div class="bank-row">
+                    <span>RIB: <strong id="rib-text" style="letter-spacing: 1px;">230 810 00000000 24</strong></span>
+                    <span class="copy-btn" onclick="copyText('2308100000000024')">نسخ</span>
+                </div>
+                <div class="bank-row" style="margin-top: 8px; align-items: center;">
+                    <div class="phone-display-container">
+                        <div class="luxury-phone-icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <span class="formatted-phone">+212 630-473498</span>
+                    </div>
+                    <span class="copy-btn" onclick="copyText('+212630473498')">نسخ</span>
+                </div>
+            </div>
 
-<script>
-    setInterval(() => {
-        const now = new Date();
-        document.getElementById('liveClock').textContent = now.toLocaleTimeString();
-    }, 1000);
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label>حساب Gmail الخاص بك:</label>
+                <input type="email" id="buyer-gmail" placeholder="example@gmail.com">
+            </div>
 
-    let host = "", username = "", password = "";
-    let currentCategory = "live";
-    let cachedData = { live: [], films: [], series: [] };
+            <div class="form-group" style="margin-bottom: 12px;" id="dynamic-input-group">
+                <label id="buyer-target-label">اسم المتجر (Store Name / Brand):</label>
+                <input type="text" id="buyer-target" placeholder="مثال: Farouk Store أو رابط التطبيق">
+            </div>
 
-    function log(msg) {
-        const box = document.getElementById('consoleLog');
-        box.innerHTML += `<br>[${new Date().toLocaleTimeString()}] ${msg}`;
-        box.scrollTop = box.scrollHeight;
-    }
+            <div class="warning-notice">
+                ⚠️ تنبيه هام: يرجى إرفاق صورة الحوالة من جهازك في محادثة الواتساب مباشرة عند طلب الخدمة لضمان سرعة تفعيل طلبك.
+            </div>
 
-    function saveAndConnect() {
-        const rawUrl = document.getElementById('apiInput').value.trim();
-        if (!rawUrl) {
-            alert('يرجى إدخال الرابط أولاً.');
-            return;
-        }
+            <div class="whatsapp-buttons">
+                <div class="btn-whatsapp" onclick="sendWhatsApp('+212630473498')">
+                    <i class="fa-brands fa-whatsapp"></i> واتساب 1
+                </div>
+                <div class="btn-whatsapp" onclick="sendWhatsApp('+212650443149')">
+                    <i class="fa-brands fa-whatsapp"></i> واتساب 2
+                </div>
+            </div>
+        </div>
+    </div>
 
-        try {
-            const urlObj = new URL(rawUrl);
-            host = `${urlObj.protocol}//${urlObj.host}`;
-            const params = new URLSearchParams(urlObj.search);
-            username = params.get('username') || params.get('user') || '';
-            password = params.get('password') || params.get('pass') || '';
-        } catch(e) {
-            alert('رابط غير صالح.');
-            return;
-        }
+    <!-- Modal Activation Result -->
+    <div class="modal" id="result-modal">
+        <div class="modal-content" style="text-align: center;">
+            <div class="modal-header">
+                <div class="modal-title">بيانات ورابط التفعيل الفوري</div>
+                <div class="close-modal" onclick="closeResultModal()"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+            <div id="result-body" style="font-size: 0.88rem; line-height: 1.7; margin: 15px 0;"></div>
+            <button class="btn-buy" onclick="closeResultModal()" style="width: 100%; padding: 12px;">إغلاق</button>
+        </div>
+    </div>
 
-        if (!username || !password) {
-            alert('تعذر استخراج بيانات الدخول من الرابط.');
-            return;
-        }
+    <script>
+        let currentCurrency = 'MAD';
+        let rate = 10;
+        let selectedProduct = null;
 
-        log("✅ تم حفظ البيانات واستخراج معلومات الاتصال بنجاح!");
-        alert("تم الحفظ بنجاح! يمكنك الآن النقر على Live TV أو Movies أو Series.");
-    }
-
-    async function switchCategory(cat, element) {
-        currentCategory = cat;
-        document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active'));
-        if(element) element.classList.add('active');
-
-        if (!host || !username || !password) {
-            alert("يرجى إدخال الرابط والضغط على (حفظ والاتصال بالسيرفر) في الأعلى أولاً.");
-            return;
-        }
-
-        const sidebar = document.getElementById('sidebarChannels');
-        sidebar.classList.add('open');
-
-        if (cachedData[cat].length > 0) {
-            renderList();
-            return;
-        }
-
-        // تحويل الطلب تلقائياً إلى صيغة player_api.php الصحيحة بغض النظر عن الرابط المدخل
-        let action = "";
-        if (cat === 'live') action = "get_live_streams";
-        else if (cat === 'films') action = "get_vod_streams";
-        else if (cat === 'series') action = "get_series";
-
-        const targetUrl = `${host}/player_api.php?username=${username}&password=${password}&action=${action}`;
-        
-        const container = document.getElementById('itemsContainer');
-        container.innerHTML = '<div style="text-align:center; color:var(--accent-gold); font-size:0.8rem; padding:15px;">⏳ جاري جلب محتوى القسم...</div>';
-        log(`جاري جلب بيانات ${cat.toUpperCase()}...`);
-
-        const attempts = [
-            targetUrl,
-            `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-            `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
+        let authorizedOrdersDB = JSON.parse(localStorage.getItem('store_farouk_auth_db')) || [
+            { 
+                gmail: 'egliciasroku@gmail.com', 
+                key: 'farouktv', 
+                type: 'promo', 
+                product: 'صفحة إشهارية VIP للموزعين', 
+                promoLink: 'https://storefarouk.github.io/promo/farouktv' 
+            },
+            { 
+                gmail: 'hot.younes244@gmail.com', 
+                key: 'https://myapp.com', 
+                type: 'webapp', 
+                product: 'NETROTOD WEB PLAYER', 
+                appUrl: 'https://myapp.com', 
+                server: 'http://line.farouktv.com:8080', 
+                username: 'frk_younes99', 
+                password: 'farouk2026',
+                startDate: '2026-01-01',
+                expireDate: '2027-01-01'
+            }
         ];
 
-        let success = false;
-        for (let url of attempts) {
-            try {
-                const res = await fetch(url);
-                if (res.ok) {
-                    const json = await res.json();
-                    if (Array.isArray(json)) {
-                        cachedData[cat] = json;
-                        success = true;
-                        log(`✨ تم جلب ${json.length} عنصر بنجاح.`);
-                        break;
-                    }
+        const promoProducts = [
+            { id: 1, name: "صفحة إشهارية VIP للموزعين", desc: "صفحة هبوط احترافية مخصصة للترويج لخدماتك ومنتجاتك وزيادة مبيعاتك.", priceMAD: 200, icon: "fa-bullhorn", type: "promo" },
+            { id: 2, name: "حملة إشهارية شاملة للتطبيقات", desc: "إشهار تطبيقاتك ومنتجاتك الرقمية واستهداف آلاف الزبائن مباشرة.", priceMAD: 350, icon: "fa-rocket", type: "promo" }
+        ];
+
+        const webappProducts = [
+            { id: 3, name: "NETROTOD WEB PLAYER", desc: "مشغل ويب متطور خاص بالبث المباشر مع تخصيص اللوجو والألوان بالكامل.", priceMAD: 300, icon: "fa-globe", type: "webapp" },
+            { id: 4, name: "FAROUK STREAM PANEL", desc: "لوحة تحكم ويب احترافية لإدارة الاشتراكات والعملاء بمرونة تامة.", priceMAD: 500, icon: "fa-server", type: "webapp" }
+        ];
+
+        function openActivationModal() {
+            generateStoreLink();
+            document.getElementById('activation-modal').classList.add('active');
+        }
+
+        function closeActivationModal() {
+            document.getElementById('activation-modal').classList.remove('active');
+        }
+
+        function openExtractionModal() {
+            document.getElementById('extraction-modal').classList.add('active');
+        }
+
+        function closeExtractionModal() {
+            document.getElementById('extraction-modal').classList.remove('active');
+        }
+
+        // توليد رابط المتجر النظيف للعامة (مضاف إليه باراميتر ?mode=store لإخفاء زر Activation تلقائياً)
+        function generateStoreLink() {
+            const username = document.getElementById('gh-username').value.trim() || 'storefarouk';
+            const repo = document.getElementById('gh-repo').value.trim() || 'store';
+            const storeUrl = `https://${username}.github.io/${repo}/?mode=store`;
+            document.getElementById('generated-store-url').value = storeUrl;
+        }
+
+        function copyGeneratedLink() {
+            const urlInput = document.getElementById('generated-store-url');
+            if(!urlInput.value) return;
+            navigator.clipboard.writeText(urlInput.value);
+            alert('تم نسخ رابط المتجر المخصص للعامة بنجاح!');
+        }
+
+        function saveAndGenerateXtream() {
+            const gmail = document.getElementById('xtream-gmail').value.trim().toLowerCase();
+            const target = document.getElementById('app-base-url').value.trim().toLowerCase();
+            const host = document.getElementById('xtream-host').value.trim();
+            const user = document.getElementById('xtream-user').value.trim();
+            const pass = document.getElementById('xtream-pass').value.trim();
+            const start = document.getElementById('xtream-start').value;
+            const expire = document.getElementById('xtream-expire').value;
+
+            if(!gmail || !target || !host || !user || !pass) {
+                alert('الرجاء إدخال جميع البيانات الأساسية');
+                return;
+            }
+
+            const dataObj = { h: host, u: user, p: pass, s: start, e: expire };
+            const encodedData = btoa(JSON.stringify(dataObj));
+            const directPlayUrl = target.startsWith('http') ? `${target}?auth=${encodedData}` : `https://${target}?auth=${encodedData}`;
+
+            document.getElementById('generated-webapp-url').value = directPlayUrl;
+
+            const newOrder = {
+                gmail: gmail,
+                key: target.replace(/https?:\/\//,'').replace(/\/$/, ''),
+                type: 'webapp',
+                product: 'NETROTOD WEB PLAYER (Xtream)',
+                appUrl: target.startsWith('http') ? target : `https://${target}`,
+                server: host,
+                username: user,
+                password: pass,
+                startDate: start,
+                expireDate: expire
+            };
+
+            const existingIndex = authorizedOrdersDB.findIndex(o => o.gmail === gmail);
+            if(existingIndex >= 0) {
+                authorizedOrdersDB[existingIndex] = newOrder;
+            } else {
+                authorizedOrdersDB.push(newOrder);
+            }
+
+            localStorage.setItem('store_farouk_auth_db', JSON.stringify(authorizedOrdersDB));
+            alert('تم حفظ البيانات وتوليد الرابط بنجاح!');
+        }
+
+        function copyWebAppUrl() {
+            const input = document.getElementById('generated-webapp-url');
+            if(!input.value) return;
+            navigator.clipboard.writeText(input.value);
+            alert('تم نسخ رابط التشغيل للزبون بنجاح!');
+        }
+
+        function renderProducts() {
+            const promoGrid = document.getElementById('promo-grid');
+            promoGrid.innerHTML = '';
+            promoProducts.forEach(p => {
+                let priceDisplay = currentCurrency === 'MAD' ? `${p.priceMAD} د.م` : `$${(p.priceMAD / rate).toFixed(2)}`;
+                promoGrid.innerHTML += createCardHTML(p, priceDisplay);
+            });
+
+            const webappGrid = document.getElementById('webapps-grid');
+            webappGrid.innerHTML = '';
+            webappProducts.forEach(p => {
+                let priceDisplay = currentCurrency === 'MAD' ? `${p.priceMAD} د.م` : `$${(p.priceMAD / rate).toFixed(2)}`;
+                webappGrid.innerHTML += createCardHTML(p, priceDisplay);
+            });
+        }
+
+        function createCardHTML(p, priceDisplay) {
+            return `
+                <div class="product-card">
+                    <div>
+                        <div class="product-icon"><i class="fa-solid ${p.icon}"></i></div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                    </div>
+                    <div class="product-footer">
+                        <span class="product-price">${priceDisplay}</span>
+                        <button class="btn-buy" onclick="openCheckout(${p.id}, '${p.type}')">طلب الخدمة</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleCurrency() {
+            currentCurrency = currentCurrency === 'MAD' ? 'USD' : 'MAD';
+            document.getElementById('curr-label').innerText = currentCurrency === 'MAD' ? 'MAD (د.م)' : 'USD ($)';
+            renderProducts();
+        }
+
+        function openCheckout(productId, type) {
+            const allProducts = [...promoProducts, ...webappProducts];
+            selectedProduct = allProducts.find(p => p.id === productId);
+            
+            document.getElementById('modal-product-title').innerText = `طلب: ${selectedProduct.name}`;
+            document.getElementById('buyer-gmail').value = '';
+            document.getElementById('buyer-target').value = '';
+
+            const label = document.getElementById('buyer-target-label');
+            const input = document.getElementById('buyer-target');
+
+            if(type === 'webapp') {
+                label.innerText = 'رابط تطبيق الويب الخاص بك:';
+                input.placeholder = 'مثال: https://myapp.com';
+            } else {
+                label.innerText = 'اسم متجرك (Store Name / Brand):';
+                input.placeholder = 'مثال: FaroukStore أو RoyalIPTV';
+            }
+
+            document.getElementById('checkout-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('checkout-modal').classList.remove('active');
+        }
+
+        function closeResultModal() {
+            document.getElementById('result-modal').classList.remove('active');
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            alert('تم النسخ بنجاح: ' + text);
+        }
+
+        function sendWhatsApp(phone) {
+            const gmail = document.getElementById('buyer-gmail').value.trim();
+            const target = document.getElementById('buyer-target').value.trim();
+
+            if(!gmail || !gmail.includes('@')) {
+                alert('الرجاء إدخال حساب Gmail صحيح لتسجيل الطلب');
+                return;
+            }
+            if(!target) {
+                alert('الرجاء إدخال البيانات المطلوبة');
+                return;
+            }
+
+            let priceDisplay = currentCurrency === 'MAD' ? `${selectedProduct.priceMAD} د.م` : `$${(selectedProduct.priceMAD / rate).toFixed(2)}`;
+            let message = `السلام عليكم، أريد طلب خدمة:%0A` +
+                          `📌 الخدمة: ${selectedProduct.name}%0A` +
+                          `💰 السعر: ${priceDisplay}%0A` +
+                          `📧 Gmail: ${gmail}%0A` +
+                          `🔗 البيانات: ${target}%0A` +
+                          `📎 (مرفق صورة إيصال الحوالة)`;
+
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            closeModal();
+        }
+
+        function checkOrderDirect() {
+            const gmailInput = document.getElementById('check-gmail-input').value.trim().toLowerCase();
+            const targetInput = document.getElementById('check-target-input').value.trim().toLowerCase().replace(/https?:\/\//,'').replace(/\/$/, '');
+            const resultBody = document.getElementById('result-body');
+            
+            if(!gmailInput || !targetInput) {
+                alert('الرجاء إدخال البريد واسم المتجر أو الرابط');
+                return;
+            }
+
+            const foundOrder = authorizedOrdersDB.find(o => 
+                o.gmail === gmailInput && (o.key.includes(targetInput) || targetInput.includes(o.key))
+            );
+
+            if(!foundOrder) {
+                resultBody.innerHTML = `
+                    <div style="color: #ff5c5c; font-weight: 800;"><i class="fa-solid fa-circle-xmark"></i> عذراً، الحساب أو المتجر غير مسجل أو غير مفعّل في النظام!</div>
+                `;
+            } else {
+                if(foundOrder.type === 'promo') {
+                    resultBody.innerHTML = `
+                        <div style="color: #25d366; font-weight: 800; margin-bottom: 8px;"><i class="fa-solid fa-circle-check"></i> تم التحقق بنجاح!</div>
+                        <p><strong>الرابط:</strong><br><a href="${foundOrder.promoLink}" target="_blank" style="color: var(--gold-primary);">${foundOrder.promoLink}</a></p>
+                    `;
+                } else {
+                    const clientDataObj = { h: foundOrder.server, u: foundOrder.username, p: foundOrder.password, s: foundOrder.startDate, e: foundOrder.expireDate };
+                    const clientEncoded = btoa(JSON.stringify(clientDataObj));
+                    const directPlayUrl = `${foundOrder.appUrl}?auth=${clientEncoded}`;
+
+                    resultBody.innerHTML = `
+                        <div style="color: #25d366; font-weight: 800; margin-bottom: 8px;"><i class="fa-solid fa-circle-check"></i> تم التحقق بنجاح وتفعيل التطبيق!</div>
+                        <p><strong>Host:</strong> <span style="color: var(--gold-primary);">${foundOrder.server}</span></p>
+                        <p><strong>Username:</strong> <span style="color: var(--gold-light);">${foundOrder.username}</span></p>
+                        <p><strong>Password:</strong> <span style="color: var(--gold-light);">${foundOrder.password}</span></p>
+                        <div style="margin-top: 15px;">
+                            <a href="${directPlayUrl}" target="_blank" class="btn-whatsapp" style="text-decoration: none; display: flex; justify-content: center; background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark)); color: var(--bg-deep);">
+                                <i class="fa-solid fa-play"></i> تشغيل التطبيق بالبيانات الفورية
+                            </a>
+                        </div>
+                    `;
                 }
-            } catch(e) {}
+            }
+            closeExtractionModal();
+            document.getElementById('result-modal').classList.add('active');
         }
 
-        if (success) {
-            renderList();
-        } else {
-            container.innerHTML = '<div style="text-align:center; color:#f87171; font-size:0.8rem; padding:15px;">⚠️ فشل جلب البيانات، تأكد من أن السيرفر يدعم الـ API المباشر.</div>';
-            log(`❌ فشل جلب بيانات ${cat.toUpperCase()}.`);
-        }
-    }
+        // الفحص التلقائي عند فتح الرابط:
+        window.onload = function() {
+            renderProducts();
 
-    function renderList() {
-        const container = document.getElementById('itemsContainer');
-        container.innerHTML = '';
-        const items = cachedData[currentCategory] || [];
-
-        if (items.length === 0) {
-            container.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:0.8rem; padding:15px;">لا توجد عناصر.</div>';
-            return;
-        }
-
-        const fragment = document.createDocumentFragment();
-        items.forEach(item => {
-            const name = item.name || item.title || "عنصر بدون اسم";
-            const id = item.stream_id || item.series_id;
-            const div = document.createElement('div');
-            div.className = 'channel-row';
-            div.textContent = `▶ ${name}`;
-            div.onclick = () => playItem(id, name);
-            fragment.appendChild(div);
-        });
-        container.appendChild(fragment);
-    }
-
-    function filterItems() {
-        const query = document.getElementById('searchBox').value.toLowerCase();
-        const items = cachedData[currentCategory] || [];
-        const filtered = items.filter(i => (i.name || i.title || "").toLowerCase().includes(query));
-        
-        const container = document.getElementById('itemsContainer');
-        container.innerHTML = '';
-        const fragment = document.createDocumentFragment();
-        filtered.forEach(item => {
-            const name = item.name || item.title || "";
-            const id = item.stream_id || item.series_id;
-            const div = document.createElement('div');
-            div.className = 'channel-row';
-            div.textContent = `▶ ${name}`;
-            div.onclick = () => playItem(id, name);
-            fragment.appendChild(div);
-        });
-        container.appendChild(fragment);
-    }
-
-    function playItem(id, name) {
-        const playerBox = document.getElementById('playerBox');
-        playerBox.style.display = 'block';
-        const video = document.getElementById('mainVideo');
-
-        let streamUrl = "";
-        if (currentCategory === 'live') {
-            streamUrl = `${host}/live/${username}/${password}/${id}.m3u8`;
-        } else if (currentCategory === 'films') {
-            streamUrl = `${host}/movie/${username}/${password}/${id}.mp4`;
-        } else if (currentCategory === 'series') {
-            streamUrl = `${host}/series/${username}/${password}/${id}.mp4`;
-        }
-
-        log(`تشغيل: ${name}`);
-
-        if (Hls.isSupported() && streamUrl.includes('.m3u8')) {
-            if (window.hls) window.hls.destroy();
-            window.hls = new Hls();
-            window.hls.loadSource(streamUrl);
-            window.hls.attachMedia(video);
-            window.hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-        } else {
-            video.src = streamUrl;
-            video.play().catch(e => log("تنبيه المشغل: يتطلب تفاعل المتصفح لتشغيل الفيديو."));
-        }
-    }
-</script>
-
+            const urlParams = new URLSearchParams(window.location.search);
+            // إذا كان الرابط مخصصاً للعامة (Store)، سيختفي زر Activation تلقائياً
+            if(urlParams.get('mode') === 'store') {
+                const adminBtn = document.getElementById('admin-activation-btn');
+                if(adminBtn) adminBtn.style.display = 'none';
+            }
+        };
+    </script>
 </body>
 </html>
