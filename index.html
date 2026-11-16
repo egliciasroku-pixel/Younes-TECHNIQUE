@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <!-- تجاوز حظر Mixed Content والـ CORS داخل تطبيقات الويب والـ APK -->
+    <!-- تجاوز حظر Mixed Content والـ CORS داخل تطبيقات Median والـ APK -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>LuxStream IPTV Ultra - APK Optimized Edition</title>
+    <title>LuxStream IPTV Ultra - Median APK Optimized</title>
 
     <!-- Font Awesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -162,7 +162,7 @@
                     <div class="flex items-center justify-between text-xs text-gray-400 px-1 pt-1">
                         <label class="flex items-center cursor-pointer">
                             <input type="checkbox" id="useProxy" checked class="rounded text-gold-500 bg-black/50">
-                            <span class="ml-2">Enable Smart Multi-Proxy Bypass</span>
+                            <span class="ml-2">Enable Median WebView Proxy Bypass</span>
                         </label>
                     </div>
 
@@ -490,10 +490,11 @@
             return host.replace(/\/+$/, '');
         }
 
-        /* محرك الاتصال الذكي المدعم بالبروكسي لتجاوز الحظر في الـ APK */
+        /* محرك الاتصال المحدث خصيصاً لتجاوز حظر WebView في Median APK */
         async function fetchXtreamApi(actionUrl) {
             const useProxy = document.getElementById('useProxy')?.checked;
             
+            // ترتيب البوابات لضمان الاستجابة الفورية داخل تطبيق Median
             let urlsToTry = [actionUrl];
             if (useProxy) {
                 urlsToTry = [
@@ -507,7 +508,7 @@
             for (const targetUrl of urlsToTry) {
                 try {
                     const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 8000);
+                    const timeoutId = setTimeout(() => controller.abort(), 9000);
                     const res = await fetch(targetUrl, { signal: controller.signal });
                     clearTimeout(timeoutId);
                     
@@ -523,11 +524,11 @@
                         }
                     }
                 } catch (err) {
-                    // تجربة الرابط التالي في القائمة تلقائياً
+                    // الانتقال للبوابة التالية في حال قيام WebView بحظر الطلب الحالي
                 }
             }
 
-            throw new Error("تعذر الاتصال بالسيرفر داخل تطبيق APK. تأكد من اتصال الإنترنت أو صحة بيانات Host.");
+            throw new Error("تعذر جلب البيانات داخل تطبيق Median. تأكد من تفعيل Mixed Content في لوحة تحكم التطبيق.");
         }
 
         async function handleLogin(e) {
