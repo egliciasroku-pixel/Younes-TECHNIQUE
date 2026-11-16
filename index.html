@@ -488,17 +488,17 @@
             return host.replace(/\/+$/, '');
         }
 
-        /* نظام متعدد البروكسيات لضمان نجاح الاتصال على GitHub Pages وتجاوز أي حظر */
+        /* نظام متعدد البروكسيات لتجاوز CORS والبروتوكولات (HTTP/HTTPS) بالكامل */
         async function fetchXtreamApi(actionUrl) {
             const useProxy = document.getElementById('useProxy')?.checked;
             
-            // قائمة البروكسيات المتاحة لتجربتها بالترتيب
             let urlsToTry = [actionUrl];
             if (useProxy) {
                 urlsToTry = [
                     `https://api.allorigins.win/raw?url=` + encodeURIComponent(actionUrl),
                     `https://corsproxy.io/?` + encodeURIComponent(actionUrl),
-                    actionUrl // الاتصال المباشر كخيار أخير
+                    `https://api.codetabs.com/v1/proxy?quest=` + encodeURIComponent(actionUrl),
+                    actionUrl
                 ];
             }
 
@@ -521,7 +521,7 @@
                         }
                     }
                 } catch (err) {
-                    // الانتقال للبروكسي الموالي في القائمة في حال فشل الحالي
+                    // الانتقال للبروكسي الموالي تلقائياً عند أي فشل
                 }
             }
 
@@ -877,6 +877,12 @@
                 streamUrl = `${state.host}/series/${state.username}/${state.password}/${item.stream_id}.m3u8`;
             }
 
+            // إذا أردت تمرير روابط الـ Stream أيضاً عبر البروكسي عند الحاجة لتجاوز Mixed Content
+            const useProxy = document.getElementById('useProxy')?.checked;
+            if (useProxy && !state.isDemoMode) {
+                streamUrl = `https://corsproxy.io/?` + encodeURIComponent(streamUrl);
+            }
+
             document.getElementById('playerOverlay').classList.remove('hidden-screen');
             buffer.classList.remove('hidden-screen');
 
@@ -888,7 +894,7 @@
             video.removeAttribute('src');
             video.load();
 
-            if (Hls.isSupported() && (streamUrl.endsWith('.m3u8') || state.activeTab === 'live')) {
+            if (Hls.isSupported() && (streamUrl.includes('.m3u8') || state.activeTab === 'live')) {
                 const hls = new Hls({
                     enableWorker: true,
                     lowLatencyMode: true,
