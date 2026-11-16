@@ -1,1012 +1,2917 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="h-full overflow-hidden">
+<html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <!-- تجاوز حظر Mixed Content والـ CORS داخل تطبيقات Median والـ APK -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>LuxStream IPTV Ultra - Median APK Optimized</title>
-
-    <!-- Font Awesome 6 Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- HLS.js for Ultra Low-Latency Fast Streaming -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        gold: {
-                            100: '#fff8e1',
-                            300: '#f7d368',
-                            400: '#e6ba39',
-                            500: '#d4af37',
-                            600: '#b89025',
-                            700: '#8e6d19',
-                        },
-                        darkbg: '#040609',
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                        tajawal: ['Tajawal', 'sans-serif']
-                    },
-                    boxShadow: {
-                        'gold-glow': '0 10px 35px -5px rgba(212, 175, 55, 0.35)',
-                        'gold-focus': '0 0 35px rgba(212, 175, 55, 0.9)',
-                    }
-                }
-            }
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROKU VIP - Pro Ecosystem & Admin Panel M3U</title>
 
     <style>
-        *, *::before, *::after {
+        * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             user-select: none;
-            -webkit-user-drag: none;
-            -webkit-tap-highlight-color: transparent;
-            border: none !important;
-            outline: none !important;
         }
 
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background-color: #040609;
-            color: #f1f5f9;
-            font-family: 'Tajawal', 'Cairo', sans-serif;
+        body {
+            background-color: #0b0c10;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 51, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, #12080a 0%, #070709 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 15px;
         }
 
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #ffffff 0%, #fff8e1 25%, #f7d368 55%, #d4af37 85%, #997819 100%);
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: #070709;
+            background-image: radial-gradient(
+                circle,
+                rgba(255, 0, 51, 0.25) 0%,
+                rgba(7, 7, 9, 0.98) 80%
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .splash-logo-box {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 0 30px rgba(255, 0, 51, 0.6));
+            margin-bottom: 25px;
+        }
+
+        .custom-roku-badge {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: #0d0e14;
+            border: 5px dashed rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow:
+                0 0 20px rgba(0, 0, 0, 0.9),
+                inset 0 0 15px rgba(255, 0, 51, 0.4);
+            animation: rotateBadge 15s linear infinite;
+        }
+
+        .custom-roku-badge span {
+            position: absolute;
+            font-size: 24px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 12px #ff0033;
+            animation: counterRotate 15s linear infinite;
+        }
+
+        .top-red-arc {
+            position: absolute;
+            top: -6px;
+            width: 70px;
+            height: 12px;
+            border-top: 5px solid #ff0033;
+            border-radius: 50px 50px 0 0;
+        }
+
+        .star-dec {
+            position: absolute;
+            font-size: 24px;
+            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+        }
+
+        .star-top {
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+        }
+
+        .star-bottom-left {
+            bottom: 5px;
+            left: -2px;
+            color: #ffd700;
+            transform: rotate(-15deg);
+        }
+
+        .star-bottom-right {
+            bottom: 5px;
+            right: -2px;
+            color: #ffd700;
+            transform: rotate(15deg);
+        }
+
+        @keyframes rotateBadge {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes counterRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+
+        .splash-title {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffffff 30%, #ff0033 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
-        .tv-focusable:focus, .tv-focusable.active-focus {
-            box-shadow: 0 0 35px rgba(212, 175, 55, 0.95), inset 0 0 15px rgba(212, 175, 55, 0.3) !important;
-            transform: scale(1.04) translateY(-2px);
-            z-index: 40 !important;
-        }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: rgba(4, 6, 9, 0.95); }
-        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.4); border-radius: 9999px; }
-
-        .ibo-glass-panel {
-            background: rgba(10, 14, 24, 0.85);
+        #playlist-modal,
+        #code-modal,
+        #admin-panel-modal,
+        #user-settings-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 8, 0.88);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+            overflow-y: auto;
         }
 
-        .ibo-card {
-            background: linear-gradient(145deg, rgba(18, 24, 38, 0.85) 0%, rgba(8, 11, 18, 0.9) 100%);
+        .modal-card {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(22, 18, 20, 0.95);
+            border: 1px solid rgba(255, 0, 51, 0.5);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.9),
+                0 0 30px rgba(255, 0, 51, 0.25);
+            text-align: left;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            color: #ff0033;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #aaa;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: rgba(15, 16, 21, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .auth-input:focus {
+            border-color: #ff0033;
+            box-shadow: 0 0 12px rgba(255, 0, 51, 0.4);
+        }
+
+        .modal-submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff0033 0%, #b30024 100%);
+            border: none;
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 51, 0.4);
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .modal-submit-btn:hover {
+            background: linear-gradient(135deg, #00cc66 0%, #00994d 100%) !important;
+            box-shadow:
+                0 0 35px rgba(0, 204, 102, 0.85),
+                inset 0 0 10px rgba(255, 255, 255, 0.4) !important;
+            transform: translateY(-2px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .error-msg {
+            color: #ff0033;
+            font-size: 12px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .admin-card-wide {
+            max-width: 850px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .admin-section-box {
+            background: rgba(15, 16, 22, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 15px;
+        }
+
+        .admin-section-title {
+            font-size: 14px;
+            color: #ff0033;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .code-generator-result {
+            background: #000000;
+            border: 2px dashed #992233;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+            display: none;
+        }
+
+        .result-row {
+            font-size: 16px;
+            font-weight: 700;
+            color: #55eeaa;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .result-row span.val-text { color: #f3c653; }
+        .result-row span.val-code { color: #55eeaa; }
+
+        .vip-badge-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #332211 0%, #110802 100%);
+            border: 1.5px solid #d4af37;
+            border-radius: 50px;
+            padding: 4px 12px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
+
+        .vip-badge-box span {
+            color: #d4af37;
+            font-weight: 900;
+            font-size: 13px;
+        }
+
+        .result-header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+            padding-bottom: 12px;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1150px;
+            background: rgba(22, 18, 20, 0.85);
+            border: 1px solid rgba(255, 0, 51, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.85),
+                0 0 30px rgba(255, 0, 51, 0.15);
+            backdrop-filter: blur(20px);
+            position: relative;
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: relative;
+        }
+
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .rotating-logo-wrapper {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-circle-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 12px rgba(255, 0, 51, 0.5);
+            animation: rotateBadge 10s linear infinite;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .logo-text-roku {
+            position: absolute;
+            font-size: 10px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 8px #ff0033;
+            animation: counterRotate 10s linear infinite;
+        }
+
+        .brand-logo-text-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            background: linear-gradient(135deg, #ffffff 30%, #ff0033 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .brand-logo .sub-badge {
+            font-size: 10px;
+            color: #ffffff;
+            background: rgba(255, 0, 51, 0.2);
+            padding: 1px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 0, 51, 0.4);
+            -webkit-text-fill-color: #ffffff;
+        }
+
+        .header-datetime-weather {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(15, 12, 16, 0.65);
+            border: 1px solid rgba(255, 0, 51, 0.25);
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .datetime-box {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+            padding-right: 10px;
+        }
+
+        .app-live-clock {
+            font-weight: 800;
+            font-family: 'Courier New', Courier, monospace;
+            color: #00ffcc;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 6px rgba(0, 255, 204, 0.4);
+        }
+
+        .app-live-date {
+            color: #cbd5e1;
+            font-size: 10px;
+            text-transform: capitalize;
+        }
+
+        .weather-widget-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .weather-icon-el {
+            font-size: 16px;
+            filter: drop-shadow(0 0 4px rgba(255, 165, 0, 0.6));
+        }
+
+        .weather-info-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .weather-temp-val {
+            font-weight: 700;
+            color: #f3c653;
+            font-size: 12px;
+        }
+
+        .weather-location-val {
+            font-size: 9px;
+            color: #94a3b8;
+            max-width: 90px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .right-header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .unified-header-btn {
+            background: linear-gradient(135deg, #ff0033 0%, #b30024 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 9px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(255, 0, 51, 0.4);
+            outline: none;
+        }
+
+        .unified-header-btn:hover {
+            background: linear-gradient(135deg, #00cc66 0%, #00994d 100%);
+            box-shadow: 0 0 25px rgba(0, 204, 102, 0.7);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .home-header-btn {
+            background: linear-gradient(135deg, #2b2b33 0%, #121216 100%) !important;
+            border: 1px solid rgba(212, 175, 55, 0.4) !important;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8) !important;
+            color: #f3c653 !important;
+        }
+
+        .home-header-btn:hover {
+            background: linear-gradient(135deg, #3d3d47 0%, #1c1c21 100%) !important;
+            border-color: #d4af37 !important;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5) !important;
+            color: #ffffff !important;
+        }
+
+        .menu-header-btn {
+            background: linear-gradient(135deg, #cc0029 0%, #80001a 100%) !important;
+            border: 1px solid rgba(255, 0, 51, 0.6) !important;
+            box-shadow: 0 0 18px rgba(255, 0, 51, 0.5) !important;
+        }
+
+        .menu-header-btn:hover {
+            background: linear-gradient(135deg, #ff0033 0%, #990022 100%) !important;
+            box-shadow: 0 0 30px rgba(255, 0, 51, 0.85) !important;
+            border-color: #ffffff !important;
+        }
+
+        #sidebar-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            left: auto;
+            width: 300px;
+            height: 100%;
+            background: rgba(14, 12, 16, 0.96);
+            backdrop-filter: blur(25px);
+            border-left: 1px solid rgba(255, 0, 51, 0.4);
+            z-index: 2000;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.9);
+            transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        #sidebar-menu.open {
+            right: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ff0033;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar-item-btn {
+            background: rgba(25, 20, 26, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+            text-align: left;
+            width: 100%;
+        }
+
+        .sidebar-item-btn:hover {
+            background: #ff0033;
+            border-color: #fff;
+            box-shadow: 0 0 20px rgba(255, 0, 51, 0.5);
+            transform: translateX(-4px);
+        }
+
+        .sidebar-item-btn.logout-sidebar:hover {
+            background: linear-gradient(135deg, #ff0033 0%, #990022 100%);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1999;
+            display: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .admin-ads-banner {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(28, 12, 18, 0.92), rgba(12, 10, 16, 0.96));
+            border: 1.5px solid rgba(255, 0, 51, 0.45);
+            border-radius: 18px;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.7),
+                inset 0 0 20px rgba(255, 0, 51, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ads-left-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .banner-slider-box {
+            position: relative;
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1.5px solid #d4af37;
+            box-shadow: 
+                0 0 15px rgba(212, 175, 55, 0.5),
+                0 0 25px rgba(0, 0, 0, 0.8);
+            background: #000;
+        }
+
+        .banner-slide-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .banner-slide-img.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .ads-text-box {
+            min-width: 0;
+        }
+
+        .ads-text-box h4 {
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 800;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ads-text-box h4 span {
+            background: linear-gradient(135deg, #ff0033 0%, #b30024 100%);
+            color: #fff;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            box-shadow: 0 0 8px rgba(255, 0, 51, 0.5);
+        }
+
+        .ads-text-box p {
+            font-size: 11px;
+            color: #cccccc;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ads-action-group {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            flex-shrink: 0;
+            align-items: center;
+        }
+
+        .ads-action-link {
+            background: linear-gradient(135deg, #2b2b36 0%, #15151a 100%);
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .ads-action-link:hover {
+            background: linear-gradient(135deg, #ff0033 0%, #b30024 100%);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 0, 51, 0.8);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+            flex: 1;
+            align-content: center;
+            padding: 10px;
+        }
+
+        @media (max-width: 1100px) {
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .admin-ads-banner {
+                padding: 10px 12px;
+                gap: 8px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .ads-action-group { justify-content: flex-end; }
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(25, 20, 26, 0.85), rgba(12, 12, 16, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card:hover {
+            border-color: #ff0033;
+            box-shadow:
+                0 15px 35px rgba(255, 0, 51, 0.4),
+                inset 0 0 15px rgba(255, 0, 51, 0.2);
+            transform: translateY(-8px) scale(1.02);
+            background: linear-gradient(145deg, rgba(38, 20, 26, 0.95), rgba(16, 16, 22, 0.98));
+        }
+
+        .card-icon-wrapper {
+            width: 65px;
+            height: 65px;
+            border-radius: 18px;
+            background: rgba(255, 0, 51, 0.1);
+            border: 1px solid rgba(255, 0, 51, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 12px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            color: #ff0033;
+        }
+
+        .card:hover .card-icon-wrapper {
+            background: linear-gradient(135deg, #ff0033 0%, #b30024 100%);
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(255, 0, 51, 0.8);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card.match-card .card-icon-wrapper {
+            background: rgba(0, 204, 102, 0.1);
+            border: 1px solid rgba(0, 204, 102, 0.4);
+            color: #00cc66;
+        }
+
+        .card.match-card:hover {
+            border-color: #00cc66;
+            box-shadow:
+                0 15px 35px rgba(0, 204, 102, 0.4),
+                inset 0 0 15px rgba(0, 204, 102, 0.25);
+            background: linear-gradient(145deg, rgba(16, 38, 26, 0.95), rgba(10, 22, 16, 0.98));
+        }
+
+        .card.match-card:hover .card-icon-wrapper {
+            background: linear-gradient(135deg, #00cc66 0%, #00994d 100%);
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 30px rgba(0, 204, 102, 0.9);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card.youtube-card .card-icon-wrapper {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.4);
+            color: #ff0000;
+        }
+
+        .card.youtube-card:hover {
+            border-color: #ff0000;
+            box-shadow:
+                0 15px 35px rgba(255, 0, 0, 0.4),
+                inset 0 0 15px rgba(255, 0, 0, 0.25);
+            background: linear-gradient(145deg, rgba(38, 16, 16, 0.95), rgba(22, 10, 10, 0.98));
+        }
+
+        .card.youtube-card:hover .card-icon-wrapper {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card.favorite-card .card-icon-wrapper {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.4);
+            color: #ffaa00;
+        }
+
+        .card.favorite-card:hover {
+            border-color: #ffaa00;
+            box-shadow:
+                0 15px 35px rgba(255, 165, 0, 0.4),
+                inset 0 0 15px rgba(255, 165, 0, 0.25);
+            background: linear-gradient(145deg, rgba(38, 28, 16, 0.95), rgba(22, 16, 10, 0.98));
+        }
+
+        .card.favorite-card:hover .card-icon-wrapper {
+            background: linear-gradient(135deg, #ffaa00 0%, #ff5500 100%);
+            border-color: #ffffff;
+            color: #ffffff;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.9);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            transition: 0.3s;
+        }
+
+        .card:hover .card-title { color: #ff3355; }
+        .card.match-card:hover .card-title { color: #00cc66; }
+        .card.youtube-card:hover .card-title { color: #ff3333; }
+        .card.favorite-card:hover .card-title { color: #ffaa00; }
+
+        .content-section,
+        #player-container {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .back-nav-btn {
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            will-change: transform;
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 215, 0, 0.4);
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.5),
+                inset 0 0 10px rgba(255, 215, 0, 0.15);
         }
 
-        .ibo-card:hover {
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.3);
-            transform: translateY(-4px) scale(1.02);
+        .back-nav-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 0, 51, 0.3) 0%, rgba(212, 175, 55, 0.25) 100%);
+            border-color: #ffd700;
+            color: #ffd700;
+            box-shadow: 
+                0 0 25px rgba(255, 215, 0, 0.5),
+                inset 0 0 15px rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px) scale(1.03);
         }
 
-        .hidden-screen { display: none !important; }
-
-        .player-overlay-gradient {
-            background: linear-gradient(180deg, rgba(4,6,9,0.98) 0%, rgba(4,6,9,0.2) 50%, rgba(4,6,9,0.98) 100%);
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            max-height: 480px;
+            overflow-y: auto;
+            padding: 5px;
         }
 
-        @keyframes pulse-live {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.85); }
+        .items-grid::-webkit-scrollbar { width: 6px; }
+        .items-grid::-webkit-scrollbar-thumb {
+            background: rgba(255, 0, 51, 0.4);
+            border-radius: 10px;
         }
-        .live-dot { animation: pulse-live 1.5s infinite ease-in-out; }
+
+        .item-card {
+            background: linear-gradient(145deg, rgba(25, 20, 26, 0.85), rgba(13, 13, 18, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .item-card:hover {
+            border-color: #ff0033;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 0, 51, 0.35);
+        }
+
+        .dynamic-category-logo {
+            width: 65px;
+            height: 65px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 12px;
+            position: relative;
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 0, 51, 0.4);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #1a0508 0%, #ff0033 100%);
+        }
+
+        .dynamic-category-logo .emoji-badge {
+            position: absolute;
+            bottom: -3px;
+            right: -3px;
+            font-size: 11px;
+            background: rgba(10, 10, 15, 0.95);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 0, 51, 0.6);
+            color: #ff0033;
+            font-weight: bold;
+        }
+
+        .item-card img {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background: rgba(15, 15, 20, 0.9);
+            padding: 8px;
+            border: 1px solid rgba(255, 0, 51, 0.25);
+        }
+
+        .item-card p {
+            font-size: 13px;
+            color: #e2e8f0;
+            font-weight: 600;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 4px;
+        }
+
+        .loader-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border-left-color: #ff0033;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .outer-lux-frame {
+            width: 100%;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 8px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #18120d 0%, #080605 50%, #2a1c10 100%);
+            border: 2px solid #d4af37;
+            box-shadow: 
+                0 0 25px rgba(212, 175, 55, 0.35),
+                0 0 50px rgba(0, 0, 0, 0.95),
+                inset 0 0 15px rgba(0, 0, 0, 0.9);
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        #player-wrapper {
+            width: 100%;
+            height: 440px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+            border-radius: 12px !important;
+            overflow: hidden;
+            position: relative;
+            padding: 6px 6px 28px 6px;
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.4), 
+                inset 0 0 20px rgba(255, 215, 0, 0.25);
+            animation: goldenGlassGlowWave 6s infinite ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tv-brand-frame-bar {
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(8, 6, 10, 0.85);
+            padding: 2px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        .tv-brand-text {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        .tv-brand-badge {
+            font-size: 8px;
+            font-weight: 900;
+            color: #ff0033;
+            background: rgba(255, 0, 51, 0.15);
+            padding: 1px 4px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 0, 51, 0.4);
+            text-shadow: 0 0 5px #ff0033;
+        }
+
+        .player-mini-ads-banner-img {
+            width: 100%;
+            max-width: 820px;
+            margin: 12px auto 0 auto;
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1.5px solid #d4af37;
+            background: #0d0805;
+            box-shadow: 
+                0 0 20px rgba(212, 175, 55, 0.35),
+                0 8px 25px rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            min-height: 70px;
+        }
+
+        .player-mini-ads-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(90deg, rgba(13, 8, 5, 0.95) 0%, rgba(20, 10, 15, 0.65) 50%, rgba(13, 8, 5, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=800&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.7) contrast(1.1);
+            z-index: 1;
+        }
+
+        .player-mini-ads-glow {
+            position: absolute;
+            inset: -50%;
+            background: radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.25) 0%, transparent 60%);
+            animation: goldGlowRotate 8s infinite linear;
+            z-index: 2;
+        }
+
+        @keyframes goldGlowRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .player-mini-ads-left {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .player-mini-ads-thumb-box {
+            position: relative;
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+        }
+
+        .player-mini-ads-thumb {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+            object-fit: cover;
+            background: #000;
+        }
+
+        .mini-channel-badge-group {
+            position: absolute;
+            bottom: -4px;
+            right: -6px;
+            display: flex;
+            align-items: center;
+            gap: -4px;
+        }
+
+        .mini-channel-circle-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid #ffd700;
+            background: #0d0805;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 900;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+            margin-left: -5px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .mini-channel-circle-icon:hover {
+            transform: scale(1.35) translateY(-2px);
+            z-index: 10;
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        .mini-channel-circle-icon.bein { background: linear-gradient(135deg, #581c87 0%, #3b0764 100%); color: #fff; border-color: #a855f7; }
+        .mini-channel-circle-icon.alwan { background: linear-gradient(135deg, #ff0055 0%, #ffaa00 100%); color: #fff; border-color: #ffaa00; }
+        .mini-channel-circle-icon.anime { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #fff; border-color: #38bdf8; }
+        .mini-channel-circle-icon.news { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: #fff; border-color: #ef4444; }
+
+        .player-mini-ads-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .player-mini-ads-title {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #ffffff 0%, #ffd700 70%, #ffaa00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .player-mini-ads-title .tag-badge {
+            background: rgba(255, 0, 51, 0.85);
+            color: #ffffff;
+            font-size: 8px;
+            font-weight: 900;
+            padding: 1px 5px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 6px rgba(255, 0, 51, 0.6);
+            -webkit-text-fill-color: #ffffff;
+        }
+
+        .player-mini-ads-sub {
+            font-size: 10px;
+            color: #d1d5db;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .player-mini-ads-right {
+            position: relative;
+            z-index: 3;
+            flex-shrink: 0;
+        }
+
+        .player-mini-ads-btn-img {
+            background: linear-gradient(135deg, #00cc66 0%, #008040 100%);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 0 12px rgba(0, 204, 102, 0.5),
+                inset 0 0 6px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .player-mini-ads-btn-img:hover {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 0 20px rgba(0, 204, 102, 0.9);
+            border-color: #ffffff;
+            background: linear-gradient(135deg, #00ff80 0%, #00a651 100%);
+        }
+
+        .player-designer-signature {
+            width: fit-content;
+            margin: 14px auto 0 auto;
+            padding: 8px 24px;
+            background: linear-gradient(135deg, rgba(65, 35, 15, 0.85) 0%, rgba(35, 18, 8, 0.92) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid #d4af37;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 
+                0 0 25px rgba(212, 175, 55, 0.45),
+                inset 0 0 15px rgba(212, 175, 55, 0.3),
+                0 10px 30px rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+        }
+
+        .farouk-gold-text {
+            color: #ffd700;
+            font-weight: 900;
+            letter-spacing: 2.5px;
+            text-shadow: 
+                0 0 10px rgba(255, 215, 0, 0.9),
+                0 0 20px rgba(255, 215, 0, 0.6),
+                0 0 30px rgba(212, 175, 55, 0.8);
+            animation: goldGlowPulse 2.5s infinite ease-in-out;
+        }
+
+        @keyframes goldGlowPulse {
+            0%, 100% {
+                text-shadow: 0 0 8px rgba(255, 215, 0, 0.8), 0 0 18px rgba(255, 215, 0, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 223, 100, 0.9), 0 0 40px rgba(255, 170, 0, 0.8);
+            }
+        }
+
+        .player-designer-signature::before {
+            content: "✨";
+            font-size: 11px;
+            animation: spin 4s linear infinite;
+        }
+
+        .player-designer-signature::after {
+            content: "👑";
+            font-size: 11px;
+        }
+
+        @keyframes goldenGlassGlowWave {
+            0% {
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.65), inset 0 0 20px rgba(255, 215, 0, 0.3);
+            }
+            33% {
+                box-shadow: 0 0 35px rgba(255, 223, 100, 0.75), inset 0 0 25px rgba(255, 215, 0, 0.4);
+            }
+            66% {
+                box-shadow: 0 0 30px rgba(218, 165, 32, 0.7), inset 0 0 20px rgba(255, 215, 0, 0.35);
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.65), inset 0 0 20px rgba(255, 215, 0, 0.3);
+            }
+        }
+
+        #media-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+            border-radius: 8px;
+        }
+
+        .player-custom-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(18, 12, 18, 0.75);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            border-radius: 16px;
+            padding: 10px 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .player-info-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .player-channel-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ffd700 0%, #ff0033 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            flex-shrink: 0;
+        }
+
+        .player-title-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .player-channel-title {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #ffffff 0%, #ffd700 50%, #ff0055 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-meta-tag {
+            font-size: 10px;
+            color: #00ffcc;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .live-dot-pulse {
+            width: 7px;
+            height: 7px;
+            background-color: #ff0033;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff0033;
+            animation: pulseDot 1.2s infinite ease-in-out;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.4; }
+        }
+
+        .footer-info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 12px 18px;
+            background: rgba(12, 10, 14, 0.95);
+            border: 1px solid rgba(255, 0, 51, 0.25);
+            border-radius: 14px;
+            font-size: 12px;
+            color: #94a3b8;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow:
+                inset 0 0 15px rgba(0, 0, 0, 0.7),
+                0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .footer-info-bar span.mac-label { color: #cbd5e1; }
+        .footer-info-bar strong#device-mac-display {
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(255, 255, 255, 0.4);
+            padding: 2px 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .whatsapp-contact-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            background: rgba(0, 255, 102, 0.08);
+            border: 1px solid rgba(0, 255, 102, 0.3);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whatsapp-icon {
+            font-size: 14px;
+            filter: drop-shadow(0 0 5px rgba(0, 255, 102, 0.6));
+        }
+
+        .lime-contact-sweep {
+            color: #00ff66;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 12px;
+            background: linear-gradient(90deg, #00ff66 0%, #ffffff 50%, #00ff66 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: limeSweep 3s linear infinite;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+        }
+
+        @keyframes limeSweep {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+        }
+
+        .youtube-card { cursor: pointer; }
+        .youtube-card:active { transform: scale(0.97); }
+
+        @media (max-width: 600px) {
+            body { padding: 8px; align-items: flex-start; }
+            .dashboard-container { padding: 12px; min-height: calc(100vh - 16px); }
+            .top-bar { gap: 10px; }
+            .brand-logo { font-size: 17px; }
+            .header-datetime-weather { gap: 7px; padding: 5px 8px; }
+            .right-header-controls { width: 100%; margin-left: 0; }
+            .right-header-controls .unified-header-btn { flex: 1; padding: 8px 7px; font-size: 11px; }
+            .outer-lux-frame { padding: 4px; }
+            #player-wrapper { height: 240px; }
+            .player-mini-ads-banner-img { padding: 6px 10px; }
+            .player-mini-ads-title { font-size: 11px; }
+            .player-mini-ads-sub { font-size: 9px; }
+            .footer-info-bar { font-size: 10px; }
+        }
     </style>
 </head>
-<body class="bg-darkbg text-gray-100 flex flex-col h-full w-full overflow-hidden select-none">
 
-    <!-- =================LOGIN SCREEN================ -->
-    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-cover bg-center" style="background-image: radial-gradient(circle at center, rgba(10, 14, 24, 0.88) 0%, rgba(4, 6, 9, 0.98) 100%), url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1920');">
-        <div class="ibo-glass-panel max-w-md w-full rounded-3xl p-6 sm:p-8 shadow-gold-glow relative overflow-hidden flex flex-col justify-between">
+<body>
+
+    <!-- SPLASH -->
+    <div id="splash-screen">
+        <div class="splash-logo-box">
+            <div class="top-red-arc"></div>
+            <div class="star-dec star-top">★</div>
+            <div class="star-dec star-bottom-left">★</div>
+            <div class="star-dec star-bottom-right">★</div>
+
+            <div class="custom-roku-badge">
+                <span>ROKU</span>
+            </div>
+        </div>
+
+        <div class="splash-title">
+            ROKU VIP
+            <span style="font-size:12px;color:#ff0033;">PRO</span>
+        </div>
+    </div>
+
+    <!-- PLAYLIST MODAL -->
+    <div id="playlist-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span>📡</span>
+                    <span>Connexion (User & Pass)</span>
+                </div>
+                <button class="close-modal-btn" onclick="closePlaylistModal()">✕</button>
+            </div>
+
+            <div class="input-group">
+                <label>Username (اسم المستخدم)</label>
+                <input type="text" id="auth-username" class="auth-input" placeholder="Entrez le Username">
+            </div>
+
+            <div class="input-group">
+                <label>Password (كلمة المرور)</label>
+                <input type="password" id="auth-password" class="auth-input" placeholder="Entrez le Password">
+            </div>
+
+            <button class="modal-submit-btn" onclick="handleLoginUserPass()">
+                Valider & Connect
+            </button>
+
+            <div id="auth-error" class="error-msg">
+                Identifiants incorrects ou champs vides !
+            </div>
+        </div>
+    </div>
+
+    <!-- CODE MODAL -->
+    <div id="code-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span>🔑</span>
+                    <span>Code d'Activation / Device Key</span>
+                </div>
+                <button class="close-modal-btn" onclick="closeCodeModal()">✕</button>
+            </div>
+
+            <div class="input-group">
+                <label>Code d'Activation ou Device Key</label>
+                <input type="text" id="auth-code" class="auth-input" placeholder="Entrez votre Device Key">
+            </div>
+
+            <button class="modal-submit-btn" onclick="handleLoginActiveCode()">
+                Activer & Connect
+            </button>
+
+            <div id="code-error" class="error-msg">
+                Device Key invalide ou expiré !
+            </div>
+        </div>
+    </div>
+
+    <!-- USER SETTINGS -->
+    <div id="user-settings-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span>⚙️</span>
+                    <span>Paramètres de l'Application</span>
+                </div>
+                <button class="close-modal-btn" onclick="closeUserSettingsModal()">✕</button>
+            </div>
+
+            <div class="admin-section-box" style="margin-bottom:12px;padding:12px;">
+                <div class="admin-section-title" style="font-size:13px;">🌐 DNS & Connexion Serveur</div>
+                <div class="input-group">
+                    <label>Serveur DNS Actuel</label>
+                    <input type="text" id="settings-dns-input" class="auth-input" placeholder="http://...">
+                </div>
+                <button class="modal-submit-btn" style="padding:9px;font-size:12px;" onclick="saveUserSettingsDns()">
+                    Mettre à jour le DNS
+                </button>
+            </div>
+
+            <div class="admin-section-box" style="margin-bottom:12px;padding:12px;">
+                <div class="admin-section-title" style="font-size:13px;">📺 Options de Lecture & Vidéo</div>
+                <div class="input-group">
+                    <label>Moteur de Lecture (Player Engine)</label>
+                    <select id="settings-player-engine" class="auth-input">
+                        <option value="hls">HLS.js Avancé (Recommandé)</option>
+                        <option value="native">Lecteur Natif du Navigateur</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="admin-section-box" style="margin-bottom:12px;padding:12px;">
+                <div class="admin-section-title" style="font-size:13px;">🧹 Maintenance & Cache</div>
+                <button class="modal-submit-btn" style="background:linear-gradient(135deg,#222533 0%,#0f1015 100%);border:1px solid rgba(255,255,255,0.2);padding:10px;font-size:12px;" onclick="clearAppCacheData()">
+                    Vider le Cache & Rafraîchir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel-modal">
+        <div class="modal-card admin-card-wide">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span>🛡</span>
+                    <span>Panneau Admin & Gestion des Publicités</span>
+                </div>
+                <button class="close-modal-btn" onclick="closeAdminModal()">✕</button>
+            </div>
+
+            <div class="admin-section-box" style="border-color:#ff0033;">
+                <div class="admin-section-title">📢 Gestion de la Bannière Publicitaire</div>
+                <div class="input-group">
+                    <label>Statut de la bannière</label>
+                    <select id="admin-ads-status" class="auth-input">
+                        <option value="active">Activer la bannière</option>
+                        <option value="hidden">Désactiver / Masquer</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Titre de l'annonce</label>
+                    <input type="text" id="admin-ads-title" class="auth-input" placeholder="Titre publicitaire">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <input type="text" id="admin-ads-desc" class="auth-input" placeholder="Description de l'offre">
+                </div>
+                <div class="input-group">
+                    <label>Lien du bouton d'action</label>
+                    <input type="text" id="admin-ads-url" class="auth-input" placeholder="https://wa.me/...">
+                </div>
+                <div class="input-group">
+                    <label>Texte du bouton</label>
+                    <input type="text" id="admin-ads-btntext" class="auth-input" placeholder="Ex: Commander">
+                </div>
+                <button class="modal-submit-btn" onclick="saveAdsBannerSettings()">Enregistrer & Mettre à jour</button>
+            </div>
+
+            <div class="admin-section-box">
+                <div class="admin-section-title">🌐 Paramètres du Système</div>
+                <div class="input-group">
+                    <label>Changer le Code Secret Admin</label>
+                    <input type="password" id="admin-secret-pass" class="auth-input" placeholder="Nouveau code PIN">
+                </div>
+                <div class="input-group">
+                    <label>DNS Principal du Système</label>
+                    <input type="text" id="admin-dns-input" class="auth-input" placeholder="Entrer le nouveau DNS">
+                </div>
+                <button class="modal-submit-btn" onclick="saveSystemDnsSecure()">Mettre à jour le DNS</button>
+            </div>
+
+            <div class="admin-section-box">
+                <div class="admin-section-title">🔑 Générateur de Compte & M3U (Enregistrement Cloud JSONBin)</div>
+                <div class="input-group">
+                    <label>📅 Date d'expiration</label>
+                    <input type="date" id="gen-expiry-date" class="auth-input">
+                </div>
+                <div class="input-group">
+                    <label>Nom du Client</label>
+                    <input type="text" id="gen-client" class="auth-input" placeholder="Nom du Client">
+                </div>
+                <div class="input-group">
+                    <label>Device Key (Pour Activer l'App)</label>
+                    <input type="text" id="gen-mac" class="auth-input">
+                </div>
+                <div class="input-group">
+                    <label>Lien M3U complet</label>
+                    <input type="text" id="gen-m3u" class="auth-input" placeholder="http://...">
+                </div>
+                <button class="modal-submit-btn" onclick="generateCredentialsFromM3U()">Générer & Enregistrer sur JSONBin</button>
+                <div id="code-result-box" class="code-generator-result"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebarMenu()"></div>
+    <div id="sidebar-menu">
+        <div class="sidebar-header">
+            <div class="sidebar-title">MENU VIP</div>
+            <button class="close-modal-btn" onclick="toggleSidebarMenu()">✕</button>
+        </div>
+        <div class="sidebar-items">
+            <button class="sidebar-item-btn" onclick="openUserSettingsModal(); toggleSidebarMenu();">
+                <span>⚙</span><span>Paramètres</span>
+            </button>
+            <button class="sidebar-item-btn" onclick="openAdminModal(); toggleSidebarMenu();">
+                <span>🛡</span><span>Panneau Admin</span>
+            </button>
+            <button class="sidebar-item-btn logout-sidebar" onclick="logout()">
+                <span>🚪</span><span>Déconnexion / Changer Compte</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard-container" id="dashboard-main">
+        <div class="top-bar">
+            <div class="brand-logo-container">
+                <div class="rotating-logo-wrapper">
+                    <div class="logo-circle-badge">
+                        <span class="logo-text-roku">ROKU</span>
+                    </div>
+                </div>
+                <div class="brand-logo-text-group">
+                    <div class="brand-logo">
+                        ROKU <span style="color:#ff0033;">VIP</span>
+                        <span class="sub-badge" id="logged-client-badge">PRO</span>
+                    </div>
+                    <div class="header-datetime-weather">
+                        <div class="datetime-box">
+                            <span id="live-clock" class="app-live-clock">00:00:00</span>
+                            <span id="live-date" class="app-live-date">Chargement...</span>
+                        </div>
+                        <div class="weather-widget-box">
+                            <span id="weather-icon" class="weather-icon-el">🌤️</span>
+                            <div class="weather-info-text">
+                                <span id="weather-temp" class="weather-temp-val">--°C</span>
+                                <span id="weather-location" class="weather-location-val">Détection...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-actions">
+                <div id="expiry-status-badge" style="font-size:12px;color:#00ffcc;background:rgba(0,255,204,0.1);padding:7px 14px;border-radius:10px;border:1px solid rgba(0,255,204,0.35);display:flex;align-items:center;gap:6px;box-shadow:0 0 15px rgba(0,255,204,0.15);">
+                    <span>⏳ Exp:</span>
+                    <span id="expiry-time-text" style="font-weight:bold;font-family:monospace;">Non connecté</span>
+                </div>
+            </div>
+
+            <div class="right-header-controls">
+                <button class="unified-header-btn" onclick="openPlaylistModal()">
+                    <span>➕</span><span>Add playlist</span>
+                </button>
+                <button class="unified-header-btn home-header-btn" onclick="goHome()">
+                    <span>🏠</span><span>Accueil</span>
+                </button>
+                <button class="unified-header-btn menu-header-btn" onclick="checkAndToggleMenu()">
+                    <span>☰</span><span>Menu</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ADS BANNER WITH SLIDER (Netflix, beIN SPORTS, Anime) -->
+        <div id="dynamic-ads-banner-container" class="admin-ads-banner">
+            <div class="ads-left-content">
+                <div class="banner-slider-box">
+                    <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=200&auto=format&fit=crop" class="banner-slide-img active" alt="Netflix VIP" title="NETFLIX 4K">
+                    <!-- تم تحديث صورة beIN Sports هنا لتكون نفس الصورة المرفقة -->
+                    <img src="https://i.ibb.co/nsC86D9f/images.webp" class="banner-slide-img" alt="beIN SPORTS" title="beIN SPORTS HD">
+                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=200&auto=format&fit=crop" class="banner-slide-img" alt="Anime Movies" title="ANIME VIP">
+                </div>
+                <div class="ads-text-box">
+                    <h4 id="banner-ad-title">Offre Spéciale VIP <span>PROMO</span></h4>
+                    <p id="banner-ad-desc">Profitez de toutes les chaînes en direct, Netflix, beIN Sports & Animes en 4K Ultra HD.</p>
+                </div>
+            </div>
+            <div class="ads-action-group">
+                <a id="banner-ad-link-1" href="https://wa.me/" target="_blank" class="ads-action-link">
+                    <span>⚡</span><span id="banner-ad-text-1">Test</span>
+                </a>
+                <a id="banner-ad-link-2" href="https://wa.me/" target="_blank" class="ads-action-link" style="background:linear-gradient(135deg, #00cc66 0%, #00994d 100%);border-color:rgba(0,204,102,0.5);">
+                    <span>🎁</span><span id="banner-ad-text-2">gratuit</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- MAIN CARDS -->
+        <div class="cards-grid" id="main-menu">
+            <div class="card match-card" onclick="openCategory('matches')">
+                <div class="card-icon-wrapper">⚽</div>
+                <div class="card-title">SPORTS</div>
+            </div>
+            <div class="card" onclick="openCategory('live')">
+                <div class="card-icon-wrapper">📺</div>
+                <div class="card-title">TV en direct</div>
+            </div>
+            <div class="card" onclick="openCategory('movie')">
+                <div class="card-icon-wrapper">🎬</div>
+                <div class="card-title">Films VOD</div>
+            </div>
+            <div class="card" onclick="openCategory('series')">
+                <div class="card-icon-wrapper">🎞</div>
+                <div class="card-title">Séries TV</div>
+            </div>
+            <!-- YOUTUBE -->
+            <div class="card youtube-card" onclick="openExternalYouTube()">
+                <div class="card-icon-wrapper">▶️</div>
+                <div class="card-title">YOUTUBE</div>
+            </div>
+            <div class="card favorite-card" onclick="openCategory('favorites')">
+                <div class="card-icon-wrapper">⭐</div>
+                <div class="card-title">Favoris</div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content-section" id="content-section">
+            <div class="section-header">
+                <button class="back-nav-btn" id="back-action-btn" onclick="goHome()">
+                    <span>⬅</span> <span>BACK</span>
+                </button>
+                <h3 id="section-name" style="color:#ff0033;font-size:15px;"></h3>
+            </div>
+            <div class="items-grid" id="items-grid"></div>
+        </div>
+
+        <!-- PLAYER CONTAINER -->
+        <div id="player-container">
+            <div class="player-custom-header">
+                <div class="player-info-group">
+                    <div class="player-channel-badge">📺</div>
+                    <div class="player-title-details">
+                        <span id="playing-title" class="player-channel-title">اسم القناة</span>
+                        <div class="player-meta-tag">
+                            <span class="live-dot-pulse"></span>
+                            <span id="player-category-tag">DIRECT VIP • ULTRA HD</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="back-nav-btn" onclick="closePlayer()">
+                    <span>⬅</span> <span>BACK</span>
+                </button>
+            </div>
+
+            <div class="outer-lux-frame">
+                <div id="player-wrapper">
+                    <iframe id="media-iframe" src="about:blank" allowfullscreen="true" scrolling="no"></iframe>
+                    
+                    <div class="tv-brand-frame-bar">
+                        <span class="tv-brand-text">ROKU</span>
+                        <span class="tv-brand-badge">VIP</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- البانر المصغر أسفل الفيديو -->
+            <div class="player-mini-ads-banner-img">
+                <div class="player-mini-ads-bg"></div>
+                <div class="player-mini-ads-glow"></div>
+
+                <div class="player-mini-ads-left">
+                    <div class="player-mini-ads-thumb-box">
+                        <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?q=80&w=200&auto=format&fit=crop" class="player-mini-ads-thumb" alt="VIP IPTV">
+                        
+                        <div class="mini-channel-badge-group">
+                            <div class="mini-channel-circle-icon bein" title="beIN Sports">⚽</div>
+                            <div class="mini-channel-circle-icon alwan" title="Alwan Sport">🎨</div>
+                            <div class="mini-channel-circle-icon anime" title="Anime Channel">⛩️</div>
+                            <div class="mini-channel-circle-icon news" title="News Channel">📰</div>
+                        </div>
+                    </div>
+
+                    <div class="player-mini-ads-details">
+                        <div class="player-mini-ads-title">
+                            ABONNEMENT IPTV VIP 4K <span class="tag-badge">ULTRA HD</span>
+                        </div>
+                        <div class="player-mini-ads-sub">
+                            beIN Sports • Alwan Sport • Anime & News En Direct
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-mini-ads-right">
+                    <a id="player-mini-ads-btn-link" href="https://wa.me/212630473498" target="_blank" class="player-mini-ads-btn-img">
+                        <span>💬</span> <span>COMMANDER</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- التوقيع الفاخر -->
+            <div class="player-designer-signature">
+                Design by <span class="farouk-gold-text">FAROUKII</span> PRO
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div id="footer-info-bar-container" class="footer-info-bar">
             <div>
-                <div class="text-center mb-5">
-                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-gold-500/20 to-gold-700/10 mb-2 shadow-gold-glow">
-                        <i class="fa-solid fa-crown text-gold-500 text-3xl"></i>
-                    </div>
-                    <h1 class="text-2xl font-black tracking-widest font-cairo gold-gradient-text">LUXSTREAM IBO</h1>
-                    <p class="text-xs text-gold-400 mt-0.5 font-semibold">Supercharged VIP Golden Player</p>
-                </div>
-
-                <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-3.5">
-                    <div>
-                        <label class="block text-xs font-semibold text-gold-400 mb-1">Host URL</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-server absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
-                            <input type="text" id="hostInput" required placeholder="http://my-iptv-host.com:8080" class="tv-focusable w-full bg-black/60 rounded-xl py-3 pl-10 pr-3 text-xs text-gray-100 focus:bg-black/80 font-mono dir-ltr text-left">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gold-400 mb-1">Username</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
-                            <input type="text" id="userInput" required placeholder="Username" class="tv-focusable w-full bg-black/60 rounded-xl py-3 pl-10 pr-3 text-xs text-gray-100 focus:bg-black/80 font-mono dir-ltr text-left">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-gold-400 mb-1">Password</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
-                            <input type="password" id="passInput" required placeholder="Password" class="tv-focusable w-full bg-black/60 rounded-xl py-3 pl-10 pr-3 text-xs text-gray-100 focus:bg-black/80 font-mono dir-ltr text-left">
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-between text-xs text-gray-400 px-1 pt-1">
-                        <label class="flex items-center cursor-pointer">
-                            <input type="checkbox" id="useProxy" checked class="rounded text-gold-500 bg-black/50">
-                            <span class="ml-2">Enable Median WebView Proxy Bypass</span>
-                        </label>
-                    </div>
-
-                    <button type="submit" id="loginBtn" class="tv-focusable w-full py-3.5 px-4 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600 text-black font-extrabold rounded-xl shadow-gold-glow hover:scale-105 transition-all flex items-center justify-center space-x-2 text-sm">
-                        <span>Fast Account Login</span>
-                        <i class="fa-solid fa-bolt"></i>
-                    </button>
-                </form>
-
-                <div class="mt-4 pt-3 text-center border-t border-gray-800/60">
-                    <button onclick="startDemoMode()" class="tv-focusable text-xs text-gold-400 hover:text-gold-300 font-bold underline">
-                        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Quick Demo Mode (Full Sample Content)
-                    </button>
-                </div>
-
-                <div id="loginError" class="hidden mt-3 p-3 rounded-xl bg-red-950/80 text-red-300 text-xs text-center font-medium shadow-lg"></div>
+                <span class="mac-label">DEVICE KEY:</span>
+                <strong id="device-mac-display">DEV-XXXX-XXXX</strong>
             </div>
-
-            <div class="mt-6 pt-3 text-center border-t border-gray-800/40">
-                <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Farouk IPTV & ROKU. All rights reserved.</p>
+            <div>
+                <span style="margin-right:6px;">Contact WhatsApp:</span>
+                <div class="whatsapp-contact-box">
+                    <span class="whatsapp-icon">💬</span>
+                    <span class="lime-contact-sweep">+212 630 473 498</span>
+                </div>
+            </div>
+            <div>
+                <span>ROKU VIP PRO &copy; 2026 - Tous droits réservés</span>
             </div>
         </div>
     </div>
 
-    <!-- =================MAIN DASHBOARD================ -->
-    <div id="mainDashboard" class="flex flex-col h-full w-full hidden-screen relative overflow-hidden bg-darkbg">
-        <header class="h-16 shrink-0 ibo-glass-panel px-4 sm:px-8 flex items-center justify-between z-30">
-            <div class="flex items-center space-x-4">
-                <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 rounded-2xl bg-gold-500/15 flex items-center justify-center shadow-gold-glow">
-                        <i class="fa-solid fa-crown text-gold-500 text-lg"></i>
-                    </div>
-                    <div>
-                        <span class="font-cairo font-black text-xl tracking-wider gold-gradient-text block leading-tight">LUXSTREAM</span>
-                        <span class="text-[10px] text-gray-400 font-semibold tracking-widest block">SUPERCHARGED IPTV</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-3">
-                <div id="dashboardSearchContainer" class="relative hidden sm:block w-64">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-500 text-xs"></i>
-                    <input type="text" id="globalSearchInput" oninput="handleGlobalSearch(this.value)" placeholder="Instant search..." class="tv-focusable w-full bg-black/60 rounded-full py-1.5 pl-9 pr-4 text-xs text-gray-200 focus:bg-black/90">
-                </div>
-
-                <button id="backToHomeBtn" onclick="showHomeScreen()" class="hidden tv-focusable px-3.5 py-1.5 rounded-xl bg-gold-500/20 text-gold-400 text-xs font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-house"></i>
-                    <span>Home</span>
-                </button>
-                <button onclick="showAccountModal()" class="tv-focusable p-2.5 rounded-xl bg-gray-800/50 hover:bg-gold-500/20 text-gold-400 text-xs">
-                    <i class="fa-solid fa-user-shield text-base"></i>
-                </button>
-                <button onclick="logout()" class="tv-focusable p-2.5 rounded-xl bg-red-950/40 hover:bg-red-900/60 text-red-400 text-xs">
-                    <i class="fa-solid fa-power-off text-base"></i>
-                </button>
-            </div>
-        </header>
-
-        <main class="flex-1 flex flex-col min-h-0 overflow-hidden relative">
-            <!-- HOME TILES -->
-            <div id="iboHomeScreen" class="flex-1 overflow-y-auto p-4 sm:p-8 flex flex-col items-center justify-between">
-                <div class="max-w-6xl w-full grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 my-auto">
-                    <div onclick="openDashboardCategory('live')" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
-                        <div class="flex items-center justify-between">
-                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 text-black flex items-center justify-center text-2xl shadow-gold-glow">
-                                <i class="fa-solid fa-tv"></i>
-                            </div>
-                            <span class="text-xs bg-gold-500/20 text-gold-300 font-bold px-3 py-1 rounded-full" id="homeLiveCount">0 Channels</span>
-                        </div>
-                        <div>
-                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">Live TV</h2>
-                            <p class="text-xs text-gray-400 mt-1">Sports & News 4K Channels</p>
-                        </div>
-                    </div>
-
-                    <div onclick="openDashboardCategory('vod')" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
-                        <div class="flex items-center justify-between">
-                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-black flex items-center justify-center text-2xl shadow-gold-glow">
-                                <i class="fa-solid fa-film"></i>
-                            </div>
-                            <span class="text-xs bg-amber-500/20 text-amber-300 font-bold px-3 py-1 rounded-full" id="homeVodCount">0 Movies</span>
-                        </div>
-                        <div>
-                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">VOD Movies</h2>
-                            <p class="text-xs text-gray-400 mt-1">Massive library in highest definition</p>
-                        </div>
-                    </div>
-
-                    <div onclick="openDashboardCategory('series')" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
-                        <div class="flex items-center justify-between">
-                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-600 text-black flex items-center justify-center text-2xl shadow-gold-glow">
-                                <i class="fa-solid fa-clapperboard"></i>
-                            </div>
-                            <span class="text-xs bg-yellow-500/20 text-yellow-300 font-bold px-3 py-1 rounded-full" id="homeSeriesCount">0 Series</span>
-                        </div>
-                        <div>
-                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">Series & Shows</h2>
-                            <p class="text-xs text-gray-400 mt-1">Full seasons & latest episodes</p>
-                        </div>
-                    </div>
-
-                    <div onclick="openDashboardCategory('favorites')" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
-                        <div class="flex items-center justify-between">
-                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-300 to-gold-500 text-black flex items-center justify-center text-2xl shadow-gold-glow">
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <span class="text-xs bg-amber-500/20 text-amber-300 font-bold px-3 py-1 rounded-full" id="homeFavCount">0</span>
-                        </div>
-                        <div>
-                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">My Favorites</h2>
-                            <p class="text-xs text-gray-400 mt-1">Saved channels for fast access</p>
-                        </div>
-                    </div>
-
-                    <div onclick="showAccountModal()" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
-                        <div class="flex items-center justify-between">
-                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-black flex items-center justify-center text-2xl shadow-gold-glow">
-                                <i class="fa-solid fa-user-shield"></i>
-                            </div>
-                            <span class="text-xs bg-emerald-500/20 text-emerald-300 font-bold px-3 py-1 rounded-full">VIP Speed</span>
-                        </div>
-                        <div>
-                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">Subscription</h2>
-                            <p class="text-xs text-gray-400 mt-1">Server details & validity</p>
-                        </div>
-                    </div>
-
-                    <div onclick="loadXtreamData()" class="ibo-card tv-focusable rounded-3xl p-6 sm:p-8 cursor-pointer group relative overflow-hidden flex flex-col justify-between h-48 sm:h-56">
-                        <div class="flex items-center justify-between">
-                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-600 text-white flex items-center justify-center text-2xl shadow-gold-glow">
-                                <i class="fa-solid fa-rotate"></i>
-                            </div>
-                            <span class="text-xs bg-blue-500/20 text-blue-300 font-bold px-3 py-1 rounded-full">Sync</span>
-                        </div>
-                        <div>
-                            <h2 class="text-xl sm:text-2xl font-black text-white gold-gradient-text">Reload Data</h2>
-                            <p class="text-xs text-gray-400 mt-1">Instant server synchronization</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="py-2 text-center shrink-0">
-                    <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Farouk IPTV & ROKU. All rights reserved.</p>
-                </div>
-            </div>
-
-            <!-- CONTENT VIEW -->
-            <div id="iboContentView" class="flex-1 flex flex-col min-h-0 overflow-hidden hidden-screen">
-                <div class="shrink-0 ibo-glass-panel px-4 sm:px-8 py-3 z-20">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-layer-group text-gold-500 text-xs"></i>
-                            <span id="activeTabTitle" class="text-xs font-bold text-gray-300 uppercase tracking-wider">Categories</span>
-                            <span id="catCount" class="text-[10px] bg-gold-500/20 text-gold-400 px-2.5 py-0.5 rounded-full font-bold">0</span>
-                        </div>
-                        <span id="itemsCount" class="text-xs text-gray-400 font-medium">(0 items)</span>
-                    </div>
-                    <div id="categoriesTrack" class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1"></div>
-                </div>
-
-                <div id="gridContainer" onscroll="handleScroll(this)" class="flex-1 overflow-y-auto p-4 sm:p-8 min-h-0 flex flex-col justify-between">
-                    <div id="itemsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 pb-6"></div>
-                    <div class="py-3 text-center shrink-0 border-t border-gray-800/40 mt-4">
-                        <p class="text-[10px] text-gray-500 font-medium tracking-wider">&copy; 2026 Farouk IPTV & ROKU. All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- =================DETAILS MODAL================ -->
-    <div id="detailsModal" class="fixed inset-0 z-40 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 hidden-screen">
-        <div class="ibo-glass-panel max-w-4xl w-full rounded-3xl overflow-hidden relative shadow-2xl flex flex-col max-h-[92vh]">
-            <button onclick="closeDetailsModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/80 text-gray-300 hover:text-gold-400 flex items-center justify-center shadow-lg">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <div class="relative h-60 sm:h-80 w-full bg-black/80 shrink-0">
-                <img id="modalBackdrop" src="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-darkbg via-darkbg/40 to-transparent"></div>
-                <div class="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 flex items-end justify-between">
-                    <div>
-                        <span id="modalBadge" class="text-[10px] bg-gold-500 text-black font-black px-3 py-1 rounded-full mb-2 inline-block">LUX VIP</span>
-                        <h2 id="modalTitle" class="text-xl sm:text-3xl font-black text-white gold-gradient-text line-clamp-1">Title</h2>
-                        <div class="flex items-center space-x-3 text-xs text-gray-300 mt-2 font-semibold">
-                            <span id="modalYear" class="text-gold-400">2026</span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
-                            <span id="modalRating" class="bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-md"><i class="fa-solid fa-star text-xs mr-1"></i> 8.9</span>
-                        </div>
-                    </div>
-                    <button id="modalPlayBtn" onclick="" class="tv-focusable px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-gold-500 to-gold-600 text-black font-extrabold rounded-2xl shadow-gold-glow flex items-center gap-2 text-xs sm:text-sm shrink-0">
-                        <i class="fa-solid fa-play text-lg"></i>
-                        <span>Instant Play</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-6 overflow-y-auto space-y-4">
-                <p id="modalPlot" class="text-xs sm:text-sm text-gray-300 leading-relaxed">Description & plot...</p>
-                <div id="seriesEpisodesSection" class="hidden-screen space-y-3 pt-3">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-xs sm:text-sm font-bold text-gold-400">Episodes & Seasons</h3>
-                    </div>
-                    <div id="episodesList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- =================ACCOUNT MODAL================ -->
-    <div id="accountModal" class="fixed inset-0 z-40 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden-screen">
-        <div class="ibo-glass-panel max-w-md w-full rounded-3xl p-6 relative">
-            <button onclick="closeAccountModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gold-400 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="flex items-center space-x-3 mb-6">
-                <i class="fa-solid fa-user-shield text-gold-500 text-3xl"></i>
-                <div>
-                    <h3 class="text-base font-bold text-gray-100">Account Details</h3>
-                    <p class="text-xs text-gray-400">IBO Fast Engine Server</p>
-                </div>
-            </div>
-            <div id="accountInfoDetails" class="space-y-3 text-xs"></div>
-            <button onclick="closeAccountModal()" class="w-full mt-6 py-3 bg-gradient-to-r from-gold-500 to-gold-600 text-black font-extrabold rounded-xl shadow-gold-glow text-xs">Close</button>
-        </div>
-    </div>
-
-    <!-- =================PLAYER OVERLAY================ -->
-    <div id="playerOverlay" class="fixed inset-0 z-50 bg-black flex flex-col justify-between hidden-screen">
-        <video id="videoElement" class="w-full h-full object-contain bg-black cursor-pointer" playsinline autoplay onclick="togglePlayPause()"></video>
-
-        <div class="player-overlay-gradient absolute top-0 inset-x-0 p-4 sm:p-6 flex justify-between items-center z-10">
-            <div class="flex items-center space-x-4">
-                <button onclick="closePlayer()" class="tv-focusable w-11 h-11 rounded-full bg-black/80 text-gray-200 hover:text-gold-400 flex items-center justify-center">
-                    <i class="fa-solid fa-arrow-left text-lg"></i>
-                </button>
-                <div>
-                    <h3 id="playerTitle" class="text-sm sm:text-base font-bold text-gray-100 truncate max-w-xs sm:max-w-md">Stream Name</h3>
-                    <span id="playerCategory" class="text-xs text-gold-400">Instant Play - Zero Delay</span>
-                </div>
-            </div>
-        </div>
-
-        <div id="playerBuffer" class="absolute inset-0 flex items-center justify-center pointer-events-none hidden-screen">
-            <div class="flex flex-col items-center space-y-3 bg-black/85 p-6 rounded-3xl backdrop-blur-md shadow-gold-glow">
-                <i class="fa-solid fa-bolt fa-spin text-gold-500 text-4xl"></i>
-                <span class="text-xs text-gold-300 font-bold">Buffering fast stream...</span>
-            </div>
-        </div>
-
-        <div class="player-overlay-gradient absolute bottom-0 inset-x-0 p-4 sm:p-6 flex flex-col gap-3 z-10">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <button onclick="togglePlayPause()" id="btnPlayPause" class="tv-focusable w-12 h-12 rounded-full bg-gold-500 text-black flex items-center justify-center text-xl shadow-gold-glow">
-                        <i class="fa-solid fa-pause"></i>
-                    </button>
-                    <div class="flex items-center space-x-2 bg-black/70 rounded-full px-4 py-2">
-                        <button onclick="toggleMute()" id="btnMute" class="text-gray-300 hover:text-gold-400 text-sm"><i class="fa-solid fa-volume-high"></i></button>
-                        <input type="range" id="volumeBar" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)" class="w-16 sm:w-24 accent-gold-500 h-1">
-                    </div>
-                </div>
-
-                <div class="flex items-center space-x-3">
-                    <button onclick="toggleAspect()" class="tv-focusable px-3.5 py-2 rounded-xl bg-black/70 text-xs text-gray-300 font-bold">
-                        <span id="aspectLabel">16:9</span>
-                    </button>
-                    <button onclick="toggleFullscreen()" class="tv-focusable w-10 h-10 rounded-full bg-black/70 text-gray-300 hover:text-gold-400 flex items-center justify-center text-sm">
-                        <i class="fa-solid fa-expand"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- =================ENGINE SCRIPT================ -->
     <script>
-        const state = {
-            host: '',
-            username: '',
-            password: '',
-            isDemoMode: false,
-            userInfo: null,
-            activeTab: 'live',
-            liveCategories: [],
-            vodCategories: [],
-            seriesCategories: [],
-            activeCategory: 'all',
-            liveChannels: [],
-            vodMovies: [],
-            seriesList: [],
-            favorites: JSON.parse(localStorage.getItem('lux_favs_ibo') || '[]'),
-            currentItems: [],
-            renderedCount: 0,
-            batchSize: 40,
-            currentItem: null,
-            hlsInstance: null
-        };
+        const JSONBIN_BIN_ID = "6acc2643ffd5d1605362b468";
+        const JSONBIN_API_KEY = "$2a$10$T7t/qTAwm/0n3NRsgFmMQ.Du/C3MTsRJF9A.co3HgJrA1l/zZfh4.";
 
-        const demoData = {
-            userInfo: { username: 'LuxStream VIP Demo', status: 'Active', exp_date: '1893456000' },
-            liveCategories: [{ category_id: '1', category_name: '⚽ beIN Sports 4K Channels' }],
-            vodCategories: [{ category_id: '2', category_name: '🔥 Latest 2026 Movies' }],
-            seriesCategories: [{ category_id: '3', category_name: '💎 Netflix & Shahid Series' }],
-            live: [
-                { stream_id: '1', name: 'beIN SPORTS 1 Premium 4K', category_id: '1', stream_icon: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400' },
-                { stream_id: '2', name: 'SSC SPORTS 1 HD Live', category_id: '1', stream_icon: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400' }
-            ],
-            vod: [
-                { stream_id: '101', name: 'Dune: Part Two (2026 4K)', category_id: '2', stream_icon: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400', rating: '8.8', container_extension: 'mp4' }
-            ],
-            series: [
-                { series_id: '201', name: 'House of the Dragon S2', category_id: '3', cover: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400', rating: '8.7' }
-            ]
-        };
+        function initBannerSlider() {
+            const slideImages = document.querySelectorAll('.banner-slide-img');
+            if (!slideImages || slideImages.length === 0) return;
 
-        window.addEventListener('DOMContentLoaded', () => {
-            initAutoLogin();
-            initTVNavigation();
-            bindPlayerEvents();
-        });
-
-        function cleanHostUrl(rawHost) {
-            let host = rawHost.trim();
-            if (!host.startsWith('http://') && !host.startsWith('https://')) host = 'http://' + host;
-            return host.replace(/\/+$/, '');
+            let currentIndex = 0;
+            setInterval(() => {
+                slideImages[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % slideImages.length;
+                slideImages[currentIndex].classList.add('active');
+            }, 3000);
         }
 
-        /* محرك الاتصال المحدث خصيصاً لتجاوز حظر WebView في Median APK */
-        async function fetchXtreamApi(actionUrl) {
-            const useProxy = document.getElementById('useProxy')?.checked;
-            
-            // ترتيب البوابات لضمان الاستجابة الفورية داخل تطبيق Median
-            let urlsToTry = [actionUrl];
-            if (useProxy) {
-                urlsToTry = [
-                    `https://corsproxy.io/?` + encodeURIComponent(actionUrl),
-                    `https://api.allorigins.win/raw?url=` + encodeURIComponent(actionUrl),
-                    `https://api.codetabs.com/v1/proxy?quest=` + encodeURIComponent(actionUrl),
-                    actionUrl
-                ];
+        function openExternalYouTube() {
+            const youtubeUrl = "https://www.youtube-nocookie.com/";
+            if (/Android/i.test(navigator.userAgent)) {
+                const intentUrl = "intent://www.youtube.com/#Intent;scheme=https;package=com.google.android.youtube;S.browser_fallback_url=" + encodeURIComponent(youtubeUrl) + ";end";
+                try {
+                    window.location.href = intentUrl;
+                } catch (e) {
+                    window.location.href = youtubeUrl;
+                }
+            } else {
+                window.location.href = youtubeUrl;
+            }
+        }
+
+        function initClockAndWeather() {
+            function updateDateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const dateString = now.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+                const clockEl = document.getElementById('live-clock');
+                const dateEl = document.getElementById('live-date');
+                if (clockEl) clockEl.innerText = timeString;
+                if (dateEl) dateEl.innerText = dateString;
+            }
+            setInterval(updateDateTime, 1000);
+            updateDateTime();
+
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    const city = data.city || "Ville";
+                    const country = data.country_name || "";
+                    const lat = data.latitude;
+                    const lon = data.longitude;
+
+                    if (lat && lon) {
+                        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+                            .then(res => res.json())
+                            .then(weatherData => {
+                                if (weatherData && weatherData.current_weather) {
+                                    const temp = Math.round(weatherData.current_weather.temperature);
+                                    const weatherCode = weatherData.current_weather.weathercode;
+
+                                    document.getElementById('weather-temp').innerText = `${temp}°C`;
+                                    document.getElementById('weather-location').innerText = `${city}, ${country}`;
+
+                                    let iconSymbol = "☀️";
+                                    if (weatherCode >= 1 && weatherCode <= 3) iconSymbol = "⛅";
+                                    else if (weatherCode >= 45 && weatherCode <= 48) iconSymbol = "🌫️";
+                                    else if (weatherCode >= 51 && weatherCode <= 67) iconSymbol = "🌧️";
+                                    else if (weatherCode >= 71 && weatherCode <= 77) iconSymbol = "❄️";
+                                    else if (weatherCode >= 95) iconSymbol = "⚡";
+
+                                    document.getElementById('weather-icon').innerText = iconSymbol;
+                                }
+                            })
+                            .catch(() => fallbackWeather(city));
+                    } else {
+                        fallbackWeather(city);
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('weather-temp').innerText = "22°C";
+                    document.getElementById('weather-location').innerText = "Rabat, Maroc";
+                    document.getElementById('weather-icon').innerText = "☀";
+                });
+        }
+
+        function fallbackWeather(city) {
+            document.getElementById('weather-temp').innerText = "24°C";
+            document.getElementById('weather-location').innerText = `${city || 'Casablanca'}, Maroc`;
+            document.getElementById('weather-icon').innerText = "☀️";
+        }
+
+        function checkAndToggleMenu() {
+            let savedUser = localStorage.getItem('roku_vip_user');
+            if (!savedUser || !serverConfig.username || !serverConfig.password) {
+                alert("⚠️ Accès refusé ! Veuillez d'abord vous connecter ou activer votre abonnement pour accéder au menu.");
+                openPlaylistModal();
+                return;
+            }
+            toggleSidebarMenu();
+        }
+
+        function toggleSidebarMenu() {
+            const sidebar = document.getElementById('sidebar-menu');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        function getSecureSystemDns() {
+            let encrypted = localStorage.getItem('roku_system_dns_sec');
+            if (!encrypted) {
+                let defaultDns = "http://go1.super1.quest:8080";
+                localStorage.setItem('roku_system_dns_sec', btoa(defaultDns));
+                return defaultDns;
+            }
+            try {
+                return atob(encrypted);
+            } catch (e) {
+                return "http://go1.super1.quest:8080";
+            }
+        }
+
+        let systemDns = getSecureSystemDns();
+        let serverConfig = { host: systemDns, username: "", password: "" };
+
+        function loadAdsBannerData() {
+            let savedUser = localStorage.getItem('roku_vip_user');
+            let bannerContainer = document.getElementById('dynamic-ads-banner-container');
+            let footerBar = document.getElementById('footer-info-bar-container');
+
+            if (savedUser) {
+                bannerContainer.style.display = 'none';
+                footerBar.style.display = 'none';
+                return;
+            }
+            footerBar.style.display = 'flex';
+
+            let adStatus = localStorage.getItem('roku_ad_status') || 'active';
+            let adTitle = localStorage.getItem('roku_ad_title') || 'Abonnement IPTV VIP 12 Mois';
+            let adDesc = localStorage.getItem('roku_ad_desc') || 'Profitez de +10,000 chaînes en direct, Netflix & Sports en 4K Ultra HD.';
+            let adUrl = localStorage.getItem('roku_ad_url') || 'https://wa.me/212630473498';
+
+            if (adStatus === 'hidden') {
+                bannerContainer.style.display = 'none';
+            } else {
+                bannerContainer.style.display = 'flex';
+                document.getElementById('banner-ad-title').innerHTML = `${adTitle} <span>PROMO</span>`;
+                document.getElementById('banner-ad-desc').innerText = adDesc;
+                document.getElementById('banner-ad-link-1').href = adUrl;
+                document.getElementById('banner-ad-link-2').href = adUrl;
+            }
+        }
+
+        function saveAdsBannerSettings() {
+            let status = document.getElementById('admin-ads-status').value;
+            let title = document.getElementById('admin-ads-title').value.trim();
+            let desc = document.getElementById('admin-ads-desc').value.trim();
+            let url = document.getElementById('admin-ads-url').value.trim();
+
+            if (status) localStorage.setItem('roku_ad_status', status);
+            if (title) localStorage.setItem('roku_ad_title', title);
+            if (desc) localStorage.setItem('roku_ad_desc', desc);
+            if (url) {
+                localStorage.setItem('roku_ad_url', url);
+                const miniBtn = document.getElementById('player-mini-ads-btn-link');
+                if (miniBtn) miniBtn.href = url;
             }
 
-            for (const targetUrl of urlsToTry) {
-                try {
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 9000);
-                    const res = await fetch(targetUrl, { signal: controller.signal });
-                    clearTimeout(timeoutId);
-                    
-                    if (res.ok) {
-                        const text = await res.text();
-                        try {
-                            const json = JSON.parse(text);
-                            if (json) return json;
-                        } catch (e) {
-                            if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
-                                return JSON.parse(text);
-                            }
+            alert("Bannière mise à jour avec succès !");
+            loadAdsBannerData();
+            closeAdminModal();
+        }
+
+        function getDeviceMacAddress() {
+            let deviceKey = localStorage.getItem('roku_vip_device_mac');
+            if (!deviceKey) {
+                const randomPart = () => Math.random().toString(36).substring(2, 6).toUpperCase();
+                deviceKey = `DEV-${randomPart()}-${randomPart()}`;
+                localStorage.setItem('roku_vip_device_mac', deviceKey);
+            }
+            return deviceKey;
+        }
+
+        function openPlaylistModal() { document.getElementById('playlist-modal').style.display = 'flex'; }
+        function closePlaylistModal() { document.getElementById('playlist-modal').style.display = 'none'; }
+        function openCodeModal() { document.getElementById('code-modal').style.display = 'flex'; }
+        function closeCodeModal() { document.getElementById('code-modal').style.display = 'none'; }
+        function openUserSettingsModal() {
+            document.getElementById('user-settings-modal').style.display = 'flex';
+            document.getElementById('settings-dns-input').value = getSecureSystemDns();
+        }
+        function closeUserSettingsModal() { document.getElementById('user-settings-modal').style.display = 'none'; }
+
+        function saveUserSettingsDns() {
+            let newDns = document.getElementById('settings-dns-input').value.trim();
+            if (newDns) {
+                systemDns = newDns;
+                localStorage.setItem('roku_system_dns_sec', btoa(newDns));
+                alert("DNS mis à jour avec succès !");
+                closeUserSettingsModal();
+            } else {
+                alert("Veuillez entrer un lien DNS valide !");
+            }
+        }
+
+        function clearAppCacheData() {
+            localStorage.clear();
+            alert("Cache vidé et paramètres réinitialisés avec succès !");
+            location.reload();
+        }
+
+        function openAdminModal() {
+            let adminPin = prompt("Veuillez entrer le Code Secret Admin :");
+            let correctPin = localStorage.getItem('roku_admin_pin') || "7788";
+
+            if (adminPin === correctPin) {
+                document.getElementById('admin-panel-modal').style.display = 'flex';
+                document.getElementById('admin-dns-input').value = "";
+                document.getElementById('admin-secret-pass').value = "";
+                document.getElementById('admin-ads-status').value = localStorage.getItem('roku_ad_status') || 'active';
+                document.getElementById('admin-ads-title').value = localStorage.getItem('roku_ad_title') || '';
+                document.getElementById('admin-ads-desc').value = localStorage.getItem('roku_ad_desc') || '';
+                document.getElementById('admin-ads-url').value = localStorage.getItem('roku_ad_url') || '';
+                document.getElementById('gen-mac').value = getDeviceMacAddress();
+
+                let defaultExpiry = new Date();
+                defaultExpiry.setFullYear(defaultExpiry.getFullYear() + 1);
+                document.getElementById('gen-expiry-date').value = defaultExpiry.toISOString().split('T')[0];
+            } else {
+                alert("Code secret incorrect !");
+            }
+        }
+
+        function closeAdminModal() { document.getElementById('admin-panel-modal').style.display = 'none'; }
+
+        function saveSystemDnsSecure() {
+            let newDns = document.getElementById('admin-dns-input').value.trim();
+            let newPin = document.getElementById('admin-secret-pass').value.trim();
+
+            if (newDns) {
+                systemDns = newDns;
+                localStorage.setItem('roku_system_dns_sec', btoa(newDns));
+            }
+            if (newPin) {
+                localStorage.setItem('roku_admin_pin', newPin);
+            }
+            alert("Paramètres mis à jour !");
+            closeAdminModal();
+        }
+
+        function extractCredentialsFromM3U(m3uUrl) {
+            try {
+                let urlObj = new URL(m3uUrl);
+                let params = new URLSearchParams(urlObj.search);
+                let username = params.get('username');
+                let password = params.get('password');
+
+                if (!username || !password) {
+                    let parts = m3uUrl.split('/');
+                    for (let i = 0; i < parts.length; i++) {
+                        if (parts[i] === 'get.php' || parts[i] === 'player_api.php') {
+                            username = parts[i + 1];
+                            password = parts[i + 2];
                         }
                     }
-                } catch (err) {
-                    // الانتقال للبوابة التالية في حال قيام WebView بحظر الطلب الحالي
                 }
-            }
-
-            throw new Error("تعذر جلب البيانات داخل تطبيق Median. تأكد من تفعيل Mixed Content في لوحة تحكم التطبيق.");
-        }
-
-        async function handleLogin(e) {
-            e.preventDefault();
-            const host = cleanHostUrl(document.getElementById('hostInput').value);
-            const user = document.getElementById('userInput').value.trim();
-            const pass = document.getElementById('passInput').value.trim();
-
-            localStorage.setItem('lux_host', host);
-            localStorage.setItem('lux_user', user);
-            localStorage.setItem('lux_pass', pass);
-
-            await performLogin(host, user, pass);
-        }
-
-        async function performLogin(host, user, pass) {
-            showLoginError('');
-            const loginBtn = document.getElementById('loginBtn');
-            loginBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Connecting to server...</span>`;
-
-            state.host = host;
-            state.username = user;
-            state.password = pass;
-            state.isDemoMode = false;
-
-            try {
-                const authUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}`;
-                const data = await fetchXtreamApi(authUrl);
-
-                if (data && data.user_info && (data.user_info.auth === 1 || data.user_info.status === "Active")) {
-                    state.userInfo = data.user_info;
-                    document.getElementById('loginScreen').classList.add('hidden-screen');
-                    document.getElementById('mainDashboard').classList.remove('hidden-screen');
-                    await loadXtreamData();
-                } else {
-                    throw new Error('Invalid account details or subscription expired.');
+                let host = `${urlObj.protocol}//${urlObj.host}`;
+                if (urlObj.port) {
+                    host = `${urlObj.protocol}//${urlObj.hostname}:${urlObj.port}`;
                 }
-            } catch (err) {
-                showLoginError(err.message || 'Connection failed.');
-            } finally {
-                loginBtn.innerHTML = `<span>Fast Account Login</span> <i class="fa-solid fa-bolt"></i>`;
+                return { host, username, password };
+            } catch (e) {
+                return null;
             }
         }
 
-        function startDemoMode() {
-            state.isDemoMode = true;
-            state.userInfo = demoData.userInfo;
-            state.liveChannels = demoData.live;
-            state.vodMovies = demoData.vod;
-            state.seriesList = demoData.series;
-            state.liveCategories = demoData.liveCategories;
-            state.vodCategories = demoData.vodCategories;
-            state.seriesCategories = demoData.seriesCategories;
+        async function handleLoginUserPass() {
+            let usernameInput = document.getElementById('auth-username').value.trim();
+            let passwordInput = document.getElementById('auth-password').value.trim();
+            let errorDiv = document.getElementById('auth-error');
 
-            document.getElementById('loginScreen').classList.add('hidden-screen');
-            document.getElementById('mainDashboard').classList.remove('hidden-screen');
-
-            updateHomeCounters();
-            showHomeScreen();
-        }
-
-        function initAutoLogin() {
-            const h = localStorage.getItem('lux_host');
-            const u = localStorage.getItem('lux_user');
-            const p = localStorage.getItem('lux_pass');
-            if (h) document.getElementById('hostInput').value = h;
-            if (u) document.getElementById('userInput').value = u;
-            if (p) document.getElementById('passInput').value = p;
-            if (h && u && p) performLogin(h, u, p);
-        }
-
-        async function loadXtreamData() {
-            if (state.isDemoMode) return;
-
-            try {
-                const liveCatUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_live_categories`;
-                const vodCatUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_vod_categories`;
-                const seriesCatUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_series_categories`;
-
-                const liveStreamUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_live_streams`;
-                const vodStreamUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_vod_streams`;
-                const seriesUrl = `${state.host}/player_api.php?username=${state.username}&password=${state.password}&action=get_series`;
-
-                const [liveCats, vodCats, seriesCats, live, vod, series] = await Promise.all([
-                    fetchXtreamApi(liveCatUrl).catch(() => []),
-                    fetchXtreamApi(vodCatUrl).catch(() => []),
-                    fetchXtreamApi(seriesCatUrl).catch(() => []),
-                    fetchXtreamApi(liveStreamUrl).catch(() => []),
-                    fetchXtreamApi(vodStreamUrl).catch(() => []),
-                    fetchXtreamApi(seriesUrl).catch(() => [])
-                ]);
-
-                state.liveCategories = Array.isArray(liveCats) ? liveCats : [];
-                state.vodCategories = Array.isArray(vodCats) ? vodCats : [];
-                state.seriesCategories = Array.isArray(seriesCats) ? seriesCats : [];
-
-                state.liveChannels = Array.isArray(live) ? live : [];
-                state.vodMovies = Array.isArray(vod) ? vod : [];
-                state.seriesList = Array.isArray(series) ? series : [];
-
-                if (!state.liveChannels.length && !state.vodMovies.length) {
-                    state.liveChannels = demoData.live;
-                    state.vodMovies = demoData.vod;
-                    state.seriesList = demoData.series;
-                }
-
-                updateHomeCounters();
-                showHomeScreen();
-            } catch (err) {
-                startDemoMode();
-            }
-        }
-
-        function updateHomeCounters() {
-            document.getElementById('homeLiveCount').innerText = `${state.liveChannels.length} Channels`;
-            document.getElementById('homeVodCount').innerText = `${state.vodMovies.length} Movies`;
-            document.getElementById('homeSeriesCount').innerText = `${state.seriesList.length} Series`;
-            document.getElementById('homeFavCount').innerText = `${state.favorites.length}`;
-        }
-
-        function showHomeScreen() {
-            document.getElementById('iboHomeScreen').classList.remove('hidden-screen');
-            document.getElementById('iboContentView').classList.add('hidden-screen');
-            document.getElementById('backToHomeBtn').classList.add('hidden');
-        }
-
-        function openDashboardCategory(tabName) {
-            state.activeTab = tabName;
-            state.activeCategory = 'all';
-
-            document.getElementById('iboHomeScreen').classList.add('hidden-screen');
-            document.getElementById('iboContentView').classList.remove('hidden-screen');
-            document.getElementById('backToHomeBtn').classList.remove('hidden');
-
-            const titleMap = { live: 'Live TV', vod: 'VOD Movies', series: 'Series', favorites: 'Favorites' };
-            document.getElementById('activeTabTitle').innerText = titleMap[tabName] || 'Categories';
-
-            renderSubCategories();
-            filterAndRenderItems();
-        }
-
-        function getCurrentTabCategories() {
-            if (state.activeTab === 'live') return state.liveCategories;
-            if (state.activeTab === 'vod') return state.vodCategories;
-            if (state.activeTab === 'series') return state.seriesCategories;
-            return [];
-        }
-
-        function renderSubCategories() {
-            const track = document.getElementById('categoriesTrack');
-            const categories = getCurrentTabCategories();
-            document.getElementById('catCount').innerText = categories.length || 0;
-
-            let html = `
-                <button onclick="selectCategory('all')" class="cat-btn tv-focusable shrink-0 px-4 py-2 rounded-xl text-xs font-bold ${state.activeCategory === 'all' ? 'bg-gradient-to-r from-gold-500 to-gold-600 text-black shadow-gold-glow' : 'bg-black/60 text-gray-300'}">
-                    All (${getCurrentTabItems().length})
-                </button>
-            `;
-
-            categories.forEach(cat => {
-                const catId = cat.category_id;
-                const isSelected = state.activeCategory == catId;
-                html += `
-                    <button onclick="selectCategory('${catId}')" class="cat-btn tv-focusable shrink-0 px-4 py-2 rounded-xl text-xs font-bold ${isSelected ? 'bg-gradient-to-r from-gold-500 to-gold-600 text-black shadow-gold-glow' : 'bg-black/60 text-gray-400'}">
-                        ${cat.category_name}
-                    </button>
-                `;
-            });
-
-            track.innerHTML = html;
-        }
-
-        function selectCategory(catId) {
-            state.activeCategory = catId;
-            renderSubCategories();
-            filterAndRenderItems();
-        }
-
-        function getCurrentTabItems() {
-            if (state.activeTab === 'live') return state.liveChannels;
-            if (state.activeTab === 'vod') return state.vodMovies;
-            if (state.activeTab === 'series') return state.seriesList;
-            if (state.activeTab === 'favorites') return state.favorites;
-            return [];
-        }
-
-        function filterAndRenderItems(query = '') {
-            let items = getCurrentTabItems();
-
-            if (state.activeCategory !== 'all' && state.activeTab !== 'favorites') {
-                items = items.filter(item => item.category_id == state.activeCategory);
-            }
-
-            if (query.trim() !== '') {
-                const q = query.toLowerCase();
-                items = items.filter(item => (item.name || item.title || '').toLowerCase().includes(q));
-            }
-
-            state.currentItems = items;
-            state.renderedCount = 0;
-            document.getElementById('itemsCount').innerText = `(${items.length} items)`;
-            
-            document.getElementById('itemsGrid').innerHTML = '';
-            document.getElementById('gridContainer').scrollTop = 0;
-
-            renderNextBatch();
-        }
-
-        function renderNextBatch() {
-            const container = document.getElementById('itemsGrid');
-            const items = state.currentItems;
-            
-            if (!items || items.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full py-20 text-center text-gray-500">
-                        <i class="fa-solid fa-film text-5xl mb-3 text-gold-500/20"></i>
-                        <p class="text-xs font-semibold">No content available in this section</p>
-                    </div>
-                `;
+            if (!usernameInput || !passwordInput) {
+                errorDiv.style.display = 'block';
+                errorDiv.innerText = "Veuillez entrer Username et Password !";
                 return;
             }
 
-            const start = state.renderedCount;
-            const end = Math.min(start + state.batchSize, items.length);
-            if (start >= items.length) return;
+            systemDns = getSecureSystemDns();
+            serverConfig.host = systemDns;
+            serverConfig.username = usernameInput;
+            serverConfig.password = passwordInput;
 
-            const isLive = state.activeTab === 'live';
-            const fragment = document.createDocumentFragment();
+            let userInfo = await fetchUserInfoAndExpiry();
 
-            for (let i = start; i < end; i++) {
-                const item = items[i];
-                const id = item.stream_id || item.series_id;
-                const isFav = state.favorites.some(f => (f.stream_id || f.series_id) === id);
-                const title = item.name || item.title || 'LuxStream Content';
-                const icon = item.stream_icon || item.cover || 'https://placehold.co/300x450/0c1018/d4af37?text=LuxStream';
-
-                const card = document.createElement('div');
-                card.className = "ibo-card tv-focusable rounded-2xl overflow-hidden cursor-pointer group flex flex-col justify-between";
-
-                if (isLive) {
-                    card.onclick = () => playItem(i);
-                    card.innerHTML = `
-                        <div class="aspect-video w-full overflow-hidden bg-black/80 relative p-2 flex items-center justify-center">
-                            <img src="${icon}" onerror="this.src='https://placehold.co/300x200/0c1018/d4af37?text=LIVE+TV'" alt="${title}" class="max-h-full max-w-full object-contain" loading="lazy">
-                            <span class="absolute top-2 left-2 bg-red-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-white live-dot"></span> LIVE
-                            </span>
-                            <button onclick="event.stopPropagation(); toggleFavorite('${id}')" class="absolute top-2 right-2 p-1.5 rounded-full bg-black/70 text-xs ${isFav ? 'text-amber-400' : 'text-gray-400'}">
-                                <i class="fa-solid fa-star"></i>
-                            </button>
-                        </div>
-                        <div class="p-3 bg-black/60">
-                            <h4 class="text-xs font-bold text-gray-200 truncate group-hover:text-gold-400">${title}</h4>
-                        </div>
-                    `;
-                } else {
-                    card.onclick = () => openDetailsModal(i);
-                    card.innerHTML = `
-                        <div class="aspect-[2/3] w-full overflow-hidden bg-black/80 relative">
-                            <img src="${icon}" onerror="this.src='https://placehold.co/300x450/0c1018/d4af37?text=LuxStream+VOD'" alt="${title}" class="w-full h-full object-cover" loading="lazy">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end">
-                                <span class="text-[10px] text-amber-300 font-bold mb-1"><i class="fa-solid fa-star text-amber-400 ml-1"></i>${item.rating || '8.8'} IMDb</span>
-                                <div class="w-full py-2 bg-gold-500 text-black font-extrabold rounded-xl text-xs text-center shadow-gold-glow">Details</div>
-                            </div>
-                            <button onclick="event.stopPropagation(); toggleFavorite('${id}')" class="absolute top-2 right-2 p-1.5 rounded-full bg-black/70 text-xs ${isFav ? 'text-amber-400' : 'text-gray-400'} z-10">
-                                <i class="fa-solid fa-star"></i>
-                            </button>
-                        </div>
-                        <div class="p-3 bg-black/70">
-                            <h4 class="text-xs font-bold text-gray-200 truncate group-hover:text-gold-400">${title}</h4>
-                        </div>
-                    `;
+            if (userInfo) {
+                localStorage.setItem('roku_vip_user', usernameInput);
+                localStorage.setItem('roku_vip_pass', passwordInput);
+                if (userInfo.exp_date) {
+                    localStorage.setItem('roku_vip_expiry', userInfo.exp_date);
                 }
-                fragment.appendChild(card);
-            }
-
-            container.appendChild(fragment);
-            state.renderedCount = end;
-        }
-
-        function handleScroll(el) {
-            if (el.scrollTop + el.clientHeight >= el.scrollHeight - 300) {
-                renderNextBatch();
-            }
-        }
-
-        function openDetailsModal(index) {
-            const item = state.currentItems[index];
-            if (!item) return;
-
-            state.currentItem = item;
-            const icon = item.stream_icon || item.cover || 'https://placehold.co/800x450/0c1018/d4af37?text=LuxStream';
-            
-            document.getElementById('modalBackdrop').src = icon;
-            document.getElementById('modalTitle').innerText = item.name || item.title || 'LuxStream Title';
-            document.getElementById('modalRating').innerHTML = `<i class="fa-solid fa-star text-xs ml-1"></i> ${item.rating || '8.8'}`;
-            document.getElementById('modalPlot').innerText = item.plot || 'Enjoy watching this luxury title in ultra-high definition 4K without ads using the fast LuxStream Ultra server.';
-
-            const playBtn = document.getElementById('modalPlayBtn');
-            playBtn.onclick = () => { closeDetailsModal(); playItem(index); };
-
-            const seriesSection = document.getElementById('seriesEpisodesSection');
-            if (state.activeTab === 'series') {
-                seriesSection.classList.remove('hidden-screen');
-                loadSeasonEpisodes();
+                document.getElementById('playlist-modal').style.display = 'none';
+                document.getElementById('logged-client-badge').innerText = userInfo.username || "PRO USER";
+                updateExpiryDisplay(userInfo.exp_date);
+                loadAdsBannerData();
+                alert("Connecté avec succès !");
             } else {
-                seriesSection.classList.add('hidden-screen');
+                errorDiv.style.display = 'block';
+                errorDiv.innerText = "Identifiants incorrects ou serveur injoignable !";
             }
-
-            document.getElementById('detailsModal').classList.remove('hidden-screen');
         }
 
-        function closeDetailsModal() { document.getElementById('detailsModal').classList.add('hidden-screen'); }
+        async function generateCredentialsFromM3U() {
+            let client = document.getElementById('gen-client').value.trim();
+            let mac = document.getElementById('gen-mac').value.trim().toUpperCase();
+            let m3u = document.getElementById('gen-m3u').value.trim();
+            let expiry = document.getElementById('gen-expiry-date').value;
 
-        function loadSeasonEpisodes() {
-            const container = document.getElementById('episodesList');
-            let html = '';
-            for (let i = 1; i <= 6; i++) {
-                html += `
-                    <div onclick="closeDetailsModal(); playItem(0);" class="ibo-card tv-focusable p-3 rounded-xl cursor-pointer hover:scale-105 flex items-center space-x-3">
-                        <div class="w-8 h-8 rounded-full bg-gold-500/20 text-gold-400 font-bold flex items-center justify-center text-xs shrink-0">${i}</div>
-                        <div class="truncate">
-                            <h5 class="text-xs font-bold text-gray-200">Episode ${i}</h5>
-                            <span class="text-[10px] text-gray-400">45 mins</span>
+            if (!client || !mac || !m3u || !expiry) {
+                alert("Veuillez remplir tous les champs !");
+                return;
+            }
+
+            let extracted = extractCredentialsFromM3U(m3u);
+            if (!extracted || !extracted.username) {
+                alert("Lien M3U invalide !");
+                return;
+            }
+
+            let activationCode = "ROKU-PRO-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+            
+            let newClientObj = {
+                client: client,
+                mac: mac,
+                code: activationCode,
+                dns: extracted.host,
+                username: extracted.username,
+                password: extracted.password,
+                expiry_date: expiry,
+                status: 'active'
+            };
+
+            try {
+                let res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY },
+                    cache: 'no-store'
+                });
+                let jsonResponse = await res.json();
+                let allClients = jsonResponse.record || {};
+
+                allClients[activationCode] = newClientObj;
+                allClients[mac] = newClientObj;
+
+                let updateRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify(allClients)
+                });
+
+                if (!updateRes.ok) {
+                    throw new Error("Erreur lors de la sauvegarde cloud.");
+                }
+
+                let localExtra = JSON.parse(localStorage.getItem('roku_local_clients') || '[]');
+                localExtra.unshift(newClientObj);
+                localStorage.setItem('roku_local_clients', JSON.stringify(localExtra));
+
+                let resultBox = document.getElementById('code-result-box');
+                resultBox.style.display = 'block';
+
+                resultBox.innerHTML = `
+                    <div class="result-header-flex">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div class="logo-circle-badge" style="width:45px;height:45px;">
+                                <span class="logo-text-roku" style="font-size:8px;">ROKU</span>
+                            </div>
+                            <div>
+                                <span style="font-size:13px;color:#fff;font-weight:bold;display:block;">ROKU VIP PRO</span>
+                                <span style="font-size:10px;color:#00ffcc;">✅ Synchronisé & Enregistré Cloud</span>
+                            </div>
                         </div>
+                        <div class="vip-badge-box"><span>VIP</span></div>
+                    </div>
+                    <div class="result-row"><span class="label-text">Client :</span><span class="val-text">${client}</span></div>
+                    <div class="result-row"><span class="label-text">Device Key :</span><span class="val-text" style="font-family:monospace;">${mac}</span></div>
+                    <div class="result-row"><span class="label-text">Expiration :</span><span class="val-text">${expiry}</span></div>
+                    <div class="result-row"><span class="label-text">Username :</span><span class="val-text">${extracted.username}</span></div>
+                    <div class="result-row"><span class="label-text">Password :</span><span class="val-text">${extracted.password}</span></div>
+                    <div class="result-row" style="border-top:1px dashed rgba(255,255,255,0.15);padding-top:10px;">
+                        <span class="label-text">Code d'Activation :</span><span class="val-code">${activationCode}</span>
                     </div>
                 `;
-            }
-            container.innerHTML = html;
-        }
-
-        function playItem(index) {
-            const item = state.currentItems[index];
-            if (!item) return;
-
-            state.currentItem = item;
-            const video = document.getElementById('videoElement');
-            const buffer = document.getElementById('playerBuffer');
-            document.getElementById('playerTitle').innerText = item.name || item.title || 'LuxStream Stream';
-
-            let streamUrl = '';
-            if (state.isDemoMode) {
-                streamUrl = 'https://test-streams.mux.dev/x36xhtml/x36xhtml.m3u8';
-            } else if (state.activeTab === 'live') {
-                streamUrl = `${state.host}/live/${state.username}/${state.password}/${item.stream_id}.m3u8`;
-            } else if (state.activeTab === 'vod') {
-                streamUrl = `${state.host}/movie/${state.username}/${state.password}/${item.stream_id}.${item.container_extension || 'mp4'}`;
-            } else {
-                streamUrl = `${state.host}/series/${state.username}/${state.password}/${item.stream_id}.m3u8`;
-            }
-
-            document.getElementById('playerOverlay').classList.remove('hidden-screen');
-            buffer.classList.remove('hidden-screen');
-
-            if (state.hlsInstance) {
-                state.hlsInstance.destroy();
-                state.hlsInstance = null;
-            }
-            video.pause();
-            video.removeAttribute('src');
-            video.load();
-
-            if (Hls.isSupported() && (streamUrl.includes('.m3u8') || state.activeTab === 'live')) {
-                const hls = new Hls({
-                    enableWorker: true,
-                    lowLatencyMode: true,
-                    maxBufferLength: 10,
-                    maxMaxBufferLength: 20
-                });
-                state.hlsInstance = hls;
-                hls.loadSource(streamUrl);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    video.play().catch(e => console.error(e));
-                });
-            } else {
-                video.src = streamUrl;
-                video.play().catch(e => console.error(e));
+                alert("🎉 Compte généré et synchronisé avec succès sur le Cloud !");
+            } catch (err) {
+                alert("Erreur de communication avec JSONBin : " + err.message);
             }
         }
 
-        function bindPlayerEvents() {
-            const video = document.getElementById('videoElement');
-            const buffer = document.getElementById('playerBuffer');
+        async function handleLoginActiveCode() {
+            let codeInput = document.getElementById('auth-code').value.trim();
+            let errorDiv = document.getElementById('code-error');
 
-            video.addEventListener('canplay', () => buffer.classList.add('hidden-screen'));
-            video.addEventListener('playing', () => buffer.classList.add('hidden-screen'));
-            video.addEventListener('waiting', () => buffer.classList.remove('hidden-screen'));
+            if (!codeInput) {
+                errorDiv.style.display = 'block';
+                errorDiv.innerText = "Entrez votre Device Key ou Code d'Activation !";
+                return;
+            }
+
+            try {
+                errorDiv.style.display = 'block';
+                errorDiv.innerText = "Vérification en cours...";
+
+                let res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY },
+                    cache: 'no-store'
+                });
+                let data = await res.json();
+                let allClients = data.record || {};
+
+                let clientData = allClients[codeInput] || allClients[codeInput.toUpperCase()];
+                if (!clientData) {
+                    let foundKey = Object.keys(allClients).find(key => 
+                        allClients[key].code === codeInput || 
+                        allClients[key].mac === codeInput.toUpperCase() || 
+                        allClients[key].phone === codeInput
+                    );
+                    if (foundKey) clientData = allClients[foundKey];
+                }
+
+                if (!clientData || !clientData.username || !clientData.password) {
+                    errorDiv.style.display = 'block';
+                    errorDiv.innerText = "Device Key ou Code introuvable !";
+                    return;
+                }
+
+                if (clientData.status && clientData.status !== 'active') {
+                    errorDiv.style.display = 'block';
+                    errorDiv.innerText = "Abonnement désactivé par l'administrateur !";
+                    return;
+                }
+
+                if (clientData.expiry_date) {
+                    let now = new Date();
+                    let expDate = new Date(clientData.expiry_date);
+                    if (now > expDate) {
+                        errorDiv.style.display = 'block';
+                        errorDiv.innerText = "Abonnement expiré ! Veuillez le renouveler.";
+                        return;
+                    }
+                }
+
+                systemDns = clientData.dns || getSecureSystemDns();
+                serverConfig.host = systemDns;
+                serverConfig.username = clientData.username;
+                serverConfig.password = clientData.password;
+
+                let userInfo = await fetchUserInfoAndExpiry();
+
+                localStorage.setItem('roku_vip_user', clientData.username);
+                localStorage.setItem('roku_vip_pass', clientData.password);
+                localStorage.setItem('roku_vip_expiry', clientData.expiry_date || (userInfo ? userInfo.exp_date : "Illimité"));
+
+                document.getElementById('code-modal').style.display = 'none';
+                document.getElementById('logged-client-badge').innerText = clientData.username;
+                updateExpiryDisplay(clientData.expiry_date || (userInfo ? userInfo.exp_date : null));
+                loadAdsBannerData();
+
+                alert("Compte activé et connecté avec succès !");
+
+            } catch (e) {
+                errorDiv.style.display = 'block';
+                errorDiv.innerText = "Erreur de connexion cloud JSONBin !";
+            }
+        }
+
+        async function checkAndLoginByDeviceKey(deviceKey) {
+            let savedUser = localStorage.getItem('roku_vip_user');
+            if (savedUser) return true;
+
+            try {
+                let res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY },
+                    cache: 'no-store'
+                });
+                let data = await res.json();
+                let allClients = data.record || {};
+
+                let clientData = allClients[deviceKey] || allClients[deviceKey.toUpperCase()];
+
+                if (clientData && clientData.username && clientData.password) {
+                    if (clientData.status && clientData.status !== 'active') return false;
+                    if (clientData.expiry_date) {
+                        let now = new Date();
+                        let expDate = new Date(clientData.expiry_date);
+                        if (now > expDate) return false;
+                    }
+
+                    systemDns = clientData.dns || getSecureSystemDns();
+                    serverConfig.host = systemDns;
+                    serverConfig.username = clientData.username;
+                    serverConfig.password = clientData.password;
+
+                    localStorage.setItem('roku_vip_user', clientData.username);
+                    localStorage.setItem('roku_vip_pass', clientData.password);
+                    localStorage.setItem('roku_vip_expiry', clientData.expiry_date || "Illimité");
+
+                    document.getElementById('logged-client-badge').innerText = clientData.username;
+                    updateExpiryDisplay(clientData.expiry_date);
+                    loadAdsBannerData();
+                    return true;
+                }
+            } catch (e) {
+                console.error("Erreur de synchronisation automatique JSONBin:", e);
+            }
+            return false;
+        }
+
+        window.addEventListener('load', () => {
+            initClockAndWeather();
+            initBannerSlider();
+            let currentDeviceKey = getDeviceMacAddress();
+            document.getElementById('device-mac-display').innerText = currentDeviceKey;
+
+            setTimeout(async () => {
+                const splash = document.getElementById('splash-screen');
+                if (splash) {
+                    splash.style.opacity = '0';
+                    setTimeout(async () => {
+                        splash.style.display = 'none';
+                        
+                        let autoConnected = await checkAndLoginByDeviceKey(currentDeviceKey);
+                        if (!autoConnected) {
+                            checkStoredSession();
+                        }
+                    }, 800);
+                }
+            }, 2000);
+        });
+
+        async function checkStoredSession() {
+            let savedUser = localStorage.getItem('roku_vip_user');
+            let savedPass = localStorage.getItem('roku_vip_pass');
+
+            if (savedUser && savedPass) {
+                systemDns = getSecureSystemDns();
+                serverConfig.host = systemDns;
+                serverConfig.username = savedUser;
+                serverConfig.password = savedPass;
+
+                let userInfo = await fetchUserInfoAndExpiry();
+                let savedExpiry = localStorage.getItem('roku_vip_expiry') || (userInfo ? userInfo.exp_date : null);
+                updateExpiryDisplay(savedExpiry);
+                loadAdsBannerData();
+            } else {
+                loadAdsBannerData();
+            }
+        }
+
+        async function fetchUserInfoAndExpiry() {
+            try {
+                let res = await fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}`);
+                let data = await res.json();
+
+                if (data && data.user_info && data.user_info.auth === 1) {
+                    return {
+                        username: data.user_info.username,
+                        exp_date: data.user_info.exp_date ? data.user_info.exp_date : null
+                    };
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function updateExpiryDisplay(expTimestamp) {
+            const timeTextEl = document.getElementById('expiry-time-text');
+            if (!expTimestamp) {
+                timeTextEl.innerText = "Illimité / Inconnu";
+                return;
+            }
+
+            let formattedDate = "";
+            if (!isNaN(expTimestamp) && String(expTimestamp).length <= 11) {
+                let dateObj = new Date(parseInt(expTimestamp) * 1000);
+                formattedDate = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' }) + ' à ' + dateObj.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            } else if (typeof expTimestamp === 'string' && expTimestamp.includes('T')) {
+                let dateObj = new Date(expTimestamp);
+                formattedDate = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+            } else {
+                formattedDate = expTimestamp;
+            }
+            timeTextEl.innerText = formattedDate;
+        }
+
+        function logout() {
+            localStorage.removeItem('roku_vip_user');
+            localStorage.removeItem('roku_vip_pass');
+            localStorage.removeItem('roku_vip_expiry');
+            localStorage.removeItem('roku_vip_device_mac');
+            location.reload();
+        }
+
+        let allLiveStreams = [];
+        let currentLoadedItems = [];
+
+        function generateDynamicCategoryBadge(name) {
+            let cleanName = name ? name.trim() : 'VIP';
+            let lower = cleanName.toLowerCase();
+            let symbolIcon = '⚡';
+
+            if (lower.includes('sport') || lower.includes('bein') || lower.includes('رياضة') || lower.includes('match') || lower.includes('foot')) {
+                symbolIcon = '⚽';
+            } else if (lower.includes('movie') || lower.includes('film') || lower.includes('cinema') || lower.includes('أفلام')) {
+                symbolIcon = '🎬';
+            } else if (lower.includes('series') || lower.includes('mosalsalat') || lower.includes('مسلسلات')) {
+                symbolIcon = '🎞';
+            } else if (lower.includes('morocco') || lower.includes('maroc') || lower.includes('المغرب') || lower.includes('arabic')) {
+                symbolIcon = '🇲🇦';
+            } else if (lower.includes('news') || lower.includes('info') || lower.includes('أخبار')) {
+                symbolIcon = '📰';
+            }
+
+            return `
+                <div class="dynamic-category-logo">
+                    <span style="font-size:14px;font-weight:900;color:#fff;text-shadow:0 0 8px #ff0033;">VIP</span>
+                    <div class="emoji-badge">${symbolIcon}</div>
+                </div>
+            `;
+        }
+
+        async function fetchWithCache(actionName) {
+            let cacheKey = `roku_cache_${actionName}_${serverConfig.username}`;
+            let cachedData = localStorage.getItem(cacheKey);
+
+            if (cachedData) {
+                try {
+                    return JSON.parse(cachedData);
+                } catch (e) {}
+            }
+
+            let response = await fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=${actionName}`);
+            let data = await response.json();
+
+            if (data && Array.isArray(data) && data.length > 0) {
+                try {
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                } catch (e) {}
+            }
+            return data;
+        }
+
+        async function openCategory(type) {
+            let savedUser = localStorage.getItem('roku_vip_user');
+            if (!savedUser || !serverConfig.username || !serverConfig.password) {
+                alert("⚠ Accès refusé ! Veuillez d'abord vous connecter ou activer votre abonnement.");
+                openPlaylistModal();
+                return;
+            }
+
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('dynamic-ads-banner-container').style.display = 'none';
+
+            const contentSection = document.getElementById('content-section');
+            contentSection.style.display = 'flex';
+
+            const grid = document.getElementById('items-grid');
+            grid.innerHTML = '<div class="loader-spinner"></div>';
+
+            if (type === 'favorites') {
+                document.getElementById('section-name').innerText = 'Favoris enregistrés';
+                setTimeout(() => {
+                    grid.innerHTML = `<p style="color:#aaa;text-align:center;grid-column:1/-1;padding:40px;">Aucun élément dans les favoris pour le moment.</p>`;
+                }, 400);
+                return;
+            }
+
+            document.getElementById('section-name').innerText =
+                type === 'matches' ? 'SPORTS' : (type === 'live' ? 'TV en direct - Catégories' : (type === 'movie' ? 'Films VOD' : 'Séries TV'));
+
+            try {
+                if (type === 'live' || type === 'matches') {
+                    let [catRes, streamData] = await Promise.all([
+                        fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=get_live_categories`),
+                        fetchWithCache('get_live_streams')
+                    ]);
+
+                    let categories = await catRes.json();
+                    allLiveStreams = streamData;
+
+                    if (type === 'matches') {
+                        let sportCats = categories.filter(cat => {
+                            let name = cat.category_name.toLowerCase();
+                            return (name.includes('sport') || name.includes('bein') || name.includes('match') || name.includes('foot') || name.includes('رياضة') || name.includes('koora'));
+                        });
+
+                        let sportCatIds = sportCats.map(c => c.category_id);
+                        let matchedStreams = allLiveStreams.filter(stream => sportCatIds.includes(stream.category_id) || stream.name.toLowerCase().includes('bein') || stream.name.toLowerCase().includes('match'));
+
+                        currentLoadedItems = matchedStreams.map(item => ({
+                            id: item.stream_id,
+                            title: item.name,
+                            icon: item.stream_icon || '',
+                            extension: 'm3u8',
+                            type: 'live'
+                        }));
+
+                        renderItemsGrid(currentLoadedItems);
+                        document.getElementById('back-action-btn').setAttribute('onclick', "goHome()");
+                    } else {
+                        grid.innerHTML = "";
+                        if (Array.isArray(categories)) {
+                            categories.forEach(cat => {
+                                let card = document.createElement('div');
+                                card.className = 'item-card';
+                                let dynamicBadgeHTML = generateDynamicCategoryBadge(cat.category_name);
+                                card.innerHTML = `${dynamicBadgeHTML}<p title="${cat.category_name}">${cat.category_name}</p>`;
+                                card.onclick = () => filterStreamsByCategory(cat.category_id, cat.category_name);
+                                grid.appendChild(card);
+                            });
+                        }
+                    }
+                } else {
+                    let actionName = type === 'movie' ? 'get_vod_streams' : 'get_series';
+                    let data = await fetchWithCache(actionName);
+
+                    if (Array.isArray(data)) {
+                        currentLoadedItems = data.map(item => ({
+                            id: item.stream_id || item.series_id,
+                            title: item.name || item.title,
+                            icon: item.stream_icon || item.cover || '',
+                            extension: item.container_extension || 'mp4',
+                            type: type
+                        }));
+                        renderItemsGrid(currentLoadedItems);
+                    }
+                }
+            } catch (error) {
+                grid.innerHTML = `<p style="color:#ff0033;text-align:center;grid-column:1/-1;">Erreur de chargement des données. Veuillez vérifier vos accès.</p>`;
+            }
+        }
+
+        function filterStreamsByCategory(catId, catName) {
+            let filtered = allLiveStreams.filter(stream => stream.category_id == catId);
+            currentLoadedItems = filtered.map(item => ({
+                id: item.stream_id,
+                title: item.name,
+                icon: item.stream_icon || '',
+                extension: 'm3u8',
+                type: 'live'
+            }));
+
+            document.getElementById('section-name').innerText = catName;
+            document.getElementById('back-action-btn').setAttribute('onclick', "openCategory('live')");
+            renderItemsGrid(currentLoadedItems);
+        }
+
+        function renderItemsGrid(items) {
+            const grid = document.getElementById('items-grid');
+            grid.innerHTML = "";
+
+            if (items.length === 0) {
+                grid.innerHTML = `<p style="color:#aaa;text-align:center;grid-column:1/-1;padding:40px;">Aucun flux disponible actuellement.</p>`;
+                return;
+            }
+
+            let displayItems = items.slice(0, 150);
+            displayItems.forEach(item => {
+                let card = document.createElement('div');
+                card.className = 'item-card';
+
+                let mediaLogoHTML = item.icon && item.icon.trim() !== ''
+                    ? `<img src="${item.icon}" loading="lazy" onerror="this.style.display='none'">`
+                    : `<div style="width:65px;height:65px;margin-bottom:12px;background:rgba(0,0,0,0.3);border-radius:12px;"></div>`;
+
+                card.innerHTML = `${mediaLogoHTML}<p title="${item.title}">${item.title}</p>`;
+                card.onclick = () => playStream(item.type, item.id, item.title, item.extension);
+                grid.appendChild(card);
+            });
+
+            if (items.length > 150) {
+                let loadMoreDiv = document.createElement('div');
+                loadMoreDiv.style.gridColumn = "1 / -1";
+                loadMoreDiv.style.textAlign = "center";
+                loadMoreDiv.style.padding = "15px";
+                loadMoreDiv.innerHTML = `<button style="background:#ff0033;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:bold;">Afficher le reste (${items.length - 150} éléments)...</button>`;
+
+                loadMoreDiv.querySelector('button').onclick = () => {
+                    loadMoreDiv.remove();
+                    items.slice(150).forEach(item => {
+                        let card = document.createElement('div');
+                        card.className = 'item-card';
+                        let mediaLogoHTML = item.icon && item.icon.trim() !== ''
+                            ? `<img src="${item.icon}" loading="lazy" onerror="this.style.display='none'">`
+                            : `<div style="width:65px;height:65px;margin-bottom:12px;background:rgba(0,0,0,0.3);border-radius:12px;"></div>`;
+
+                        card.innerHTML = `${mediaLogoHTML}<p title="${item.title}">${item.title}</p>`;
+                        card.onclick = () => playStream(item.type, item.id, item.title, item.extension);
+                        grid.appendChild(card);
+                    });
+                };
+                grid.appendChild(loadMoreDiv);
+            }
+        }
+
+        function playStream(type, id, title, extension = 'mp4') {
+            document.getElementById('content-section').style.display = 'none';
+            document.getElementById('player-container').style.display = 'flex';
+            
+            document.getElementById('playing-title').innerText = title;
+            const categoryTag = document.getElementById('player-category-tag');
+            if (type === 'live') {
+                categoryTag.innerText = "DIRECT VIP • LIVE STREAM 4K";
+            } else if (type === 'movie') {
+                categoryTag.innerText = "CINEMA VOD • FULL HD";
+            } else {
+                categoryTag.innerText = "SERIES VIP • EPISODE HD";
+            }
+
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(() => {});
+            }
+
+            let streamUrl = "";
+            if (type === 'live') {
+                streamUrl = `${serverConfig.host}/live/${serverConfig.username}/${serverConfig.password}/${id}.m3u8`;
+            } else if (type === 'movie') {
+                streamUrl = `${serverConfig.host}/movie/${serverConfig.username}/${serverConfig.password}/${id}.${extension}`;
+            } else if (type === 'series') {
+                streamUrl = `${serverConfig.host}/series/${serverConfig.username}/${serverConfig.password}/${id}.${extension}`;
+            }
+
+            let iframeContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body, html { margin:0; padding:0; width:100%; height:100%; background:#000; overflow:hidden; display:flex; justify-content:center; align-items:center; }
+                        video { width:100%; height:100%; object-fit:contain; background:#000; }
+                    </style>
+                </head>
+                <body>
+                    <video id="webPlayer" controls autoplay playsinline controlsList="nodownload">
+                        <source src="${streamUrl}" type="application/x-mpegURL">
+                        <source src="${streamUrl}" type="video/mp4">
+                    </video>
+                    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"><\/script>
+                    <script>
+                        var video = document.getElementById('webPlayer');
+                        var videoSrc = "${streamUrl}";
+                        document.addEventListener('click', function() {
+                            if (video.requestFullscreen) {
+                                video.requestFullscreen();
+                            } else if (video.webkitRequestFullscreen) {
+                                video.webkitRequestFullscreen();
+                            }
+                        }, { once:true });
+
+                        if (Hls.isSupported()) {
+                            var hls = new Hls({ maxBufferLength:30, maxMaxBufferLength:60, liveSyncDurationCount:3, lowLatencyMode:true });
+                            hls.loadSource(videoSrc);
+                            hls.attachMedia(video);
+                            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                                video.play().then(() => {
+                                    if (video.requestFullscreen) video.requestFullscreen();
+                                }).catch(function() {});
+                            });
+                        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                            video.src = videoSrc;
+                            video.addEventListener('loadedmetadata', function() {
+                                video.play().then(() => {
+                                    if (video.requestFullscreen) video.requestFullscreen();
+                                }).catch(function() {});
+                            });
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `;
+
+            let iframe = document.getElementById('media-iframe');
+            let blob = new Blob([iframeContent], { type:'text/html' });
+            iframe.src = URL.createObjectURL(blob);
+        }
+
+        function goHome() {
+            let iframe = document.getElementById('media-iframe');
+            if (iframe) iframe.src = 'about:blank';
+
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+
+            document.getElementById('player-container').style.display = 'none';
+            document.getElementById('content-section').style.display = 'none';
+            document.getElementById('main-menu').style.display = 'grid';
+            loadAdsBannerData();
         }
 
         function closePlayer() {
-            const video = document.getElementById('videoElement');
-            video.pause();
-            video.removeAttribute('src');
-            if (state.hlsInstance) {
-                state.hlsInstance.destroy();
-                state.hlsInstance = null;
+            let iframe = document.getElementById('media-iframe');
+            if (iframe) iframe.src = 'about:blank';
+
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
             }
-            document.getElementById('playerOverlay').classList.add('hidden-screen');
-        }
 
-        function togglePlayPause() {
-            const video = document.getElementById('videoElement');
-            if (video.paused) video.play(); else video.pause();
-        }
-
-        function toggleMute() {
-            const video = document.getElementById('videoElement');
-            video.muted = !video.muted;
-        }
-
-        function setVolume(v) { document.getElementById('videoElement').volume = v; }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) document.getElementById('playerOverlay').requestFullscreen();
-            else document.exitFullscreen();
-        }
-
-        function toggleAspect() {
-            const video = document.getElementById('videoElement');
-            video.style.objectFit = video.style.objectFit === 'cover' ? 'contain' : 'cover';
-        }
-
-        function toggleFavorite(id) {
-            const items = getCurrentTabItems();
-            const item = items.find(i => (i.stream_id || i.series_id) == id);
-            if (!item) return;
-
-            const idx = state.favorites.findIndex(f => (f.stream_id || f.series_id) == id);
-            if (idx > -1) state.favorites.splice(idx, 1);
-            else state.favorites.push(item);
-
-            localStorage.setItem('lux_favs_ibo', JSON.stringify(state.favorites));
-            updateHomeCounters();
-            filterAndRenderItems();
-        }
-
-        function handleGlobalSearch(q) {
-            if (document.getElementById('iboHomeScreen').classList.contains('hidden-screen') === false) {
-                openDashboardCategory('live');
-            }
-            filterAndRenderItems(q);
-        }
-
-        function showAccountModal() {
-            const info = state.userInfo || {};
-            const details = document.getElementById('accountInfoDetails');
-            details.innerHTML = `
-                <div class="flex justify-between py-2 border-b border-gray-800"><span class="text-gray-400">Username:</span> <span class="font-bold text-gold-400">${info.username || state.username}</span></div>
-                <div class="flex justify-between py-2 border-b border-gray-800"><span class="text-gray-400">Status:</span> <span class="text-emerald-400 font-semibold">${info.status || 'Active'}</span></div>
-                <div class="flex justify-between py-2"><span class="text-gray-400">Server:</span> <span class="font-mono text-gray-300">${state.host || 'Demo Server'}</span></div>
-            `;
-            document.getElementById('accountModal').classList.remove('hidden-screen');
-        }
-
-        function closeAccountModal() { document.getElementById('accountModal').classList.add('hidden-screen'); }
-
-        function logout() { localStorage.clear(); location.reload(); }
-
-        function showLoginError(msg) {
-            const errDiv = document.getElementById('loginError');
-            if (msg) { errDiv.innerText = msg; errDiv.classList.remove('hidden'); }
-            else { errDiv.classList.add('hidden'); }
-        }
-
-        function initTVNavigation() {
-            document.addEventListener('keydown', (e) => {
-                const focusables = Array.from(document.querySelectorAll('.tv-focusable:not(.hidden-screen)'));
-                if (!focusables.length) return;
-
-                let activeEl = document.activeElement;
-                let currentIndex = focusables.indexOf(activeEl);
-
-                if (e.key === 'ArrowRight' && currentIndex < focusables.length - 1) focusables[currentIndex + 1].focus();
-                if (e.key === 'ArrowLeft' && currentIndex > 0) focusables[currentIndex - 1].focus();
-                if (e.key === 'ArrowDown' && currentIndex + 3 < focusables.length) focusables[currentIndex + 3].focus();
-                if (e.key === 'ArrowUp' && currentIndex - 3 >= 0) focusables[currentIndex - 3].focus();
-            });
+            document.getElementById('player-container').style.display = 'none';
+            document.getElementById('content-section').style.display = 'flex';
         }
     </script>
 </body>
