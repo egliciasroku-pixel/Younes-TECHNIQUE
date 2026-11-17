@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LUXURY IPTV - Royal Local Engine</title>
+    <title>LUXURY IPTV - Royal Stable Engine</title>
     <!-- خطوط جوجل الفاخرة -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <!-- مكتبة الأيقونات FontAwesome -->
@@ -40,7 +40,6 @@
             overflow-x: hidden;
         }
 
-        /* التصميم الرئيسي للتطبيق */
         #app-container {
             display: flex;
             flex-direction: column;
@@ -349,13 +348,11 @@
 </head>
 <body>
 
-    <!-- شاشة التحميل التلقائي -->
     <div id="loader">
         <div class="spinner"></div>
-        <p>جاري التشغيل المحلي والاتصال بالسيرفر...</p>
+        <p>جاري تحميل النظام الملكي محلياً...</p>
     </div>
 
-    <!-- واجهة التطبيق الرئيسية -->
     <div id="app-container">
         <header>
             <div class="logo-area">
@@ -367,7 +364,6 @@
             </div>
         </header>
 
-        <!-- الأقسام الثلاثة -->
         <div class="main-tabs">
             <button class="tab-btn active" onclick="switchTab('live')" id="tab-live">
                 <i class="fa-solid fa-tv"></i> LIVE
@@ -383,18 +379,17 @@
         <div class="content-area">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search-input" placeholder="بحث سريع في القنوات..." oninput="filterChannels()">
+                <input type="text" id="search-input" placeholder="بحث سريع في المحتوى..." oninput="filterChannels()">
             </div>
 
             <div class="section-title"><i class="fa-solid fa-list"></i> التصنيفات</div>
             <div class="categories-container" id="categories-list"></div>
 
-            <div class="section-title"><i class="fa-solid fa-play"></i> المحتوى المتاح</div>
+            <div class="section-title"><i class="fa-solid fa-play"></i> القنوات والمحتوى</div>
             <div class="grid-channels" id="channels-grid"></div>
         </div>
     </div>
 
-    <!-- مشغل الفيديو -->
     <div id="player-modal">
         <div class="player-header">
             <h3 id="player-title">تشغيل</h3>
@@ -406,8 +401,8 @@
     </div>
 
     <script>
-        // الرابط الأساسي مضمن بالكامل داخل الكود
-        const BASE_API_URL = "https://systemdataappfarouk.globalcoreservice.net/ShadEeD_FaRu.php?server=http://smart-v2.live:80&username=mkv1wx9aam&password=u25vaksvc6";
+        // الاعتماد على الرابط المباشر مع تجاوز قيود المتصفحات عبر جسر آمن ومستقر
+        const PHP_BRIDGE = "https://systemdataappfarouk.globalcoreservice.net/ShadEeD_FaRu.php?server=http://smart-v2.live:80&username=mkv1wx9aam&password=u25vaksvc6";
         const SERVER_HOST = "http://smart-v2.live:80";
         const SERVER_USER = "mkv1wx9aam";
         const SERVER_PASS = "u25vaksvc6";
@@ -417,7 +412,6 @@
         let channelsData = [];
         let activeCategory = 'all';
 
-        // العمل محلياً وفوراً عند فتح التطبيق دون أي متصفحات أو شحنات خارجية
         window.addEventListener('DOMContentLoaded', () => {
             loadPortalData();
         });
@@ -436,30 +430,32 @@
                 let catAction = currentType === 'live' ? 'get_live_categories' : (currentType === 'movie' ? 'get_vod_categories' : 'get_series_categories');
                 let listAction = currentType === 'live' ? 'get_live_streams' : (currentType === 'movie' ? 'get_vod_streams' : 'get_series');
 
-                // جلب التصنيفات والقنوات عبر الرابط المدمج
-                let catUrl = `${BASE_API_URL}&action=${catAction}`;
-                let listUrl = `${BASE_API_URL}&action=${listAction}`;
+                let catUrl = `${PHP_BRIDGE}&action=${catAction}`;
+                let listUrl = `${PHP_BRIDGE}&action=${listAction}`;
 
-                // محاولة الجلب المباشر
-                let catRes = await fetch(catUrl);
+                // جلب التصنيفات وقائمة المحتوى بالتوازي
+                const [catRes, listRes] = await Promise.all([
+                    fetch(catUrl, { mode: 'cors' }),
+                    fetch(listUrl, { mode: 'cors' })
+                ]);
+
+                if (!catRes.ok || !listRes.ok) throw new Error('Network response was not ok');
+
                 categoriesData = await catRes.json();
-
-                let listRes = await fetch(listUrl);
                 channelsData = await listRes.json();
 
                 renderCategories();
                 renderChannels();
             } catch (error) {
-                console.error("Local load error:", error);
-                // طريقة بديلة مباشرة في حال واجه المتصفح قيود CORS
-                fallbackDirectXtream();
+                console.warn("Bridge fetch failed, switching to fallback mode:", error);
+                // محاولة الاتصال المباشر البديل في حال تعذر السيرفر الوسيط
+                await fallbackDirect();
             } finally {
                 showLoader(false);
             }
         }
 
-        // دالة احتياطية للاتصال المباشر بالسيرفر في حال تعذر جسر الـ PHP
-        async function fallbackDirectXtream() {
+        async function fallbackDirect() {
             try {
                 let catAction = currentType === 'live' ? 'get_live_categories' : (currentType === 'movie' ? 'get_vod_categories' : 'get_series_categories');
                 let listAction = currentType === 'live' ? 'get_live_streams' : (currentType === 'movie' ? 'get_vod_streams' : 'get_series');
@@ -467,16 +463,18 @@
                 let directCat = `${SERVER_HOST}/player_api.php?username=${SERVER_USER}&password=${SERVER_PASS}&action=${catAction}`;
                 let directList = `${SERVER_HOST}/player_api.php?username=${SERVER_USER}&password=${SERVER_PASS}&action=${listAction}`;
 
-                let cRes = await fetch(directCat);
-                categoriesData = await cRes.json();
+                const [cRes, lRes] = await Promise.all([
+                    fetch(directCat),
+                    fetch(directList)
+                ]);
 
-                let lRes = await fetch(directList);
+                categoriesData = await cRes.json();
                 channelsData = await lRes.json();
 
                 renderCategories();
                 renderChannels();
             } catch (err) {
-                alert('فشل الاتصال المحلي بالسيرفر. تأكد من أن الاتصال نشط.');
+                console.error("All connection attempts failed:", err);
             } finally {
                 showLoader(false);
             }
@@ -511,7 +509,7 @@
 
             let html = '';
             if (!Array.isArray(filtered) || filtered.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding:20px;">لا توجد محتويات</p>';
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding:20px;">لا توجد محتويات متاحة</p>';
                 return;
             }
 
@@ -570,7 +568,7 @@
                 if (matched && matched.container_extension) ext = matched.container_extension;
                 streamUrl = `${SERVER_HOST}/movie/${SERVER_USER}/${SERVER_PASS}/${id}.${ext}`;
             } else {
-                alert('قسم المسلسلات يتطلب اختيار الحلقة.');
+                alert('قسم المسلسلات يتطلب اختيار الحلقة المناسبة.');
                 return;
             }
 
@@ -578,7 +576,7 @@
             let videoElem = document.getElementById('native-video');
             videoElem.src = streamUrl;
             document.getElementById('player-modal').style.display = 'flex';
-            videoElem.play().catch(e => console.log(e));
+            videoElem.play().catch(e => console.log("Stream play error:", e));
         }
 
         function closePlayer() {
@@ -594,4 +592,3 @@
     </script>
 </body>
 </html>
- 
