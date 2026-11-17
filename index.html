@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LUXURY PLAYER - Royal Final Fix</title>
+    <title>LUXURY PLAYER - Royal Cached</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -38,8 +38,91 @@
             overflow-x: hidden;
         }
 
-        #app-container {
+        #setup-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .setup-card {
+            background: linear-gradient(135deg, rgba(25, 25, 25, 0.9), rgba(10, 10, 10, 0.95));
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 0 40px var(--accent-glow);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .setup-card h2 {
+            color: var(--gold-primary);
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 900;
+        }
+
+        .setup-card p {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--gold-light);
+            font-size: 12px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .royal-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            margin-top: 10px;
+        }
+
+        #app-container {
+            display: none;
             flex-direction: column;
             min-height: 100vh;
         }
@@ -311,7 +394,7 @@
             height: 100%;
             background: rgba(5, 5, 5, 0.95);
             z-index: 9998;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -341,9 +424,27 @@
 </head>
 <body>
 
+    <div id="setup-screen">
+        <div class="setup-card">
+            <h2>LUXURY PLAYER</h2>
+            <p>أدخل بيانات الحساب للتشغيل المحلي الثابت</p>
+            
+            <div class="input-group">
+                <label>اسم المستخدم (Username)</label>
+                <input type="text" id="in-user" placeholder="Username">
+            </div>
+            <div class="input-group">
+                <label>كلمة المرور (Password)</label>
+                <input type="password" id="in-pass" placeholder="Password">
+            </div>
+
+            <button class="royal-btn" onclick="saveAndConnect()">دخول ملكي</button>
+        </div>
+    </div>
+
     <div id="loader">
         <div class="spinner"></div>
-        <p>جاري تحميل النظام الملكي...</p>
+        <p>جاري التخزين المحلي المؤقت...</p>
     </div>
 
     <div id="app-container">
@@ -353,11 +454,11 @@
                 <h1>LUXURY PLAYER</h1>
             </div>
             <div class="header-actions">
-                <button class="icon-btn" onclick="loadPortalData()" title="تحديث البيانات"><i class="fa-solid fa-rotate"></i></button>
+                <button class="icon-btn" onclick="forceRefreshCache()" title="تحديث وتفريغ الذاكرة"><i class="fa-solid fa-rotate"></i></button>
+                <button class="icon-btn" onclick="resetSettings()" title="إعدادات الحساب"><i class="fa-solid fa-gear"></i></button>
             </div>
         </header>
 
-        <!-- الأقسام الثلاثة مع تمرير النوع بدقة -->
         <div class="main-tabs">
             <button class="tab-btn active" onclick="switchTab('live')" id="tab-live">
                 <i class="fa-solid fa-tv"></i> LIVE
@@ -373,13 +474,13 @@
         <div class="content-area">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search-input" placeholder="بحث سريع في المحتوى..." oninput="filterChannels()">
+                <input type="text" id="search-input" placeholder="بحث سريع في المحتوى الحالي..." oninput="filterChannels()">
             </div>
 
             <div class="section-title"><i class="fa-solid fa-list"></i> التصنيفات</div>
             <div class="categories-container" id="categories-list"></div>
 
-            <div class="section-title"><i class="fa-solid fa-play"></i> القنوات والمحتوى</div>
+            <div class="section-title"><i class="fa-solid fa-play"></i> المحتوى</div>
             <div class="grid-channels" id="channels-grid"></div>
         </div>
     </div>
@@ -395,39 +496,87 @@
     </div>
 
     <script>
-        const PHP_BRIDGE = "https://systemdataappfarouk.globalcoreservice.net/ShadEeD_FaRu.php?server=http://smart-v2.live:80&username=mkv1wx9aam&password=u25vaksvc6";
         const SERVER_HOST = "http://smart-v2.live:80";
-        const SERVER_USER = "mkv1wx9aam";
-        const SERVER_PASS = "u25vaksvc6";
-
-        let currentType = 'live'; // البدء بقسم البث المباشر افتراضياً
-        let categoriesData = [];
-        let channelsData = [];
+        let SERVER_USER = "";
+        let SERVER_PASS = "";
+        let currentType = 'live'; 
         let activeCategory = 'all';
 
+        // ذاكرة تخزين مؤقت داخلية تشبه نظام الـ PHP Header Caching محلياً
+        let memoryCache = {
+            live: { cats: [], items: [] },
+            movie: { cats: [], items: [] },
+            series: { cats: [], items: [] }
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
-            loadPortalData();
+            const savedUser = localStorage.getItem('lux_user');
+            const savedPass = localStorage.getItem('lux_pass');
+
+            if (savedUser && savedPass) {
+                SERVER_USER = savedUser;
+                SERVER_PASS = savedPass;
+                document.getElementById('setup-screen').style.display = 'none';
+                document.getElementById('app-container').style.display = 'flex';
+                initAppCache();
+            }
         });
 
-        function switchTab(type) {
-            currentType = type;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`tab-${type}`).classList.add('active');
-            activeCategory = 'all';
-            document.getElementById('search-input').value = '';
-            loadPortalData();
+        function saveAndConnect() {
+            let user = document.getElementById('in-user').value.trim();
+            let pass = document.getElementById('in-pass').value.trim();
+
+            if (!user || !pass) {
+                alert('المرجو إدخال اسم المستخدم وكلمة المرور.');
+                return;
+            }
+
+            localStorage.setItem('lux_user', user);
+            localStorage.setItem('lux_pass', pass);
+            location.reload();
         }
 
-        async function loadPortalData() {
+        function resetSettings() {
+            if(confirm('هل تريد مسح الحساب وإعادة الإعدادات؟')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function forceRefreshCache() {
+            memoryCache = {
+                live: { cats: [], items: [] },
+                movie: { cats: [], items: [] },
+                series: { cats: [], items: [] }
+            };
+            initAppCache();
+        }
+
+        // جلب وتخزين البيانات في الذاكرة المؤقتة مرة واحدة لكل قسم لمنع الرجوع للبحث أو إعادة الطلب
+        async function initAppCache() {
             showLoader(true);
             try {
-                // تحديد الإجراءات بدقة بناءً على القسم الحالي (live, movie, series)
-                let catAction = currentType === 'live' ? 'get_live_categories' : (currentType === 'movie' ? 'get_vod_categories' : 'get_series_categories');
-                let listAction = currentType === 'live' ? 'get_live_streams' : (currentType === 'movie' ? 'get_vod_streams' : 'get_series');
+                // جلب بيانات الأقسام الثلاثة دفعة واحدة وتخزينها محلياً في الذاكرة
+                await fetchSectionData('live', 'get_live_categories', 'get_live_streams');
+                await fetchSectionData('movie', 'get_vod_categories', 'get_vod_streams');
+                await fetchSectionData('series', 'get_series_categories', 'get_series');
 
-                let catUrl = `${PHP_BRIDGE}&action=${catAction}`;
-                let listUrl = `${PHP_BRIDGE}&action=${listAction}`;
+                renderCategories();
+                renderChannels();
+            } catch (error) {
+                console.error("Cache init error:", error);
+            } finally {
+                showLoader(false);
+            }
+        }
 
+        async function fetchSectionData(type, catAction, listAction) {
+            if (memoryCache[type].items.length > 0) return; // إذا كانت مخزنة مسبقاً، لا تعيد الطلب
+
+            let catUrl = `${SERVER_HOST}/player_api.php?username=${SERVER_USER}&password=${SERVER_PASS}&action=${catAction}`;
+            let listUrl = `${SERVER_HOST}/player_api.php?username=${SERVER_USER}&password=${SERVER_PASS}&action=${listAction}`;
+
+            try {
                 let [catRes, listRes] = await Promise.all([
                     fetch(catUrl).catch(() => null),
                     fetch(listUrl).catch(() => null)
@@ -435,57 +584,37 @@
 
                 if (catRes && catRes.ok) {
                     let text = await catRes.text();
-                    try { categoriesData = JSON.parse(text); } catch(e) { categoriesData = []; }
+                    try { memoryCache[type].cats = JSON.parse(text); } catch(e) { memoryCache[type].cats = []; }
                 }
 
                 if (listRes && listRes.ok) {
                     let text = await listRes.text();
-                    try { channelsData = JSON.parse(text); } catch(e) { channelsData = []; }
+                    try { memoryCache[type].items = JSON.parse(text); } catch(e) { memoryCache[type].items = []; }
                 }
-
-                // احتياطي في حال فشل الجسر
-                if (!Array.isArray(categoriesData) || categoriesData.length === 0) {
-                    await fallbackDirect(catAction, listAction);
-                }
-
-                renderCategories();
-                renderChannels();
-            } catch (error) {
-                console.error("Load error:", error);
-            } finally {
-                showLoader(false);
+            } catch (err) {
+                console.error(`Error fetching ${type}:`, err);
             }
         }
 
-        async function fallbackDirect(catAction, listAction) {
-            try {
-                let directCat = `${SERVER_HOST}/player_api.php?username=${SERVER_USER}&password=${SERVER_PASS}&action=${catAction}`;
-                let directList = `${SERVER_HOST}/player_api.php?username=${SERVER_USER}&password=${SERVER_PASS}&action=${listAction}`;
-
-                let [cRes, lRes] = await Promise.all([
-                    fetch(directCat).catch(() => null),
-                    fetch(directList).catch(() => null)
-                ]);
-
-                if (cRes && cRes.ok) {
-                    let text = await cRes.text();
-                    try { categoriesData = JSON.parse(text); } catch(e) { categoriesData = []; }
-                }
-                if (lRes && lRes.ok) {
-                    let text = await lRes.text();
-                    try { channelsData = JSON.parse(text); } catch(e) { channelsData = []; }
-                }
-            } catch (err) {
-                console.error("Fallback failed:", err);
-            }
+        function switchTab(type) {
+            currentType = type;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${type}`).classList.add('active');
+            activeCategory = 'all';
+            document.getElementById('search-input').value = '';
+            
+            // العرض فوري من الذاكرة المحلية المخزنة دون انتظار السيرفر
+            renderCategories();
+            renderChannels();
         }
 
         function renderCategories() {
             const container = document.getElementById('categories-list');
+            let cats = memoryCache[currentType].cats;
             let html = `<div class="cat-chip active" onclick="filterByCategory('all', this)">الكل</div>`;
 
-            if (Array.isArray(categoriesData)) {
-                categoriesData.forEach(cat => {
+            if (Array.isArray(cats)) {
+                cats.forEach(cat => {
                     let catId = cat.category_id || '';
                     let catName = cat.category_name || 'قسم';
                     html += `<div class="cat-chip" onclick="filterByCategory('${catId}', this)">${catName}</div>`;
@@ -503,10 +632,13 @@
 
         function renderChannels() {
             const grid = document.getElementById('channels-grid');
-            let filtered = channelsData;
+            let items = memoryCache[currentType].items;
+            let filtered = items;
 
-            if (activeCategory !== 'all' && Array.isArray(channelsData)) {
-                filtered = channelsData.filter(item => item.category_id == activeCategory);
+            if (activeCategory !== 'all' && Array.isArray(items)) {
+                filtered = items.filter(item => {
+                    return (item.category_id == activeCategory) || (item.category_ids && item.category_ids.includes(activeCategory));
+                });
             }
 
             let html = '';
@@ -518,11 +650,11 @@
             filtered.slice(0, 100).forEach(item => {
                 let name = item.name || item.title || 'بدون اسم';
                 let img = item.stream_icon || item.cover || '';
-                let id = item.stream_id || item.series_id || '';
-                let posterHtml = img ? `<img src="${img}" onerror="this.onerror=null;this.parentElement.innerHTML='<i class=\'fa-solid fa-tv\'></i>';">` : `<i class="fa-solid fa-tv"></i>`;
+                let id = item.stream_id || item.series_id || item.id || '';
+                let posterHtml = img ? `<img src="${img}" onerror="this.onerror=null;this.parentElement.innerHTML='<i class=\'fa-solid fa-film\'></i>';">` : `<i class="fa-solid fa-film"></i>`;
 
                 html += `
-                    <div class="channel-card" onclick="playChannel('${id}', '${name.replace(/'/g, "")}')">
+                    <div class="channel-card" onclick="playItem('${id}', '${name.replace(/'/g, "")}')">
                         <div class="channel-poster">${posterHtml}</div>
                         <div class="channel-info">
                             <h4>${name}</h4>
@@ -535,9 +667,10 @@
 
         function filterChannels() {
             let query = document.getElementById('search-input').value.toLowerCase();
-            if (!Array.isArray(channelsData)) return;
+            let items = memoryCache[currentType].items;
+            if (!Array.isArray(items)) return;
 
-            let filtered = channelsData.filter(item => {
+            let filtered = items.filter(item => {
                 let name = (item.name || item.title || '').toLowerCase();
                 return name.includes(query);
             });
@@ -547,11 +680,11 @@
             filtered.slice(0, 100).forEach(item => {
                 let name = item.name || item.title || '';
                 let img = item.stream_icon || item.cover || '';
-                let id = item.stream_id || item.series_id || '';
-                let posterHtml = img ? `<img src="${img}" onerror="this.onerror=null;this.parentElement.innerHTML='<i class=\'fa-solid fa-tv\'></i>';">` : `<i class="fa-solid fa-tv"></i>`;
+                let id = item.stream_id || item.series_id || item.id || '';
+                let posterHtml = img ? `<img src="${img}" onerror="this.onerror=null;this.parentElement.innerHTML='<i class=\'fa-solid fa-film\'></i>';">` : `<i class="fa-solid fa-film"></i>`;
 
                 html += `
-                    <div class="channel-card" onclick="playChannel('${id}', '${name.replace(/'/g, "")}')">
+                    <div class="channel-card" onclick="playItem('${id}', '${name.replace(/'/g, "")}')">
                         <div class="channel-poster">${posterHtml}</div>
                         <div class="channel-info">
                             <h4>${name}</h4>
@@ -562,18 +695,17 @@
             grid.innerHTML = html;
         }
 
-        function playChannel(id, name) {
+        function playItem(id, name) {
             let streamUrl = '';
             if (currentType === 'live') {
                 streamUrl = `${SERVER_HOST}/live/${SERVER_USER}/${SERVER_PASS}/${id}.m3u8`;
             } else if (currentType === 'movie') {
                 let ext = 'mp4';
-                let matched = channelsData.find(m => m.stream_id == id);
+                let matched = memoryCache.movie.items.find(m => m.stream_id == id || m.id == id);
                 if (matched && matched.container_extension) ext = matched.container_extension;
                 streamUrl = `${SERVER_HOST}/movie/${SERVER_USER}/${SERVER_PASS}/${id}.${ext}`;
-            } else {
-                alert('قسم المسلسلات يتطلب تفاصيل الحلقات.');
-                return;
+            } else if (currentType === 'series') {
+                streamUrl = `${SERVER_HOST}/series/${SERVER_USER}/${SERVER_PASS}/${id}.mp4`;
             }
 
             document.getElementById('player-title').innerText = name;
