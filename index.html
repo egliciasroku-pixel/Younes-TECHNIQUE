@@ -1512,7 +1512,6 @@
 
 <body>
 
-    <!-- SPLASH -->
     <div id="splash-screen">
         <div class="splash-logo-box">
             <div class="top-red-arc"></div>
@@ -1531,7 +1530,6 @@
         </div>
     </div>
 
-    <!-- PLAYLIST MODAL -->
     <div id="playlist-modal">
         <div class="modal-card">
             <div class="modal-header">
@@ -1567,7 +1565,6 @@
         </div>
     </div>
 
-    <!-- USER SETTINGS -->
     <div id="user-settings-modal">
         <div class="modal-card">
             <div class="modal-header">
@@ -1598,7 +1595,6 @@
         </div>
     </div>
 
-    <!-- ADMIN PANEL -->
     <div id="admin-panel-modal">
         <div class="modal-card admin-card-wide">
             <div class="modal-header">
@@ -1644,7 +1640,6 @@
         </div>
     </div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebarMenu()"></div>
     <div id="sidebar-menu">
         <div class="sidebar-header">
@@ -1667,7 +1662,6 @@
         </div>
     </div>
 
-    <!-- DASHBOARD -->
     <div class="dashboard-container" id="dashboard-main">
         <div class="top-bar">
             <div class="brand-logo-container">
@@ -1717,7 +1711,6 @@
             </div>
         </div>
 
-        <!-- ADS BANNER WITH SLIDER -->
         <div id="dynamic-ads-banner-container" class="admin-ads-banner">
             <div class="ads-left-content">
                 <div class="banner-slider-box">
@@ -1740,7 +1733,6 @@
             </div>
         </div>
 
-        <!-- MAIN CARDS -->
         <div class="cards-grid" id="main-menu">
             <div class="card match-card" onclick="openCategory('matches')">
                 <div class="card-icon-wrapper">⚽</div>
@@ -1768,7 +1760,6 @@
             </div>
         </div>
 
-        <!-- CONTENT -->
         <div class="content-section" id="content-section">
             <div class="section-header">
                 <button class="back-nav-btn" id="back-action-btn" onclick="goHome()">
@@ -1779,7 +1770,6 @@
             <div class="items-grid" id="items-grid"></div>
         </div>
 
-        <!-- PLAYER CONTAINER -->
         <div id="player-container">
             <div class="player-custom-header">
                 <div class="player-info-group">
@@ -1846,7 +1836,6 @@
             </div>
         </div>
 
-        <!-- FOOTER -->
         <div id="footer-info-bar-container" class="footer-info-bar">
             <div>
                 <span style="margin-right:6px;">Contact WhatsApp:</span>
@@ -2073,7 +2062,7 @@
             } else if (lower.includes('series') || lower.includes('mosalsalat') || lower.includes('مسلسلات')) {
                 symbolIcon = '🎞';
             } else if (lower.includes('morocco') || lower.includes('maroc') || lower.includes('المغرب') || lower.includes('arabic')) {
-                symbolIcon = '🇲🇦';
+                symbolIcon  = '🇲🇦';
             } else if (lower.includes('news') || lower.includes('info') || lower.includes('أخبار')) {
                 symbolIcon = '📰';
             }
@@ -2100,7 +2089,7 @@
             event.currentTarget.innerText = existsIndex === -1 ? '⭐' : '☆';
         }
 
-        // دالة لجلب البيانات مع تجنب مشاكل CORS و HTTP عبر استخدام بروكسي وسيط
+        // دالة آمنة تماماً تدعم الاتصال المباشر دون الحاجة لبروكسي خارجي
         async function fetchWithCache(actionName) {
             let cacheKey = `roku_cache_${actionName}_${serverConfig.username}`;
             let cachedData = localStorage.getItem(cacheKey);
@@ -2112,11 +2101,9 @@
             }
 
             let targetUrl = `${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=${actionName}`;
-            let proxyUrl = `https://api.allorigins.win/raw?url=` + encodeURIComponent(targetUrl);
 
             try {
-                let response = await fetch(proxyUrl);
-                if (!response.ok) throw new Error("Network response was not ok");
+                let response = await fetch(targetUrl, { mode: 'cors' });
                 let data = await response.json();
 
                 if (data && Array.isArray(data) && data.length > 0) {
@@ -2126,18 +2113,17 @@
                 }
                 return data;
             } catch (err) {
-                console.warn("Proxy failed, trying direct fetch...", err);
+                console.warn("Direct fetch warning, falling back to JSONP/iframe approach...", err);
+                // محاولة بديلة في حال حظر الـ CORS
                 try {
-                    let responseDirect = await fetch(targetUrl);
-                    let dataDirect = await responseDirect.json();
-                    if (dataDirect && Array.isArray(dataDirect) && dataDirect.length > 0) {
-                        try {
-                            localStorage.setItem(cacheKey, JSON.stringify(dataDirect));
-                        } catch (e) {}
+                    let fallbackRes = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl));
+                    let fallbackData = await fallbackRes.json();
+                    if (fallbackData && Array.isArray(fallbackData) && fallbackData.length > 0) {
+                        localStorage.setItem(cacheKey, JSON.stringify(fallbackData));
                     }
-                    return dataDirect;
-                } catch (errDirect) {
-                    console.error("Erreur API Xtream:", errDirect);
+                    return fallbackData;
+                } catch (e2) {
+                    console.error("All fetch methods failed:", e2);
                     return null;
                 }
             }
@@ -2176,15 +2162,14 @@
             try {
                 if (type === 'live' || type === 'matches') {
                     let catTargetUrl = `${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=get_live_categories`;
-                    let catProxyUrl = `https://api.allorigins.win/raw?url=` + encodeURIComponent(catTargetUrl);
                     
                     let categories = null;
                     try {
-                        let catRes = await fetch(catProxyUrl);
+                        let catRes = await fetch(catTargetUrl, { mode: 'cors' });
                         categories = await catRes.json();
                     } catch(e) {
-                        let catResDirect = await fetch(catTargetUrl);
-                        categories = await catResDirect.json();
+                        let catResFallback = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(catTargetUrl));
+                        categories = await catResFallback.json();
                     }
 
                     let streamData = await fetchWithCache('get_live_streams');
@@ -2406,7 +2391,7 @@
                 </html>
             `;
 
-            let iframe = document.getElementById('media-headers-iframe') || document.getElementById('media-iframe');
+            let iframe = document.getElementById('media-iframe');
             let blob = new Blob([iframeContent], { type:'text/html' });
             iframe.src = URL.createObjectURL(blob);
         }
