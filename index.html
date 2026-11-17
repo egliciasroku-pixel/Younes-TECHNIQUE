@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROKU VIP - Pro Ecosystem & Admin Panel M3U</title>
+    <title>ROKU VIP - Pro Ecosystem & Xtream Player</title>
 
     <style>
         * {
@@ -140,7 +140,6 @@
         }
 
         #playlist-modal,
-        #code-modal,
         #admin-panel-modal,
         #user-settings-modal {
             position: fixed;
@@ -287,56 +286,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-        }
-
-        .code-generator-result {
-            background: #000000;
-            border: 2px dashed #992233;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 15px;
-            position: relative;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
-            display: none;
-        }
-
-        .result-row {
-            font-size: 16px;
-            font-weight: 700;
-            color: #55eeaa;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .result-row span.val-text { color: #f3c653; }
-        .result-row span.val-code { color: #55eeaa; }
-
-        .vip-badge-box {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle, #332211 0%, #110802 100%);
-            border: 1.5px solid #d4af37;
-            border-radius: 50px;
-            padding: 4px 12px;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
-        }
-
-        .vip-badge-box span {
-            color: #d4af37;
-            font-weight: 900;
-            font-size: 13px;
-        }
-
-        .result-header-flex {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
-            padding-bottom: 12px;
         }
 
         .dashboard-container {
@@ -631,10 +580,6 @@
             border-color: #fff;
             box-shadow: 0 0 20px rgba(255, 0, 51, 0.5);
             transform: translateX(-4px);
-        }
-
-        .sidebar-item-btn.logout-sidebar:hover {
-            background: linear-gradient(135deg, #ff0033 0%, #990022 100%);
         }
 
         .sidebar-overlay {
@@ -1255,12 +1200,6 @@
             transition: all 0.3s ease;
         }
 
-        .mini-channel-circle-icon:hover {
-            transform: scale(1.35) translateY(-2px);
-            z-index: 10;
-            box-shadow: 0 0 10px #ffd700;
-        }
-
         .mini-channel-circle-icon.bein { background: linear-gradient(135deg, #581c87 0%, #3b0764 100%); color: #fff; border-color: #a855f7; }
         .mini-channel-circle-icon.alwan { background: linear-gradient(135deg, #ff0055 0%, #ffaa00 100%); color: #fff; border-color: #ffaa00; }
         .mini-channel-circle-icon.anime { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #fff; border-color: #38bdf8; }
@@ -1515,21 +1454,6 @@
                 0 5px 15px rgba(0, 0, 0, 0.5);
         }
 
-        .footer-info-bar span.mac-label { color: #cbd5e1; }
-        .footer-info-bar strong#device-mac-display {
-            color: #ffffff;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.8),
-                0 0 15px rgba(255, 255, 255, 0.4);
-            padding: 2px 6px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
         .whatsapp-contact-box {
             display: inline-flex;
             align-items: center;
@@ -1607,15 +1531,20 @@
         </div>
     </div>
 
-    <!-- PLAYLIST MODAL -->
+    <!-- PLAYLIST MODAL (مع حقول Username و Password والهوست الثابت) -->
     <div id="playlist-modal">
         <div class="modal-card">
             <div class="modal-header">
                 <div class="modal-title">
                     <span>📡</span>
-                    <span>Connexion (User & Pass)</span>
+                    <span>Connexion Compte Xtream (User & Pass)</span>
                 </div>
                 <button class="close-modal-btn" onclick="closePlaylistModal()">✕</button>
+            </div>
+
+            <div class="input-group">
+                <label>Serveur DNS (ثابت)</label>
+                <input type="text" id="auth-host" class="auth-input" value="http://smart-v2.live:80" disabled style="color:#00ffcc;font-weight:bold;">
             </div>
 
             <div class="input-group">
@@ -1638,32 +1567,6 @@
         </div>
     </div>
 
-    <!-- CODE MODAL -->
-    <div id="code-modal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span>🔑</span>
-                    <span>Code d'Activation / Device Key</span>
-                </div>
-                <button class="close-modal-btn" onclick="closeCodeModal()">✕</button>
-            </div>
-
-            <div class="input-group">
-                <label>Code d'Activation ou Device Key</label>
-                <input type="text" id="auth-code" class="auth-input" placeholder="Entrez votre Device Key">
-            </div>
-
-            <button class="modal-submit-btn" onclick="handleLoginActiveCode()">
-                Activer & Connect
-            </button>
-
-            <div id="code-error" class="error-msg">
-                Device Key invalide ou expiré !
-            </div>
-        </div>
-    </div>
-
     <!-- USER SETTINGS -->
     <div id="user-settings-modal">
         <div class="modal-card">
@@ -1673,17 +1576,6 @@
                     <span>Paramètres de l'Application</span>
                 </div>
                 <button class="close-modal-btn" onclick="closeUserSettingsModal()">✕</button>
-            </div>
-
-            <div class="admin-section-box" style="margin-bottom:12px;padding:12px;">
-                <div class="admin-section-title" style="font-size:13px;">🌐 DNS & Connexion Serveur</div>
-                <div class="input-group">
-                    <label>Serveur DNS Actuel</label>
-                    <input type="text" id="settings-dns-input" class="auth-input" placeholder="http://...">
-                </div>
-                <button class="modal-submit-btn" style="padding:9px;font-size:12px;" onclick="saveUserSettingsDns()">
-                    Mettre à jour le DNS
-                </button>
             </div>
 
             <div class="admin-section-box" style="margin-bottom:12px;padding:12px;">
@@ -1712,7 +1604,7 @@
             <div class="modal-header">
                 <div class="modal-title">
                     <span>🛡</span>
-                    <span>Panneau Admin & Gestion des Publicités</span>
+                    <span>Panneau Admin & Gestion</span>
                 </div>
                 <button class="close-modal-btn" onclick="closeAdminModal()">✕</button>
             </div>
@@ -1738,46 +1630,16 @@
                     <label>Lien du bouton d'action</label>
                     <input type="text" id="admin-ads-url" class="auth-input" placeholder="https://wa.me/...">
                 </div>
-                <div class="input-group">
-                    <label>Texte du bouton</label>
-                    <input type="text" id="admin-ads-btntext" class="auth-input" placeholder="Ex: Commander">
-                </div>
                 <button class="modal-submit-btn" onclick="saveAdsBannerSettings()">Enregistrer & Mettre à jour</button>
             </div>
 
             <div class="admin-section-box">
-                <div class="admin-section-title">🌐 Paramètres du Système</div>
+                <div class="admin-section-title">🔐 Sécurité Admin</div>
                 <div class="input-group">
-                    <label>Changer le Code Secret Admin</label>
+                    <label>Changer le Code Secret Admin (Défaut: 7788)</label>
                     <input type="password" id="admin-secret-pass" class="auth-input" placeholder="Nouveau code PIN">
                 </div>
-                <div class="input-group">
-                    <label>DNS Principal du Système</label>
-                    <input type="text" id="admin-dns-input" class="auth-input" placeholder="Entrer le nouveau DNS">
-                </div>
-                <button class="modal-submit-btn" onclick="saveSystemDnsSecure()">Mettre à jour le DNS</button>
-            </div>
-
-            <div class="admin-section-box">
-                <div class="admin-section-title">🔑 Générateur de Compte & M3U (Enregistrement Cloud JSONBin)</div>
-                <div class="input-group">
-                    <label>📅 Date d'expiration</label>
-                    <input type="date" id="gen-expiry-date" class="auth-input">
-                </div>
-                <div class="input-group">
-                    <label>Nom du Client</label>
-                    <input type="text" id="gen-client" class="auth-input" placeholder="Nom du Client">
-                </div>
-                <div class="input-group">
-                    <label>Device Key (Pour Activer l'App)</label>
-                    <input type="text" id="gen-mac" class="auth-input">
-                </div>
-                <div class="input-group">
-                    <label>Lien M3U complet</label>
-                    <input type="text" id="gen-m3u" class="auth-input" placeholder="http://...">
-                </div>
-                <button class="modal-submit-btn" onclick="generateCredentialsFromM3U()">Générer & Enregistrer sur JSONBin</button>
-                <div id="code-result-box" class="code-generator-result"></div>
+                <button class="modal-submit-btn" onclick="saveSystemPinSecure()">Mettre à jour le PIN</button>
             </div>
         </div>
     </div>
@@ -1790,14 +1652,17 @@
             <button class="close-modal-btn" onclick="toggleSidebarMenu()">✕</button>
         </div>
         <div class="sidebar-items">
+            <button class="sidebar-item-btn" onclick="openPlaylistModal(); toggleSidebarMenu();">
+                <span>➕</span><span>Changer / Ajouter Compte</span>
+            </button>
             <button class="sidebar-item-btn" onclick="openUserSettingsModal(); toggleSidebarMenu();">
                 <span>⚙</span><span>Paramètres</span>
             </button>
             <button class="sidebar-item-btn" onclick="openAdminModal(); toggleSidebarMenu();">
                 <span>🛡</span><span>Panneau Admin</span>
             </button>
-            <button class="sidebar-item-btn logout-sidebar" onclick="logout()">
-                <span>🚪</span><span>Déconnexion / Changer Compte</span>
+            <button class="sidebar-item-btn" onclick="logoutSession(); toggleSidebarMenu();">
+                <span>🚪</span><span>Déconnexion</span>
             </button>
         </div>
     </div>
@@ -1814,7 +1679,7 @@
                 <div class="brand-logo-text-group">
                     <div class="brand-logo">
                         ROKU <span style="color:#ff0033;">VIP</span>
-                        <span class="sub-badge" id="logged-client-badge">PRO</span>
+                        <span class="sub-badge" id="logged-client-badge">PRO IPTV</span>
                     </div>
                     <div class="header-datetime-weather">
                         <div class="datetime-box">
@@ -1822,10 +1687,10 @@
                             <span id="live-date" class="app-live-date">Chargement...</span>
                         </div>
                         <div class="weather-widget-box">
-                            <span id="weather-icon" class="weather-icon-el">🌤️</span>
+                            <span id="weather-icon" class="weather-icon-el">👑</span>
                             <div class="weather-info-text">
-                                <span id="weather-temp" class="weather-temp-val">--°C</span>
-                                <span id="weather-location" class="weather-location-val">Détection...</span>
+                                <span id="weather-temp" class="weather-temp-val">4K UHD</span>
+                                <span id="weather-location" class="weather-location-val">ROKU PLAYER</span>
                             </div>
                         </div>
                     </div>
@@ -1834,30 +1699,29 @@
 
             <div class="top-actions">
                 <div id="expiry-status-badge" style="font-size:12px;color:#00ffcc;background:rgba(0,255,204,0.1);padding:7px 14px;border-radius:10px;border:1px solid rgba(0,255,204,0.35);display:flex;align-items:center;gap:6px;box-shadow:0 0 15px rgba(0,255,204,0.15);">
-                    <span>⏳ Exp:</span>
-                    <span id="expiry-time-text" style="font-weight:bold;font-family:monospace;">Non connecté</span>
+                    <span>🟢 Statut:</span>
+                    <span id="expiry-time-text" style="font-weight:bold;font-family:monospace;">Connecté</span>
                 </div>
             </div>
 
             <div class="right-header-controls">
                 <button class="unified-header-btn" onclick="openPlaylistModal()">
-                    <span>➕</span><span>Add playlist</span>
+                    <span>👤</span><span>Compte</span>
                 </button>
                 <button class="unified-header-btn home-header-btn" onclick="goHome()">
                     <span>🏠</span><span>Accueil</span>
                 </button>
-                <button class="unified-header-btn menu-header-btn" onclick="checkAndToggleMenu()">
+                <button class="unified-header-btn menu-header-btn" onclick="toggleSidebarMenu()">
                     <span>☰</span><span>Menu</span>
                 </button>
             </div>
         </div>
 
-        <!-- ADS BANNER WITH SLIDER (Netflix, beIN SPORTS, Anime) -->
+        <!-- ADS BANNER WITH SLIDER -->
         <div id="dynamic-ads-banner-container" class="admin-ads-banner">
             <div class="ads-left-content">
                 <div class="banner-slider-box">
                     <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=200&auto=format&fit=crop" class="banner-slide-img active" alt="Netflix VIP" title="NETFLIX 4K">
-                    <!-- تم تحديث صورة beIN Sports هنا لتكون نفس الصورة المرفقة -->
                     <img src="https://i.ibb.co/nsC86D9f/images.webp" class="banner-slide-img" alt="beIN SPORTS" title="beIN SPORTS HD">
                     <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=200&auto=format&fit=crop" class="banner-slide-img" alt="Anime Movies" title="ANIME VIP">
                 </div>
@@ -1867,10 +1731,10 @@
                 </div>
             </div>
             <div class="ads-action-group">
-                <a id="banner-ad-link-1" href="https://wa.me/" target="_blank" class="ads-action-link">
+                <a id="banner-ad-link-1" href="https://wa.me/212630473498" target="_blank" class="ads-action-link">
                     <span>⚡</span><span id="banner-ad-text-1">Test</span>
                 </a>
-                <a id="banner-ad-link-2" href="https://wa.me/" target="_blank" class="ads-action-link" style="background:linear-gradient(135deg, #00cc66 0%, #00994d 100%);border-color:rgba(0,204,102,0.5);">
+                <a id="banner-ad-link-2" href="https://wa.me/212630473498" target="_blank" class="ads-action-link" style="background:linear-gradient(135deg, #00cc66 0%, #00994d 100%);border-color:rgba(0,204,102,0.5);">
                     <span>🎁</span><span id="banner-ad-text-2">gratuit</span>
                 </a>
             </div>
@@ -1988,10 +1852,6 @@
         <!-- FOOTER -->
         <div id="footer-info-bar-container" class="footer-info-bar">
             <div>
-                <span class="mac-label">DEVICE KEY:</span>
-                <strong id="device-mac-display">DEV-XXXX-XXXX</strong>
-            </div>
-            <div>
                 <span style="margin-right:6px;">Contact WhatsApp:</span>
                 <div class="whatsapp-contact-box">
                     <span class="whatsapp-icon">💬</span>
@@ -2005,8 +1865,16 @@
     </div>
 
     <script>
-        const JSONBIN_BIN_ID = "6acc2643ffd5d1605362b468";
-        const JSONBIN_API_KEY = "$2a$10$T7t/qTAwm/0n3NRsgFmMQ.Du/C3MTsRJF9A.co3HgJrA1l/zZfh4.";
+        const FIXED_HOST = "http://smart-v2.live:80";
+
+        let serverConfig = {
+            host: FIXED_HOST,
+            username: localStorage.getItem('roku_saved_user') || "",
+            password: localStorage.getItem('roku_saved_pass') || ""
+        };
+
+        let allLiveStreams = [];
+        let favoritesList = [];
 
         function initBannerSlider() {
             const slideImages = document.querySelectorAll('.banner-slide-img');
@@ -2034,7 +1902,7 @@
             }
         }
 
-        function initClockAndWeather() {
+        function initClockOnly() {
             function updateDateTime() {
                 const now = new Date();
                 const timeString = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -2046,62 +1914,6 @@
             }
             setInterval(updateDateTime, 1000);
             updateDateTime();
-
-            fetch('https://ipapi.co/json/')
-                .then(res => res.json())
-                .then(data => {
-                    const city = data.city || "Ville";
-                    const country = data.country_name || "";
-                    const lat = data.latitude;
-                    const lon = data.longitude;
-
-                    if (lat && lon) {
-                        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
-                            .then(res => res.json())
-                            .then(weatherData => {
-                                if (weatherData && weatherData.current_weather) {
-                                    const temp = Math.round(weatherData.current_weather.temperature);
-                                    const weatherCode = weatherData.current_weather.weathercode;
-
-                                    document.getElementById('weather-temp').innerText = `${temp}°C`;
-                                    document.getElementById('weather-location').innerText = `${city}, ${country}`;
-
-                                    let iconSymbol = "☀️";
-                                    if (weatherCode >= 1 && weatherCode <= 3) iconSymbol = "⛅";
-                                    else if (weatherCode >= 45 && weatherCode <= 48) iconSymbol = "🌫️";
-                                    else if (weatherCode >= 51 && weatherCode <= 67) iconSymbol = "🌧️";
-                                    else if (weatherCode >= 71 && weatherCode <= 77) iconSymbol = "❄️";
-                                    else if (weatherCode >= 95) iconSymbol = "⚡";
-
-                                    document.getElementById('weather-icon').innerText = iconSymbol;
-                                }
-                            })
-                            .catch(() => fallbackWeather(city));
-                    } else {
-                        fallbackWeather(city);
-                    }
-                })
-                .catch(() => {
-                    document.getElementById('weather-temp').innerText = "22°C";
-                    document.getElementById('weather-location').innerText = "Rabat, Maroc";
-                    document.getElementById('weather-icon').innerText = "☀";
-                });
-        }
-
-        function fallbackWeather(city) {
-            document.getElementById('weather-temp').innerText = "24°C";
-            document.getElementById('weather-location').innerText = `${city || 'Casablanca'}, Maroc`;
-            document.getElementById('weather-icon').innerText = "☀️";
-        }
-
-        function checkAndToggleMenu() {
-            let savedUser = localStorage.getItem('roku_vip_user');
-            if (!savedUser || !serverConfig.username || !serverConfig.password) {
-                alert("⚠️ Accès refusé ! Veuillez d'abord vous connecter ou activer votre abonnement pour accéder au menu.");
-                openPlaylistModal();
-                return;
-            }
-            toggleSidebarMenu();
         }
 
         function toggleSidebarMenu() {
@@ -2111,38 +1923,11 @@
             overlay.classList.toggle('active');
         }
 
-        function getSecureSystemDns() {
-            let encrypted = localStorage.getItem('roku_system_dns_sec');
-            if (!encrypted) {
-                let defaultDns = "http://go1.super1.quest:8080";
-                localStorage.setItem('roku_system_dns_sec', btoa(defaultDns));
-                return defaultDns;
-            }
-            try {
-                return atob(encrypted);
-            } catch (e) {
-                return "http://go1.super1.quest:8080";
-            }
-        }
-
-        let systemDns = getSecureSystemDns();
-        let serverConfig = { host: systemDns, username: "", password: "" };
-
         function loadAdsBannerData() {
-            let savedUser = localStorage.getItem('roku_vip_user');
             let bannerContainer = document.getElementById('dynamic-ads-banner-container');
-            let footerBar = document.getElementById('footer-info-bar-container');
-
-            if (savedUser) {
-                bannerContainer.style.display = 'none';
-                footerBar.style.display = 'none';
-                return;
-            }
-            footerBar.style.display = 'flex';
-
             let adStatus = localStorage.getItem('roku_ad_status') || 'active';
-            let adTitle = localStorage.getItem('roku_ad_title') || 'Abonnement IPTV VIP 12 Mois';
-            let adDesc = localStorage.getItem('roku_ad_desc') || 'Profitez de +10,000 chaînes en direct, Netflix & Sports en 4K Ultra HD.';
+            let adTitle = localStorage.getItem('roku_ad_title') || 'Offre Spéciale VIP';
+            let adDesc = localStorage.getItem('roku_ad_desc') || 'Profitez de toutes les chaînes en direct, Netflix, beIN Sports & Animes en 4K Ultra HD.';
             let adUrl = localStorage.getItem('roku_ad_url') || 'https://wa.me/212630473498';
 
             if (adStatus === 'hidden') {
@@ -2176,42 +1961,28 @@
             closeAdminModal();
         }
 
-        function getDeviceMacAddress() {
-            let deviceKey = localStorage.getItem('roku_vip_device_mac');
-            if (!deviceKey) {
-                const randomPart = () => Math.random().toString(36).substring(2, 6).toUpperCase();
-                deviceKey = `DEV-${randomPart()}-${randomPart()}`;
-                localStorage.setItem('roku_vip_device_mac', deviceKey);
-            }
-            return deviceKey;
+        function openPlaylistModal() {
+            document.getElementById('auth-username').value = serverConfig.username;
+            document.getElementById('auth-password').value = serverConfig.password;
+            document.getElementById('playlist-modal').style.display = 'flex';
         }
-
-        function openPlaylistModal() { document.getElementById('playlist-modal').style.display = 'flex'; }
         function closePlaylistModal() { document.getElementById('playlist-modal').style.display = 'none'; }
-        function openCodeModal() { document.getElementById('code-modal').style.display = 'flex'; }
-        function closeCodeModal() { document.getElementById('code-modal').style.display = 'none'; }
-        function openUserSettingsModal() {
-            document.getElementById('user-settings-modal').style.display = 'flex';
-            document.getElementById('settings-dns-input').value = getSecureSystemDns();
-        }
+        function openUserSettingsModal() { document.getElementById('user-settings-modal').style.display = 'flex'; }
         function closeUserSettingsModal() { document.getElementById('user-settings-modal').style.display = 'none'; }
-
-        function saveUserSettingsDns() {
-            let newDns = document.getElementById('settings-dns-input').value.trim();
-            if (newDns) {
-                systemDns = newDns;
-                localStorage.setItem('roku_system_dns_sec', btoa(newDns));
-                alert("DNS mis à jour avec succès !");
-                closeUserSettingsModal();
-            } else {
-                alert("Veuillez entrer un lien DNS valide !");
-            }
-        }
 
         function clearAppCacheData() {
             localStorage.clear();
             alert("Cache vidé et paramètres réinitialisés avec succès !");
             location.reload();
+        }
+
+        function logoutSession() {
+            localStorage.removeItem('roku_saved_user');
+            localStorage.removeItem('roku_saved_pass');
+            serverConfig.username = "";
+            serverConfig.password = "";
+            toggleSidebarMenu();
+            openPlaylistModal();
         }
 
         function openAdminModal() {
@@ -2220,394 +1991,78 @@
 
             if (adminPin === correctPin) {
                 document.getElementById('admin-panel-modal').style.display = 'flex';
-                document.getElementById('admin-dns-input').value = "";
                 document.getElementById('admin-secret-pass').value = "";
                 document.getElementById('admin-ads-status').value = localStorage.getItem('roku_ad_status') || 'active';
                 document.getElementById('admin-ads-title').value = localStorage.getItem('roku_ad_title') || '';
                 document.getElementById('admin-ads-desc').value = localStorage.getItem('roku_ad_desc') || '';
                 document.getElementById('admin-ads-url').value = localStorage.getItem('roku_ad_url') || '';
-                document.getElementById('gen-mac').value = getDeviceMacAddress();
-
-                let defaultExpiry = new Date();
-                defaultExpiry.setFullYear(defaultExpiry.getFullYear() + 1);
-                document.getElementById('gen-expiry-date').value = defaultExpiry.toISOString().split('T')[0];
-            } else {
+            } else if (adminPin !== null) {
                 alert("Code secret incorrect !");
             }
         }
 
         function closeAdminModal() { document.getElementById('admin-panel-modal').style.display = 'none'; }
 
-        function saveSystemDnsSecure() {
-            let newDns = document.getElementById('admin-dns-input').value.trim();
+        function saveSystemPinSecure() {
             let newPin = document.getElementById('admin-secret-pass').value.trim();
-
-            if (newDns) {
-                systemDns = newDns;
-                localStorage.setItem('roku_system_dns_sec', btoa(newDns));
-            }
             if (newPin) {
                 localStorage.setItem('roku_admin_pin', newPin);
-            }
-            alert("Paramètres mis à jour !");
-            closeAdminModal();
-        }
-
-        function extractCredentialsFromM3U(m3uUrl) {
-            try {
-                let urlObj = new URL(m3uUrl);
-                let params = new URLSearchParams(urlObj.search);
-                let username = params.get('username');
-                let password = params.get('password');
-
-                if (!username || !password) {
-                    let parts = m3uUrl.split('/');
-                    for (let i = 0; i < parts.length; i++) {
-                        if (parts[i] === 'get.php' || parts[i] === 'player_api.php') {
-                            username = parts[i + 1];
-                            password = parts[i + 2];
-                        }
-                    }
-                }
-                let host = `${urlObj.protocol}//${urlObj.host}`;
-                if (urlObj.port) {
-                    host = `${urlObj.protocol}//${urlObj.hostname}:${urlObj.port}`;
-                }
-                return { host, username, password };
-            } catch (e) {
-                return null;
-            }
-        }
-
-        async function handleLoginUserPass() {
-            let usernameInput = document.getElementById('auth-username').value.trim();
-            let passwordInput = document.getElementById('auth-password').value.trim();
-            let errorDiv = document.getElementById('auth-error');
-
-            if (!usernameInput || !passwordInput) {
-                errorDiv.style.display = 'block';
-                errorDiv.innerText = "Veuillez entrer Username et Password !";
-                return;
-            }
-
-            systemDns = getSecureSystemDns();
-            serverConfig.host = systemDns;
-            serverConfig.username = usernameInput;
-            serverConfig.password = passwordInput;
-
-            let userInfo = await fetchUserInfoAndExpiry();
-
-            if (userInfo) {
-                localStorage.setItem('roku_vip_user', usernameInput);
-                localStorage.setItem('roku_vip_pass', passwordInput);
-                if (userInfo.exp_date) {
-                    localStorage.setItem('roku_vip_expiry', userInfo.exp_date);
-                }
-                document.getElementById('playlist-modal').style.display = 'none';
-                document.getElementById('logged-client-badge').innerText = userInfo.username || "PRO USER";
-                updateExpiryDisplay(userInfo.exp_date);
-                loadAdsBannerData();
-                alert("Connecté avec succès !");
+                alert("Code PIN Admin mis à jour !");
+                closeAdminModal();
             } else {
-                errorDiv.style.display = 'block';
-                errorDiv.innerText = "Identifiants incorrects ou serveur injoignable !";
+                alert("Veuillez entrer un nouveau code PIN.");
             }
         }
 
-        async function generateCredentialsFromM3U() {
-            let client = document.getElementById('gen-client').value.trim();
-            let mac = document.getElementById('gen-mac').value.trim().toUpperCase();
-            let m3u = document.getElementById('gen-m3u').value.trim();
-            let expiry = document.getElementById('gen-expiry-date').value;
+        function handleLoginUserPass() {
+            let u = document.getElementById('auth-username').value.trim();
+            let p = document.getElementById('auth-password').value.trim();
+            let err = document.getElementById('auth-error');
 
-            if (!client || !mac || !m3u || !expiry) {
-                alert("Veuillez remplir tous les champs !");
+            if (!u || !p) {
+                err.style.display = 'block';
+                err.innerText = "Veuillez entrer Username et Password !";
                 return;
             }
 
-            let extracted = extractCredentialsFromM3U(m3u);
-            if (!extracted || !extracted.username) {
-                alert("Lien M3U invalide !");
-                return;
-            }
+            serverConfig.username = u;
+            serverConfig.password = p;
+            localStorage.setItem('roku_saved_user', u);
+            localStorage.setItem('roku_saved_pass', p);
 
-            let activationCode = "ROKU-PRO-" + Math.random().toString(36).substring(2, 10).toUpperCase();
-            
-            let newClientObj = {
-                client: client,
-                mac: mac,
-                code: activationCode,
-                dns: extracted.host,
-                username: extracted.username,
-                password: extracted.password,
-                expiry_date: expiry,
-                status: 'active'
-            };
-
-            try {
-                let res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-                    headers: { 'X-Master-Key': JSONBIN_API_KEY },
-                    cache: 'no-store'
-                });
-                let jsonResponse = await res.json();
-                let allClients = jsonResponse.record || {};
-
-                allClients[activationCode] = newClientObj;
-                allClients[mac] = newClientObj;
-
-                let updateRes = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_API_KEY
-                    },
-                    body: JSON.stringify(allClients)
-                });
-
-                if (!updateRes.ok) {
-                    throw new Error("Erreur lors de la sauvegarde cloud.");
-                }
-
-                let localExtra = JSON.parse(localStorage.getItem('roku_local_clients') || '[]');
-                localExtra.unshift(newClientObj);
-                localStorage.setItem('roku_local_clients', JSON.stringify(localExtra));
-
-                let resultBox = document.getElementById('code-result-box');
-                resultBox.style.display = 'block';
-
-                resultBox.innerHTML = `
-                    <div class="result-header-flex">
-                        <div style="display:flex;align-items:center;gap:10px;">
-                            <div class="logo-circle-badge" style="width:45px;height:45px;">
-                                <span class="logo-text-roku" style="font-size:8px;">ROKU</span>
-                            </div>
-                            <div>
-                                <span style="font-size:13px;color:#fff;font-weight:bold;display:block;">ROKU VIP PRO</span>
-                                <span style="font-size:10px;color:#00ffcc;">✅ Synchronisé & Enregistré Cloud</span>
-                            </div>
-                        </div>
-                        <div class="vip-badge-box"><span>VIP</span></div>
-                    </div>
-                    <div class="result-row"><span class="label-text">Client :</span><span class="val-text">${client}</span></div>
-                    <div class="result-row"><span class="label-text">Device Key :</span><span class="val-text" style="font-family:monospace;">${mac}</span></div>
-                    <div class="result-row"><span class="label-text">Expiration :</span><span class="val-text">${expiry}</span></div>
-                    <div class="result-row"><span class="label-text">Username :</span><span class="val-text">${extracted.username}</span></div>
-                    <div class="result-row"><span class="label-text">Password :</span><span class="val-text">${extracted.password}</span></div>
-                    <div class="result-row" style="border-top:1px dashed rgba(255,255,255,0.15);padding-top:10px;">
-                        <span class="label-text">Code d'Activation :</span><span class="val-code">${activationCode}</span>
-                    </div>
-                `;
-                alert("🎉 Compte généré et synchronisé avec succès sur le Cloud !");
-            } catch (err) {
-                alert("Erreur de communication avec JSONBin : " + err.message);
-            }
-        }
-
-        async function handleLoginActiveCode() {
-            let codeInput = document.getElementById('auth-code').value.trim();
-            let errorDiv = document.getElementById('code-error');
-
-            if (!codeInput) {
-                errorDiv.style.display = 'block';
-                errorDiv.innerText = "Entrez votre Device Key ou Code d'Activation !";
-                return;
-            }
-
-            try {
-                errorDiv.style.display = 'block';
-                errorDiv.innerText = "Vérification en cours...";
-
-                let res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-                    headers: { 'X-Master-Key': JSONBIN_API_KEY },
-                    cache: 'no-store'
-                });
-                let data = await res.json();
-                let allClients = data.record || {};
-
-                let clientData = allClients[codeInput] || allClients[codeInput.toUpperCase()];
-                if (!clientData) {
-                    let foundKey = Object.keys(allClients).find(key => 
-                        allClients[key].code === codeInput || 
-                        allClients[key].mac === codeInput.toUpperCase() || 
-                        allClients[key].phone === codeInput
-                    );
-                    if (foundKey) clientData = allClients[foundKey];
-                }
-
-                if (!clientData || !clientData.username || !clientData.password) {
-                    errorDiv.style.display = 'block';
-                    errorDiv.innerText = "Device Key ou Code introuvable !";
-                    return;
-                }
-
-                if (clientData.status && clientData.status !== 'active') {
-                    errorDiv.style.display = 'block';
-                    errorDiv.innerText = "Abonnement désactivé par l'administrateur !";
-                    return;
-                }
-
-                if (clientData.expiry_date) {
-                    let now = new Date();
-                    let expDate = new Date(clientData.expiry_date);
-                    if (now > expDate) {
-                        errorDiv.style.display = 'block';
-                        errorDiv.innerText = "Abonnement expiré ! Veuillez le renouveler.";
-                        return;
-                    }
-                }
-
-                systemDns = clientData.dns || getSecureSystemDns();
-                serverConfig.host = systemDns;
-                serverConfig.username = clientData.username;
-                serverConfig.password = clientData.password;
-
-                let userInfo = await fetchUserInfoAndExpiry();
-
-                localStorage.setItem('roku_vip_user', clientData.username);
-                localStorage.setItem('roku_vip_pass', clientData.password);
-                localStorage.setItem('roku_vip_expiry', clientData.expiry_date || (userInfo ? userInfo.exp_date : "Illimité"));
-
-                document.getElementById('code-modal').style.display = 'none';
-                document.getElementById('logged-client-badge').innerText = clientData.username;
-                updateExpiryDisplay(clientData.expiry_date || (userInfo ? userInfo.exp_date : null));
-                loadAdsBannerData();
-
-                alert("Compte activé et connecté avec succès !");
-
-            } catch (e) {
-                errorDiv.style.display = 'block';
-                errorDiv.innerText = "Erreur de connexion cloud JSONBin !";
-            }
-        }
-
-        async function checkAndLoginByDeviceKey(deviceKey) {
-            let savedUser = localStorage.getItem('roku_vip_user');
-            if (savedUser) return true;
-
-            try {
-                let res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-                    headers: { 'X-Master-Key': JSONBIN_API_KEY },
-                    cache: 'no-store'
-                });
-                let data = await res.json();
-                let allClients = data.record || {};
-
-                let clientData = allClients[deviceKey] || allClients[deviceKey.toUpperCase()];
-
-                if (clientData && clientData.username && clientData.password) {
-                    if (clientData.status && clientData.status !== 'active') return false;
-                    if (clientData.expiry_date) {
-                        let now = new Date();
-                        let expDate = new Date(clientData.expiry_date);
-                        if (now > expDate) return false;
-                    }
-
-                    systemDns = clientData.dns || getSecureSystemDns();
-                    serverConfig.host = systemDns;
-                    serverConfig.username = clientData.username;
-                    serverConfig.password = clientData.password;
-
-                    localStorage.setItem('roku_vip_user', clientData.username);
-                    localStorage.setItem('roku_vip_pass', clientData.password);
-                    localStorage.setItem('roku_vip_expiry', clientData.expiry_date || "Illimité");
-
-                    document.getElementById('logged-client-badge').innerText = clientData.username;
-                    updateExpiryDisplay(clientData.expiry_date);
-                    loadAdsBannerData();
-                    return true;
-                }
-            } catch (e) {
-                console.error("Erreur de synchronisation automatique JSONBin:", e);
-            }
-            return false;
+            document.getElementById('logged-client-badge').innerText = u;
+            closePlaylistModal();
+            alert("✅ Connecté avec succès !");
+            goHome();
         }
 
         window.addEventListener('load', () => {
-            initClockAndWeather();
+            initClockOnly();
             initBannerSlider();
-            let currentDeviceKey = getDeviceMacAddress();
-            document.getElementById('device-mac-display').innerText = currentDeviceKey;
+            loadAdsBannerData();
 
-            setTimeout(async () => {
+            try {
+                const savedFavs = localStorage.getItem('roku_m3u_favorites');
+                if (savedFavs) {
+                    favoritesList = JSON.parse(savedFavs) || [];
+                }
+            } catch (e) {}
+
+            setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 if (splash) {
                     splash.style.opacity = '0';
-                    setTimeout(async () => {
+                    setTimeout(() => {
                         splash.style.display = 'none';
-                        
-                        let autoConnected = await checkAndLoginByDeviceKey(currentDeviceKey);
-                        if (!autoConnected) {
-                            checkStoredSession();
+                        if (!serverConfig.username) {
+                            openPlaylistModal();
+                        } else {
+                            document.getElementById('logged-client-badge').innerText = serverConfig.username;
                         }
                     }, 800);
                 }
-            }, 2000);
+            }, 1800);
         });
-
-        async function checkStoredSession() {
-            let savedUser = localStorage.getItem('roku_vip_user');
-            let savedPass = localStorage.getItem('roku_vip_pass');
-
-            if (savedUser && savedPass) {
-                systemDns = getSecureSystemDns();
-                serverConfig.host = systemDns;
-                serverConfig.username = savedUser;
-                serverConfig.password = savedPass;
-
-                let userInfo = await fetchUserInfoAndExpiry();
-                let savedExpiry = localStorage.getItem('roku_vip_expiry') || (userInfo ? userInfo.exp_date : null);
-                updateExpiryDisplay(savedExpiry);
-                loadAdsBannerData();
-            } else {
-                loadAdsBannerData();
-            }
-        }
-
-        async function fetchUserInfoAndExpiry() {
-            try {
-                let res = await fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}`);
-                let data = await res.json();
-
-                if (data && data.user_info && data.user_info.auth === 1) {
-                    return {
-                        username: data.user_info.username,
-                        exp_date: data.user_info.exp_date ? data.user_info.exp_date : null
-                    };
-                }
-            } catch (e) {}
-            return null;
-        }
-
-        function updateExpiryDisplay(expTimestamp) {
-            const timeTextEl = document.getElementById('expiry-time-text');
-            if (!expTimestamp) {
-                timeTextEl.innerText = "Illimité / Inconnu";
-                return;
-            }
-
-            let formattedDate = "";
-            if (!isNaN(expTimestamp) && String(expTimestamp).length <= 11) {
-                let dateObj = new Date(parseInt(expTimestamp) * 1000);
-                formattedDate = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' }) + ' à ' + dateObj.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-            } else if (typeof expTimestamp === 'string' && expTimestamp.includes('T')) {
-                let dateObj = new Date(expTimestamp);
-                formattedDate = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' });
-            } else {
-                formattedDate = expTimestamp;
-            }
-            timeTextEl.innerText = formattedDate;
-        }
-
-        function logout() {
-            localStorage.removeItem('roku_vip_user');
-            localStorage.removeItem('roku_vip_pass');
-            localStorage.removeItem('roku_vip_expiry');
-            localStorage.removeItem('roku_vip_device_mac');
-            location.reload();
-        }
-
-        let allLiveStreams = [];
-        let currentLoadedItems = [];
 
         function generateDynamicCategoryBadge(name) {
             let cleanName = name ? name.trim() : 'VIP';
@@ -2634,6 +2089,20 @@
             `;
         }
 
+        function toggleFavorite(event, item) {
+            event.stopPropagation();
+            const existsIndex = favoritesList.findIndex(f => f.id === item.id);
+            if (existsIndex !== -1) {
+                favoritesList.splice(existsIndex, 1);
+            } else {
+                favoritesList.push(item);
+            }
+            try {
+                localStorage.setItem('roku_m3u_favorites', JSON.stringify(favoritesList));
+            } catch (e) {}
+            event.currentTarget.innerText = existsIndex === -1 ? '⭐' : '☆';
+        }
+
         async function fetchWithCache(actionName) {
             let cacheKey = `roku_cache_${actionName}_${serverConfig.username}`;
             let cachedData = localStorage.getItem(cacheKey);
@@ -2644,21 +2113,25 @@
                 } catch (e) {}
             }
 
-            let response = await fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=${actionName}`);
-            let data = await response.json();
+            try {
+                let response = await fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=${actionName}`);
+                let data = await response.json();
 
-            if (data && Array.isArray(data) && data.length > 0) {
-                try {
-                    localStorage.setItem(cacheKey, JSON.stringify(data));
-                } catch (e) {}
+                if (data && Array.isArray(data) && data.length > 0) {
+                    try {
+                        localStorage.setItem(cacheKey, JSON.stringify(data));
+                    } catch (e) {}
+                }
+                return data;
+            } catch (err) {
+                console.error("Erreur API Xtream:", err);
+                return null;
             }
-            return data;
         }
 
         async function openCategory(type) {
-            let savedUser = localStorage.getItem('roku_vip_user');
-            if (!savedUser || !serverConfig.username || !serverConfig.password) {
-                alert("⚠ Accès refusé ! Veuillez d'abord vous connecter ou activer votre abonnement.");
+            if (!serverConfig.username || !serverConfig.password) {
+                alert("⚠️ Veuillez d'abord vous connecter avec votre Username et Password !");
                 openPlaylistModal();
                 return;
             }
@@ -2674,9 +2147,12 @@
 
             if (type === 'favorites') {
                 document.getElementById('section-name').innerText = 'Favoris enregistrés';
-                setTimeout(() => {
+                document.getElementById('back-action-btn').setAttribute('onclick', "goHome()");
+                if (favoritesList.length === 0) {
                     grid.innerHTML = `<p style="color:#aaa;text-align:center;grid-column:1/-1;padding:40px;">Aucun élément dans les favoris pour le moment.</p>`;
-                }, 400);
+                } else {
+                    renderItemsGrid(favoritesList);
+                }
                 return;
             }
 
@@ -2685,16 +2161,14 @@
 
             try {
                 if (type === 'live' || type === 'matches') {
-                    let [catRes, streamData] = await Promise.all([
-                        fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=get_live_categories`),
-                        fetchWithCache('get_live_streams')
-                    ]);
+                    let catResponse = await fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=get_live_categories`);
+                    let categories = await catResponse.json();
+                    let streamData = await fetchWithCache('get_live_streams');
 
-                    let categories = await catRes.json();
-                    allLiveStreams = streamData;
+                    allLiveStreams = streamData || [];
 
                     if (type === 'matches') {
-                        let sportCats = categories.filter(cat => {
+                        let sportCats = (categories || []).filter(cat => {
                             let name = cat.category_name.toLowerCase();
                             return (name.includes('sport') || name.includes('bein') || name.includes('match') || name.includes('foot') || name.includes('رياضة') || name.includes('koora'));
                         });
@@ -2702,7 +2176,7 @@
                         let sportCatIds = sportCats.map(c => c.category_id);
                         let matchedStreams = allLiveStreams.filter(stream => sportCatIds.includes(stream.category_id) || stream.name.toLowerCase().includes('bein') || stream.name.toLowerCase().includes('match'));
 
-                        currentLoadedItems = matchedStreams.map(item => ({
+                        let items = matchedStreams.map(item => ({
                             id: item.stream_id,
                             title: item.name,
                             icon: item.stream_icon || '',
@@ -2710,11 +2184,12 @@
                             type: 'live'
                         }));
 
-                        renderItemsGrid(currentLoadedItems);
                         document.getElementById('back-action-btn').setAttribute('onclick', "goHome()");
+                        renderItemsGrid(items);
                     } else {
                         grid.innerHTML = "";
                         if (Array.isArray(categories)) {
+                            document.getElementById('back-action-btn').setAttribute('onclick', "goHome()");
                             categories.forEach(cat => {
                                 let card = document.createElement('div');
                                 card.className = 'item-card';
@@ -2723,6 +2198,8 @@
                                 card.onclick = () => filterStreamsByCategory(cat.category_id, cat.category_name);
                                 grid.appendChild(card);
                             });
+                        } else {
+                            grid.innerHTML = `<p style="color:#ff0033;text-align:center;grid-column:1/-1;">Aucune catégorie trouvée ou identifiants incorrects !</p>`;
                         }
                     }
                 } else {
@@ -2730,24 +2207,27 @@
                     let data = await fetchWithCache(actionName);
 
                     if (Array.isArray(data)) {
-                        currentLoadedItems = data.map(item => ({
+                        let items = data.map(item => ({
                             id: item.stream_id || item.series_id,
                             title: item.name || item.title,
                             icon: item.stream_icon || item.cover || '',
                             extension: item.container_extension || 'mp4',
                             type: type
                         }));
-                        renderItemsGrid(currentLoadedItems);
+                        document.getElementById('back-action-btn').setAttribute('onclick', "goHome()");
+                        renderItemsGrid(items);
+                    } else {
+                        grid.innerHTML = `<p style="color:#ff0033;text-align:center;grid-column:1/-1;">Erreur de chargement des données VOD.</p>`;
                     }
                 }
             } catch (error) {
-                grid.innerHTML = `<p style="color:#ff0033;text-align:center;grid-column:1/-1;">Erreur de chargement des données. Veuillez vérifier vos accès.</p>`;
+                grid.innerHTML = `<p style="color:#ff0033;text-align:center;grid-column:1/-1;">Erreur de connexion au serveur. Vérifiez vos identifiants ou le CORS.</p>`;
             }
         }
 
         function filterStreamsByCategory(catId, catName) {
             let filtered = allLiveStreams.filter(stream => stream.category_id == catId);
-            currentLoadedItems = filtered.map(item => ({
+            let items = filtered.map(item => ({
                 id: item.stream_id,
                 title: item.name,
                 icon: item.stream_icon || '',
@@ -2757,30 +2237,21 @@
 
             document.getElementById('section-name').innerText = catName;
             document.getElementById('back-action-btn').setAttribute('onclick', "openCategory('live')");
-            renderItemsGrid(currentLoadedItems);
+            renderItemsGrid(items);
         }
 
         function renderItemsGrid(items) {
             const grid = document.getElementById('items-grid');
             grid.innerHTML = "";
 
-            if (items.length === 0) {
-                grid.innerHTML = `<p style="color:#aaa;text-align:center;grid-column:1/-1;padding:40px;">Aucun flux disponible actuellement.</p>`;
+            if (!items || items.length === 0) {
+                grid.innerHTML = `<p style="color:#aaa;text-align:center;grid-column:1/-1;padding:40px;">Aucun flux disponible.</p>`;
                 return;
             }
 
             let displayItems = items.slice(0, 150);
             displayItems.forEach(item => {
-                let card = document.createElement('div');
-                card.className = 'item-card';
-
-                let mediaLogoHTML = item.icon && item.icon.trim() !== ''
-                    ? `<img src="${item.icon}" loading="lazy" onerror="this.style.display='none'">`
-                    : `<div style="width:65px;height:65px;margin-bottom:12px;background:rgba(0,0,0,0.3);border-radius:12px;"></div>`;
-
-                card.innerHTML = `${mediaLogoHTML}<p title="${item.title}">${item.title}</p>`;
-                card.onclick = () => playStream(item.type, item.id, item.title, item.extension);
-                grid.appendChild(card);
+                grid.appendChild(createStreamCardElement(item));
             });
 
             if (items.length > 150) {
@@ -2793,19 +2264,45 @@
                 loadMoreDiv.querySelector('button').onclick = () => {
                     loadMoreDiv.remove();
                     items.slice(150).forEach(item => {
-                        let card = document.createElement('div');
-                        card.className = 'item-card';
-                        let mediaLogoHTML = item.icon && item.icon.trim() !== ''
-                            ? `<img src="${item.icon}" loading="lazy" onerror="this.style.display='none'">`
-                            : `<div style="width:65px;height:65px;margin-bottom:12px;background:rgba(0,0,0,0.3);border-radius:12px;"></div>`;
-
-                        card.innerHTML = `${mediaLogoHTML}<p title="${item.title}">${item.title}</p>`;
-                        card.onclick = () => playStream(item.type, item.id, item.title, item.extension);
-                        grid.appendChild(card);
+                        grid.appendChild(createStreamCardElement(item));
                     });
                 };
                 grid.appendChild(loadMoreDiv);
             }
+        }
+
+        function createStreamCardElement(item) {
+            let card = document.createElement('div');
+            card.className = 'item-card';
+
+            const isFav = favoritesList.some(f => f.id === item.id);
+            const favBtn = document.createElement('div');
+            favBtn.className = 'fav-star-btn';
+            favBtn.style.position = 'absolute';
+            favBtn.style.top = '8px';
+            favBtn.style.right = '8px';
+            favBtn.style.background = 'rgba(0,0,0,0.6)';
+            favBtn.style.border = '1px solid rgba(255,215,0,0.3)';
+            favBtn.style.borderRadius = '50%';
+            favBtn.style.width = '26px';
+            favBtn.style.height = '26px';
+            favBtn.style.display = 'flex';
+            favBtn.style.alignItems = 'center';
+            favBtn.style.justifyContent = 'center';
+            favBtn.style.fontSize = '13px';
+            favBtn.style.cursor = 'pointer';
+            favBtn.style.zIndex = '5';
+            favBtn.innerText = isFav ? '⭐' : '☆';
+            favBtn.onclick = (e) => toggleFavorite(e, item);
+
+            let mediaLogoHTML = item.icon && item.icon.trim() !== ''
+                ? `<img src="${item.icon}" loading="lazy" onerror="this.style.display='none'">`
+                : `<div style="width:65px;height:65px;margin-bottom:12px;background:rgba(255,0,51,0.12);border:1px solid rgba(255,0,51,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;">📺</div>`;
+
+            card.innerHTML = `${mediaLogoHTML}<p title="${item.title}">${item.title}</p>`;
+            card.appendChild(favBtn);
+            card.onclick = () => playStream(item.type, item.id, item.title, item.extension);
+            return card;
         }
 
         function playStream(type, id, title, extension = 'mp4') {
@@ -2835,6 +2332,8 @@
                 streamUrl = `${serverConfig.host}/series/${serverConfig.username}/${serverConfig.password}/${id}.${extension}`;
             }
 
+            let engineMode = document.getElementById('settings-player-engine') ? document.getElementById('settings-player-engine').value : 'hls';
+
             let iframeContent = `
                 <!DOCTYPE html>
                 <html>
@@ -2853,6 +2352,7 @@
                     <script>
                         var video = document.getElementById('webPlayer');
                         var videoSrc = "${streamUrl}";
+                        var engine = "${engineMode}";
                         document.addEventListener('click', function() {
                             if (video.requestFullscreen) {
                                 video.requestFullscreen();
@@ -2861,7 +2361,7 @@
                             }
                         }, { once:true });
 
-                        if (Hls.isSupported()) {
+                        if (engine === 'hls' && Hls.isSupported() && !videoSrc.toLowerCase().endsWith('.mp4')) {
                             var hls = new Hls({ maxBufferLength:30, maxMaxBufferLength:60, liveSyncDurationCount:3, lowLatencyMode:true });
                             hls.loadSource(videoSrc);
                             hls.attachMedia(video);
@@ -2870,7 +2370,7 @@
                                     if (video.requestFullscreen) video.requestFullscreen();
                                 }).catch(function() {});
                             });
-                        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                        } else {
                             video.src = videoSrc;
                             video.addEventListener('loadedmetadata', function() {
                                 video.play().then(() => {
