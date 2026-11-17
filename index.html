@@ -1531,7 +1531,7 @@
         </div>
     </div>
 
-    <!-- PLAYLIST MODAL (مع حقول Username و Password والهوست الثابت) -->
+    <!-- PLAYLIST MODAL -->
     <div id="playlist-modal">
         <div class="modal-card">
             <div class="modal-header">
@@ -1758,7 +1758,6 @@
                 <div class="card-icon-wrapper">🎞</div>
                 <div class="card-title">Séries TV</div>
             </div>
-            <!-- YOUTUBE -->
             <div class="card youtube-card" onclick="openExternalYouTube()">
                 <div class="card-icon-wrapper">▶️</div>
                 <div class="card-title">YOUTUBE</div>
@@ -1809,7 +1808,6 @@
                 </div>
             </div>
 
-            <!-- البانر المصغر أسفل الفيديو -->
             <div class="player-mini-ads-banner-img">
                 <div class="player-mini-ads-bg"></div>
                 <div class="player-mini-ads-glow"></div>
@@ -1843,7 +1841,6 @@
                 </div>
             </div>
 
-            <!-- التوقيع الفاخر -->
             <div class="player-designer-signature">
                 Design by <span class="farouk-gold-text">FAROUKII</span> PRO
             </div>
@@ -2103,6 +2100,7 @@
             event.currentTarget.innerText = existsIndex === -1 ? '⭐' : '☆';
         }
 
+        // دالة لجلب البيانات مع تجنب مشاكل CORS و HTTP عبر استخدام بروكسي وسيط
         async function fetchWithCache(actionName) {
             let cacheKey = `roku_cache_${actionName}_${serverConfig.username}`;
             let cachedData = localStorage.getItem(cacheKey);
@@ -2113,8 +2111,12 @@
                 } catch (e) {}
             }
 
+            let targetUrl = `${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=${actionName}`;
+            let proxyUrl = `https://api.allorigins.win/raw?url=` + encodeURIComponent(targetUrl);
+
             try {
-                let response = await fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=${actionName}`);
+                let response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error("Network response was not ok");
                 let data = await response.json();
 
                 if (data && Array.isArray(data) && data.length > 0) {
@@ -2124,8 +2126,20 @@
                 }
                 return data;
             } catch (err) {
-                console.error("Erreur API Xtream:", err);
-                return null;
+                console.warn("Proxy failed, trying direct fetch...", err);
+                try {
+                    let responseDirect = await fetch(targetUrl);
+                    let dataDirect = await responseDirect.json();
+                    if (dataDirect && Array.isArray(dataDirect) && dataDirect.length > 0) {
+                        try {
+                            localStorage.setItem(cacheKey, JSON.stringify(dataDirect));
+                        } catch (e) {}
+                    }
+                    return dataDirect;
+                } catch (errDirect) {
+                    console.error("Erreur API Xtream:", errDirect);
+                    return null;
+                }
             }
         }
 
@@ -2161,10 +2175,19 @@
 
             try {
                 if (type === 'live' || type === 'matches') {
-                    let catResponse = await fetch(`${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=get_live_categories`);
-                    let categories = await catResponse.json();
-                    let streamData = await fetchWithCache('get_live_streams');
+                    let catTargetUrl = `${serverConfig.host}/player_api.php?username=${serverConfig.username}&password=${serverConfig.password}&action=get_live_categories`;
+                    let catProxyUrl = `https://api.allorigins.win/raw?url=` + encodeURIComponent(catTargetUrl);
+                    
+                    let categories = null;
+                    try {
+                        let catRes = await fetch(catProxyUrl);
+                        categories = await catRes.json();
+                    } catch(e) {
+                        let catResDirect = await fetch(catTargetUrl);
+                        categories = await catResDirect.json();
+                    }
 
+                    let streamData = await fetchWithCache('get_live_streams');
                     allLiveStreams = streamData || [];
 
                     if (type === 'matches') {
@@ -2383,7 +2406,7 @@
                 </html>
             `;
 
-            let iframe = document.getElementById('media-iframe');
+            let iframe = document.getElementById('media-headers-iframe') || document.getElementById('media-iframe');
             let blob = new Blob([iframeContent], { type:'text/html' });
             iframe.src = URL.createObjectURL(blob);
         }
