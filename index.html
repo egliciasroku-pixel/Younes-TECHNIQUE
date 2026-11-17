@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LUXURY IPTV - Royal Stable Engine</title>
-    <!-- خطوط جوجل الفاخرة -->
+    <title>LUXURY PLAYER - Royal Final Fix</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -103,7 +101,6 @@
             color: #000;
         }
 
-        /* الأقسام الثلاثة الملكي */
         .main-tabs {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -176,7 +173,6 @@
             gap: 8px;
         }
 
-        /* التصنيفات */
         .categories-container {
             display: flex;
             gap: 8px;
@@ -207,7 +203,6 @@
             border-color: var(--gold-primary);
         }
 
-        /* شبكة القنوات والمحتوى */
         .grid-channels {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -261,7 +256,6 @@
             text-overflow: ellipsis;
         }
 
-        /* مشغل الفيديو */
         #player-modal {
             position: fixed;
             top: 0;
@@ -309,7 +303,6 @@
             outline: none;
         }
 
-        /* شاشة التحميل الفاخرة */
         #loader {
             position: fixed;
             top: 0;
@@ -350,7 +343,7 @@
 
     <div id="loader">
         <div class="spinner"></div>
-        <p>جاري تحميل النظام الملكي محلياً...</p>
+        <p>جاري تحميل النظام الملكي...</p>
     </div>
 
     <div id="app-container">
@@ -364,6 +357,7 @@
             </div>
         </header>
 
+        <!-- الأقسام الثلاثة مع تمرير النوع بدقة -->
         <div class="main-tabs">
             <button class="tab-btn active" onclick="switchTab('live')" id="tab-live">
                 <i class="fa-solid fa-tv"></i> LIVE
@@ -401,13 +395,12 @@
     </div>
 
     <script>
-        // الاعتماد على الرابط المباشر مع تجاوز قيود المتصفحات عبر جسر آمن ومستقر
         const PHP_BRIDGE = "https://systemdataappfarouk.globalcoreservice.net/ShadEeD_FaRu.php?server=http://smart-v2.live:80&username=mkv1wx9aam&password=u25vaksvc6";
         const SERVER_HOST = "http://smart-v2.live:80";
         const SERVER_USER = "mkv1wx9aam";
         const SERVER_PASS = "u25vaksvc6";
 
-        let currentType = 'live'; 
+        let currentType = 'live'; // البدء بقسم البث المباشر افتراضياً
         let categoriesData = [];
         let channelsData = [];
         let activeCategory = 'all';
@@ -421,62 +414,69 @@
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`tab-${type}`).classList.add('active');
             activeCategory = 'all';
+            document.getElementById('search-input').value = '';
             loadPortalData();
         }
 
         async function loadPortalData() {
             showLoader(true);
             try {
+                // تحديد الإجراءات بدقة بناءً على القسم الحالي (live, movie, series)
                 let catAction = currentType === 'live' ? 'get_live_categories' : (currentType === 'movie' ? 'get_vod_categories' : 'get_series_categories');
                 let listAction = currentType === 'live' ? 'get_live_streams' : (currentType === 'movie' ? 'get_vod_streams' : 'get_series');
 
                 let catUrl = `${PHP_BRIDGE}&action=${catAction}`;
                 let listUrl = `${PHP_BRIDGE}&action=${listAction}`;
 
-                // جلب التصنيفات وقائمة المحتوى بالتوازي
-                const [catRes, listRes] = await Promise.all([
-                    fetch(catUrl, { mode: 'cors' }),
-                    fetch(listUrl, { mode: 'cors' })
+                let [catRes, listRes] = await Promise.all([
+                    fetch(catUrl).catch(() => null),
+                    fetch(listUrl).catch(() => null)
                 ]);
 
-                if (!catRes.ok || !listRes.ok) throw new Error('Network response was not ok');
+                if (catRes && catRes.ok) {
+                    let text = await catRes.text();
+                    try { categoriesData = JSON.parse(text); } catch(e) { categoriesData = []; }
+                }
 
-                categoriesData = await catRes.json();
-                channelsData = await listRes.json();
+                if (listRes && listRes.ok) {
+                    let text = await listRes.text();
+                    try { channelsData = JSON.parse(text); } catch(e) { channelsData = []; }
+                }
+
+                // احتياطي في حال فشل الجسر
+                if (!Array.isArray(categoriesData) || categoriesData.length === 0) {
+                    await fallbackDirect(catAction, listAction);
+                }
 
                 renderCategories();
                 renderChannels();
             } catch (error) {
-                console.warn("Bridge fetch failed, switching to fallback mode:", error);
-                // محاولة الاتصال المباشر البديل في حال تعذر السيرفر الوسيط
-                await fallbackDirect();
+                console.error("Load error:", error);
             } finally {
                 showLoader(false);
             }
         }
 
-        async function fallbackDirect() {
+        async function fallbackDirect(catAction, listAction) {
             try {
-                let catAction = currentType === 'live' ? 'get_live_categories' : (currentType === 'movie' ? 'get_vod_categories' : 'get_series_categories');
-                let listAction = currentType === 'live' ? 'get_live_streams' : (currentType === 'movie' ? 'get_vod_streams' : 'get_series');
-
                 let directCat = `${SERVER_HOST}/player_api.php?username=${SERVER_USER}&password=${SERVER_PASS}&action=${catAction}`;
                 let directList = `${SERVER_HOST}/player_api.php?username=${SERVER_USER}&password=${SERVER_PASS}&action=${listAction}`;
 
-                const [cRes, lRes] = await Promise.all([
-                    fetch(directCat),
-                    fetch(directList)
+                let [cRes, lRes] = await Promise.all([
+                    fetch(directCat).catch(() => null),
+                    fetch(directList).catch(() => null)
                 ]);
 
-                categoriesData = await cRes.json();
-                channelsData = await lRes.json();
-
-                renderCategories();
-                renderChannels();
+                if (cRes && cRes.ok) {
+                    let text = await cRes.text();
+                    try { categoriesData = JSON.parse(text); } catch(e) { categoriesData = []; }
+                }
+                if (lRes && lRes.ok) {
+                    let text = await lRes.text();
+                    try { channelsData = JSON.parse(text); } catch(e) { channelsData = []; }
+                }
             } catch (err) {
-                console.error("All connection attempts failed:", err);
-            } finally {
-                showLoader(false);
+                console.error("Fallback failed:", err);
             }
         }
 
@@ -486,7 +486,9 @@
 
             if (Array.isArray(categoriesData)) {
                 categoriesData.forEach(cat => {
-                    html += `<div class="cat-chip" onclick="filterByCategory('${cat.category_id}', this)">${cat.category_name}</div>`;
+                    let catId = cat.category_id || '';
+                    let catName = cat.category_name || 'قسم';
+                    html += `<div class="cat-chip" onclick="filterByCategory('${catId}', this)">${catName}</div>`;
                 });
             }
             container.innerHTML = html;
@@ -503,20 +505,20 @@
             const grid = document.getElementById('channels-grid');
             let filtered = channelsData;
 
-            if (activeCategory !== 'all') {
+            if (activeCategory !== 'all' && Array.isArray(channelsData)) {
                 filtered = channelsData.filter(item => item.category_id == activeCategory);
             }
 
             let html = '';
             if (!Array.isArray(filtered) || filtered.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding:20px;">لا توجد محتويات متاحة</p>';
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding:20px;">لا توجد محتويات متاحة في هذا القسم</p>';
                 return;
             }
 
             filtered.slice(0, 100).forEach(item => {
-                let name = item.name || item.title || 'قناة';
+                let name = item.name || item.title || 'بدون اسم';
                 let img = item.stream_icon || item.cover || '';
-                let id = item.stream_id || item.series_id;
+                let id = item.stream_id || item.series_id || '';
                 let posterHtml = img ? `<img src="${img}" onerror="this.onerror=null;this.parentElement.innerHTML='<i class=\'fa-solid fa-tv\'></i>';">` : `<i class="fa-solid fa-tv"></i>`;
 
                 html += `
@@ -533,6 +535,8 @@
 
         function filterChannels() {
             let query = document.getElementById('search-input').value.toLowerCase();
+            if (!Array.isArray(channelsData)) return;
+
             let filtered = channelsData.filter(item => {
                 let name = (item.name || item.title || '').toLowerCase();
                 return name.includes(query);
@@ -543,7 +547,7 @@
             filtered.slice(0, 100).forEach(item => {
                 let name = item.name || item.title || '';
                 let img = item.stream_icon || item.cover || '';
-                let id = item.stream_id || item.series_id;
+                let id = item.stream_id || item.series_id || '';
                 let posterHtml = img ? `<img src="${img}" onerror="this.onerror=null;this.parentElement.innerHTML='<i class=\'fa-solid fa-tv\'></i>';">` : `<i class="fa-solid fa-tv"></i>`;
 
                 html += `
@@ -568,7 +572,7 @@
                 if (matched && matched.container_extension) ext = matched.container_extension;
                 streamUrl = `${SERVER_HOST}/movie/${SERVER_USER}/${SERVER_PASS}/${id}.${ext}`;
             } else {
-                alert('قسم المسلسلات يتطلب اختيار الحلقة المناسبة.');
+                alert('قسم المسلسلات يتطلب تفاصيل الحلقات.');
                 return;
             }
 
@@ -576,7 +580,7 @@
             let videoElem = document.getElementById('native-video');
             videoElem.src = streamUrl;
             document.getElementById('player-modal').style.display = 'flex';
-            videoElem.play().catch(e => console.log("Stream play error:", e));
+            videoElem.play().catch(e => console.log("Play error:", e));
         }
 
         function closePlayer() {
