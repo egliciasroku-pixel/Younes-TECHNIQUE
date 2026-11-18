@@ -1,1160 +1,518 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">منصة الإشهارات الملكية الفاخرة</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Google Fonts: Amiri & Cairo for Royal Arabic Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #050505;
-            color: #f3f4f6;
-            overflow-x: hidden;
-        }
-        .royal-title {
-            font-family: 'Amiri', serif;
-        }
-        /* Glassmorphism without borders */
-        .glass-panel {
-            background: rgba(18, 18, 22, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(212, 175, 55, 0.15);
-        }
-        .glass-card {
-            background: rgba(24, 24, 32, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glass-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
-        }
-        /* Custom Gold Gradients & Glows */
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #bf953f 0%, #fc6 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .gold-btn {
-            background: linear-gradient(135deg, #d4af37 0%, #aa771c 100%);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
-            transition: all 0.3s ease;
-        }
-        .gold-btn:hover {
-            background: linear-gradient(135deg, #e6c555 0%, #c28e23 100%);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
-            transform: translateY(-2px);
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #08080a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #332710;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #d4af37;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURELIA | لوحة فحص الروابط الفاخرة مع الخادم الوسيط</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-obsidian: #07080c;
+      --bg-panel: #0e1017;
+      --bg-card: #141721;
+      --bg-input: #1b1f2c;
+      --gold-primary: #d4af37;
+      --gold-light: #f8eab8;
+      --gold-dark: #9c7816;
+      --gold-glow: rgba(212, 175, 55, 0.22);
+      --text-main: #f5f5f7;
+      --text-muted: #8c92a6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: none !important;
+      outline: none;
+    }
+
+    body {
+      font-family: 'Cairo', 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top center, #181c2b 0%, var(--bg-obsidian) 75%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .app-wrapper {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .panel {
+      background: linear-gradient(165deg, #12151f 0%, var(--bg-panel) 100%);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.85),
+        0 0 40px rgba(212, 175, 55, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 6px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .crown {
+      color: var(--gold-primary);
+      font-size: 26px;
+      text-shadow: 0 0 18px var(--gold-glow);
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 6px 14px;
+      border-radius: 50px;
+      background: rgba(212, 175, 55, 0.12);
+      color: var(--gold-primary);
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 7px;
+      font-weight: 600;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    input[type="url"], input[type="text"] {
+      width: 100%;
+      background: var(--bg-input);
+      border-radius: 12px;
+      padding: 13px 15px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-family: 'Consolas', monospace;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+      transition: all 0.25s ease;
+    }
+
+    .input-wrapper input {
+      padding-left: 38px;
+    }
+
+    input:focus {
+      background: #202534;
+      box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.45),
+        0 0 18px var(--gold-glow);
+    }
+
+    .icon-btn {
+      position: absolute;
+      left: 10px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      padding: 5px 7px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .icon-btn:hover {
+      color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .toggles {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .switch-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 22px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: var(--bg-input);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6);
+      transition: 0.3s;
+      border-radius: 30px;
+    }
+
+    .slider::before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--text-muted);
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: rgba(212, 175, 55, 0.22);
+    }
+
+    input:checked + .slider::before {
+      transform: translateX(20px);
+      background-color: var(--gold-primary);
+      box-shadow: 0 0 10px var(--gold-primary);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 55%, var(--gold-dark) 100%);
+      color: #090a0f;
+      border-radius: 12px;
+      padding: 13px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(212, 175, 55, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 10px 28px rgba(212, 175, 55, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--bg-input);
+      color: var(--gold-light);
+      border-radius: 12px;
+      padding: 0 16px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(212, 175, 55, 0.16);
+      color: var(--gold-primary);
+    }
+
+    .output-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 0 4px;
+    }
+
+    .meta {
+      color: var(--gold-primary);
+      font-family: 'Consolas', monospace;
+    }
+
+    .output-box {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 16px;
+      height: 270px;
+      overflow-y: auto;
+      font-family: 'Consolas', 'Fira Code', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #e4e8f2;
+      white-space: pre-wrap;
+      word-break: break-word;
+      box-shadow: inset 0 4px 16px rgba(0, 0, 0, 0.55);
+    }
+
+    .output-box::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .output-box::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .output-box::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.3);
+      border-radius: 10px;
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-[#d4af37] selection:text-black">
+<body>
+  <div class="app-wrapper">
+    <main class="panel">
+      <header class="header">
+        <div class="brand">
+          <span class="crown">✦</span>
+          <div>
+            <h1>AURELIA</h1>
+            <p class="subtitle">بوابة فحص الروابط مع خادم الوسيط المحلي</p>
+          </div>
+        </div>
+        <span class="badge" id="statusBadge">جاهز</span>
+      </header>
 
-    <!-- TOP HEADER -->
-    <header class="glass-panel sticky top-0 z-40 px-4 py-3 md:px-8 flex items-center justify-between">
-        <!-- Brand / Store Info (Dynamic) -->
-        <div class="flex items-center space-x-3 space-x-reverse">
-            <div id="header-logo-container" class="w-11 h-11 sm:w-13 sm:h-13 rounded-full p-[2px] bg-gradient-to-tr from-[#d4af37] to-[#fff3cd] shadow-lg flex-shrink-0">
-                <img id="header-logo" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150" alt="Logo" class="w-full h-full rounded-full object-cover">
-            </div>
-            <div>
-                <div class="flex items-center space-x-2 space-x-reverse">
-                    <h1 id="header-store-name" class="royal-title text-lg sm:text-2xl font-bold gold-gradient-text tracking-wide">منصة الإشهارات الملكية</h1>
-                    <span id="store-badge" class="hidden items-center space-x-1 space-x-reverse bg-[#1a1508] text-[#d4af37] px-2.5 py-0.5 rounded-full text-xs font-semibold shadow-inner">
-                        <!-- Original Store SVG Icon -->
-                        <svg class="w-3.5 h-3.5 inline-block text-[#d4af37]" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h2v2c0 .55.45 1 1 1s1-.45 1-1V8h6v2c0 .55.45 1 1 1s1-.45 1-1V8h2v12z"/></svg>
-                        <span>Store</span>
-                    </span>
-                </div>
-                <p id="header-client-name" class="text-xs text-zinc-400 font-medium">إدارة وتوليد الروابط الإشهارية الفاخرة</p>
-            </div>
+      <section class="card">
+        <div class="field">
+          <label for="targetUrl">الرابط المستهدف (Endpoint URL)</label>
+          <div class="input-wrapper">
+            <input
+              type="url"
+              id="targetUrl"
+              placeholder="https://lamyarstv.pro/users.php"
+              autocomplete="off"
+              dir="ltr"
+            />
+            <button id="clearUrlBtn" class="icon-btn" title="مسح الرابط">✕</button>
+          </div>
         </div>
 
-        <!-- Actions / Header Buttons -->
-        <div class="flex items-center space-x-3 space-x-reverse">
-            <!-- Countdown Timer Header -->
-            <div id="header-timer-box" class="hidden glass-card px-3 py-1.5 rounded-xl text-xs text-[#d4af37] font-bold flex items-center space-x-1.5 space-x-reverse">
-                <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span id="header-countdown">--:--:--</span>
-            </div>
-
-            <!-- Reseller Quick Button (Visible if in Reseller Mode) -->
-            <button id="reseller-btn" onclick="openResellerLoginModal()" class="hidden glass-card hover:bg-[#d4af37]/20 text-[#d4af37] px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5 space-x-reverse">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                <span id="reseller-btn-label">إدارة الموزع</span>
-            </button>
-
-            <!-- Admin Button (Hidden in Store/Reseller View) -->
-            <button id="admin-main-btn" onclick="promptAdminPassword()" class="gold-btn text-black font-bold px-4 py-2 rounded-xl text-xs sm:text-sm shadow-lg flex items-center space-x-1.5 space-x-reverse">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                <span>الإدارة</span>
-            </button>
-        </div>
-    </header>
-
-    <!-- MAIN HERO / STORE BANNER -->
-    <section class="relative w-full py-8 md:py-14 px-4 md:px-8 text-center">
-        <!-- Store Cover Image Background -->
-        <div class="absolute inset-0 z-0 overflow-hidden opacity-30">
-            <img id="hero-cover-bg" src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200" alt="Cover" class="w-full h-full object-cover filter blur-sm">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent"></div>
+        <div class="field">
+          <label for="proxyServerUrl">عنوان الخادم الوسيط (Proxy Server URL)</label>
+          <input
+            type="text"
+            id="proxyServerUrl"
+            value="http://localhost:3000/fetch?url="
+            autocomplete="off"
+            dir="ltr"
+          />
         </div>
 
-        <div class="relative z-10 max-w-4xl mx-auto space-y-4">
-            <div class="inline-flex items-center space-x-2 space-x-reverse bg-[#d4af37]/10 text-[#d4af37] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase">
-                <span>✦ كتالوج الإشهارات الملكي الفاخر ✦</span>
-            </div>
-            <h2 id="hero-store-title" class="royal-title text-3xl sm:text-5xl font-black gold-gradient-text tracking-wide">متجر العرض الإشهاري</h2>
-            <p id="hero-client-desc" class="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto">تصفح أحدث العروض والإشهارات الحصرية المخصصة لك بجودة ملكية عالية وتواصل مباشر.</p>
-        </div>
-    </section>
+        <div class="toggles">
+          <div class="toggle-row">
+            <span class="switch-label">استخراج النص الصافي فقط (إزالة أكواد HTML)</span>
+            <label class="switch">
+              <input type="checkbox" id="stripHtml" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
 
-    <!-- MAIN CATALOG CONTENT -->
-    <main class="flex-grow max-w-7xl mx-auto w-full px-4 md:px-8 py-6">
-        
-        <!-- Expired Link Notice (Hidden by default) -->
-        <div id="expired-banner" class="hidden glass-panel rounded-2xl p-8 text-center max-w-lg mx-auto my-12 space-y-4">
-            <div class="w-16 h-16 bg-red-500/10 text-red-400 rounded-full flex items-center justify-center mx-auto text-2xl">⚠️</div>
-            <h3 class="royal-title text-2xl font-bold text-red-400">انتهت صلاحية هذا الرابط أو الوكالة</h3>
-            <p id="expired-text" class="text-zinc-400 text-sm">عذراً، لقد انقضت مدة الصلاحية المحددة لهذا الرابط. يرجى التواصل مع المتجر أو الموزع لتجديد الرابط.</p>
-            <div id="expired-date-info" class="text-xs text-zinc-500 font-mono"></div>
+          <div class="toggle-row">
+            <span class="switch-label">تنسيق بيانات JSON تلقائياً</span>
+            <label class="switch">
+              <input type="checkbox" id="formatJson" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
         </div>
 
-        <!-- Catalog Ads Grid -->
-        <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Dynamic Ads Rendered Here -->
+        <div class="actions">
+          <button id="fetchBtn" class="btn-primary">فحص وجلب المحتوى عبر الخادم</button>
+          <button id="copyBtn" class="btn-secondary">نسخ</button>
+          <button id="downloadBtn" class="btn-secondary">حفظ</button>
         </div>
+      </section>
 
-        <!-- Empty State -->
-        <div id="empty-catalog" class="hidden text-center py-20 space-y-3">
-            <p class="text-zinc-500 text-lg">لا توجد إشهارات مضافة في هذا الكتالوج حالياً.</p>
+      <section class="output-section">
+        <div class="output-header">
+          <span>البيانات المسترجعة</span>
+          <span id="metaInfo" class="meta">0.00 KB • 0 ms</span>
         </div>
+        <pre id="output" class="output-box" dir="ltr">في انتظار إدخال الرابط وفحصه...</pre>
+      </section>
     </main>
+  </div>
 
-    <!-- FOOTER -->
-    <footer class="glass-panel mt-16 py-6 px-4 md:px-8 text-center text-xs text-zinc-500 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p id="footer-text">جميع الحقوق محفوظة © 2026 - منصة الإشهارات الملكية الفاخرة</p>
-        <div class="flex items-center space-x-4 space-x-reverse">
-            <span class="text-[#d4af37] font-semibold">✦ تصميم ملكي فاخر</span>
-        </div>
-    </footer>
+  <script>
+    const targetUrlInput = document.getElementById('targetUrl');
+    const proxyServerUrlInput = document.getElementById('proxyServerUrl');
+    const stripHtmlCheckbox = document.getElementById('stripHtml');
+    const formatJsonCheckbox = document.getElementById('formatJson');
+    const outputBox = document.getElementById('output');
+    const statusBadge = document.getElementById('statusBadge');
+    const metaInfo = document.getElementById('metaInfo');
 
+    let lastRawResponse = '';
 
-    <!-- ==================== ADMIN PASSWORD MODAL ==================== -->
-    <div id="admin-pass-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="glass-panel rounded-3xl p-6 sm:p-8 max-w-sm w-full space-y-6 text-center shadow-2xl">
-            <div class="w-14 h-14 bg-[#d4af37]/10 text-[#d4af37] rounded-2xl flex items-center justify-center mx-auto text-xl">🔒</div>
-            <div>
-                <h3 class="royal-title text-xl font-bold gold-gradient-text">حماية لوحة الإدارة</h3>
-                <p class="text-zinc-400 text-xs mt-1">الرجاء إدخال كلمة المرور السرية للمتابعة</p>
-            </div>
-            <input type="password" id="admin-pass-input" placeholder="كلمة المرور (farouk2026)" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-3 rounded-xl text-center text-sm outline-none focus:ring-2 focus:ring-[#d4af37] transition">
-            <div class="flex space-x-3 space-x-reverse">
-                <button onclick="verifyAdminPassword()" class="flex-1 gold-btn text-black font-bold py-2.5 rounded-xl text-sm">دخول</button>
-                <button onclick="closeAdminPassModal()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold py-2.5 rounded-xl text-sm transition">إلغاء</button>
-            </div>
-        </div>
-    </div>
+    document.getElementById('clearUrlBtn').addEventListener('click', () => {
+      targetUrlInput.value = '';
+      targetUrlInput.focus();
+    });
 
+    stripHtmlCheckbox.addEventListener('change', () => renderOutput(lastRawResponse));
+    formatJsonCheckbox.addEventListener('change', () => renderOutput(lastRawResponse));
 
-    <!-- ==================== MAIN ADMIN PANEL MODAL ==================== -->
-    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden overflow-y-auto p-4 sm:p-6">
-        <div class="glass-panel rounded-3xl max-w-4xl mx-auto my-8 p-6 sm:p-8 space-y-8 relative shadow-2xl">
-            <!-- Close Modal -->
-            <button onclick="closeAdminModal()" class="absolute top-6 left-6 text-zinc-400 hover:text-white bg-zinc-800/60 p-2.5 rounded-full transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
+    document.getElementById('fetchBtn').addEventListener('click', async () => {
+      const rawUrl = targetUrlInput.value.trim();
+      const proxyBase = proxyServerUrlInput.value.trim();
 
-            <!-- Admin Header -->
-            <div class="border-b border-zinc-800 pb-4">
-                <h2 class="royal-title text-2xl sm:text-3xl font-bold gold-gradient-text">لوحة التحكم الإدارية الكبرى</h2>
-                <p class="text-zinc-400 text-xs sm:text-sm mt-1">إدارة الإشهارات، الكتالوجات، توليد روابط العملاء، وإدارة الموزعين.</p>
-            </div>
+      if (!rawUrl) {
+        setStatus('الرابط مفقود', '#e05252', 'rgba(224, 82, 82, 0.14)');
+        outputBox.textContent = '⚠ يرجى إدخال الرابط المستهدف أولاً.';
+        return;
+      }
 
-            <!-- Admin Tabs Navigation -->
-            <div class="flex flex-wrap gap-2 bg-[#0a0a0f] p-1.5 rounded-2xl">
-                <button onclick="switchAdminTab('ads')" id="tab-btn-ads" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition bg-[#d4af37] text-black">إدارة الإشهارات</button>
-                <button onclick="switchAdminTab('generator')" id="tab-btn-generator" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition text-zinc-400 hover:text-white">توليد رابط العميل</button>
-                <button onclick="switchAdminTab('resellers')" id="tab-btn-resellers" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition text-zinc-400 hover:text-white">إدارة الموزعين (Resellers)</button>
-            </div>
+      const finalUrl = proxyBase + encodeURIComponent(rawUrl);
 
-            <!-- TAB 1: ADS MANAGEMENT -->
-            <div id="tab-content-ads" class="space-y-8">
-                <!-- Add / Edit Ad Form -->
-                <div class="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
-                    <h3 id="ad-form-title" class="royal-title text-lg font-bold text-[#d4af37]">إضافة إشهار جديد للكتالوج</h3>
-                    <input type="hidden" id="edit-ad-id" value="">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">عنوان الإشهار / المنتج</label>
-                            <input type="text" id="ad-title" placeholder="مثال: قلاي الحوت الملكي الفاخر" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">رابط الصورة (رابط مباشر أو رفع من الجهاز)</label>
-                            <div class="flex space-x-2 space-x-reverse">
-                                <input type="text" id="ad-image" placeholder="https://..." class="flex-1 bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                                <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-2.5 rounded-xl text-xs cursor-pointer flex items-center justify-center transition">
-                                    <span>رفع</span>
-                                    <input type="file" accept="image/*" onchange="handleImageUpload(event, 'ad-image')" class="hidden">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs text-zinc-400 mb-1.5">وصف الإشهار</label>
-                            <textarea id="ad-desc" rows="2" placeholder="وصف تفصيلي للعرض أو المنتج..." class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37] resize-none"></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">السعر أو العرض (اختياري)</label>
-                            <input type="text" id="ad-price" placeholder="مثال: 150 درهم / الوجبة الملكية" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">رابط واتساب مخصص لهذا الإشهار (اختياري)</label>
-                            <input type="text" id="ad-whatsapp" placeholder="مثال: +212600000000" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                    </div>
-                    <div class="flex space-x-3 space-x-reverse pt-2">
-                        <button onclick="saveAd()" class="gold-btn text-black font-bold px-6 py-2.5 rounded-xl text-sm">حفظ الإشهار</button>
-                        <button onclick="resetAdForm()" id="cancel-edit-btn" class="hidden bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold px-4 py-2.5 rounded-xl text-sm transition">إلغاء التعديل</button>
-                    </div>
-                </div>
+      setStatus('جاري الجلب...', '#f8eab8', 'rgba(212, 175, 55, 0.18)');
+      outputBox.textContent = 'جاري إرسال الطلب عبر الخادم الوسيط...';
+      const startTime = performance.now();
 
-                <!-- Existing Ads List in Admin -->
-                <div class="space-y-3">
-                    <h3 class="royal-title text-lg font-bold text-zinc-200">جميع إشهارات الكتالوج العام</h3>
-                    <div id="admin-ads-list" class="space-y-3">
-                        <!-- Rendered via JS -->
-                    </div>
-                </div>
-            </div>
+      try {
+        const response = await fetch(finalUrl);
+        const elapsed = Math.round(performance.now() - startTime);
+        const text = await response.text();
+        lastRawResponse = text;
 
-            <!-- TAB 2: STORE LINK GENERATOR -->
-            <div id="tab-content-generator" class="hidden space-y-6">
-                <div class="glass-card rounded-2xl p-5 sm:p-6 space-y-5">
-                    <h3 class="royal-title text-lg font-bold text-[#d4af37]">توليد رابط الكتالوج الخاص بالعميل / التاجر</h3>
-                    <p class="text-xs text-zinc-400">قم بإدخال بيانات العميل وصورة المتجر واللوغو، واختر الإشهارات ومدة الصلاحية لإنشاء رابط مستقل وخاص به.</p>
+        const sizeKb = (new Blob([text]).size / 1024).toFixed(2);
+        metaInfo.textContent = `${sizeKb} KB • ${elapsed} ms`;
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">اسم العميل / التاجر</label>
-                            <input type="text" id="gen-client-name" placeholder="مثال: الحاج عمر (قلاي الحوت)" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">اسم المتجر</label>
-                            <input type="text" id="gen-store-name" placeholder="مثال: مطعم الأسماك الملكي" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">رقم هاتـف الواتساب (للتواصل المباشر مع العميل)</label>
-                            <input type="text" id="gen-whatsapp" placeholder="مثال: +212600000000" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">مدة صلاحية الرابط</label>
-                            <select id="gen-duration" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                                <option value="1">ساعة واحدة (1 ساعة)</option>
-                                <option value="6">6 ساعات</option>
-                                <option value="24" selected>24 ساعة (يوم واحد)</option>
-                                <option value="72">3 أيام</option>
-                                <option value="168">7 أيام (أسبوع)</option>
-                                <option value="720">30 يوماً (شهر)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">صورة اللوغو الدائري (للعميل)</label>
-                            <div class="flex space-x-2 space-x-reverse">
-                                <input type="text" id="gen-logo-url" placeholder="رابط أو رفع من الجهاز" class="flex-1 bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                                <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-2.5 rounded-xl text-xs cursor-pointer flex items-center justify-center transition">
-                                    <span>رفع</span>
-                                    <input type="file" accept="image/*" onchange="handleImageUpload(event, 'gen-logo-url')" class="hidden">
-                                </label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">صورة غلاف المتجر (Banner)</label>
-                            <div class="flex space-x-2 space-x-reverse">
-                                <input type="text" id="gen-cover-url" placeholder="رابط أو رفع من الجهاز" class="flex-1 bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                                <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-2.5 rounded-xl text-xs cursor-pointer flex items-center justify-center transition">
-                                    <span>رفع</span>
-                                    <input type="file" accept="image/*" onchange="handleImageUpload(event, 'gen-cover-url')" class="hidden">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ads Selection Checklist -->
-                    <div class="space-y-2 pt-2">
-                        <label class="block text-xs text-zinc-400">اختر الإشهارات التي ستظهر في كتالوج هذا العميل:</label>
-                        <div id="gen-ads-checklist" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto p-2 bg-[#0a0a0f] rounded-xl">
-                            <!-- Checkboxes populated via JS -->
-                        </div>
-                    </div>
-
-                    <button onclick="generateStoreLink()" class="gold-btn text-black font-bold w-full py-3 rounded-xl text-sm shadow-lg">توليد ونسخ رابط العميل المخصص</button>
-
-                    <!-- Generated Link Output Box -->
-                    <div id="generated-link-box" class="hidden space-y-2 pt-2">
-                        <label class="block text-xs text-[#d4af37]">الرابط المولد جاهز للاستخدام:</label>
-                        <div class="flex space-x-2 space-x-reverse">
-                            <input type="text" id="generated-link-output" readonly class="flex-1 bg-[#0d0d12] text-zinc-300 px-4 py-2.5 rounded-xl text-xs font-mono outline-none">
-                            <button onclick="copyGeneratedLink()" class="bg-[#d4af37] text-black font-bold px-4 py-2.5 rounded-xl text-xs hover:bg-[#e6c555] transition">نسخ الرابط</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 3: RESELLERS SYSTEM -->
-            <div id="tab-content-resellers" class="hidden space-y-6">
-                <div class="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
-                    <h3 id="res-form-title" class="royal-title text-lg font-bold text-[#d4af37]">إنشاء أو تعديل حساب موزع (Reseller)</h3>
-                    <input type="hidden" id="edit-res-id" value="">
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">اسم الموزع / الوكالة</label>
-                            <input type="text" id="res-name" placeholder="مثال: يونس التقني" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">رقم هاتـف الموزع</label>
-                            <input type="text" id="res-phone" placeholder="مثال: +212600000000" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">أقصى عدد للإشهارات المسموحة له</label>
-                            <input type="number" id="res-limit" value="10" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">تمديد أو تعيين مدة صلاحية الوكالة</label>
-                            <select id="res-duration-days" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                                <option value="1">يوم واحد (24 ساعة)</option>
-                                <option value="7">7 أيام (أسبوع)</option>
-                                <option value="30" selected>30 يوماً (شهر)</option>
-                                <option value="90">3 أشهر</option>
-                                <option value="365">سنة كاملة</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">كلمة المرور الخاصة بالموزع</label>
-                            <input type="text" id="res-pass" placeholder="مثال: yunes2026" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-zinc-400 mb-1.5">لوغو الموزع</label>
-                            <div class="flex space-x-2 space-x-reverse">
-                                <input type="text" id="res-logo" placeholder="رابط أو رفع من الجهاز" class="flex-1 bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                                <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-2.5 rounded-xl text-xs cursor-pointer flex items-center justify-center transition">
-                                    <span>رفع</span>
-                                    <input type="file" accept="image/*" onchange="handleImageUpload(event, 'res-logo')" class="hidden">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs text-zinc-400 mb-1.5">صورة غلاف / إدارة الموزع</label>
-                            <div class="flex space-x-2 space-x-reverse">
-                                <input type="text" id="res-cover" placeholder="رابط أو رفع من الجهاز" class="flex-1 bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                                <label class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-2.5 rounded-xl text-xs cursor-pointer flex items-center justify-center transition">
-                                    <span>رفع</span>
-                                    <input type="file" accept="image/*" onchange="handleImageUpload(event, 'res-cover')" class="hidden">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex space-x-3 space-x-reverse pt-2">
-                        <button onclick="saveReseller()" class="gold-btn text-black font-bold px-6 py-2.5 rounded-xl text-sm">حفظ وتوليد الرابط</button>
-                        <button onclick="resetResellerForm()" id="cancel-res-edit" class="hidden bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold px-4 py-2.5 rounded-xl text-sm transition">إلغاء التعديل</button>
-                    </div>
-
-                    <div id="reseller-link-result" class="hidden pt-2 space-y-1">
-                        <label class="block text-xs text-[#d4af37]">رابط لوحة الموزع الثابت:</label>
-                        <div class="flex space-x-2 space-x-reverse">
-                            <input type="text" id="reseller-link-output" readonly class="flex-1 bg-[#0d0d12] text-zinc-300 px-4 py-2.5 rounded-xl text-xs font-mono outline-none">
-                            <button onclick="copyResellerLink()" class="bg-[#d4af37] text-black font-bold px-4 py-2.5 rounded-xl text-xs hover:bg-[#e6c555] transition">نسخ</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Active Resellers List -->
-                <div class="space-y-3">
-                    <h3 class="royal-title text-lg font-bold text-zinc-200">الموزعون النشطون حالياً</h3>
-                    <div id="resellers-list" class="space-y-3">
-                        <!-- Rendered via JS -->
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- ==================== RESELLER LOGIN MODAL ==================== -->
-    <div id="reseller-login-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="glass-panel rounded-3xl p-6 sm:p-8 max-w-sm w-full space-y-6 text-center shadow-2xl">
-            <div class="w-14 h-14 bg-[#d4af37]/10 text-[#d4af37] rounded-2xl flex items-center justify-center mx-auto text-xl">👤</div>
-            <div>
-                <h3 class="royal-title text-xl font-bold gold-gradient-text" id="reseller-login-title">تسجيل دخول الموزع</h3>
-                <p class="text-zinc-400 text-xs mt-1">الرجاء إدخال كلمة المرور المخصصة لوكالتك</p>
-            </div>
-            <input type="password" id="reseller-pass-input" placeholder="كلمة المرور الخاصة بك" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-3 rounded-xl text-center text-sm outline-none focus:ring-2 focus:ring-[#d4af37] transition">
-            <div class="flex space-x-3 space-x-reverse">
-                <button onclick="verifyResellerPassword()" class="flex-1 gold-btn text-black font-bold py-2.5 rounded-xl text-sm">دخول</button>
-                <button onclick="closeResellerLoginModal()" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold py-2.5 rounded-xl text-sm transition">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ==================== RESELLER DASHBOARD MODAL ==================== -->
-    <div id="reseller-panel-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden overflow-y-auto p-4 sm:p-6">
-        <div class="glass-panel rounded-3xl max-w-3xl mx-auto my-8 p-6 sm:p-8 space-y-6 relative shadow-2xl">
-            <button onclick="closeResellerModal()" class="absolute top-6 left-6 text-zinc-400 hover:text-white bg-zinc-800/60 p-2.5 rounded-full transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            <div class="border-b border-zinc-800 pb-4">
-                <h2 class="royal-title text-2xl font-bold gold-gradient-text" id="reseller-panel-title">لوحة الموزع المعتمد</h2>
-                <p class="text-zinc-400 text-xs mt-1" id="reseller-panel-subtitle">توليد روابط المتاجر ضمن حد الإشهارات وصلاحية حسابك.</p>
-            </div>
-            
-            <div class="glass-card rounded-2xl p-5 space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs text-zinc-400 mb-1">اسم العميل / التاجر</label>
-                        <input type="text" id="res-gen-client" placeholder="مثال: الحاج صابر" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-zinc-400 mb-1">اسم المتجر</label>
-                        <input type="text" id="res-gen-store" placeholder="مثال: مطعم السمك الملكي" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-zinc-400 mb-1">رقم واتساب العميل</label>
-                        <input type="text" id="res-gen-wa" placeholder="+212600000000" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-zinc-400 mb-1">صلاحية رابط العميل (ساعات)</label>
-                        <input type="number" id="res-gen-hours" value="24" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-zinc-400 mb-1">لوغو العميل</label>
-                        <input type="text" id="res-gen-logo" placeholder="رابط صورة اللوغو" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-zinc-400 mb-1">غلاف المتجر</label>
-                        <input type="text" id="res-gen-cover" placeholder="رابط الغلاف" class="w-full bg-[#0d0d12] text-zinc-200 px-4 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#d4af37]">
-                    </div>
-                </div>
-
-                <!-- Reseller Ads selection checklist -->
-                <div class="space-y-2 pt-2">
-                    <label class="block text-xs text-zinc-400">اختر الإشهارات المتاحة لك (ضمن الحد الأقصى):</label>
-                    <div id="res-gen-ads-checklist" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto p-2 bg-[#0a0a0f] rounded-xl">
-                        <!-- Rendered via JS -->
-                    </div>
-                </div>
-
-                <button onclick="resellerGenerateLink()" class="gold-btn text-black font-bold w-full py-3 rounded-xl text-sm shadow-lg">توليد ونسخ رابط العميل</button>
-                <div id="res-gen-output-box" class="hidden pt-2 space-y-1">
-                    <input type="text" id="res-gen-output" readonly class="w-full bg-[#0d0d12] text-zinc-300 px-4 py-2.5 rounded-xl text-xs font-mono outline-none">
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
-    <script>
-        const STORAGE_KEY_ADS = 'royal_ads_catalog_items_v5';
-        const STORAGE_KEY_RESELLERS = 'royal_resellers_list_v5';
-
-        const DEFAULT_ADS = [
-            {
-                id: 'ad_1',
-                title: 'قلاي الحوت الملكي بالصلصة والفرن',
-                desc: 'أشهى أطباق الأسماك الطازجة المتبلة بالتوابل الملكية والأعشاب العطرية الفاخرة.',
-                price: '120 درهم',
-                image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600',
-                whatsapp: ''
-            },
-            {
-                id: 'ad_2',
-                title: 'وجبة المشويات البحرية المختلطة',
-                desc: 'تشكيلة فاخرة من الأسماك الفاخرة، الجمبري، والكالاماري المشوية على الفحم.',
-                price: '220 درهم',
-                image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600',
-                whatsapp: ''
-            },
-            {
-                id: 'ad_3',
-                title: 'طاجين الحوت بالفواكه البحرية',
-                desc: 'طاجين مغربي أصيل مطهو على الطريقة التقليدية البطيئة بلمسة ملكية رائعة.',
-                price: '180 درهم',
-                image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600',
-                whatsapp: ''
-            }
-        ];
-
-        let adsList = JSON.parse(localStorage.getItem(STORAGE_KEY_ADS)) || DEFAULT_ADS;
-        let resellersList = JSON.parse(localStorage.getItem(STORAGE_KEY_RESELLERS)) || [];
-
-        let currentStoreData = null;
-        let activeReseller = null;
-
-        window.addEventListener('DOMContentLoaded', () => {
-            parseURLParams();
-            renderAdsGrid();
-            renderAdminAdsList();
-            renderChecklist();
-            renderResellersList();
-        });
-
-        // ==================== PARSE URL & VIEW MODES ==================== -->
-        function parseURLParams() {
-            const hash = window.location.hash.substring(1);
-            const params = new URLSearchParams(hash);
-
-            const storeParam = params.get('store');
-            const resellerIdParam = params.get('reseller');
-
-            if (storeParam) {
-                try {
-                    const data = JSON.parse(decodeURIComponent(atob(storeParam)));
-                    currentStoreData = data;
-                    applyStoreView(data);
-                } catch (e) {
-                    console.error('Invalid store link data');
-                }
-            } else if (resellerIdParam) {
-                const found = resellersList.find(r => r.id === resellerIdParam);
-                if (found) {
-                    if (found.expiresAt && Date.now() > found.expiresAt) {
-                        document.getElementById('expired-banner').classList.remove('hidden');
-                        document.getElementById('catalog-grid').classList.add('hidden');
-                        document.getElementById('expired-text').innerText = 'عذراً، لقد انتهت مدة صلاحية حساب هذا الموزع (الوكالة). يرجى التواصل مع الإدارة للتجديد.';
-                        document.getElementById('expired-date-info').innerText = 'تاريخ انتهاء الوكالة: ' + new Date(found.expiresAt).toLocaleString('ar-MA');
-                        return;
-                    }
-
-                    activeReseller = found;
-                    applyResellerBranding(found);
-                } else {
-                    document.getElementById('expired-banner').classList.remove('hidden');
-                    document.getElementById('catalog-grid').classList.add('hidden');
-                    document.getElementById('expired-text').innerText = 'رابط الموزع غير موجود أو تم حذفه من الإدارة.';
-                }
-            }
+        if (response.ok) {
+          setStatus(`HTTP ${response.status}`, '#4cd964', 'rgba(76, 217, 100, 0.14)');
+        } else {
+          setStatus(`HTTP ${response.status}`, '#e05252', 'rgba(224, 82, 82, 0.14)');
         }
 
-        function applyStoreView(data) {
-            document.getElementById('admin-main-btn').style.display = 'none';
-
-            if (data.expiresAt && Date.now() > data.expiresAt) {
-                document.getElementById('expired-banner').classList.remove('hidden');
-                document.getElementById('catalog-grid').classList.add('hidden');
-                document.getElementById('expired-text').innerText = 'عذراً، لقد انقضت مدة الصلاحية المحددة لهذا الرابط الإشهاري.';
-                document.getElementById('expired-date-info').innerText = 'تاريخ الانتهاء: ' + new Date(data.expiresAt).toLocaleString('ar-MA');
-                return;
-            }
-
-            if (data.expiresAt) {
-                startCountdown(data.expiresAt);
-            }
-
-            if (data.storeName) {
-                document.getElementById('header-store-name').innerText = data.storeName;
-                document.getElementById('hero-store-title').innerText = data.storeName;
-                document.getElementById('page-title').innerText = data.storeName + ' - الكتالوج الملكي';
-            }
-            if (data.clientName) {
-                document.getElementById('header-client-name').innerText = 'التاجر: ' + data.clientName;
-            }
-            if (data.logoUrl) {
-                document.getElementById('header-logo').src = data.logoUrl;
-            }
-            if (data.coverUrl) {
-                document.getElementById('hero-cover-bg').src = data.coverUrl;
-            }
-
-            document.getElementById('store-badge').classList.remove('hidden');
-            document.getElementById('store-badge').classList.add('inline-flex');
-
-            if (data.selectedAds && Array.isArray(data.selectedAds)) {
-                adsList = adsList.filter(ad => data.selectedAds.includes(ad.id));
-            }
-        }
-
-        function applyResellerBranding(data) {
-            document.getElementById('reseller-btn').classList.remove('hidden');
-            document.getElementById('reseller-btn').classList.add('flex');
-            document.getElementById('admin-main-btn').style.display = 'none';
-
-            document.getElementById('header-store-name').innerText = data.name;
-            document.getElementById('hero-store-title').innerText = 'إدارة وكالة ' + data.name;
-            document.getElementById('page-title').innerText = data.name + ' - لوحة الموزع';
-
-            if (data.logo) {
-                document.getElementById('header-logo').src = data.logo;
-            }
-            if (data.cover) {
-                document.getElementById('hero-cover-bg').src = data.cover;
-            }
-            document.getElementById('header-client-name').innerText = 'رقم الهاتف: ' + (data.phone || 'غير مسجل');
-        }
-
-        function startCountdown(expiresAt) {
-            document.getElementById('header-timer-box').classList.remove('hidden');
-            document.getElementById('header-timer-box').classList.add('flex');
-
-            setInterval(() => {
-                const now = Date.now();
-                const diff = expiresAt - now;
-
-                if (diff <= 0) {
-                    document.getElementById('header-countdown').innerText = 'منتهي الصلاحية';
-                    location.reload();
-                    return;
-                }
-
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                document.getElementById('header-countdown').innerText = 
-                    String(hours).padStart(2, '0') + ':' + 
-                    String(minutes).padStart(2, '0') + ':' + 
-                    String(seconds).padStart(2, '0');
-            }, 1000);
-        }
-
-        // ==================== ADMIN PASSWORD & MODAL ==================== -->
-        function promptAdminPassword() {
-            if (sessionStorage.getItem('royal_admin_auth') === 'true') {
-                openAdminModal();
-                return;
-            }
-            document.getElementById('admin-pass-modal').classList.remove('hidden');
-            document.getElementById('admin-pass-modal').classList.add('flex');
-        }
-
-        function closeAdminPassModal() {
-            document.getElementById('admin-pass-modal').classList.add('hidden');
-            document.getElementById('admin-pass-modal').classList.remove('flex');
-        }
-
-        function verifyAdminPassword() {
-            const pass = document.getElementById('admin-pass-input').value;
-            if (pass === 'farouk2026') {
-                sessionStorage.setItem('royal_admin_auth', 'true');
-                closeAdminPassModal();
-                document.getElementById('admin-pass-input').value = '';
-                openAdminModal();
-            } else {
-                alert('كلمة المرور غير صحيحة!');
-            }
-        }
-
-        function openAdminModal() {
-            document.getElementById('admin-modal').classList.remove('hidden');
-            document.getElementById('admin-modal').classList.add('flex');
-            renderAdminAdsList();
-            renderChecklist();
-            renderResellersList();
-        }
-
-        function closeAdminModal() {
-            document.getElementById('admin-modal').classList.add('hidden');
-            document.getElementById('admin-modal').classList.remove('flex');
-        }
-
-        function switchAdminTab(tabName) {
-            const tabs = ['ads', 'generator', 'resellers'];
-            tabs.forEach(t => {
-                const btn = document.getElementById('tab-btn-' + t);
-                const content = document.getElementById('tab-content-' + t);
-                if (t === tabName) {
-                    btn.className = 'flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition bg-[#d4af37] text-black';
-                    content.classList.remove('hidden');
-                } else {
-                    btn.className = 'flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition text-zinc-400 hover:text-white';
-                    content.classList.add('hidden');
-                }
-            });
-        }
-
-        // ==================== RENDER CATALOG & ADS ==================== -->
-        function renderAdsGrid() {
-            const grid = document.getElementById('catalog-grid');
-            grid.innerHTML = '';
-
-            if (adsList.length === 0) {
-                document.getElementById('empty-catalog').classList.remove('hidden');
-                return;
-            }
-            document.getElementById('empty-catalog').classList.add('hidden');
-
-            adsList.forEach(ad => {
-                const waNumber = (currentStoreData && currentStoreData.whatsapp) ? currentStoreData.whatsapp : (activeReseller ? activeReseller.phone : (ad.whatsapp || '+212600000000'));
-                const waMessage = encodeURIComponent(`مرحباً، أهلاً بك. أريد الاستفسار عن الطلب الإشهاري: ${ad.title}`);
-                const waLink = `https://wa.me/${waNumber.replace(/[^0-9]/g, '')}?text=${waMessage}`;
-
-                const card = document.createElement('div');
-                card.className = 'glass-card rounded-2xl overflow-hidden flex flex-col justify-between';
-                card.innerHTML = `
-                    <div class="relative h-48 sm:h-52 overflow-hidden">
-                        <img src="${ad.image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600'}" alt="${ad.title}" class="w-full h-full object-cover transition duration-500 hover:scale-105">
-                        ${ad.price ? `<div class="absolute top-3 right-3 bg-black/70 backdrop-blur-md text-[#d4af37] px-3 py-1 rounded-xl text-xs font-bold">${ad.price}</div>` : ''}
-                    </div>
-                    <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
-                        <div class="space-y-2">
-                            <h3 class="royal-title text-lg font-bold text-zinc-100">${ad.title}</h3>
-                            <p class="text-zinc-400 text-xs sm:text-sm leading-relaxed">${ad.desc}</p>
-                        </div>
-                        <a href="${waLink}" target="_blank" class="gold-btn text-black font-bold py-2.5 px-4 rounded-xl text-xs text-center flex items-center justify-center space-x-2 space-x-reverse shadow-lg">
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                            <span>تواصل عبر الواتساب</span>
-                        </a>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // ==================== ADMIN ADS CRUD ==================== -->
-        function renderAdminAdsList() {
-            const list = document.getElementById('admin-ads-list');
-            list.innerHTML = '';
-
-            adsList.forEach(ad => {
-                const item = document.createElement('div');
-                item.className = 'glass-card rounded-xl p-4 flex items-center justify-between gap-4';
-                item.innerHTML = `
-                    <div class="flex items-center space-x-3 space-x-reverse">
-                        <img src="${ad.image}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
-                        <div>
-                            <h4 class="font-bold text-sm text-zinc-200">${ad.title}</h4>
-                            <p class="text-xs text-zinc-400">${ad.price || 'بدون سعر'} • ${ad.desc.substring(0, 40)}...</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-2 space-x-reverse flex-shrink-0">
-                        <button onclick="editAd('${ad.id}')" class="bg-zinc-800 hover:bg-zinc-700 text-[#d4af37] px-3 py-1.5 rounded-lg text-xs font-semibold transition">تعديل</button>
-                        <button onclick="deleteAd('${ad.id}')" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-1.5 rounded-lg text-xs font-semibold transition">حذف</button>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function saveAd() {
-            const id = document.getElementById('edit-ad-id').value;
-            const title = document.getElementById('ad-title').value.trim();
-            const desc = document.getElementById('ad-desc').value.trim();
-            const price = document.getElementById('ad-price').value.trim();
-            const image = document.getElementById('ad-image').value.trim();
-            const whatsapp = document.getElementById('ad-whatsapp').value.trim();
-
-            if (!title) {
-                alert('الرجاء إدخال عنوان الإشهار.');
-                return;
-            }
-
-            if (id) {
-                adsList = adsList.map(ad => ad.id === id ? { ...ad, title, desc, price, image, whatsapp } : ad);
-            } else {
-                const newAd = {
-                    id: 'ad_' + Date.now(),
-                    title,
-                    desc,
-                    price,
-                    image: image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600',
-                    whatsapp
-                };
-                adsList.push(newAd);
-            }
-
-            localStorage.setItem(STORAGE_KEY_ADS, JSON.stringify(adsList));
-            resetAdForm();
-            renderAdsGrid();
-            renderAdminAdsList();
-            renderChecklist();
-        }
-
-        function editAd(id) {
-            const ad = adsList.find(a => a.id === id);
-            if (!ad) return;
-
-            document.getElementById('edit-ad-id').value = ad.id;
-            document.getElementById('ad-title').value = ad.title;
-            document.getElementById('ad-desc').value = ad.desc;
-            document.getElementById('ad-price').value = ad.price || '';
-            document.getElementById('ad-image').value = ad.image || '';
-            document.getElementById('ad-whatsapp').value = ad.whatsapp || '';
-
-            document.getElementById('ad-form-title').innerText = 'تعديل الإشهار';
-            document.getElementById('cancel-edit-btn').classList.remove('hidden');
-        }
-
-        function resetAdForm() {
-            document.getElementById('edit-ad-id').value = '';
-            document.getElementById('ad-title').value = '';
-            document.getElementById('ad-desc').value = '';
-            document.getElementById('ad-price').value = '';
-            document.getElementById('ad-image').value = '';
-            document.getElementById('ad-whatsapp').value = '';
-            document.getElementById('ad-form-title').innerText = 'إضافة إشهار جديد للكتالوج';
-            document.getElementById('cancel-edit-btn').classList.add('hidden');
-        }
-
-        function deleteAd(id) {
-            if (confirm('هل أنت متأكد من حذف هذا الإشهار؟')) {
-                adsList = adsList.filter(a => a.id !== id);
-                localStorage.setItem(STORAGE_KEY_ADS, JSON.stringify(adsList));
-                renderAdsGrid();
-                renderAdminAdsList();
-                renderChecklist();
-            }
-        }
-
-        function renderChecklist() {
-            const container = document.getElementById('gen-ads-checklist');
-            container.innerHTML = '';
-
-            adsList.forEach(ad => {
-                const label = document.createElement('label');
-                label.className = 'flex items-center space-x-2 space-x-reverse text-xs text-zinc-300 cursor-pointer p-1.5 hover:bg-zinc-800/40 rounded-lg';
-                label.innerHTML = `
-                    <input type="checkbox" value="${ad.id}" checked class="accent-[#d4af37] w-4 h-4 rounded">
-                    <span class="truncate">${ad.title}</span>
-                `;
-                container.appendChild(label);
-            });
-        }
-
-        // ==================== STORE LINK GENERATOR ==================== -->
-        function generateStoreLink() {
-            const clientName = document.getElementById('gen-client-name').value.trim();
-            const storeName = document.getElementById('gen-store-name').value.trim();
-            const whatsapp = document.getElementById('gen-whatsapp').value.trim();
-            const durationHours = parseInt(document.getElementById('gen-duration').value) || 24;
-            const logoUrl = document.getElementById('gen-logo-url').value.trim();
-            const coverUrl = document.getElementById('gen-cover-url').value.trim();
-
-            const checkboxes = document.querySelectorAll('#gen-ads-checklist input[type="checkbox"]:checked');
-            const selectedAds = Array.from(checkboxes).map(cb => cb.value);
-
-            if (!storeName || !whatsapp) {
-                alert('الرجاء إدخال اسم المتجر ورقم الواتساب على الأقل.');
-                return;
-            }
-
-            const expiresAt = Date.now() + (durationHours * 60 * 60 * 1000);
-
-            const storePayload = {
-                clientName,
-                storeName,
-                whatsapp,
-                logoUrl,
-                coverUrl,
-                selectedAds,
-                expiresAt
-            };
-
-            const encoded = btoa(encodeURIComponent(JSON.stringify(storePayload)));
-            const fullLink = window.location.origin + window.location.pathname + '#store=' + encoded;
-
-            document.getElementById('generated-link-output').value = fullLink;
-            document.getElementById('generated-link-box').classList.remove('hidden');
-        }
-
-        function copyGeneratedLink() {
-            const input = document.getElementById('generated-link-output');
-            input.select();
-            document.execCommand('copy');
-            alert('تم نسخ رابط العميل بنجاح!');
-        }
-
-        // ==================== RESELLERS SYSTEM (WITH EDIT & PERMANENT LINK) ==================== -->
-        function saveReseller() {
-            const editId = document.getElementById('edit-res-id').value;
-            const name = document.getElementById('res-name').value.trim();
-            const phone = document.getElementById('res-phone').value.trim();
-            const limit = parseInt(document.getElementById('res-limit').value) || 10;
-            const durationDays = parseInt(document.getElementById('res-duration-days').value) || 30;
-            const pass = document.getElementById('res-pass').value.trim();
-            const logo = document.getElementById('res-logo').value.trim();
-            const cover = document.getElementById('res-cover').value.trim();
-
-            if (!name || !pass) {
-                alert('الرجاء إدخال اسم الموزع وكلمة المرور الخاصة به.');
-                return;
-            }
-
-            let resellerObj;
-            const expiresAt = Date.now() + (durationDays * 24 * 60 * 60 * 1000);
-
-            if (editId) {
-                resellersList = resellersList.map(r => {
-                    if (r.id === editId) {
-                        resellerObj = {
-                            ...r,
-                            name,
-                            phone,
-                            limit,
-                            expiresAt,
-                            pass,
-                            logo: logo || r.logo,
-                            cover: cover || r.cover
-                        };
-                        return resellerObj;
-                    }
-                    return r;
-                });
-            } else {
-                resellerObj = {
-                    id: 'res_' + Date.now(),
-                    name,
-                    phone,
-                    limit,
-                    expiresAt,
-                    pass,
-                    logo,
-                    cover
-                };
-                resellersList.push(resellerObj);
-            }
-
-            localStorage.setItem(STORAGE_KEY_RESELLERS, JSON.stringify(resellersList));
-            resetResellerForm();
-            renderResellersList();
-
-            const link = window.location.origin + window.location.pathname + '#reseller=' + resellerObj.id;
-
-            document.getElementById('reseller-link-output').value = link;
-            document.getElementById('reseller-link-result').classList.remove('hidden');
-        }
-
-        function editReseller(id) {
-            const res = resellersList.find(r => r.id === id);
-            if (!res) return;
-
-            document.getElementById('edit-res-id').value = res.id;
-            document.getElementById('res-name').value = res.name;
-            document.getElementById('res-phone').value = res.phone || '';
-            document.getElementById('res-limit').value = res.limit;
-            document.getElementById('res-pass').value = res.pass;
-            document.getElementById('res-logo').value = res.logo || '';
-            document.getElementById('res-cover').value = res.cover || '';
-
-            document.getElementById('res-form-title').innerText = 'تعديل بيانات الموزع: ' + res.name;
-            document.getElementById('cancel-res-edit').classList.remove('hidden');
-
-            const link = window.location.origin + window.location.pathname + '#reseller=' + res.id;
-            document.getElementById('reseller-link-output').value = link;
-            document.getElementById('reseller-link-result').classList.remove('hidden');
-        }
-
-        function resetResellerForm() {
-            document.getElementById('edit-res-id').value = '';
-            document.getElementById('res-name').value = '';
-            document.getElementById('res-phone').value = '';
-            document.getElementById('res-limit').value = '10';
-            document.getElementById('res-pass').value = '';
-            document.getElementById('res-logo').value = '';
-            document.getElementById('res-cover').value = '';
-            document.getElementById('res-form-title').innerText = 'إنشاء أو تعديل حساب موزع (Reseller)';
-            document.getElementById('cancel-res-edit').classList.add('hidden');
-            document.getElementById('reseller-link-result').classList.add('hidden');
-        }
-
-        function renderResellersList() {
-            const list = document.getElementById('resellers-list');
-            list.innerHTML = '';
-
-            if (resellersList.length === 0) {
-                list.innerHTML = '<p class="text-xs text-zinc-500">لا توجد حسابات موزعين مسجلة حالياً.</p>';
-                return;
-            }
-
-            resellersList.forEach(res => {
-                const isExpired = Date.now() > res.expiresAt;
-                const item = document.createElement('div');
-                item.className = 'glass-card rounded-xl p-4 flex items-center justify-between text-xs gap-3';
-                item.innerHTML = `
-                    <div class="flex items-center space-x-3 space-x-reverse overflow-hidden">
-                        <img src="${res.logo || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150'}" class="w-10 h-10 rounded-full object-cover flex-shrink-0">
-                        <div class="truncate">
-                            <h4 class="font-bold text-zinc-200 text-sm truncate">${res.name} ${isExpired ? '<span class="text-red-400 font-normal">(منتهي)</span>' : '<span class="text-emerald-400 font-normal">(نشط)</span>'}</h4>
-                            <p class="text-zinc-400 truncate">الهاتف: ${res.phone || 'غير مسجل'} | حد الإشهارات: ${res.limit} | ينتهي في: ${new Date(res.expiresAt).toLocaleDateString('ar-MA')} | السر: <span class="text-[#d4af37] font-mono">${res.pass}</span></p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-2 space-x-reverse flex-shrink-0">
-                        <button onclick="editReseller('${res.id}')" class="bg-zinc-800 hover:bg-zinc-700 text-[#d4af37] px-3 py-1.5 rounded-lg font-semibold transition">تعديل</button>
-                        <button onclick="deleteReseller('${res.id}')" class="bg-red-500/10 text-red-400 px-3 py-1.5 rounded-lg font-semibold transition">حذف</button>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function deleteReseller(id) {
-            if (confirm('هل أنت متأكد من حذف حساب هذا الموزع نهائياً؟')) {
-                resellersList = resellersList.filter(r => r.id !== id);
-                localStorage.setItem(STORAGE_KEY_RESELLERS, JSON.stringify(resellersList));
-                renderResellersList();
-                resetResellerForm();
-            }
-        }
-
-        function copyResellerLink() {
-            const input = document.getElementById('reseller-link-output');
-            input.select();
-            document.execCommand('copy');
-            alert('تم نسخ رابط الموزع الثابت بنجاح!');
-        }
-
-        function openResellerLoginModal() {
-            if (!activeReseller) return;
-            document.getElementById('reseller-login-title').innerText = 'دخول موزع: ' + activeReseller.name;
-            document.getElementById('reseller-login-modal').classList.remove('hidden');
-            document.getElementById('reseller-login-modal').classList.add('flex');
-        }
-
-        function closeResellerLoginModal() {
-            document.getElementById('reseller-login-modal').classList.add('hidden');
-            document.getElementById('reseller-login-modal').classList.remove('flex');
-        }
-
-        function verifyResellerPassword() {
-            const inputPass = document.getElementById('reseller-pass-input').value.trim();
-            if (activeReseller && inputPass === activeReseller.pass) {
-                closeResellerLoginModal();
-                document.getElementById('reseller-pass-input').value = '';
-                openResellerDashboard();
-            } else {
-                alert('كلمة المرور الخاصة بالموزع غير صحيحة!');
-            }
-        }
-
-        function openResellerDashboard() {
-            if (!activeReseller) return;
-            document.getElementById('reseller-panel-title').innerText = 'لوحة الموزع: ' + activeReseller.name;
-            document.getElementById('reseller-panel-subtitle').innerText = 'الحد الأقصى المسموح للإشهارات: ' + activeReseller.limit + ' | تنتهي الوكالة في: ' + new Date(activeReseller.expiresAt).toLocaleDateString('ar-MA');
-            
-            const container = document.getElementById('res-gen-ads-checklist');
-            container.innerHTML = '';
-            adsList.forEach((ad, index) => {
-                const isChecked = index < activeReseller.limit ? 'checked' : '';
-                const label = document.createElement('label');
-                label.className = 'flex items-center space-x-2 space-x-reverse text-xs text-zinc-300 cursor-pointer p-1.5 hover:bg-zinc-800/40 rounded-lg';
-                label.innerHTML = `
-                    <input type="checkbox" value="${ad.id}" ${isChecked} class="accent-[#d4af37] w-4 h-4 rounded">
-                    <span class="truncate">${ad.title}</span>
-                `;
-                container.appendChild(label);
-            });
-
-            document.getElementById('reseller-panel-modal').classList.remove('hidden');
-            document.getElementById('reseller-panel-modal').classList.add('flex');
-        }
-
-        function closeResellerModal() {
-            document.getElementById('reseller-panel-modal').classList.add('hidden');
-            document.getElementById('reseller-panel-modal').classList.remove('flex');
-        }
-
-        function resellerGenerateLink() {
-            const clientName = document.getElementById('res-gen-client').value.trim();
-            const storeName = document.getElementById('res-gen-store').value.trim();
-            const whatsapp = document.getElementById('res-gen-wa').value.trim();
-            const hours = parseInt(document.getElementById('res-gen-hours').value) || 24;
-            const logoUrl = document.getElementById('res-gen-logo').value.trim();
-            const coverUrl = document.getElementById('res-gen-cover').value.trim();
-
-            const checkboxes = document.querySelectorAll('#res-gen-ads-checklist input[type="checkbox"]:checked');
-            const selectedAds = Array.from(checkboxes).map(cb => cb.value);
-
-            if (selectedAds.length > activeReseller.limit) {
-                alert('عذراً، لقد تجاوزت الحد الأقصى للإشهارات المسموحة لحسابك (' + activeReseller.limit + ' إشهارات).');
-                return;
-            }
-
-            if (!storeName || !whatsapp) {
-                alert('الرجاء إدخال اسم المتجر ورقم الواتساب.');
-                return;
-            }
-
-            const storePayload = {
-                clientName,
-                storeName,
-                whatsapp,
-                logoUrl: logoUrl || activeReseller.logo,
-                coverUrl: coverUrl || activeReseller.cover,
-                selectedAds,
-                expiresAt: Date.now() + (hours * 60 * 60 * 1000)
-            };
-
-            const encoded = btoa(encodeURIComponent(JSON.stringify(storePayload)));
-            const fullLink = window.location.origin + window.location.pathname + '#store=' + encoded;
-
-            const outBox = document.getElementById('res-gen-output-box');
-            const outInput = document.getElementById('res-gen-output');
-            outInput.value = fullLink;
-            outBox.classList.remove('hidden');
-            outInput.select();
-            document.execCommand('copy');
-            alert('تم توليد ونسخ رابط العميل بنجاح!');
-        }
-
-        // ==================== IMAGE UPLOAD HELPER VIA CANVAS ==================== -->
-        function handleImageUpload(event, targetInputId) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800;
-                    const MAX_HEIGHT = 800;
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > height) {
-                        if (width > MAX_WIDTH) {
-                            height *= MAX_WIDTH / width;
-                            width = MAX_WIDTH;
-                        }
-                    } else {
-                        if (height > MAX_HEIGHT) {
-                            width *= MAX_HEIGHT / height;
-                            height = MAX_HEIGHT;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const canvasCtx = canvas.getContext('2d');
-                    canvasCtx.drawImage(img, 0, 0, width, height);
-
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-                    document.getElementById(targetInputId).value = dataUrl;
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    </script>
+        renderOutput(text);
+      } catch (err) {
+        const elapsed = Math.round(performance.now() - startTime);
+        metaInfo.textContent = `0.00 KB • ${elapsed} ms`;
+        setStatus('خطأ في الاتصال', '#e05252', 'rgba(224, 82, 82, 0.14)');
+        outputBox.textContent =
+          `تعذر الاتصال بالخادم الوسيط المحلي:\n${err.message}\n\n` +
+          `تأكد من تشغيل خادم الـ Node.js المحلي على المنفذ 3000 (راجع كود الخادم أدناه).`;
+      }
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      if (!outputBox.textContent) return;
+      navigator.clipboard.writeText(outputBox.textContent).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'تم النسخ ✓';
+        setTimeout(() => (btn.textContent = 'نسخ'), 1500);
+      });
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const content = outputBox.textContent;
+      if (!content) return;
+
+      const isJson = content.trim().startsWith('{') || content.trim().startsWith('[');
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = isJson ? 'aurelia-data.json' : 'aurelia-data.txt';
+      link.click();
+      URL.revokeObjectURL(link.href);
+    });
+
+    function renderOutput(rawText) {
+      if (!rawText) return;
+
+      if (formatJsonCheckbox.checked) {
+        try {
+          const parsed = JSON.parse(rawText);
+          outputBox.textContent = JSON.stringify(parsed, null, 2);
+          return;
+        } catch (_) {}
+      }
+
+      if (stripHtmlCheckbox.checked) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(rawText, 'text/html');
+        doc.querySelectorAll('script, style, noscript, iframe').forEach((el) => el.remove());
+        const clean = (doc.body?.innerText || rawText).replace(/\n{3,}/g, '\n\n').trim();
+        outputBox.textContent = clean;
+      } else {
+        outputBox.textContent = rawText;
+      }
+    }
+
+    function setStatus(label, color, bgColor) {
+      statusBadge.textContent = label;
+      statusBadge.style.color = color;
+      statusBadge.style.background = bgColor;
+    }
+  </script>
 </body>
 </html>
