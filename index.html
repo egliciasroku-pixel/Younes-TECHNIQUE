@@ -31,12 +31,12 @@
   --muted: #94a3b8;
   --muted-soft: #64748b;
   --warn: #fbbf24;
+  --danger: #f87171;
   --shadow-hero: 0 32px 64px -16px rgba(0, 0, 0, 0.88), 0 0 44px rgba(168, 255, 0, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   --shadow-card: 0 18px 36px -12px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   --shadow-card-hover: 0 24px 44px -12px rgba(0, 0, 0, 0.9), 0 0 26px rgba(168, 255, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-/* Strict Borderless Rule Across All Elements */
 *,
 *::before,
 *::after {
@@ -66,7 +66,6 @@ body {
   scrollbar-gutter: stable;
 }
 
-/* Luxury Header & Floating Hero Card */
 header {
   position: relative;
   padding: 24px 14px 18px;
@@ -101,7 +100,6 @@ header::before {
   isolation: isolate;
 }
 
-/* Clipping Layer for Light Sweep & Aura While Allowing Menus to Float */
 .hero-surface {
   position: absolute;
   inset: 0;
@@ -111,7 +109,6 @@ header::before {
   z-index: 0;
 }
 
-/* Animated Diagonal Light Sweep (Transform-based for Zero Layout Shift) */
 .hero-surface::before {
   content: "";
   position: absolute;
@@ -133,7 +130,6 @@ header::before {
   z-index: 1;
 }
 
-/* Volumetric Inner Aura */
 .hero-surface::after {
   content: "";
   position: absolute;
@@ -149,7 +145,6 @@ header::before {
   45%, 100% { transform: translateX(260%) skewX(-22deg); }
 }
 
-/* Top-Right Luxury Dock Card for Subscriptions & 24h Trial */
 .top-right-dock-card {
   position: absolute;
   top: 16px;
@@ -224,11 +219,11 @@ header::before {
   transform: scale(1.06);
 }
 
-/* Credentials Card Modal / Popover */
+/* Modal Card for Gmail Activation & User-Specific Credentials */
 .credentials-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(4, 7, 14, 0.76);
+  background: rgba(4, 7, 14, 0.82);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -236,19 +231,21 @@ header::before {
   padding: 16px;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.22s ease, visibility 0.22s ease;
-  z-index: 90;
+  z-index: 999;
 }
 
 .credentials-backdrop.open {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .credentials-card {
   position: relative;
   width: 100%;
-  max-width: 440px;
+  max-width: 450px;
   padding: 20px 18px 18px;
   border-radius: 24px;
   background:
@@ -321,10 +318,125 @@ header::before {
   color: var(--white);
 }
 
-.credentials-list {
+/* Gmail Gate Form */
+.gmail-gate-box {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  padding: 14px 12px;
+  border-radius: 16px;
+  background: rgba(6, 10, 18, 0.65);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.gmail-gate-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--royal-gold);
+}
+
+.gmail-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  background: rgba(18, 28, 48, 0.92);
+  color: var(--white);
+  font-family: 'Cairo', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  direction: ltr;
+  text-align: left;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.gmail-input::placeholder {
+  color: var(--muted-soft);
+  font-size: 11.5px;
+}
+
+.gmail-input:focus {
+  box-shadow: 0 0 0 2px rgba(168, 255, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.gmail-submit-btn {
+  width: 100%;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--lime-bright) 0%, var(--lime) 55%, var(--lime-deep) 100%);
+  color: #060a12;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12.5px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -4px rgba(168, 255, 0, 0.35);
+}
+
+.gmail-error-msg {
+  display: none;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--danger);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.gmail-error-msg.visible {
+  display: block;
+}
+
+/* Active Account Banner */
+.active-account-bar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border-radius: 13px;
+  background: rgba(168, 255, 0, 0.1);
+  box-shadow: inset 0 1px 0 rgba(168, 255, 0, 0.22);
+}
+
+.active-account-bar.visible {
+  display: flex;
+}
+
+.active-account-email {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--lime);
+  direction: ltr;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.switch-gmail-btn {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  font-family: 'Cairo', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.switch-gmail-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.credentials-list {
+  display: none;
+  flex-direction: column;
   gap: 9px;
+}
+
+.credentials-list.visible {
+  display: flex;
 }
 
 .credential-row {
@@ -399,7 +511,7 @@ header::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
 }
 
 .credentials-note {
@@ -407,6 +519,37 @@ header::before {
   color: var(--muted);
   margin: 0;
   line-height: 1.5;
+}
+
+.credentials-actions-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.copy-all-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(250, 204, 21, 0.16);
+  color: var(--royal-gold);
+  font-family: 'Cairo', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.copy-all-btn.visible {
+  display: inline-flex;
+}
+
+.copy-all-btn:hover {
+  background: rgba(250, 204, 21, 0.26);
+  color: #fef08a;
 }
 
 .credentials-wa-btn {
@@ -425,7 +568,6 @@ header::before {
   box-shadow: 0 8px 18px -4px rgba(168, 255, 0, 0.35);
 }
 
-/* Top-Left Small Luxury Dock Card Containing MENU & Downloader Circular Buttons */
 .top-left-dock-card {
   position: absolute;
   top: 16px;
@@ -552,7 +694,6 @@ header::before {
   transform: scale(1.06);
 }
 
-/* Royal Luxury Slide Dropdowns Positioned Below Top-Left Dock Card */
 .luxury-dropdown,
 .downloader-dropdown {
   position: absolute;
@@ -766,7 +907,6 @@ header::before {
   z-index: 2;
 }
 
-/* Welcome Pill Badge */
 .welcome-pill {
   display: inline-flex;
   align-items: center;
@@ -791,7 +931,6 @@ header::before {
   animation: pulse 2.2s ease-in-out infinite;
 }
 
-/* Centered Store Card Aligned Between Left & Right Top Docks */
 .store-badge {
   position: absolute;
   top: 15px;
@@ -839,7 +978,6 @@ header::before {
   z-index: 1;
 }
 
-/* Main Metallic Shimmer Title */
 header h1 {
   position: relative;
   margin: 0 0 4px;
@@ -900,7 +1038,6 @@ header p {
   50% { opacity: 0.45; transform: scale(0.85); }
 }
 
-/* Main Container */
 .container {
   width: 92%;
   max-width: 1120px;
@@ -912,7 +1049,6 @@ header p {
   margin-bottom: 24px;
 }
 
-/* Glowing Golden-Lime Icon Badge for "Télécharger les applications" */
 .section-glow-icon {
   display: inline-flex;
   align-items: center;
@@ -960,7 +1096,6 @@ header p {
   filter: drop-shadow(0 0 12px rgba(168, 255, 0, 0.35)) drop-shadow(0 0 8px rgba(250, 204, 21, 0.3));
 }
 
-/* Compact Refined Pill Search Bar with Fixed Small Icon */
 .search-box {
   position: relative;
   width: 100%;
@@ -1027,14 +1162,12 @@ header p {
   color: var(--lime);
 }
 
-/* Flagship Compact App Store Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-/* Compact Flagship App Card */
 .app {
   position: relative;
   display: flex;
@@ -1052,7 +1185,6 @@ header p {
   will-change: transform;
 }
 
-/* Top Edge Specular Sheen */
 .app::before {
   content: "";
   position: absolute;
@@ -1065,7 +1197,6 @@ header p {
   z-index: 2;
 }
 
-/* Subtle Ambient Glow on Hover */
 .app::after {
   content: "";
   position: absolute;
@@ -1090,7 +1221,6 @@ header p {
   transform: scale(0.99);
 }
 
-/* Compact Media Tile Container */
 .media-wrap {
   position: relative;
   z-index: 1;
@@ -1119,7 +1249,6 @@ header p {
   transform: scale(1.03);
 }
 
-/* Glowing Monogram Tiles for Icon Apps */
 .app-icon {
   width: 100%;
   height: 100%;
@@ -1141,7 +1270,6 @@ header p {
   transform: scale(1.03);
 }
 
-/* Crisp App Title & Subtitle */
 .app h3 {
   position: relative;
   z-index: 1;
@@ -1163,7 +1291,6 @@ header p {
   margin-bottom: 6px;
 }
 
-/* Sleek Compact Pill-Shaped Luxury Download Button Positioned Slightly Lower */
 .download {
   position: relative;
   z-index: 1;
@@ -1225,7 +1352,6 @@ header p {
   flex-shrink: 0;
 }
 
-/* Empty State */
 .empty-state {
   display: none;
   text-align: center;
@@ -1239,7 +1365,6 @@ header p {
   box-shadow: var(--shadow-card);
 }
 
-/* Luxury Borderless Info Card: Small Feature Cards on Left + Paragraph Facing Them on Right */
 .info {
   position: relative;
   display: flex;
@@ -1266,7 +1391,6 @@ header p {
   background: linear-gradient(90deg, transparent, rgba(168, 255, 0, 0.32), transparent);
 }
 
-/* Left Side: Small Stacked Mini-Cards */
 .info-side-features {
   flex: 0 0 43%;
   max-width: 240px;
@@ -1303,7 +1427,6 @@ header p {
   flex-shrink: 0;
 }
 
-/* Right Side: Paragraph Facing the Mini-Cards */
 .info-side-text {
   flex: 1 1 auto;
   display: flex;
@@ -1335,7 +1458,6 @@ header p {
   font-weight: 700;
 }
 
-/* Luxury Compact Copyright Mini-Card Closely Paired Above */
 footer {
   padding: 0 14px 32px;
 }
@@ -1485,7 +1607,6 @@ footer {
   }
 }
 
-/* Responsive: Tablets (600px - 959px) */
 @media (min-width: 600px) and (max-width: 959px) {
   .container {
     width: 90%;
@@ -1510,7 +1631,6 @@ footer {
   }
 }
 
-/* Responsive: Computers & Desktops (>= 960px) */
 @media (min-width: 960px) {
   .container {
     width: 90%;
@@ -1551,7 +1671,6 @@ footer {
   }
 }
 
-/* Respect Reduced Motion Preference */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1758,7 +1877,7 @@ footer {
   </div>
 </header>
 
-<!-- Modal Card for Trial (Username / Password / M3U) & Subscriptions / Activations -->
+<!-- Modal Card for Gmail Verification & Account-Specific Credentials -->
 <div class="credentials-backdrop" id="credentialsModal" role="dialog" aria-modal="true" aria-labelledby="credentialsTitle">
   <div class="credentials-card" id="credentialsCard">
     <div class="credentials-head">
@@ -1774,11 +1893,31 @@ footer {
       </button>
     </div>
 
+    <form class="gmail-gate-box" id="gmailGateForm" novalidate>
+      <label class="gmail-gate-label" for="gmailInput">أدخل حساب Gmail الخاص بك لاستلام بياناتك:</label>
+      <input type="email"
+             class="gmail-input"
+             id="gmailInput"
+             placeholder="example@gmail.com"
+             autocomplete="email"
+             required>
+      <button type="submit" class="gmail-submit-btn" id="gmailVerifyBtn">دخول واستلام البيانات</button>
+      <p class="gmail-error-msg" id="gmailErrorMsg"></p>
+    </form>
+
+    <div class="active-account-bar" id="activeAccountBar">
+      <span class="active-account-email" id="activeAccountEmail"></span>
+      <button type="button" class="switch-gmail-btn" id="switchGmailBtn">تغيير الحساب</button>
+    </div>
+
     <div class="credentials-list" id="credentialsList"></div>
 
     <div class="credentials-footer">
-      <p class="credentials-note" id="credentialsNote">يمكنك نسخ كل بيان مباشرة بجانب القيمة أو طلب التفعيل عبر واتساب.</p>
-      <a class="credentials-wa-btn" id="credentialsWaLink" href="https://wa.me/212630473498" target="_blank" rel="noopener">واتساب</a>
+      <p class="credentials-note" id="credentialsNote">أدخل حساب Gmail المفعّل لعرض بياناتك الخاصة ونسخها مباشرة.</p>
+      <div class="credentials-actions-wrap">
+        <button type="button" class="copy-all-btn" id="copyAllBtn">نسخ الكل</button>
+        <a class="credentials-wa-btn" id="credentialsWaLink" href="https://wa.me/212630473498" target="_blank" rel="noopener">واتساب</a>
+      </div>
     </div>
   </div>
 </div>
@@ -1949,7 +2088,6 @@ footer {
     Aucune application ne correspond à votre recherche.
   </div>
 
-  <!-- Bottom Card: Small Mini-Cards on Left + Paragraph on Right -->
   <div class="info">
     <div class="info-side-features">
       <div class="features">
@@ -1981,29 +2119,47 @@ footer {
 </footer>
 
 <script>
-// يمكنك تعديل قيم بيانات التجربة والاشتراكات هنا مباشرة
-const PORTAL_DATA = {
+// قاعدة بيانات الحسابات المفعّلة: كل حساب Gmail يملك بياناته الخاصة به
+// أضف أي حساب Gmail جديد مفعّل مع بيانات التجربة (trial) و/أو الاشتراك (subscriptions)
+const GMAIL_ACCOUNTS_DB = {
+  'egliciasroku@gmail.com': {
+    trial: [
+      { label: 'Username', value: 'eglicias_trial24' },
+      { label: 'Password', value: 'Egl@2026' },
+      { label: 'M3U URL', value: 'http://line.younes-iptv.example/get.php?username=eglicias_trial24&password=Egl@2026&type=m3u_plus&output=ts' }
+    ],
+    subscriptions: [
+      { label: 'Username', value: 'eglicias_vip_12m' },
+      { label: 'Password', value: 'VIP#9981' },
+      { label: 'M3U URL', value: 'http://line.younes-iptv.example/get.php?username=eglicias_vip_12m&password=VIP%239981&type=m3u_plus&output=ts' },
+      { label: 'Activation Code', value: 'ACT-EGL-2026' }
+    ]
+  },
+  'hot.younes244@gmail.com': {
+    trial: [
+      { label: 'Username', value: 'younes_test24' },
+      { label: 'Password', value: 'Yns@244' },
+      { label: 'M3U URL', value: 'http://line.younes-iptv.example/get.php?username=younes_test24&password=Yns@244&type=m3u_plus&output=ts' }
+    ],
+    subscriptions: [
+      { label: 'Username', value: 'younes_pro_full' },
+      { label: 'Password', value: 'Pro#2440' },
+      { label: 'M3U URL', value: 'http://line.younes-iptv.example/get.php?username=younes_pro_full&password=Pro%232440&type=m3u_plus&output=ts' },
+      { label: 'Activation Code', value: 'ACT-YNS-244' }
+    ]
+  }
+};
+
+const PORTAL_META = {
   trial: {
     badge: '24H TRIAL',
-    title: 'بيانات التجربة (24 ساعة)',
-    note: 'انسخ بيانات التجربة مباشرة أو راسلنا على واتساب لتجربة مخصصة.',
-    waText: 'استلام فترة التجربة 24 ساعة',
-    items: [
-      { label: 'Username', value: 'younes_trial_24h' },
-      { label: 'Password', value: 'trial@2026' },
-      { label: 'M3U URL', value: 'http://line.younes-iptv.example/get.php?username=younes_trial_24h&password=trial@2026&type=m3u_plus&output=ts' }
-    ]
+    title: 'بيانات التجربة الخاصة بحسابك',
+    waText: 'طلب تفعيل التجربة 24 ساعة'
   },
   subscriptions: {
     badge: 'SUBSCRIPTIONS & ACTIVATION',
-    title: 'بوابة استلام الاشتراكات والتفعيلات',
-    note: 'بيانات التواصل واستلام التفعيلات الرسمية لـ YOUNES TECHNIQUE.',
-    waText: 'بوابة استلام الاشتراكات والتفعيلات',
-    items: [
-      { label: 'WhatsApp Support', value: '+212630473498' },
-      { label: 'Activation Email', value: 'egliciasroku@gmail.com' },
-      { label: 'Activation Code / Ref', value: 'YOUNES-VIP-2026' }
-    ]
+    title: 'بيانات الاشتراك والتفعيل الخاصة بحسابك',
+    waText: 'استلام بيانات الاشتراك والتفعيل'
   }
 };
 
@@ -2048,9 +2204,21 @@ const credentialsTitle = document.getElementById('credentialsTitle');
 const credentialsList = document.getElementById('credentialsList');
 const credentialsNote = document.getElementById('credentialsNote');
 const credentialsWaLink = document.getElementById('credentialsWaLink');
+const copyAllBtn = document.getElementById('copyAllBtn');
+
+const gmailGateForm = document.getElementById('gmailGateForm');
+const gmailInput = document.getElementById('gmailInput');
+const gmailErrorMsg = document.getElementById('gmailErrorMsg');
+const activeAccountBar = document.getElementById('activeAccountBar');
+const activeAccountEmail = document.getElementById('activeAccountEmail');
+const switchGmailBtn = document.getElementById('switchGmailBtn');
 
 const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 const copySvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+
+let currentPortalMode = 'trial';
+let currentVerifiedEmail = '';
+let currentDisplayedItems = [];
 
 function copyText(text) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -2058,17 +2226,57 @@ function copyText(text) {
   }
 }
 
-function openCredentialsModal(mode) {
-  const config = PORTAL_DATA[mode];
-  if (!config) return;
+function getNormalizedAccount(email) {
+  const key = Object.keys(GMAIL_ACCOUNTS_DB).find(
+    k => k.trim().toLowerCase() === email.trim().toLowerCase()
+  );
+  return key ? GMAIL_ACCOUNTS_DB[key] : null;
+}
 
-  credentialsBadge.textContent = config.badge;
-  credentialsTitle.textContent = config.title;
-  credentialsNote.textContent = config.note;
-  credentialsWaLink.href = 'https://wa.me/212630473498?text=' + encodeURIComponent(config.waText);
+function showGateView(errorMessage = '') {
+  gmailGateForm.style.display = 'flex';
+  activeAccountBar.classList.remove('visible');
+  credentialsList.classList.remove('visible');
+  credentialsList.innerHTML = '';
+  copyAllBtn.classList.remove('visible');
+  currentDisplayedItems = [];
+  credentialsNote.textContent = 'أدخل حساب Gmail المفعّل لعرض بياناتك الخاصة ونسخها مباشرة.';
+
+  if (errorMessage) {
+    gmailErrorMsg.textContent = errorMessage;
+    gmailErrorMsg.classList.add('visible');
+  } else {
+    gmailErrorMsg.textContent = '';
+    gmailErrorMsg.classList.remove('visible');
+  }
+}
+
+function renderAccountItems(email, mode) {
+  const accountData = getNormalizedAccount(email);
+  if (!accountData) {
+    showGateView('هذا الحساب غير مفعّل. لا يمكن الدخول واستلام البيانات، تواصل عبر واتساب لتفعيل الحساب.');
+    return false;
+  }
+
+  const items = accountData[mode];
+  if (!items || !items.length) {
+    const modeLabel = mode === 'trial' ? 'التجربة (24 ساعة)' : 'الاشتراكات والتفعيلات';
+    showGateView('هذا الحساب غير مفعّل في قسم ' + modeLabel + '.');
+    return false;
+  }
+
+  currentVerifiedEmail = email;
+  currentDisplayedItems = items;
+
+  gmailErrorMsg.textContent = '';
+  gmailErrorMsg.classList.remove('visible');
+  gmailGateForm.style.display = 'none';
+
+  activeAccountEmail.textContent = email;
+  activeAccountBar.classList.add('visible');
 
   credentialsList.innerHTML = '';
-  config.items.forEach(item => {
+  items.forEach(item => {
     const row = document.createElement('div');
     row.className = 'credential-row';
 
@@ -2107,9 +2315,37 @@ function openCredentialsModal(mode) {
     credentialsList.appendChild(row);
   });
 
+  credentialsList.classList.add('visible');
+  copyAllBtn.classList.add('visible');
+  credentialsNote.textContent = 'هذه البيانات مخصصة لحسابك المفعّل أعلاه.';
+  return true;
+}
+
+function openCredentialsModal(mode) {
+  currentPortalMode = mode;
+  const meta = PORTAL_META[mode];
+  if (!meta) return;
+
+  credentialsBadge.textContent = meta.badge;
+  credentialsTitle.textContent = meta.title;
+  credentialsWaLink.href = 'https://wa.me/212630473498?text=' + encodeURIComponent(meta.waText);
+
   trialCardBtn.classList.toggle('active', mode === 'trial');
   subscriptionsCardBtn.classList.toggle('active', mode === 'subscriptions');
+
+  if (currentVerifiedEmail) {
+    renderAccountItems(currentVerifiedEmail, mode);
+  } else {
+    showGateView();
+  }
+
   credentialsModal.classList.add('open');
+
+  if (!currentVerifiedEmail) {
+    setTimeout(() => {
+      gmailInput.focus();
+    }, 60);
+  }
 }
 
 function closeCredentialsModal() {
@@ -2118,17 +2354,54 @@ function closeCredentialsModal() {
   subscriptionsCardBtn.classList.remove('active');
 }
 
+gmailGateForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = gmailInput.value.trim().toLowerCase();
+  const isValidGmail = /^[a-z0-9._%+-]+@gmail\.com$/i.test(email);
+
+  if (!isValidGmail) {
+    showGateView('يرجى إدخال حساب Gmail صحيح (مثال: name@gmail.com).');
+    return;
+  }
+
+  renderAccountItems(email, currentPortalMode);
+});
+
+switchGmailBtn.addEventListener('click', () => {
+  currentVerifiedEmail = '';
+  gmailInput.value = '';
+  showGateView();
+  setTimeout(() => {
+    gmailInput.focus();
+  }, 40);
+});
+
+copyAllBtn.addEventListener('click', () => {
+  if (!currentDisplayedItems.length) return;
+  const allText = currentDisplayedItems.map(i => i.label + ': ' + i.value).join('\n');
+  copyText(allText);
+  copyAllBtn.textContent = 'تم نسخ الكل';
+  setTimeout(() => {
+    copyAllBtn.textContent = 'نسخ الكل';
+  }, 1300);
+});
+
 trialCardBtn.addEventListener('click', (e) => {
+  e.preventDefault();
   e.stopPropagation();
   openCredentialsModal('trial');
 });
 
 subscriptionsCardBtn.addEventListener('click', (e) => {
+  e.preventDefault();
   e.stopPropagation();
   openCredentialsModal('subscriptions');
 });
 
-credentialsCloseBtn.addEventListener('click', closeCredentialsModal);
+credentialsCloseBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  closeCredentialsModal();
+});
 
 credentialsModal.addEventListener('click', (e) => {
   if (e.target === credentialsModal) {
