@@ -149,16 +149,291 @@ header::before {
   45%, 100% { transform: translateX(260%) skewX(-22deg); }
 }
 
-/* Top-Center Small Luxury Dock Card Containing Both Circular Buttons */
-.top-center-dock-card {
+/* Top-Right Luxury Dock Card for Subscriptions & 24h Trial */
+.top-right-dock-card {
   position: absolute;
   top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 16px;
   display: inline-flex;
   align-items: center;
+  gap: 8px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(168, 255, 0, 0.18), transparent 60%),
+    linear-gradient(155deg, rgba(18, 28, 48, 0.96) 0%, rgba(7, 11, 20, 0.99) 100%);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 14px 28px -8px rgba(0, 0, 0, 0.92),
+    0 0 20px rgba(168, 255, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  z-index: 25;
+}
+
+.lime-action-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(168, 255, 0, 0.34), transparent 62%),
+    linear-gradient(155deg, #121a2d 0%, #060912 100%);
+  color: var(--lime);
+  box-shadow:
+    0 8px 18px -4px rgba(0, 0, 0, 0.92),
+    0 0 16px rgba(168, 255, 0, 0.26),
+    inset 0 1px 1px rgba(255, 255, 255, 0.24),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.8);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, color 0.22s ease, background 0.22s ease;
+  will-change: transform;
+}
+
+.lime-action-btn:hover,
+.lime-action-btn.active {
+  transform: scale(1.05);
+  color: #dcff80;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(168, 255, 0, 0.46), transparent 65%),
+    linear-gradient(155deg, #18233c 0%, #070b16 100%);
+  box-shadow:
+    0 12px 24px -4px rgba(0, 0, 0, 0.95),
+    0 0 24px rgba(168, 255, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.34),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.85);
+}
+
+.lime-action-btn:active {
+  transform: scale(0.97);
+}
+
+.lime-action-btn svg {
+  width: 16px;
+  height: 16px;
+  filter: drop-shadow(0 0 8px rgba(168, 255, 0, 0.48));
+  transition: transform 0.22s ease;
+}
+
+.lime-action-btn:hover svg {
+  transform: scale(1.06);
+}
+
+/* Credentials Card Modal / Popover */
+.credentials-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 14, 0.76);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+  z-index: 90;
+}
+
+.credentials-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.credentials-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: 20px 18px 18px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(250, 204, 21, 0.16), transparent 55%),
+    radial-gradient(circle at 15% 90%, rgba(168, 255, 0, 0.15), transparent 60%),
+    linear-gradient(160deg, rgba(24, 34, 58, 0.98) 0%, rgba(10, 15, 28, 0.99) 100%);
+  box-shadow:
+    0 28px 60px -12px rgba(0, 0, 0, 0.96),
+    0 0 32px rgba(168, 255, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  text-align: right;
+  transform: translateY(10px) scale(0.98);
+  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.credentials-backdrop.open .credentials-card {
+  transform: translateY(0) scale(1);
+}
+
+.credentials-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 10px;
-  padding: 6px 10px;
+  margin-bottom: 14px;
+}
+
+.credentials-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.credentials-badge {
+  display: inline-block;
+  width: fit-content;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(168, 255, 0, 0.14);
+  color: var(--lime);
+}
+
+.credentials-head h2 {
+  margin: 4px 0 0;
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--white);
+}
+
+.credentials-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.credentials-close:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--white);
+}
+
+.credentials-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.credential-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 15px;
+  background: rgba(6, 10, 18, 0.65);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.credential-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.credential-label {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--royal-gold);
+  letter-spacing: 0.4px;
+}
+
+.credential-value {
+  font-family: monospace, 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--white);
+  word-break: break-all;
+  direction: ltr;
+  text-align: left;
+}
+
+.credential-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 11px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, rgba(168, 255, 0, 0.2), rgba(250, 204, 21, 0.12));
+  color: var(--lime);
+  font-family: 'Cairo', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease;
+}
+
+.credential-copy-btn:hover {
+  background: linear-gradient(135deg, rgba(168, 255, 0, 0.32), rgba(250, 204, 21, 0.2));
+  color: #ffffff;
+}
+
+.credential-copy-btn.copied {
+  background: rgba(250, 204, 21, 0.24);
+  color: #fef08a;
+}
+
+.credential-copy-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.credentials-footer {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.credentials-note {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.credentials-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--lime-bright) 0%, var(--lime) 55%, var(--lime-deep) 100%);
+  color: #060a12;
+  font-size: 11.5px;
+  font-weight: 900;
+  flex-shrink: 0;
+  box-shadow: 0 8px 18px -4px rgba(168, 255, 0, 0.35);
+}
+
+/* Top-Left Small Luxury Dock Card Containing MENU & Downloader Circular Buttons */
+.top-left-dock-card {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 9px;
   border-radius: 999px;
   background:
     radial-gradient(circle at 15% 20%, rgba(168, 255, 0, 0.16), transparent 58%),
@@ -181,8 +456,8 @@ header::before {
 
 .luxury-menu-btn {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   border-radius: 50%;
   display: inline-flex;
@@ -218,8 +493,8 @@ header::before {
 }
 
 .luxury-menu-btn svg {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   filter: drop-shadow(0 0 8px rgba(168, 255, 0, 0.45));
   transition: transform 0.24s ease;
 }
@@ -230,8 +505,8 @@ header::before {
 
 .downloader-icon-btn {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   border-radius: 50%;
   display: inline-flex;
@@ -267,8 +542,8 @@ header::before {
 }
 
 .downloader-icon-btn svg {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.48));
   transition: transform 0.24s ease;
 }
@@ -277,12 +552,12 @@ header::before {
   transform: scale(1.06);
 }
 
-/* Royal Luxury Slide Dropdowns Positioned Below Top-Center Dock Card */
+/* Royal Luxury Slide Dropdowns Positioned Below Top-Left Dock Card */
 .luxury-dropdown,
 .downloader-dropdown {
   position: absolute;
   top: calc(100% + 12px);
-  left: 50%;
+  left: 0;
   width: max-content;
   min-width: 248px;
   max-width: calc(100vw - 28px);
@@ -299,8 +574,8 @@ header::before {
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
   opacity: 0;
   visibility: hidden;
-  transform: translateX(-50%) translateY(-8px) scale(0.98);
-  transform-origin: top center;
+  transform: translateY(-8px) scale(0.98);
+  transform-origin: top left;
   transition:
     opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
@@ -314,7 +589,7 @@ header::before {
 .downloader-dropdown.open {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0) scale(1);
+  transform: translateY(0) scale(1);
   pointer-events: auto;
 }
 
@@ -323,7 +598,7 @@ header::before {
   .downloader-menu-wrap:hover .downloader-dropdown {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateY(0) scale(1);
     pointer-events: auto;
   }
 }
@@ -516,16 +791,19 @@ header::before {
   animation: pulse 2.2s ease-in-out infinite;
 }
 
-/* Custom Glowing Store SVG Squircle Badge - Royal Gold Luxury Background */
+/* Centered Store Card Aligned Between Left & Right Top Docks */
 .store-badge {
-  position: relative;
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 14px;
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 52px;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 18px;
+  border-radius: 17px;
   background: linear-gradient(145deg, var(--store-gold-bright) 0%, var(--store-gold-mid) 55%, var(--store-gold-deep) 100%);
   color: #0b0904;
   box-shadow:
@@ -533,6 +811,7 @@ header::before {
     0 6px 14px rgba(0, 0, 0, 0.68),
     inset 0 1px 1px rgba(255, 255, 255, 0.85);
   overflow: hidden;
+  z-index: 24;
 }
 
 .store-badge::after {
@@ -554,8 +833,8 @@ header::before {
 }
 
 .store-badge svg {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   position: relative;
   z-index: 1;
 }
@@ -1125,6 +1404,50 @@ footer {
   letter-spacing: 0.9px;
 }
 
+@media (max-width: 599px) {
+  .hero-card {
+    padding: 82px 16px 28px;
+  }
+
+  .top-right-dock-card,
+  .top-left-dock-card {
+    top: 14px;
+    gap: 6px;
+    padding: 5px 7px;
+  }
+
+  .top-right-dock-card {
+    right: 12px;
+  }
+
+  .top-left-dock-card {
+    left: 12px;
+  }
+
+  .store-badge {
+    top: 14px;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .store-badge svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .lime-action-btn,
+  .luxury-menu-btn,
+  .downloader-icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hero-content {
+    margin-top: 8px;
+  }
+}
+
 @media (min-width: 640px) {
   .info {
     gap: 20px;
@@ -1242,6 +1565,7 @@ footer {
     animation: none !important;
   }
 
+  .lime-action-btn,
   .luxury-menu-btn,
   .downloader-icon-btn,
   .luxury-dropdown,
@@ -1260,8 +1584,46 @@ footer {
   <div class="hero-card">
     <div class="hero-surface" aria-hidden="true"></div>
 
-    <!-- Top-Center Small Luxury Card Grouping MENU & Code Downloader Circular Buttons -->
-    <div class="top-center-dock-card" aria-label="أدوات الوصول السريع">
+    <!-- Top-Right Luxury Dock Card: Subscriptions & 24h Trial -->
+    <div class="top-right-dock-card" aria-label="بوابة الاشتراكات والتجربة المجانية">
+      <button type="button"
+              class="lime-action-btn"
+              id="subscriptionsCardBtn"
+              title="بوابة استلام الاشتراكات والتفعيلات"
+              aria-label="بوابة استلام الاشتراكات والتفعيلات"
+              aria-haspopup="dialog"
+              aria-controls="credentialsModal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+        </svg>
+      </button>
+
+      <button type="button"
+              class="lime-action-btn"
+              id="trialCardBtn"
+              title="استلام فترة التجربة 24 ساعة"
+              aria-label="استلام فترة التجربة 24 ساعة"
+              aria-haspopup="dialog"
+              aria-controls="credentialsModal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <polyline points="12 7 12 12 15.5 14"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Centered Store Card Between Left & Right Top Docks -->
+    <div class="store-badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l1.5-5h15L21 9"></path>
+        <path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path>
+        <path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"></path>
+        <path d="M10 21v-5a2 2 0 0 1 4 0v5"></path>
+      </svg>
+    </div>
+
+    <!-- Top-Left Small Luxury Dock Card Grouping MENU & Downloader Circular Buttons -->
+    <div class="top-left-dock-card" aria-label="أدوات الوصول السريع">
       <div class="luxury-menu-wrap" id="luxuryMenuWrap">
         <button type="button" class="luxury-menu-btn" id="luxuryMenuBtn" aria-label="Menu" aria-expanded="false" aria-controls="luxuryDropdown">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1385,15 +1747,6 @@ footer {
         <span>✨ BIENVENUE SUR VOTRE STORE OFFICIEL</span>
       </div>
 
-      <div class="store-badge" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l1.5-5h15L21 9"></path>
-          <path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path>
-          <path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"></path>
-          <path d="M10 21v-5a2 2 0 0 1 4 0v5"></path>
-        </svg>
-      </div>
-
       <h1>YOUNES TECHNIQUE</h1>
       <p>CENTRE DE TÉLÉCHARGEMENT D'APPLICATIONS</p>
 
@@ -1404,6 +1757,31 @@ footer {
     </div>
   </div>
 </header>
+
+<!-- Modal Card for Trial (Username / Password / M3U) & Subscriptions / Activations -->
+<div class="credentials-backdrop" id="credentialsModal" role="dialog" aria-modal="true" aria-labelledby="credentialsTitle">
+  <div class="credentials-card" id="credentialsCard">
+    <div class="credentials-head">
+      <div class="credentials-title-wrap">
+        <span class="credentials-badge" id="credentialsBadge">24H TRIAL</span>
+        <h2 id="credentialsTitle">بيانات التجربة</h2>
+      </div>
+      <button type="button" class="credentials-close" id="credentialsCloseBtn" aria-label="إغلاق">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="credentials-list" id="credentialsList"></div>
+
+    <div class="credentials-footer">
+      <p class="credentials-note" id="credentialsNote">يمكنك نسخ كل بيان مباشرة بجانب القيمة أو طلب التفعيل عبر واتساب.</p>
+      <a class="credentials-wa-btn" id="credentialsWaLink" href="https://wa.me/212630473498" target="_blank" rel="noopener">واتساب</a>
+    </div>
+  </div>
+</div>
 
 <main class="container">
 
@@ -1603,6 +1981,32 @@ footer {
 </footer>
 
 <script>
+// يمكنك تعديل قيم بيانات التجربة والاشتراكات هنا مباشرة
+const PORTAL_DATA = {
+  trial: {
+    badge: '24H TRIAL',
+    title: 'بيانات التجربة (24 ساعة)',
+    note: 'انسخ بيانات التجربة مباشرة أو راسلنا على واتساب لتجربة مخصصة.',
+    waText: 'استلام فترة التجربة 24 ساعة',
+    items: [
+      { label: 'Username', value: 'younes_trial_24h' },
+      { label: 'Password', value: 'trial@2026' },
+      { label: 'M3U URL', value: 'http://line.younes-iptv.example/get.php?username=younes_trial_24h&password=trial@2026&type=m3u_plus&output=ts' }
+    ]
+  },
+  subscriptions: {
+    badge: 'SUBSCRIPTIONS & ACTIVATION',
+    title: 'بوابة استلام الاشتراكات والتفعيلات',
+    note: 'بيانات التواصل واستلام التفعيلات الرسمية لـ YOUNES TECHNIQUE.',
+    waText: 'بوابة استلام الاشتراكات والتفعيلات',
+    items: [
+      { label: 'WhatsApp Support', value: '+212630473498' },
+      { label: 'Activation Email', value: 'egliciasroku@gmail.com' },
+      { label: 'Activation Code / Ref', value: 'YOUNES-VIP-2026' }
+    ]
+  }
+};
+
 const searchInput = document.getElementById('appSearch');
 const cards = document.querySelectorAll('#appsGrid .app');
 const emptyState = document.getElementById('emptyState');
@@ -1635,8 +2039,108 @@ const dlBtn = document.getElementById('downloaderMenuBtn');
 const dlDropdown = document.getElementById('downloaderDropdown');
 const dlCodeItems = dlDropdown.querySelectorAll('.downloader-code-item');
 
+const trialCardBtn = document.getElementById('trialCardBtn');
+const subscriptionsCardBtn = document.getElementById('subscriptionsCardBtn');
+const credentialsModal = document.getElementById('credentialsModal');
+const credentialsCloseBtn = document.getElementById('credentialsCloseBtn');
+const credentialsBadge = document.getElementById('credentialsBadge');
+const credentialsTitle = document.getElementById('credentialsTitle');
+const credentialsList = document.getElementById('credentialsList');
+const credentialsNote = document.getElementById('credentialsNote');
+const credentialsWaLink = document.getElementById('credentialsWaLink');
+
 const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 const copySvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+
+function copyText(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+}
+
+function openCredentialsModal(mode) {
+  const config = PORTAL_DATA[mode];
+  if (!config) return;
+
+  credentialsBadge.textContent = config.badge;
+  credentialsTitle.textContent = config.title;
+  credentialsNote.textContent = config.note;
+  credentialsWaLink.href = 'https://wa.me/212630473498?text=' + encodeURIComponent(config.waText);
+
+  credentialsList.innerHTML = '';
+  config.items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'credential-row';
+
+    const meta = document.createElement('div');
+    meta.className = 'credential-meta';
+
+    const labelEl = document.createElement('span');
+    labelEl.className = 'credential-label';
+    labelEl.textContent = item.label;
+
+    const valEl = document.createElement('span');
+    valEl.className = 'credential-value';
+    valEl.textContent = item.value;
+
+    meta.appendChild(labelEl);
+    meta.appendChild(valEl);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'credential-copy-btn';
+    btn.setAttribute('aria-label', 'نسخ ' + item.label);
+    btn.innerHTML = copySvg + '<span>نسخ</span>';
+
+    btn.addEventListener('click', () => {
+      copyText(item.value);
+      btn.classList.add('copied');
+      btn.innerHTML = checkSvg + '<span>تم النسخ</span>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = copySvg + '<span>نسخ</span>';
+      }, 1300);
+    });
+
+    row.appendChild(meta);
+    row.appendChild(btn);
+    credentialsList.appendChild(row);
+  });
+
+  trialCardBtn.classList.toggle('active', mode === 'trial');
+  subscriptionsCardBtn.classList.toggle('active', mode === 'subscriptions');
+  credentialsModal.classList.add('open');
+}
+
+function closeCredentialsModal() {
+  credentialsModal.classList.remove('open');
+  trialCardBtn.classList.remove('active');
+  subscriptionsCardBtn.classList.remove('active');
+}
+
+trialCardBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  openCredentialsModal('trial');
+});
+
+subscriptionsCardBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  openCredentialsModal('subscriptions');
+});
+
+credentialsCloseBtn.addEventListener('click', closeCredentialsModal);
+
+credentialsModal.addEventListener('click', (e) => {
+  if (e.target === credentialsModal) {
+    closeCredentialsModal();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && credentialsModal.classList.contains('open')) {
+    closeCredentialsModal();
+  }
+});
 
 function setMenuOpen(isOpen) {
   menuBtn.setAttribute('aria-expanded', String(isOpen));
@@ -1691,9 +2195,7 @@ dlCodeItems.forEach(item => {
     const code = item.dataset.code;
     const badgeEl = item.querySelector('.downloader-code-num');
     const iconEl = item.querySelector('.copy-code-icon');
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code).catch(() => {});
-    }
+    copyText(code);
     item.classList.add('copied');
     if (badgeEl) {
       badgeEl.textContent = 'COPIÉ';
