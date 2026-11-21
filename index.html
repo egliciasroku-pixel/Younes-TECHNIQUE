@@ -1,1732 +1,3500 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#060a12">
-
-<title>YOUNES TECHNIQUE - CENTRE DE TÉLÉCHARGEMENT</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-
-<style>
-:root {
-  --bg-obsidian: #060a12;
-  --surface-deep: #0a101d;
-  --surface-card: #0f172a;
-  --surface-card-top: #16223b;
-  --surface-elevated: rgba(18, 28, 48, 0.86);
-  --lime: #a8ff00;
-  --lime-bright: #c5ff4d;
-  --lime-deep: #7acc00;
-  --lime-glow: rgba(168, 255, 0, 0.22);
-  --sapphire-glow: rgba(37, 99, 235, 0.16);
-  --royal-gold: #facc15;
-  --store-gold-bright: #fde047;
-  --store-gold-mid: #f59e0b;
-  --store-gold-deep: #b45309;
-  --white: #f8fafc;
-  --muted: #94a3b8;
-  --muted-soft: #64748b;
-  --warn: #fbbf24;
-  --danger: #f87171;
-  --shadow-hero: 0 32px 64px -16px rgba(0, 0, 0, 0.88), 0 0 44px rgba(168, 255, 0, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  --shadow-card: 0 18px 36px -12px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --shadow-card-hover: 0 24px 44px -12px rgba(0, 0, 0, 0.9), 0 0 26px rgba(168, 255, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  border: none !important;
-  outline: none;
-}
-
-html {
-  scroll-behavior: smooth;
-  background-color: var(--bg-obsidian);
-  overflow-x: clip;
-}
-
-body {
-  margin: 0;
-  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
-  background:
-    radial-gradient(ellipse 85% 42% at 50% -8%, rgba(168, 255, 0, 0.14), transparent 65%),
-    radial-gradient(circle at 88% 16%, var(--sapphire-glow), transparent 48%),
-    radial-gradient(circle at 12% 72%, rgba(16, 185, 129, 0.08), transparent 52%),
-    var(--bg-obsidian);
-  color: var(--white);
-  min-height: 100dvh;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
-  scrollbar-gutter: stable;
-}
-
-header {
-  position: relative;
-  padding: 24px 14px 18px;
-  text-align: center;
-  overflow: visible;
-}
-
-header::before {
-  content: "";
-  position: absolute;
-  top: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(540px, 100vw);
-  height: 240px;
-  background: radial-gradient(circle, rgba(168, 255, 0, 0.22) 0%, transparent 70%);
-  filter: blur(64px);
-  pointer-events: none;
-}
-
-.hero-card {
-  position: relative;
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 78px 20px 30px;
-  border-radius: 30px;
-  background: linear-gradient(155deg, rgba(22, 34, 59, 0.92) 0%, rgba(9, 14, 26, 0.98) 100%);
-  backdrop-filter: blur(22px);
-  box-shadow: var(--shadow-hero);
-  overflow: visible;
-  isolation: isolate;
-}
-
-.hero-surface {
-  position: absolute;
-  inset: 0;
-  border-radius: 30px;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.hero-surface::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 65%;
-  height: 100%;
-  background: linear-gradient(
-    115deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.03) 34%,
-    rgba(168, 255, 0, 0.15) 50%,
-    rgba(255, 255, 255, 0.04) 66%,
-    transparent 100%
-  );
-  transform: translateX(-180%) skewX(-22deg);
-  animation: lightSweep 6.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  will-change: transform;
-  z-index: 1;
-}
-
-.hero-surface::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 18% 12%, rgba(168, 255, 0, 0.14), transparent 48%),
-    radial-gradient(circle at 86% 88%, rgba(59, 130, 246, 0.16), transparent 55%);
-  z-index: 0;
-}
-
-@keyframes lightSweep {
-  0% { transform: translateX(-180%) skewX(-22deg); }
-  45%, 100% { transform: translateX(260%) skewX(-22deg); }
-}
-
-.top-left-dock-card {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 9px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 15% 20%, rgba(168, 255, 0, 0.16), transparent 58%),
-    radial-gradient(circle at 85% 80%, rgba(250, 204, 21, 0.16), transparent 62%),
-    linear-gradient(155deg, rgba(24, 20, 44, 0.96) 0%, rgba(9, 13, 24, 0.99) 100%);
-  backdrop-filter: blur(18px);
-  box-shadow:
-    0 16px 32px -8px rgba(0, 0, 0, 0.92),
-    0 0 24px rgba(250, 204, 21, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  z-index: 25;
-}
-
-.luxury-menu-wrap,
-.downloader-menu-wrap {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
-.luxury-menu-btn {
-  position: relative;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  touch-action: manipulation;
-  background:
-    radial-gradient(circle at 35% 25%, rgba(168, 255, 0, 0.3), transparent 62%),
-    linear-gradient(155deg, #121a2d 0%, #060912 100%);
-  color: var(--lime);
-  box-shadow:
-    0 8px 18px -4px rgba(0, 0, 0, 0.92),
-    0 0 16px rgba(168, 255, 0, 0.24),
-    inset 0 1px 1px rgba(255, 255, 255, 0.22),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.8);
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, color 0.22s ease, background 0.22s ease;
-  will-change: transform;
-}
-
-.luxury-menu-btn:hover,
-.luxury-menu-btn[aria-expanded="true"] {
-  transform: scale(1.04);
-  color: #dcff80;
-  background:
-    radial-gradient(circle at 35% 25%, rgba(168, 255, 0, 0.44), transparent 65%),
-    linear-gradient(155deg, #18233c 0%, #070b16 100%);
-  box-shadow:
-    0 12px 24px -4px rgba(0, 0, 0, 0.95),
-    0 0 24px rgba(168, 255, 0, 0.38),
-    inset 0 1px 1px rgba(255, 255, 255, 0.32),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.85);
-}
-
-.luxury-menu-btn svg {
-  width: 16px;
-  height: 16px;
-  filter: drop-shadow(0 0 8px rgba(168, 255, 0, 0.45));
-  transition: transform 0.24s ease;
-}
-
-.luxury-menu-btn[aria-expanded="true"] svg {
-  transform: rotate(90deg);
-}
-
-.downloader-icon-btn {
-  position: relative;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  touch-action: manipulation;
-  background:
-    radial-gradient(circle at 35% 25%, rgba(250, 204, 21, 0.36), transparent 64%),
-    linear-gradient(155deg, #18162c 0%, #070a14 100%);
-  color: var(--royal-gold);
-  box-shadow:
-    0 8px 18px -4px rgba(0, 0, 0, 0.92),
-    0 0 16px rgba(250, 204, 21, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.24),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.82);
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, color 0.22s ease, background 0.22s ease;
-  will-change: transform;
-}
-
-.downloader-icon-btn:hover,
-.downloader-icon-btn[aria-expanded="true"] {
-  transform: scale(1.04);
-  color: #fef08a;
-  background:
-    radial-gradient(circle at 35% 25%, rgba(250, 204, 21, 0.5), transparent 66%),
-    linear-gradient(155deg, #211d3a 0%, #090d1b 100%);
-  box-shadow:
-    0 12px 24px -4px rgba(0, 0, 0, 0.95),
-    0 0 24px rgba(250, 204, 21, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.34),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.85);
-}
-
-.downloader-icon-btn svg {
-  width: 16px;
-  height: 16px;
-  filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.48));
-  transition: transform 0.24s ease;
-}
-
-.downloader-icon-btn[aria-expanded="true"] svg {
-  transform: scale(1.06);
-}
-
-.luxury-dropdown,
-.downloader-dropdown {
-  position: absolute;
-  top: calc(100% + 12px);
-  left: 0;
-  width: max-content;
-  min-width: 248px;
-  max-width: calc(100vw - 28px);
-  padding: 10px;
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at 85% 10%, rgba(250, 204, 21, 0.18), transparent 55%),
-    radial-gradient(circle at 15% 90%, rgba(168, 255, 0, 0.14), transparent 60%),
-    linear-gradient(160deg, rgba(25, 19, 46, 0.98) 0%, rgba(11, 15, 28, 0.99) 62%, rgba(6, 10, 18, 0.99) 100%);
-  backdrop-filter: blur(24px);
-  box-shadow:
-    0 26px 52px -12px rgba(0, 0, 0, 0.95),
-    0 0 34px rgba(250, 204, 21, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-8px) scale(0.98);
-  transform-origin: top left;
-  transition:
-    opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0.22s ease;
-  pointer-events: none;
-  will-change: transform, opacity;
-  z-index: 40;
-}
-
-.luxury-dropdown.open,
-.downloader-dropdown.open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-@media (hover: hover) {
-  .luxury-menu-wrap:hover .luxury-dropdown,
-  .downloader-menu-wrap:hover .downloader-dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-    pointer-events: auto;
-  }
-}
-
-.luxury-menu-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 10px 8px;
-  margin-bottom: 4px;
-  font-size: 9.5px;
-  font-weight: 800;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  color: var(--royal-gold);
-}
-
-.luxury-menu-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.luxury-menu-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-  padding: 9px 12px;
-  border-radius: 13px;
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--white);
-  font-family: 'Cairo', sans-serif;
-  font-size: 12.5px;
-  font-weight: 700;
-  text-align: right;
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
-}
-
-.luxury-menu-item:hover {
-  background: linear-gradient(135deg, rgba(168, 255, 0, 0.16), rgba(250, 204, 21, 0.09));
-  color: var(--lime);
-  box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(168, 255, 0, 0.25);
-}
-
-.downloader-go-cta {
-  background: linear-gradient(135deg, rgba(168, 255, 0, 0.22), rgba(250, 204, 21, 0.14));
-  color: #e4ff7a;
-  box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.7), 0 0 16px rgba(168, 255, 0, 0.16), inset 0 1px 0 rgba(168, 255, 0, 0.32);
-}
-
-.downloader-go-cta:hover {
-  background: linear-gradient(135deg, rgba(168, 255, 0, 0.32), rgba(250, 204, 21, 0.2));
-  color: #ffffff;
-}
-
-.downloader-code-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 10px 8px 12px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.035);
-  color: var(--white);
-  font-family: 'Cairo', sans-serif;
-  font-size: 11.5px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: background 0.18s ease, color 0.18s ease;
-}
-
-.downloader-code-item:hover {
-  background: rgba(168, 255, 0, 0.12);
-  color: var(--lime);
-}
-
-.downloader-code-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.downloader-code-num {
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.8px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: rgba(168, 255, 0, 0.14);
-  color: var(--lime);
-  transition: background 0.18s ease, color 0.18s ease;
-}
-
-.downloader-code-item.copied .downloader-code-num {
-  background: rgba(250, 204, 21, 0.24);
-  color: #fef08a;
-}
-
-.copy-code-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(250, 204, 21, 0.14);
-  color: var(--royal-gold);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
-  flex-shrink: 0;
-}
-
-.downloader-code-item:hover .copy-code-icon {
-  background: rgba(168, 255, 0, 0.24);
-  color: var(--lime);
-  transform: scale(1.06);
-}
-
-.copy-code-icon svg {
-  width: 12px;
-  height: 12px;
-}
-
-.luxury-item-left {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.luxury-item-gem {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--royal-gold), var(--lime));
-  box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
-  flex-shrink: 0;
-}
-
-.luxury-item-tag {
-  font-size: 9.5px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 999px;
-  background: rgba(250, 204, 21, 0.14);
-  color: var(--royal-gold);
-}
-
-.luxury-menu-item:hover .luxury-item-tag {
-  background: rgba(168, 255, 0, 0.2);
-  color: var(--lime);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-}
-
-.welcome-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  margin-bottom: 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.055);
-  color: #e2e8f0;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.8px;
-  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.welcome-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 10px var(--lime);
-  animation: pulse 2.2s ease-in-out infinite;
-}
-
-.store-badge {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 52px;
-  height: 52px;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 17px;
-  background: linear-gradient(145deg, var(--store-gold-bright) 0%, var(--store-gold-mid) 55%, var(--store-gold-deep) 100%);
-  color: #0b0904;
-  box-shadow:
-    0 16px 32px -6px rgba(245, 158, 11, 0.52),
-    0 6px 14px rgba(0, 0, 0, 0.68),
-    inset 0 1px 1px rgba(255, 255, 255, 0.85);
-  overflow: hidden;
-  z-index: 24;
-}
-
-.store-badge::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: 0;
-  width: 75%;
-  height: 200%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-  transform: translateX(-180%) rotate(25deg);
-  animation: iconShimmer 4.5s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes iconShimmer {
-  0% { transform: translateX(-180%) rotate(25deg); }
-  40%, 100% { transform: translateX(260%) rotate(25deg); }
-}
-
-.store-badge svg {
-  width: 26px;
-  height: 26px;
-  position: relative;
-  z-index: 1;
-}
-
-header h1 {
-  position: relative;
-  margin: 0 0 4px;
-  font-size: clamp(24px, 4.5vw, 36px);
-  font-weight: 900;
-  letter-spacing: 2px;
-  line-height: 1.2;
-  background: linear-gradient(115deg, #ffffff 15%, var(--lime) 50%, #ffffff 85%);
-  background-size: 220% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: titleShimmer 5.5s linear infinite;
-  filter: drop-shadow(0 6px 22px rgba(168, 255, 0, 0.22));
-}
-
-@keyframes titleShimmer {
-  0% { background-position: 0% center; }
-  100% { background-position: 220% center; }
-}
-
-header p {
-  position: relative;
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-}
-
-.status {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 7px 16px;
-  background: rgba(168, 255, 0, 0.09);
-  border-radius: 999px;
-  color: var(--lime);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(168, 255, 0, 0.22);
-}
-
-.dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 10px var(--lime), 0 0 20px var(--lime);
-  animation: pulse 2.2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.45; transform: scale(0.85); }
-}
-
-.container {
-  width: 92%;
-  max-width: 1120px;
-  margin: 10px auto 10px;
-}
-
-.intro {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.section-glow-icon {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 20px;
-  margin: 0 auto 16px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(250, 204, 21, 0.24), transparent 60%),
-    radial-gradient(circle at 85% 80%, rgba(168, 255, 0, 0.24), transparent 60%),
-    linear-gradient(145deg, rgba(24, 26, 44, 0.96) 0%, rgba(9, 13, 24, 0.99) 100%);
-  box-shadow:
-    0 14px 30px -8px rgba(0, 0, 0, 0.88),
-    0 0 24px rgba(168, 255, 0, 0.22),
-    0 0 18px rgba(250, 204, 21, 0.22),
-    inset 0 1px 1px rgba(255, 255, 255, 0.2);
-}
-
-.section-glow-badge {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--royal-gold) 0%, var(--lime) 100%);
-  color: #060a12;
-  box-shadow: 0 0 16px rgba(168, 255, 0, 0.55), 0 0 10px rgba(250, 204, 21, 0.5);
-  flex-shrink: 0;
-}
-
-.section-glow-badge svg {
-  width: 15px;
-  height: 15px;
-}
-
-.section-glow-title {
-  font-size: clamp(14.5px, 2vw, 18px);
-  font-weight: 900;
-  letter-spacing: 0.6px;
-  line-height: 1.25;
-  background: linear-gradient(110deg, var(--royal-gold) 10%, #e4ff7a 52%, var(--lime) 90%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 12px rgba(168, 255, 0, 0.35)) drop-shadow(0 0 8px rgba(250, 204, 21, 0.3));
-}
-
-.search-box {
-  position: relative;
-  width: 100%;
-  max-width: 440px;
-  height: 44px;
-  margin: 0 auto;
-}
-
-.search-icon {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
-  color: var(--muted);
-  pointer-events: none;
-  transition: color 0.2s ease;
-  z-index: 2;
-}
-
-.search-box input {
-  width: 100%;
-  height: 44px;
-  padding: 0 18px 0 40px;
-  border-radius: 999px;
-  background: linear-gradient(145deg, rgba(18, 28, 48, 0.92), rgba(10, 16, 29, 0.98));
-  backdrop-filter: blur(16px);
-  color: var(--white);
-  font-family: 'Cairo', sans-serif;
-  font-size: 13.5px;
-  font-weight: 600;
-  box-shadow:
-    0 12px 28px -8px rgba(0, 0, 0, 0.72),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: box-shadow 0.2s ease, background 0.2s ease;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.search-box input::-webkit-search-decoration,
-.search-box input::-webkit-search-cancel-button,
-.search-box input::-webkit-search-results-button,
-.search-box input::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.search-box input::placeholder {
-  color: var(--muted-soft);
-  font-size: 13px;
-}
-
-.search-box input:focus {
-  background: linear-gradient(145deg, rgba(24, 36, 60, 0.96), rgba(12, 18, 34, 0.99));
-  box-shadow:
-    0 14px 32px -6px rgba(0, 0, 0, 0.8),
-    0 0 0 2px rgba(168, 255, 0, 0.28),
-    0 0 24px rgba(168, 255, 0, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-
-.search-box:focus-within .search-icon {
-  color: var(--lime);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.app {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(160deg, var(--surface-card-top) 0%, var(--surface-card) 55%, var(--surface-deep) 100%);
-  border-radius: 20px;
-  padding: 12px 12px 15px;
-  text-align: center;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease;
-  overflow: hidden;
-  isolation: isolate;
-  will-change: transform;
-}
-
-.app::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 14%;
-  right: 14%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.24), transparent);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.app::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(168, 255, 0, 0.12), transparent 65%);
-  opacity: 0;
-  transition: opacity 0.22s ease;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.app:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.app:hover::after {
-  opacity: 1;
-}
-
-.app:active {
-  transform: scale(0.99);
-}
-
-.media-wrap {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 96px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: radial-gradient(circle at center, #0e1628 0%, #050811 100%);
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.65), 0 1px 0 rgba(255, 255, 255, 0.05);
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.app-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  padding: 4px;
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.app:hover .app-image {
-  transform: scale(1.03);
-}
-
-.app-icon {
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(circle at 50% 15%, rgba(168, 255, 0, 0.2), transparent 68%),
-    linear-gradient(145deg, #1b2c4a 0%, #080e1a 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--lime);
-  font-size: 26px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 18px rgba(168, 255, 0, 0.38);
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.app:hover .app-icon {
-  transform: scale(1.03);
-}
-
-.app h3 {
-  position: relative;
-  z-index: 1;
-  font-size: 14px;
-  font-weight: 800;
-  margin: 0 0 2px;
-  color: var(--white);
-  letter-spacing: 0.4px;
-  line-height: 1.3;
-}
-
-.badge {
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.download {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
-  text-decoration: none;
-  background: linear-gradient(135deg, var(--lime-bright) 0%, var(--lime) 50%, var(--lime-deep) 100%);
-  color: #060a12;
-  font-size: 11.5px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  padding: 8px 16px;
-  min-width: 126px;
-  border-radius: 999px;
-  box-shadow:
-    0 8px 18px -4px rgba(168, 255, 0, 0.38),
-    0 3px 8px rgba(0, 0, 0, 0.5),
-    inset 0 1px 1px rgba(255, 255, 255, 0.78);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
-  overflow: hidden;
-  touch-action: manipulation;
-}
-
-.download::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 75%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-  transform: translateX(-180%) skewX(-22deg);
-  transition: transform 0.4s ease;
-}
-
-.download:hover {
-  filter: brightness(1.05);
-  transform: translateY(-1px);
-  box-shadow:
-    0 12px 24px -4px rgba(168, 255, 0, 0.5),
-    0 4px 10px rgba(0, 0, 0, 0.6),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9);
-}
-
-.download:hover::after {
-  transform: translateX(250%) skewX(-22deg);
-}
-
-.download:active {
-  transform: scale(0.98);
-}
-
-.download svg {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
-}
-
-.empty-state {
-  display: none;
-  text-align: center;
-  padding: 32px 16px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 600;
-  background: linear-gradient(155deg, rgba(18, 28, 48, 0.78), rgba(10, 16, 29, 0.92));
-  border-radius: 22px;
-  margin-top: 16px;
-  box-shadow: var(--shadow-card);
-}
-
-.info {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  gap: 12px;
-  background: linear-gradient(155deg, rgba(20, 31, 54, 0.88), rgba(9, 14, 26, 0.96));
-  backdrop-filter: blur(18px);
-  border-radius: 22px;
-  padding: 14px;
-  margin-top: 24px;
-  text-align: left;
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-}
-
-.info::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 18%;
-  right: 18%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(168, 255, 0, 0.32), transparent);
-}
-
-.info-side-features {
-  flex: 0 0 43%;
-  max-width: 240px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.features {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin: 0;
-}
-
-.features span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  background: linear-gradient(145deg, rgba(24, 36, 60, 0.75), rgba(10, 16, 29, 0.85));
-  padding: 7px 10px;
-  border-radius: 12px;
-  font-size: 10.5px;
-  font-weight: 700;
-  line-height: 1.35;
-  color: var(--white);
-  box-shadow: 0 6px 14px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.features span .check-icon {
-  color: var(--lime);
-  font-weight: 900;
-  flex-shrink: 0;
-}
-
-.info-side-text {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: rgba(6, 10, 18, 0.46);
-  padding: 12px 14px;
-  border-radius: 16px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.info h3 {
-  color: var(--lime);
-  font-size: 13.5px;
-  font-weight: 800;
-  margin: 0 0 5px;
-  line-height: 1.3;
-}
-
-.info p {
-  font-size: 11px;
-  line-height: 1.65;
-  color: var(--muted);
-  margin: 0;
-}
-
-.warning {
-  color: var(--warn) !important;
-  font-weight: 700;
-}
-
-footer {
-  padding: 0 14px 32px;
-}
-
-.copyright-card {
-  position: relative;
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 12px 18px;
-  border-radius: 18px;
-  background: linear-gradient(155deg, rgba(22, 34, 59, 0.92), rgba(9, 14, 26, 0.98));
-  backdrop-filter: blur(18px);
-  text-align: center;
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.copyright-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 18%;
-  right: 18%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(168, 255, 0, 0.28), transparent);
-}
-
-.copyright-card:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.copyright-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--white);
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 1.4px;
-  margin-bottom: 2px;
-}
-
-.copyright-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 10px var(--lime);
-}
-
-.copyright-card p {
-  margin: 0 0 2px;
-  color: var(--lime);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.copyright-card span {
-  display: block;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.9px;
-}
-
-@media (max-width: 599px) {
-  .hero-card {
-    padding: 82px 16px 28px;
-  }
-
-  .top-left-dock-card {
-    top: 14px;
-    left: 12px;
-    gap: 6px;
-    padding: 5px 7px;
-  }
-
-  .store-badge {
-    top: 14px;
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-  }
-
-  .store-badge svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .luxury-menu-btn,
-  .downloader-icon-btn {
-    width: 34px;
-    height: 34px;
-  }
-
-  .hero-content {
-    margin-top: 8px;
-  }
-}
-
-@media (min-width: 640px) {
-  .info {
-    gap: 20px;
-    padding: 20px 22px;
-    border-radius: 24px;
-  }
-
-  .info-side-features {
-    flex: 0 0 38%;
-    max-width: 280px;
-  }
-
-  .features {
-    gap: 8px;
-  }
-
-  .features span {
-    padding: 9px 13px;
-    font-size: 12px;
-    border-radius: 13px;
-  }
-
-  .info-side-text {
-    padding: 16px 20px;
-  }
-
-  .info h3 {
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
-
-  .info p {
-    font-size: 12.5px;
-    line-height: 1.8;
-  }
-}
-
-@media (min-width: 600px) and (max-width: 959px) {
-  .container {
-    width: 90%;
-    margin: 12px auto 12px;
-  }
-
-  header {
-    padding: 32px 20px 24px;
-  }
-
-  .hero-card {
-    padding: 84px 28px 32px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .media-wrap {
-    height: 100px;
-  }
-}
-
-@media (min-width: 960px) {
-  .container {
-    width: 90%;
-    max-width: 1120px;
-    margin: 16px auto 14px;
-  }
-
-  header {
-    padding: 38px 24px 28px;
-  }
-
-  .hero-card {
-    padding: 88px 36px 36px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-  }
-
-  .app {
-    padding: 14px 14px 17px;
-  }
-
-  .media-wrap {
-    height: 108px;
-  }
-
-  .app h3 {
-    font-size: 15px;
-  }
-
-  .download {
-    margin-top: 9px;
-    padding: 9px 18px;
-    font-size: 12px;
-    min-width: 136px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .hero-surface::before,
-  .store-badge::after,
-  header h1,
-  .welcome-dot,
-  .dot {
-    animation: none !important;
-  }
-
-  .luxury-menu-btn,
-  .downloader-icon-btn,
-  .luxury-dropdown,
-  .downloader-dropdown,
-  .app,
-  .download {
-    transition: none !important;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>YOUNES STORE dashboard | Technique</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg-obsidian: #060608;
+      --surface-glass: rgba(20, 20, 26, 0.78);
+      --surface-elevated: rgba(30, 30, 40, 0.92);
+      --gold-primary: #d4af37;
+      --gold-dark: #9c7812;
+      --gold-glow: rgba(212, 175, 55, 0.35);
+      --gold-gradient: linear-gradient(135deg, #f3d06b 0%, #d4af37 50%, #997a15 100%);
+      --luxury-media-bg: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.22) 0%, rgba(18, 18, 25, 0.95) 68%, #07070a 100%);
+      --luxury-product-name-bg: linear-gradient(135deg, rgba(212, 175, 55, 0.24) 0%, rgba(18, 18, 24, 0.96) 55%, rgba(10, 10, 14, 0.98) 100%);
+      --glass-white-invoice: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.92) 60%, rgba(254, 249, 231, 0.95) 100%);
+      --emerald: #00e676;
+      --emerald-ink: #059669;
+      --ruby: #ff3b5c;
+      --ruby-ink: #dc2626;
+      --sky: #38bdf8;
+      --text-main: #f5f5f7;
+      --text-muted: #8e8e98;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-luxury: 0 16px 38px rgba(0, 0, 0, 0.68);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: none !important;
+      outline: none !important;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-obsidian);
+      background-image:
+        radial-gradient(circle at 12% 10%, rgba(212, 175, 55, 0.13) 0%, transparent 42%),
+        radial-gradient(circle at 88% 88%, rgba(0, 230, 118, 0.06) 0%, transparent 42%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 6, 8, 0.86);
+      backdrop-filter: blur(20px);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 2px 16px rgba(212, 175, 55, 0.12);
+    }
+
+    /* Glassy Gold Brand Badge with Light Passes & Luxury Box-Shadow */
+    .brand {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      padding: 7px 14px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255, 235, 168, 0.22) 0%, rgba(212, 175, 55, 0.14) 45%, rgba(16, 16, 22, 0.88) 100%);
+      backdrop-filter: blur(18px) saturate(150%);
+      box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.75),
+        0 4px 18px rgba(212, 175, 55, 0.28),
+        inset 0 1px 1px rgba(255, 244, 196, 0.55),
+        inset 0 -1px 10px rgba(212, 175, 55, 0.18);
+      overflow: hidden;
+      cursor: default;
+    }
+
+    .brand::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -75%;
+      width: 55%;
+      height: 200%;
+      background: linear-gradient(
+        115deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.08) 35%,
+        rgba(255, 240, 178, 0.52) 50%,
+        rgba(255, 255, 255, 0.08) 65%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      animation: luxuryLightSweep 4.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes luxuryLightSweep {
+      0% { left: -80%; opacity: 0; }
+      20% { opacity: 1; }
+      65% { left: 135%; opacity: 1; }
+      100% { left: 135%; opacity: 0; }
+    }
+
+    .brand-main-line {
+      position: relative;
+      z-index: 1;
+      font-weight: 800;
+      font-size: 0.84rem;
+      letter-spacing: 0.4px;
+      line-height: 1.18;
+      background: linear-gradient(120deg, #fff1b8 0%, #f3d06b 28%, #d4af37 55%, #fff6cc 75%, #9c7812 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.35));
+      animation: goldTextPass 5s linear infinite;
+      word-break: break-word;
+    }
+
+    .brand-under-younes {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+    }
+
+    .brand-sub-line {
+      font-weight: 800;
+      font-size: 0.66rem;
+      letter-spacing: 1px;
+      background: linear-gradient(120deg, #f3d06b 0%, #fff4c2 45%, #d4af37 80%, #9c7812 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.32));
+      animation: goldTextPass 5s linear infinite reverse;
+    }
+
+    @keyframes goldTextPass {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fx-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 25%, rgba(243, 208, 107, 0.32), rgba(18, 18, 25, 0.96) 72%);
+      color: var(--gold-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.92rem;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.65), inset 0 0 12px rgba(212, 175, 55, 0.25);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .fx-icon-btn:hover {
+      transform: translateY(-1px) scale(1.04);
+      box-shadow: 0 8px 22px var(--gold-glow), inset 0 0 16px rgba(212, 175, 55, 0.38);
+    }
+
+    .fx-icon-btn:active {
+      transform: scale(0.95);
+    }
+
+    .fx-pill-tag {
+      position: absolute;
+      bottom: -3px;
+      right: -4px;
+      background: var(--gold-gradient);
+      color: #060608;
+      font-size: 0.52rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      padding: 1px 4px;
+      border-radius: 6px;
+      line-height: 1.1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .mode-switch {
+      display: flex;
+      background: var(--surface-glass);
+      padding: 4px;
+      border-radius: 50px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .mode-btn {
+      padding: 6px 13px;
+      border-radius: 50px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .mode-btn.active {
+      background: var(--gold-gradient);
+      color: #060608;
+      box-shadow: 0 4px 14px var(--gold-glow);
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    /* Compact Boutique Shell */
+    .store-compact-shell {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 10px 12px;
+    }
+
+    .store-compact-header {
+      padding: 10px 13px;
+      border-radius: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: var(--surface-glass);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65), inset 0 0 18px rgba(212, 175, 55, 0.08);
+    }
+
+    .store-compact-header h2 {
+      font-size: 0.9rem;
+      color: var(--gold-primary);
+      font-weight: 800;
+    }
+
+    .store-compact-header p {
+      font-size: 0.66rem;
+      color: var(--text-muted);
+    }
+
+    .store-compact-search {
+      max-width: 165px !important;
+      padding: 7px 10px !important;
+      font-size: 0.74rem !important;
+      border-radius: 50px !important;
+    }
+
+    .store-compact-gallery {
+      padding: 11px !important;
+      border-radius: 28px !important;
+    }
+
+    .store-compact-grid {
+      grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)) !important;
+      gap: 11px !important;
+    }
+
+    .store-compact-grid .product-card {
+      padding: 10px 8px 11px;
+      border-radius: 26px;
+    }
+
+    .store-compact-grid .product-media-frame {
+      width: 96px;
+      height: 96px;
+      padding: 5px;
+      border-radius: 20px;
+    }
+
+    .store-compact-grid .product-img {
+      width: 84px;
+      height: 84px;
+      max-width: 84px;
+      max-height: 84px;
+      padding: 2px;
+      border-radius: 18px;
+    }
+
+    .store-compact-grid .product-img-placeholder {
+      width: 84px;
+      height: 84px;
+      font-size: 1.1rem;
+      border-radius: 18px;
+    }
+
+    .store-compact-grid .product-badge {
+      font-size: 0.56rem;
+      padding: 2px 7px;
+      margin-bottom: 3px;
+    }
+
+    .store-compact-grid .product-title {
+      font-size: 0.74rem;
+      margin-bottom: 2px;
+    }
+
+    .store-compact-grid .product-price {
+      font-size: 0.82rem;
+      margin-bottom: 6px;
+    }
+
+    .store-compact-grid .product-card .btn {
+      padding: 6px 10px;
+      font-size: 0.68rem;
+      border-radius: 14px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      background: var(--surface-glass);
+      backdrop-filter: blur(16px);
+      color: var(--text-muted);
+      padding: 9px 15px;
+      border-radius: var(--radius-md);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: 0.25s;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .tab-btn.active {
+      background: var(--surface-elevated);
+      color: var(--gold-primary);
+      box-shadow: 0 8px 22px rgba(212, 175, 55, 0.18);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 11px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: var(--surface-glass);
+      backdrop-filter: blur(18px);
+      padding: 13px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-luxury);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 38px; height: 38px;
+      background: radial-gradient(circle, var(--gold-glow), transparent 72%);
+    }
+
+    .stat-title {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.18rem;
+      font-weight: 800;
+    }
+
+    .gold { color: var(--gold-primary); }
+    .green { color: var(--emerald); }
+    .red { color: var(--ruby); }
+    .blue { color: var(--sky); }
+
+    .glass-panel {
+      background: var(--surface-glass);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      padding: 15px;
+      box-shadow: var(--shadow-luxury);
+      margin-bottom: 16px;
+    }
+
+    .luxury-boutique-banner {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: var(--luxury-media-bg);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.78), inset 0 0 32px rgba(212, 175, 55, 0.14);
+    }
+
+    .luxury-boutique-banner-img {
+      width: 100%;
+      height: 175px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.72;
+    }
+
+    .luxury-boutique-banner-overlay {
+      position: relative;
+      margin-top: -175px;
+      height: 175px;
+      padding: 16px;
+      background: linear-gradient(90deg, rgba(6, 6, 8, 0.92) 0%, rgba(12, 12, 18, 0.68) 58%, rgba(6, 6, 8, 0.88) 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .luxury-boutique-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #060608;
+      background: var(--gold-gradient);
+      padding: 3px 9px;
+      border-radius: 50px;
+      margin-bottom: 6px;
+      box-shadow: 0 4px 14px var(--gold-glow);
+    }
+
+    .luxury-boutique-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--gold-primary);
+      letter-spacing: 0.4px;
+      line-height: 1.2;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .banner-under-younes {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+    }
+
+    .banner-sub-line {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: #f3d06b;
+    }
+
+    .luxury-boutique-sub {
+      font-size: 0.73rem;
+      color: var(--text-main);
+      opacity: 0.85;
+      margin-top: 3px;
+    }
+
+    .luxury-action-bar {
+      background: radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.2) 0%, rgba(18, 18, 25, 0.92) 65%, #08080c 100%);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-luxury), inset 0 0 28px rgba(212, 175, 55, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .luxury-add-client-bar {
+      background: radial-gradient(circle at 85% 25%, rgba(212, 175, 55, 0.16) 0%, rgba(15, 15, 21, 0.92) 70%, #07070b 100%);
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius-lg);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 0 22px rgba(212, 175, 55, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .client-card-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .luxury-action-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .luxury-add-client-btn {
+      background: linear-gradient(135deg, #fbe089 0%, #d4af37 48%, #8f6e10 100%);
+      color: #060608;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.42), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+    }
+
+    .luxury-add-client-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+      box-shadow: 0 12px 28px rgba(212, 175, 55, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+    }
+
+    .luxury-add-client-btn:active {
+      transform: scale(0.96);
+    }
+
+    .luxury-vip-pill-btn {
+      background: radial-gradient(circle at 25% 20%, rgba(243, 208, 107, 0.24), rgba(14, 14, 20, 0.96) 75%);
+      color: var(--gold-primary);
+      padding: 10px 16px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.35px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.65), inset 0 0 16px rgba(212, 175, 55, 0.22);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, color 0.22s ease, background 0.22s ease;
+    }
+
+    .luxury-vip-pill-btn:hover,
+    .luxury-vip-pill-btn.active-toggle {
+      transform: translateY(-2px);
+      background: var(--gold-gradient);
+      color: #060608;
+      box-shadow: 0 10px 26px var(--gold-glow);
+    }
+
+    .luxury-vip-pill-btn:active {
+      transform: scale(0.96);
+    }
+
+    .live-invoice-prep-box {
+      margin-top: 14px;
+      background: var(--glass-white-invoice);
+      backdrop-filter: blur(18px);
+      color: #0f172a;
+      border-radius: 14px;
+      padding: 11px 13px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(212, 175, 55, 0.32);
+    }
+
+    .live-prep-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .live-prep-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: #047857;
+      background: rgba(16, 185, 129, 0.14);
+      padding: 3px 8px;
+      border-radius: 50px;
+    }
+
+    .live-prep-summary {
+      font-size: 0.72rem;
+      line-height: 1.55;
+      color: #1e293b;
+      background: rgba(255, 255, 255, 0.78);
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    .live-prep-cred-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .live-prep-cred-chip {
+      background: rgba(248, 250, 252, 0.95);
+      padding: 5px 8px;
+      border-radius: 8px;
+      font-size: 0.68rem;
+      color: #334155;
+      box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.25);
+    }
+
+    .live-prep-cred-chip strong {
+      color: #0f172a;
+    }
+
+    .live-prep-cred-chip.mac-highlight {
+      background: linear-gradient(135deg, rgba(254, 243, 199, 0.96) 0%, rgba(253, 230, 138, 0.75) 100%);
+      color: #78350f;
+      box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.65);
+    }
+
+    .live-prep-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.72rem;
+      margin-top: 7px;
+      padding-top: 6px;
+      box-shadow: inset 0 1px 0 rgba(15, 23, 42, 0.08);
+    }
+
+    .luxury-vault-window {
+      background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.22) 0%, rgba(16, 16, 23, 0.96) 55%, #07070b 100%);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.78), inset 0 0 36px rgba(212, 175, 55, 0.1);
+    }
+
+    .vault-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .vault-badge {
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: #060608;
+      background: var(--gold-gradient);
+      padding: 3px 9px;
+      border-radius: 50px;
+      box-shadow: 0 4px 14px var(--gold-glow);
+    }
+
+    textarea.vault-textarea {
+      width: 100%;
+      min-height: 92px;
+      resize: vertical;
+      background: rgba(7, 7, 11, 0.88);
+      color: var(--gold-primary);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8);
+    }
+
+    textarea.vault-textarea::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .vault-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .vault-status {
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-top: 8px;
+      min-height: 18px;
+    }
+
+    .luxury-gallery-bg {
+      background: var(--luxury-media-bg);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: inset 0 0 38px rgba(212, 175, 55, 0.1), 0 18px 42px rgba(0, 0, 0, 0.68);
+    }
+
+    .panel-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--gold-primary);
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 10px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 560px) {
+      .form-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    input, select.fx-select, textarea.lux-input-area {
+      width: 100%;
+      background: rgba(10, 10, 14, 0.88);
+      color: var(--text-main);
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.65);
+      transition: 0.2s;
+    }
+
+    .device-upload-box {
+      background: rgba(10, 10, 14, 0.88);
+      border-radius: var(--radius-md);
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.65);
+      min-height: 40px;
+    }
+
+    .device-upload-btn {
+      background: var(--gold-gradient);
+      color: #060608;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 6px 11px;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .device-upload-name {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .device-upload-thumb {
+      width: 34px;
+      height: 34px;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    textarea.lux-input-area {
+      resize: vertical;
+      min-height: 62px;
+      line-height: 1.45;
+    }
+
+    input:focus, select.fx-select:focus, textarea.lux-input-area:focus {
+      box-shadow: 0 0 0 2px var(--gold-glow), inset 0 2px 6px rgba(0, 0, 0, 0.65);
+    }
+
+    .m3u-extract-box {
+      background: var(--luxury-media-bg);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      box-shadow: inset 0 0 24px rgba(212, 175, 55, 0.09);
+    }
+
+    .m3u-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.66rem;
+      font-weight: 800;
+      color: var(--emerald);
+      background: rgba(0, 230, 118, 0.12);
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+    }
+
+    .btn-activate-playlist {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #fbe089 0%, #d4af37 50%, #997a15 100%);
+      color: #060608;
+      font-weight: 800;
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 10px 26px var(--gold-glow);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn-activate-playlist:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    .fx-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .fx-swap-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      color: #060608;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.82rem;
+      box-shadow: 0 6px 16px var(--gold-glow);
+    }
+
+    .fx-result-box {
+      margin-top: 12px;
+      background: var(--luxury-media-bg);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      box-shadow: inset 0 0 24px rgba(212, 175, 55, 0.1), 0 10px 24px rgba(0, 0, 0, 0.55);
+    }
+
+    .luxury-product-name-box {
+      position: relative;
+      background: var(--luxury-product-name-bg);
+      padding: 10px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55), inset 0 0 20px rgba(212, 175, 55, 0.1);
+    }
+
+    .luxury-product-name-box input {
+      background: rgba(8, 8, 12, 0.75);
+      color: var(--gold-primary);
+      font-weight: 700;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.75);
+    }
+
+    .lux-select-trigger {
+      width: 100%;
+      background: rgba(8, 8, 12, 0.82);
+      color: var(--gold-primary);
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.75);
+    }
+
+    .lux-select-menu {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: calc(100% + 4px);
+      background: #0d0d12;
+      background-image: var(--luxury-product-name-bg);
+      border-radius: var(--radius-md);
+      padding: 6px;
+      z-index: 150;
+      max-height: 210px;
+      overflow-y: auto;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.95);
+    }
+
+    .lux-select-option {
+      padding: 9px 11px;
+      border-radius: 9px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      background: rgba(14, 14, 20, 0.72);
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.18s;
+    }
+
+    .lux-select-option:last-child { margin-bottom: 0; }
+
+    .lux-select-option:hover {
+      background: rgba(212, 175, 55, 0.22);
+      color: var(--gold-primary);
+    }
+
+    .selected-prod-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--luxury-media-bg);
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      margin-top: 10px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .selected-prod-thumb {
+      width: 52px;
+      height: 52px;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      background: rgba(10, 10, 15, 0.85);
+      box-shadow: inset 0 0 14px rgba(212, 175, 55, 0.16), 0 6px 14px rgba(0, 0, 0, 0.55);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .btn {
+      padding: 8px 13px;
+      border-radius: var(--radius-md);
+      font-weight: 800;
+      font-size: 0.76rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: 0.2s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn:active { transform: scale(0.96); }
+
+    .btn-gold {
+      background: var(--gold-gradient);
+      color: #060608;
+      box-shadow: 0 6px 18px var(--gold-glow);
+    }
+
+    .btn-wa-order {
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+    }
+
+    .btn-wa-order:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .btn-dark {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+    }
+
+    .btn-add-fin {
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--sky);
+    }
+
+    .btn-pay {
+      background: rgba(0, 230, 118, 0.16);
+      color: var(--emerald);
+    }
+
+    .btn-danger {
+      background: rgba(255, 59, 92, 0.16);
+      color: var(--ruby);
+    }
+
+    .client-card {
+      background: rgba(12, 12, 17, 0.82);
+      border-radius: var(--radius-md);
+      padding: 13px;
+      margin-bottom: 11px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .client-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .client-meta {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .finance-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 9px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .fin-box-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .fin-box-val {
+      font-size: 0.9rem;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .client-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+      gap: 16px;
+    }
+
+    /* Luxury 40px border-radius product card with rich multi-layer shadow */
+    .product-card {
+      background: var(--luxury-media-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 40px;
+      padding: 14px 12px 16px;
+      overflow: hidden;
+      box-shadow:
+        0 24px 52px rgba(0, 0, 0, 0.88),
+        0 10px 24px rgba(212, 175, 55, 0.22),
+        inset 0 0 28px rgba(212, 175, 55, 0.14);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 30px 62px rgba(0, 0, 0, 0.94),
+        0 14px 32px rgba(212, 175, 55, 0.36),
+        inset 0 0 34px rgba(212, 175, 55, 0.22);
+    }
+
+    /* Equal width & height square media frame (1:1) with 40px radius */
+    .product-media-frame {
+      width: 112px;
+      height: 112px;
+      aspect-ratio: 1 / 1;
+      padding: 6px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 45%, rgba(243, 208, 107, 0.24) 0%, rgba(12, 12, 18, 0.72) 72%, rgba(6, 6, 9, 0.9) 100%);
+      box-shadow:
+        0 12px 26px rgba(0, 0, 0, 0.75),
+        inset 0 0 18px rgba(212, 175, 55, 0.18);
+      flex-shrink: 0;
+    }
+
+    /* Square image with equal width & height and 40px radius */
+    .product-img {
+      width: 98px;
+      height: 98px;
+      max-width: 98px;
+      max-height: 98px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 40px;
+      background: rgba(8, 8, 12, 0.5);
+      padding: 3px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
+      filter: contrast(1.05) saturate(1.08) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.75));
+      transition: transform 0.25s ease;
+    }
+
+    .product-card:hover .product-img {
+      transform: scale(1.05);
+    }
+
+    .product-img-placeholder {
+      width: 98px;
+      height: 98px;
+      aspect-ratio: 1 / 1;
+      border-radius: 40px;
+      background: rgba(212, 175, 55, 0.12);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.65), inset 0 0 18px rgba(212, 175, 55, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
+      font-size: 1.4rem;
+    }
+
+    .product-body {
+      width: 100%;
+      padding: 8px 6px 4px;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .product-badge {
+      font-size: 0.64rem;
+      color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.16);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+      padding: 2px 10px;
+      border-radius: 40px;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+
+    .product-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .product-price {
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: var(--gold-primary);
+      margin-bottom: 8px;
+      text-shadow: 0 4px 14px rgba(212, 175, 55, 0.28);
+    }
+
+    .product-card .btn {
+      border-radius: 40px;
+      padding: 8px 14px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.84);
+      backdrop-filter: blur(10px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-box {
+      background: #111116;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 430px;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 16px;
+      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.92);
+    }
+
+    .modal-box.modal-invoice-compact {
+      max-width: 318px;
+      background: rgba(248, 250, 252, 0.96);
+      backdrop-filter: blur(22px);
+      color: #0f172a;
+      padding: 10px;
+      border-radius: 18px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+    }
+
+    .modal-box.modal-invoice-compact .panel-title {
+      color: #0f172a;
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+    }
+
+    .modal-box.modal-invoice-compact .btn-dark {
+      background: rgba(15, 23, 42, 0.08);
+      color: #0f172a;
+      padding: 4px 8px;
+      font-size: 0.68rem;
+    }
+
+    .modal-box.modal-wide {
+      max-width: 620px;
+      background: radial-gradient(circle at 85% 10%, rgba(212, 175, 55, 0.14) 0%, #101016 58%, #09090d 100%);
+      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.95), inset 0 0 32px rgba(212, 175, 55, 0.08);
+    }
+
+    .invoice-paper {
+      background: var(--glass-white-invoice);
+      backdrop-filter: blur(20px);
+      color: #0f172a;
+      padding: 10px;
+      border-radius: 14px;
+      margin-bottom: 8px;
+      text-align: left;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(212, 175, 55, 0.3);
+    }
+
+    .inv-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      background: rgba(255, 255, 255, 0.86);
+      padding: 6px 8px;
+      border-radius: 9px;
+      box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.22);
+    }
+
+    .inv-brand-name {
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      background: linear-gradient(135deg, #9c7812 0%, #d4af37 55%, #785b0a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .inv-doc-tag {
+      font-size: 0.52rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #856404;
+      background: rgba(212, 175, 55, 0.18);
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .inv-meta-block {
+      font-size: 0.6rem;
+      line-height: 1.38;
+      color: #1e293b;
+      background: rgba(255, 255, 255, 0.78);
+      padding: 6px 8px;
+      border-radius: 9px;
+      margin-bottom: 6px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3px 7px;
+      box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.18);
+    }
+
+    .inv-meta-row {
+      display: flex;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .inv-meta-key {
+      color: #64748b;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .inv-meta-val {
+      font-weight: 700;
+      color: #0f172a;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .inv-meta-val.gold-ink {
+      color: #9c7812;
+      font-weight: 800;
+    }
+
+    .inv-tech-panel {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 9px;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.28);
+    }
+
+    .inv-tech-title {
+      font-size: 0.54rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #9c7812;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .inv-mac-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      background: linear-gradient(135deg, #fef9e7 0%, #fef3c7 100%);
+      border-radius: 7px;
+      padding: 5px 7px;
+      margin-bottom: 5px;
+      box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.65), 0 2px 6px rgba(212, 175, 55, 0.14);
+    }
+
+    .inv-mac-badge {
+      font-size: 0.5rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #d4af37 0%, #9c7812 100%);
+      color: #ffffff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .inv-mac-value {
+      font-size: 0.64rem;
+      font-weight: 800;
+      color: #451a03;
+      letter-spacing: 0.25px;
+      word-break: break-all;
+      text-align: right;
+    }
+
+    .inv-tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .inv-tech-cell {
+      background: #f8fafc;
+      padding: 4px 6px;
+      border-radius: 6px;
+      font-size: 0.58rem;
+      box-shadow: inset 0 0 0 1px rgba(203, 213, 225, 0.45);
+      min-width: 0;
+    }
+
+    .inv-tech-lbl {
+      display: block;
+      font-size: 0.48rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+
+    .inv-tech-code {
+      font-weight: 800;
+      color: #0f172a;
+      word-break: break-all;
+      font-size: 0.58rem;
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5px 0 6px;
+      font-size: 0.6rem;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.2);
+    }
+
+    .invoice-table th {
+      background: rgba(212, 175, 55, 0.16);
+      color: #785b0a;
+      padding: 4px 6px;
+      text-align: left;
+      font-weight: 800;
+      font-size: 0.55rem;
+    }
+
+    .invoice-table td {
+      padding: 4px 6px;
+      color: #1e293b;
+      text-align: left;
+      box-shadow: inset 0 -1px 0 rgba(226, 232, 240, 0.7);
+    }
+
+    .inv-totals-box {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 6px 8px;
+      border-radius: 9px;
+      font-size: 0.62rem;
+      line-height: 1.44;
+      text-align: left;
+      box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.2);
+    }
+
+    .inv-total-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #334155;
+    }
+
+    .inv-grand-total {
+      font-size: 0.68rem;
+      font-weight: 800;
+      margin-top: 3px;
+      background: rgba(212, 175, 55, 0.14);
+      padding: 3px 7px;
+      border-radius: 6px;
+      color: #0f172a;
+    }
+
+    .ink-green { color: var(--emerald-ink); font-weight: 800; }
+    .ink-red { color: var(--ruby-ink); font-weight: 800; }
+    .ink-gold { color: #9c7812; font-weight: 800; }
+
+    .inv-footer-note {
+      margin-top: 5px;
+      font-size: 0.52rem;
+      color: #64748b;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .wa-export-feedback {
+      font-size: 0.62rem;
+      font-weight: 700;
+      min-height: 15px;
+      margin-bottom: 6px;
+      color: var(--emerald-ink);
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .empty-state {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      text-align: center;
+      padding: 16px 8px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media print {
+      @page {
+        size: 80mm auto;
+        margin: 4mm;
+      }
+      body * { visibility: hidden; }
+      #invoice-print-zone, #invoice-print-zone * { visibility: visible; }
+      #invoice-print-zone {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        background: #ffffff;
+        padding: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      .invoice-paper {
+        width: 100%;
+        max-width: 290px;
+        background: var(--glass-white-invoice);
+        color: #0f172a;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-  <div class="hero-card">
-    <div class="hero-surface" aria-hidden="true"></div>
+  <header>
+    <div class="brand">
+      <div class="brand-main-line">
+        <span class="brand-under-younes">
+          <span>YOUNES</span>
+          <span class="brand-sub-line">Technique</span>
+        </span>
+        <span>STORE dashboard</span>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="fx-icon-btn" title="Convertisseur de devises" aria-label="Convertisseur de devises" onclick="openFxModal()">
+        <i class="fa-solid fa-coins"></i>
+        <span class="fx-pill-tag">FX</span>
+      </button>
+      <div class="mode-switch">
+        <button class="mode-btn active" id="btn-admin-mode" onclick="switchMode('admin')">Dashboard</button>
+        <button class="mode-btn" id="btn-store-mode" onclick="switchMode('store')">Boutique</button>
+      </div>
+    </div>
+  </header>
 
-    <!-- Centered Store Card -->
-    <div class="store-badge" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l1.5-5h15L21 9"></path>
-        <path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"></path>
-        <path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"></path>
-        <path d="M10 21v-5a2 2 0 0 1 4 0v5"></path>
-      </svg>
+  <!-- ==================== ADMIN / CLIENT LEDGER VIEW ==================== -->
+  <div id="admin-view" class="container">
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('ledger', this)"><i class="fa-solid fa-address-book"></i> Registre Clients (<span id="badge-clients">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('products', this)"><i class="fa-solid fa-box-open"></i> Produits</button>
+      <button class="tab-btn" onclick="switchTab('quick-invoice', this)"><i class="fa-solid fa-file-invoice-dollar"></i> Facture Rapide</button>
     </div>
 
-    <!-- Top-Left Small Luxury Dock Card Grouping MENU & Downloader Circular Buttons -->
-    <div class="top-left-dock-card" aria-label="أدوات الوصول السريع">
-      <div class="luxury-menu-wrap" id="luxuryMenuWrap">
-        <button type="button" class="luxury-menu-btn" id="luxuryMenuBtn" aria-label="Menu" aria-expanded="false" aria-controls="luxuryDropdown">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="4" y1="7" x2="20" y2="7"></line>
-            <line x1="4" y1="12" x2="15" y2="12"></line>
-            <line x1="4" y1="17" x2="20" y2="17"></line>
-          </svg>
-        </button>
+    <!-- TAB 1: CLIENT LEDGER -->
+    <div id="tab-ledger">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-title">Total à payer</div>
+          <div class="stat-value gold" id="stat-total-due">0 DH</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Total payé</div>
+          <div class="stat-value green" id="stat-total-paid">0 DH</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Reste à payer</div>
+          <div class="stat-value red" id="stat-total-rem">0 DH</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Nombre clients</div>
+          <div class="stat-value blue" id="stat-clients-count">0</div>
+        </div>
+      </div>
 
-        <nav class="luxury-dropdown" id="luxuryDropdown" aria-label="القائمة الملكية">
-          <div class="luxury-menu-header">
-            <span>ROYAL COLLECTION</span>
-            <span>VIP</span>
+      <div class="luxury-boutique-banner">
+        <img src="https://i.ibb.co/217c4j4T/1794235213318.jpg" alt="Boutique YOUNES STORE dashboard Technique" class="luxury-boutique-banner-img">
+        <div class="luxury-boutique-banner-overlay">
+          <div>
+            <span class="luxury-boutique-tag"><i class="fa-solid fa-crown"></i> LUXURY BOUTIQUE</span>
+            <div class="luxury-boutique-title">
+              <span class="banner-under-younes">
+                <span>YOUNES</span>
+                <span class="banner-sub-line">Technique</span>
+              </span>
+              <span>STORE dashboard</span>
+            </div>
+            <div class="luxury-boutique-sub">Vitrine exclusive & commande directe WhatsApp</div>
           </div>
-          <ul class="luxury-menu-list">
-            <li>
-              <button type="button" class="luxury-menu-item" data-action="offers">
-                <span class="luxury-item-left">
-                  <span class="luxury-item-gem"></span>
-                  <span>العروض الجديدة</span>
-                </span>
-                <span class="luxury-item-tag">NEW</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="luxury-menu-item" data-action="apps">
-                <span class="luxury-item-left">
-                  <span class="luxury-item-gem"></span>
-                  <span>التطبيقات الجديدة</span>
-                </span>
-                <span class="luxury-item-tag">APK</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="luxury-menu-item" data-action="panels">
-                <span class="luxury-item-left">
-                  <span class="luxury-item-gem"></span>
-                  <span>لوحات التحكم جاهزة</span>
-                </span>
-                <span class="luxury-item-tag">PRO</span>
-              </button>
-            </li>
-          </ul>
-        </nav>
+          <button class="btn btn-gold" onclick="switchMode('store')">
+            <i class="fa-solid fa-store"></i> Ouvrir Boutique
+          </button>
+        </div>
       </div>
 
-      <div class="downloader-menu-wrap" id="downloaderMenuWrap">
-        <button type="button" class="downloader-icon-btn" id="downloaderMenuBtn" aria-label="Code downloader" aria-expanded="false" aria-controls="downloaderDropdown">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 3v12"></path>
-            <path d="M7 10l5 5 5-5"></path>
-            <path d="M4 19h16"></path>
-          </svg>
-        </button>
-
-        <nav class="downloader-dropdown" id="downloaderDropdown" aria-label="Code downloader">
-          <div class="luxury-menu-header">
-            <span>AFTVNEWS STORE</span>
-            <span>TV BOX</span>
+      <div class="luxury-action-bar">
+        <div>
+          <div style="font-size: 0.92rem; font-weight: 800; color: var(--gold-primary);">
+            <i class="fa-solid fa-gem"></i> Activation & Abonnement
           </div>
-          <ul class="luxury-menu-list">
-            <li>
-              <a class="luxury-menu-item downloader-go-cta" href="https://play.google.com/store/apps/details?id=com.esaba.downloader" target="_blank" rel="noopener">
-                <span class="luxury-item-left">
-                  <span class="luxury-item-gem"></span>
-                  <span>Downloader Go</span>
-                </span>
-                <span class="luxury-item-tag">PLAY</span>
-              </a>
-            </li>
-            <li>
-              <button type="button" class="downloader-code-item" data-code="2590694" aria-label="Copier le code 2590694">
-                <span>ULTRA VIP</span>
-                <span class="downloader-code-actions">
-                  <span class="downloader-code-num">2590694</span>
-                  <span class="copy-code-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  </span>
-                </span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="downloader-code-item" data-code="7132389" aria-label="Copier le code 7132389">
-                <span>TOD PLAYER</span>
-                <span class="downloader-code-actions">
-                  <span class="downloader-code-num">7132389</span>
-                  <span class="copy-code-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  </span>
-                </span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="downloader-code-item" data-code="6000929" aria-label="Copier le code 6000929">
-                <span>PIPO PLAYER</span>
-                <span class="downloader-code-actions">
-                  <span class="downloader-code-num">6000929</span>
-                  <span class="copy-code-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  </span>
-                </span>
-              </button>
-            </li>
-          </ul>
-        </nav>
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+            Activez une playlist ou créez un abonnement Xtream / M3U.
+          </div>
+        </div>
+        <div class="luxury-action-group">
+          <button class="luxury-vip-pill-btn" onclick="openActivationModal()">
+            <i class="fa-solid fa-bolt"></i>
+            <span>Activation</span>
+          </button>
+          <button class="luxury-vip-pill-btn" onclick="openAbonnementModal()">
+            <i class="fa-solid fa-crown"></i>
+            <span>Abonnement</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="luxury-add-client-bar">
+        <div>
+          <div style="font-size: 0.86rem; font-weight: 800; color: var(--text-main);">
+            <i class="fa-solid fa-address-card gold"></i> Gestion des Clients
+          </div>
+          <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1px;">
+            Ajouter un client ou afficher le registre complet.
+          </div>
+        </div>
+        <div class="client-card-actions">
+          <button class="luxury-add-client-btn" onclick="openAddClientModal()">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Ajouter un client</span>
+          </button>
+          <button class="luxury-vip-pill-btn" id="btn-toggle-ledger" onclick="toggleLedgerVisibility()">
+            <i class="fa-solid fa-table-list"></i>
+            <span>Registre Clients (<span id="toggle-ledger-count">0</span>)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="glass-panel hidden" id="clients-ledger-panel">
+        <div class="panel-title">
+          <span><i class="fa-solid fa-users-gear"></i> Registre Clients</span>
+          <input type="text" id="client-search" placeholder="Rechercher nom ou tél..." style="max-width: 230px;" oninput="renderClients()">
+        </div>
+        <div id="clients-list"></div>
       </div>
     </div>
 
-    <div class="hero-content">
-      <div class="welcome-pill">
-        <span class="welcome-dot"></span>
-        <span>✨ BIENVENUE SUR VOTRE STORE OFFICIEL</span>
+    <!-- TAB 2: PRODUCTS -->
+    <div id="tab-products" class="hidden">
+      <div class="luxury-vault-window">
+        <div class="vault-header">
+          <div class="panel-title" style="margin:0;">
+            <span><i class="fa-solid fa-key"></i> Code Produits Crypté (Boutique)</span>
+          </div>
+          <span class="vault-badge">LUXURY VAULT</span>
+        </div>
+        <textarea id="encrypted-products-input" class="vault-textarea" placeholder="Collez ici le code crypté des produits (FLX1:... ou JSON) pour afficher directement dans Boutique..."></textarea>
+        <div class="vault-actions">
+          <button class="btn btn-gold" onclick="applyEncryptedProductsCode()">
+            <i class="fa-solid fa-bolt"></i> Décoder & Afficher en Boutique
+          </button>
+          <button class="btn btn-dark" onclick="generateEncryptedProductsCode()">
+            <i class="fa-solid fa-lock"></i> Générer le code actuel
+          </button>
+          <button class="btn btn-danger" onclick="clearVaultInput()">
+            <i class="fa-solid fa-eraser"></i> Effacer
+          </button>
+        </div>
+        <div class="vault-status" id="vault-status-msg"></div>
       </div>
 
-      <h1>YOUNES TECHNIQUE</h1>
-      <p>CENTRE DE TÉLÉCHARGEMENT D'APPLICATIONS</p>
-
-      <div class="status">
-        <span class="dot"></span>
-        APPLICATIONS ANDROID UNIQUEMENT
-      </div>
-    </div>
-  </div>
-</header>
-
-<main class="container">
-
-  <div class="intro">
-    <div class="section-glow-icon" aria-label="Télécharger les applications">
-      <span class="section-glow-badge" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 3v12"></path>
-          <path d="M7 10l5 5 5-5"></path>
-          <path d="M5 21h14"></path>
-        </svg>
-      </span>
-      <span class="section-glow-title">Télécharger les applications</span>
-    </div>
-
-    <div class="search-box">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <input type="search" id="appSearch" placeholder="Rechercher une application..." aria-label="Rechercher une application">
-    </div>
-  </div>
-
-  <section class="grid" id="appsGrid">
-
-    <!-- ULTRA VIP -->
-    <article class="app" data-name="ultra vip">
-      <div class="media-wrap">
-        <img class="app-image"
-        src="https://i.ibb.co/xtDdK5dg/IMG-20261020-WA0136.webp"
-        alt="Ultra VIP"
-        loading="lazy">
+      <div class="glass-panel">
+        <div class="panel-title"><span><i class="fa-solid fa-plus-circle"></i> Ajouter un produit</span></div>
+        <div class="form-grid">
+          <input type="text" id="prod-name" placeholder="Nom du produit">
+          <input type="number" id="prod-price" placeholder="Prix (DH)">
+          <input type="text" id="prod-cat" placeholder="Catégorie">
+          <div>
+            <input type="file" id="prod-img-file" accept="image/*" class="hidden" onchange="handleProductImageFile(event)">
+            <div class="device-upload-box">
+              <label for="prod-img-file" class="device-upload-btn">
+                <i class="fa-solid fa-mobile-screen-button"></i> Appareil
+              </label>
+              <span class="device-upload-name" id="prod-img-filename">Choisir une photo...</span>
+              <img id="prod-img-preview" class="device-upload-thumb hidden" alt="Aperçu">
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-gold" style="margin-top: 10px; width: 100%;" onclick="addProduct()">
+          <i class="fa-solid fa-check"></i> Ajouter au catalogue
+        </button>
       </div>
 
-      <h3>ULTRA VIP</h3>
-      <span class="badge">Android • Gratuit</span>
-
-      <a class="download"
-      href="https://go.aftvnews.com/2590694"
-      target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v12"></path>
-          <path d="M7 10l5 5 5-5"></path>
-          <path d="M5 21h14"></path>
-        </svg>
-        <span>TÉLÉCHARGER</span>
-      </a>
-    </article>
-
-    <!-- TOD PLAYER -->
-    <article class="app" data-name="tod player">
-      <div class="media-wrap">
-        <img class="app-image"
-        src="https://i.ibb.co/Q3zV6tFV/Screenshot-20261005-134719-com-shadeed-todplayer-Home-Activity.webp"
-        alt="TOD Player"
-        loading="lazy">
-      </div>
-
-      <h3>TOD PLAYER</h3>
-      <span class="badge">Android • Gratuit</span>
-
-      <a class="download"
-      href="https://go.aftvnews.com/7132389"
-      target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v12"></path>
-          <path d="M7 10l5 5 5-5"></path>
-          <path d="M5 21h14"></path>
-        </svg>
-        <span>TÉLÉCHARGER</span>
-      </a>
-    </article>
-
-    <!-- LAMYAR WEB -->
-    <article class="app" data-name="lamyar web">
-      <div class="media-wrap">
-        <div class="app-icon">LW</div>
-      </div>
-
-      <h3>LAMYAR WEB</h3>
-      <span class="badge">Android • Gratuit</span>
-
-      <a class="download"
-      href="https://go.aftvnews.com/9075637"
-      target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v12"></path>
-          <path d="M7 10l5 5 5-5"></path>
-          <path d="M5 21h14"></path>
-        </svg>
-        <span>TÉLÉCHARGER</span>
-      </a>
-    </article>
-
-    <!-- PIPO PLAYER -->
-    <article class="app" data-name="pipo player">
-      <div class="media-wrap">
-        <img class="app-image"
-        src="https://i.ibb.co/1YMPGGkX/Screenshot-20261025-193323-com-storeahim-obiproplay-Home-Activity.webp"
-        alt="Pipo Player"
-        loading="lazy">
-      </div>
-
-      <h3>PIPO PLAYER</h3>
-      <span class="badge">Android • Gratuit</span>
-
-      <a class="download"
-      href="https://go.aftvnews.com/6000929"
-      target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v12"></path>
-          <path d="M7 10l5 5 5-5"></path>
-          <path d="M5 21h14"></path>
-        </svg>
-        <span>TÉLÉCHARGER</span>
-      </a>
-    </article>
-
-    <!-- HOT TV -->
-    <article class="app" data-name="hot tv">
-      <div class="media-wrap">
-        <div class="app-icon">HT</div>
-      </div>
-
-      <h3>HOT TV</h3>
-      <span class="badge">Android • Gratuit</span>
-
-      <a class="download"
-      href="https://go.aftvnews.com/5474662"
-      target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v12"></path>
-          <path d="M7 10l5 5 5-5"></path>
-          <path d="M5 21h14"></path>
-        </svg>
-        <span>TÉLÉCHARGER</span>
-      </a>
-    </article>
-
-    <!-- LION 4K -->
-    <article class="app" data-name="lion 4k">
-      <div class="media-wrap">
-        <div class="app-icon">L4K</div>
-      </div>
-
-      <h3>LION 4K</h3>
-      <span class="badge">Android • Gratuit</span>
-
-      <a class="download"
-      href="https://go.aftvnews.com/6359013"
-      target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v12"></path>
-          <path d="M7 10l5 5 5-5"></path>
-          <path d="M5 21h14"></path>
-        </svg>
-        <span>TÉLÉCHARGER</span>
-      </a>
-    </article>
-
-  </section>
-
-  <div class="empty-state" id="emptyState">
-    Aucune application ne correspond à votre recherche.
-  </div>
-
-  <div class="info">
-    <div class="info-side-features">
-      <div class="features">
-        <span><i class="check-icon">✓</i> Compatible Android</span>
-        <span><i class="check-icon">✓</i> Android TV, TV BOX et Smartphones</span>
-        <span><i class="check-icon">✓</i> Téléchargement rapide en un clic</span>
+      <div class="glass-panel">
+        <div class="panel-title"><span><i class="fa-solid fa-boxes-stacked"></i> Galerie & liste des produits</span></div>
+        <div class="luxury-gallery-bg">
+          <div class="products-grid" id="admin-products-list"></div>
+        </div>
       </div>
     </div>
 
-    <div class="info-side-text">
-      <h3>Informations de téléchargement</h3>
-      <p class="warning">
-        Une page intermédiaire peut apparaître avant le téléchargement. Autorisez l'installation depuis cette source si nécessaire.
-      </p>
+    <!-- TAB 3: QUICK INVOICE -->
+    <div id="tab-quick-invoice" class="hidden">
+      <div class="glass-panel">
+        <div class="panel-title"><span><i class="fa-solid fa-file-signature"></i> Facture rapide</span></div>
+        <div class="form-grid">
+          <div>
+            <label class="field-label">Nom du client</label>
+            <input type="text" id="inv-client" placeholder="Nom du client">
+          </div>
+          <div>
+            <label class="field-label">Téléphone</label>
+            <input type="text" id="inv-phone" placeholder="Téléphone">
+          </div>
+          <div class="luxury-product-name-box">
+            <label class="field-label" style="color:var(--gold-primary);">Choisir un produit</label>
+            <div class="lux-select-trigger" onclick="toggleProductDropdown(event)">
+              <span id="lux-selected-label">-- Choisir un produit --</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="lux-select-menu hidden" id="lux-product-menu"></div>
+          </div>
+          <div class="luxury-product-name-box">
+            <label class="field-label" style="color:var(--gold-primary);">Nom du produit</label>
+            <input type="text" id="inv-item" placeholder="Nom du produit">
+          </div>
+          <div>
+            <label class="field-label">Quantité</label>
+            <input type="number" id="inv-qty" placeholder="Quantité">
+          </div>
+          <div>
+            <label class="field-label">Prix unitaire (DH)</label>
+            <input type="number" id="inv-price" placeholder="Prix unitaire (DH)">
+          </div>
+          <div>
+            <label class="field-label">Payé (DH)</label>
+            <input type="number" id="inv-paid" placeholder="Payé (DH)">
+          </div>
+        </div>
+
+        <div class="selected-prod-preview" id="inv-prod-preview">
+          <div class="selected-prod-thumb" id="inv-prod-thumb">
+            <i class="fa-solid fa-image"></i>
+          </div>
+          <div>
+            <div style="font-size:0.82rem; font-weight:700;" id="inv-preview-title">-</div>
+            <div style="font-size:0.74rem; color:var(--gold-primary); font-weight:700;" id="inv-preview-price"></div>
+          </div>
+        </div>
+
+        <button class="btn btn-gold" style="margin-top: 12px; width: 100%;" onclick="createQuickInvoice()">
+          <i class="fa-solid fa-print"></i> Générer et enregistrer la facture
+        </button>
+      </div>
     </div>
   </div>
 
-</main>
-
-<footer>
-  <div class="copyright-card">
-    <div class="copyright-brand">
-      <span class="copyright-dot"></span>
-      <span>YOUNES TECHNIQUE</span>
+  <!-- ==================== ADD CLIENT MODAL ==================== -->
+  <div class="modal-backdrop" id="add-client-modal">
+    <div class="modal-box">
+      <div class="panel-title">
+        <span><i class="fa-solid fa-user-plus"></i> Ajouter un client</span>
+        <button class="btn btn-dark" onclick="closeModal('add-client-modal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="form-grid">
+        <input type="text" id="new-c-name" placeholder="Nom du client">
+        <input type="tel" id="new-c-phone" placeholder="Téléphone">
+        <input type="text" id="new-c-note" placeholder="Produit / Motif">
+        <input type="number" id="new-c-total" placeholder="Montant total (DH)">
+        <input type="number" id="new-c-paid" placeholder="Montant payé (DH)">
+      </div>
+      <button class="btn btn-gold" style="margin-top: 12px; width: 100%;" onclick="addClient()">
+        <i class="fa-solid fa-plus"></i> Enregistrer dans le registre
+      </button>
     </div>
-    <p>TOUS DROITS RÉSERVÉS © 2026</p>
-    <span>CENTRE DE TÉLÉCHARGEMENT D'APPLICATIONS</span>
   </div>
-</footer>
 
-<script>
-const searchInput = document.getElementById('appSearch');
-const cards = document.querySelectorAll('#appsGrid .app');
-const emptyState = document.getElementById('emptyState');
+  <!-- ==================== ACTIVATION MODAL ==================== -->
+  <div class="modal-backdrop" id="activation-modal" oninput="prepareActivationInvoice()">
+    <div class="modal-box modal-wide">
+      <div class="panel-title">
+        <span><i class="fa-solid fa-bolt"></i> Nouvelle activation</span>
+        <button class="btn btn-dark" onclick="closeModal('activation-modal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
 
-function filterApps(queryText) {
-  const query = queryText.trim().toLowerCase();
-  let visibleCount = 0;
+      <div style="margin-bottom: 10px;">
+        <label class="field-label">Client</label>
+        <select id="act-client-select" class="fx-select" onchange="fillClientFromSelect('act-client-select', 'act-client-name', 'act-whatsapp'); prepareActivationInvoice();">
+          <option value="">Sélectionner un client</option>
+        </select>
+      </div>
 
-  cards.forEach(card => {
-    const name = card.dataset.name.toLowerCase();
-    const matches = name.includes(query);
-    card.style.display = matches ? '' : 'none';
-    if (matches) visibleCount++;
-  });
+      <div class="form-grid-3">
+        <div>
+          <label class="field-label">Nom du client</label>
+          <input type="text" id="act-client-name" placeholder="Nom du client">
+        </div>
+        <div>
+          <label class="field-label">WhatsApp</label>
+          <input type="text" id="act-whatsapp" placeholder="+212 6XXXXXXXXX">
+        </div>
+        <div>
+          <label class="field-label">MAC Address</label>
+          <input type="text" id="act-mac" placeholder="00:11:22:33:44:55">
+        </div>
+      </div>
 
-  emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
-}
+      <div class="form-grid-3">
+        <div>
+          <label class="field-label">Application</label>
+          <select id="act-app" class="fx-select" onchange="prepareActivationInvoice()">
+            <option value="None">N None</option>
+            <option value="IBO Player">IBO Player</option>
+            <option value="IBO Player Pro">IBO Player Pro</option>
+            <option value="Hot Player">Hot Player</option>
+            <option value="BOB Player">BOB Player</option>
+            <option value="Duplex">Duplex</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label"><i class="fa-regular fa-calendar"></i> Durée</label>
+          <select id="act-duration" class="fx-select" onchange="prepareActivationInvoice()">
+            <option value="12 mois" selected>12 mois</option>
+            <option value="6 mois">6 mois</option>
+            <option value="3 mois">3 mois</option>
+            <option value="1 mois">1 mois</option>
+            <option value="À vie">À vie</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label"><i class="fa-regular fa-calendar"></i> Date début</label>
+          <input type="date" id="act-start-date">
+        </div>
+      </div>
 
-searchInput.addEventListener('input', () => {
-  filterApps(searchInput.value);
-});
+      <div class="form-grid-2">
+        <div>
+          <label class="field-label">Prix (DH)</label>
+          <input type="number" id="act-price" placeholder="0.00" step="0.01">
+        </div>
+        <div>
+          <label class="field-label">Montant payé (DH)</label>
+          <input type="number" id="act-paid" placeholder="0.00" step="0.01">
+        </div>
+      </div>
 
-const menuWrap = document.getElementById('luxuryMenuWrap');
-const menuBtn = document.getElementById('luxuryMenuBtn');
-const dropdown = document.getElementById('luxuryDropdown');
-const menuItems = dropdown.querySelectorAll('.luxury-menu-item');
+      <div style="margin-top: 10px;">
+        <label class="field-label"><i class="fa-regular fa-note-sticky"></i> Note / Remarque</label>
+        <input type="text" id="act-note" placeholder="Note facultative">
+      </div>
 
-const dlWrap = document.getElementById('downloaderMenuWrap');
-const dlBtn = document.getElementById('downloaderMenuBtn');
-const dlDropdown = document.getElementById('downloaderDropdown');
-const dlCodeItems = dlDropdown.querySelectorAll('.downloader-code-item');
+      <div class="live-invoice-prep-box">
+        <div class="live-prep-header">
+          <span style="font-size:0.74rem;font-weight:800;color:#9c7812;">
+            <i class="fa-solid fa-file-invoice"></i> Aperçu Facture Verre Blanc
+          </span>
+          <span class="live-prep-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> PRÊTE</span>
+        </div>
+        <div class="live-prep-summary" id="act-live-invoice-preview"></div>
+      </div>
 
-const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-const copySvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      <button class="btn-activate-playlist" onclick="submitActivation()">
+        <i class="fa-solid fa-bolt"></i> Activer & Ouvrir la facture
+      </button>
+    </div>
+  </div>
 
-function copyText(text) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).catch(() => {});
-  }
-}
+  <!-- ==================== ABONNEMENT MODAL ==================== -->
+  <div class="modal-backdrop" id="abonnement-modal" oninput="prepareAbonnementInvoice()">
+    <div class="modal-box modal-wide">
+      <div class="panel-title">
+        <div>
+          <div style="font-size: 0.98rem; font-weight: 800; color: var(--gold-primary);">
+            <i class="fa-solid fa-crown"></i> Nouveau Abonnement
+          </div>
+          <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600; margin-top: 2px;">
+            Gestion des abonnements Xtream / M3U & Playlist App
+          </div>
+        </div>
+        <button class="btn btn-dark" onclick="closeModal('abonnement-modal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
 
-function setMenuOpen(isOpen) {
-  menuBtn.setAttribute('aria-expanded', String(isOpen));
-  dropdown.classList.toggle('open', isOpen);
-}
+      <div class="m3u-extract-box">
+        <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+          <i class="fa-solid fa-tv gold"></i> Informations Xtream
+        </div>
+        <span class="m3u-badge"><i class="fa-solid fa-link"></i> M3U - XTREAM AUTOMATIQUE</span>
+        <input type="text" id="sub-m3u-url" placeholder="http://server.com/get.php?username=USER&password=PASS&type=m3u_plus" oninput="autoExtractXtreamFromM3U(); prepareAbonnementInvoice();">
+        <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 5px;">
+          Collez le lien M3U : extraction auto des identifiants et de la validité.
+        </div>
+      </div>
 
-function setDownloaderOpen(isOpen) {
-  dlBtn.setAttribute('aria-expanded', String(isOpen));
-  dlDropdown.classList.toggle('open', isOpen);
-}
+      <div style="margin-bottom: 10px;">
+        <label class="field-label">Client</label>
+        <select id="sub-client-select" class="fx-select" onchange="fillClientFromSelect('sub-client-select', 'sub-client-name', 'sub-whatsapp'); prepareAbonnementInvoice();">
+          <option value="">Sélectionner un client</option>
+        </select>
+      </div>
 
-menuBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
-  setDownloaderOpen(false);
-  setMenuOpen(!isExpanded);
-});
+      <div class="form-grid-3">
+        <div>
+          <label class="field-label">Nom du client</label>
+          <input type="text" id="sub-client-name" placeholder="Nom du client">
+        </div>
+        <div>
+          <label class="field-label">Application Playlist</label>
+          <select id="sub-app" class="fx-select" onchange="prepareAbonnementInvoice()">
+            <option value="None">N None</option>
+            <option value="IBO Player">IBO Player</option>
+            <option value="IBO Player Pro">IBO Player Pro</option>
+            <option value="Hot IPTV">Hot IPTV</option>
+            <option value="BOB Player">BOB Player</option>
+            <option value="Smarters Pro">Smarters Pro</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">MAC Address (Si App)</label>
+          <input type="text" id="sub-mac" placeholder="00:11:22:33:44:55">
+        </div>
+      </div>
 
-dlBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const isExpanded = dlBtn.getAttribute('aria-expanded') === 'true';
-  setMenuOpen(false);
-  setDownloaderOpen(!isExpanded);
-});
+      <div class="form-grid-2">
+        <div>
+          <label class="field-label"><i class="fa-solid fa-globe"></i> Host / Xtream Server</label>
+          <input type="text" id="sub-server" placeholder="http://server.com:8080">
+        </div>
+        <div>
+          <label class="field-label">WhatsApp</label>
+          <input type="text" id="sub-whatsapp" placeholder="+212 6XXXXXXXXX">
+        </div>
+      </div>
 
-document.addEventListener('click', (e) => {
-  if (!menuWrap.contains(e.target)) {
-    setMenuOpen(false);
-  }
-  if (!dlWrap.contains(e.target)) {
-    setDownloaderOpen(false);
-  }
-});
+      <div class="form-grid-3">
+        <div>
+          <label class="field-label"><i class="fa-solid fa-user"></i> Username</label>
+          <input type="text" id="sub-username" placeholder="Username">
+        </div>
+        <div>
+          <label class="field-label"><i class="fa-solid fa-key gold"></i> Password</label>
+          <input type="text" id="sub-password" placeholder="Password">
+        </div>
+        <div>
+          <label class="field-label"><i class="fa-regular fa-calendar"></i> Durée</label>
+          <select id="sub-duration" class="fx-select" onchange="updateSubExpiry(); prepareAbonnementInvoice();">
+            <option value="1 mois" selected>1 mois</option>
+            <option value="3 mois">3 mois</option>
+            <option value="6 mois">6 mois</option>
+            <option value="12 mois">12 mois</option>
+          </select>
+        </div>
+      </div>
 
-menuItems.forEach(item => {
-  item.addEventListener('click', () => {
-    const action = item.dataset.action;
-    setMenuOpen(false);
-    filterApps('');
-    searchInput.value = '';
+      <div class="form-grid-3">
+        <div>
+          <label class="field-label"><i class="fa-regular fa-calendar"></i> Date début</label>
+          <input type="date" id="sub-start-date" onchange="updateSubExpiry(); prepareAbonnementInvoice();">
+        </div>
+        <div>
+          <label class="field-label"><i class="fa-solid fa-hourglass-end"></i> Date d'expiration (Détectée)</label>
+          <input type="text" id="sub-expiry-display" placeholder="Ex: 06/11/2027" readonly style="color: var(--gold-primary); font-weight: 700;">
+        </div>
+        <div>
+          <label class="field-label">Prix (DH)</label>
+          <input type="number" id="sub-price" placeholder="0.00" step="0.01">
+        </div>
+      </div>
 
-    if (action === 'apps') {
-      document.getElementById('appsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else if (action === 'panels' || action === 'offers') {
-      document.querySelector('.info').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  });
-});
+      <div style="margin-top: 10px;">
+        <label class="field-label"><i class="fa-regular fa-note-sticky"></i> Note / Remarque</label>
+        <textarea id="sub-note" class="lux-input-area" placeholder="Remarque / Host / Détails"></textarea>
+      </div>
 
-dlCodeItems.forEach(item => {
-  item.addEventListener('click', () => {
-    const code = item.dataset.code;
-    const badgeEl = item.querySelector('.downloader-code-num');
-    const iconEl = item.querySelector('.copy-code-icon');
-    copyText(code);
-    item.classList.add('copied');
-    if (badgeEl) {
-      badgeEl.textContent = 'COPIÉ';
-    }
-    if (iconEl) {
-      iconEl.innerHTML = checkSvg;
-    }
-    setTimeout(() => {
-      item.classList.remove('copied');
-      if (badgeEl) {
-        badgeEl.textContent = code;
+      <div class="live-invoice-prep-box">
+        <div class="live-prep-header">
+          <span style="font-size:0.74rem;font-weight:800;color:#9c7812;">
+            <i class="fa-solid fa-file-invoice"></i> Aperçu Facture Verre Blanc
+          </span>
+          <span class="live-prep-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> PRÊTE</span>
+        </div>
+        <div class="live-prep-summary" id="sub-live-invoice-preview"></div>
+      </div>
+
+      <button class="btn-activate-playlist" onclick="submitAbonnement()">
+        <i class="fa-solid fa-crown"></i> + Créer & Ouvrir la facture
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== COMPACT STOREFRONT VIEW ==================== -->
+  <div id="store-view" class="store-compact-shell hidden">
+    <div class="store-compact-header">
+      <div>
+        <h2>YOUNES STORE dashboard · Technique</h2>
+        <p>Boutique mini - WhatsApp direct</p>
+      </div>
+      <input type="text" id="store-search" class="store-compact-search" placeholder="Rechercher..." oninput="renderStore()">
+    </div>
+
+    <div class="luxury-gallery-bg store-compact-gallery">
+      <div class="products-grid store-compact-grid" id="store-products-grid"></div>
+    </div>
+  </div>
+
+  <!-- ==================== CURRENCY CONVERTER MODAL ==================== -->
+  <div class="modal-backdrop" id="fx-modal">
+    <div class="modal-box">
+      <div class="panel-title">
+        <span><i class="fa-solid fa-coins"></i> Convertisseur de devises</span>
+        <button class="btn btn-dark" onclick="closeModal('fx-modal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <label class="field-label">Montant</label>
+        <input type="number" id="fx-amount" value="100" step="any" oninput="calculateFx()">
+      </div>
+
+      <div class="fx-row">
+        <div>
+          <label class="field-label">De</label>
+          <select id="fx-from" class="fx-select" onchange="calculateFx()">
+            <option value="MAD">MAD (DH)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="USD">USD ($)</option>
+            <option value="CFA">CFA (FCFA)</option>
+          </select>
+        </div>
+        <button class="fx-swap-btn" title="Inverser" onclick="swapFxCurrencies()" style="margin-top: 14px;">
+          <i class="fa-solid fa-right-left"></i>
+        </button>
+        <div>
+          <label class="field-label">Vers</label>
+          <select id="fx-to" class="fx-select" onchange="calculateFx()">
+            <option value="EUR">EUR (€)</option>
+            <option value="MAD">MAD (DH)</option>
+            <option value="USD">USD ($)</option>
+            <option value="CFA">CFA (FCFA)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top: 10px;">
+        <label class="field-label">Taux (1 unité source en MAD)</label>
+        <input type="number" id="fx-custom-rate" step="0.0001" oninput="saveCustomFxRate()">
+      </div>
+
+      <div class="fx-result-box">
+        <div style="font-size: 0.72rem; color: var(--text-muted);">Résultat converti</div>
+        <div id="fx-output" style="font-size: 1.25rem; font-weight: 800; color: var(--gold-primary); margin-top: 3px;">9.20 €</div>
+        <div id="fx-rate-info" style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FINANCE ACTION MODAL ==================== -->
+  <div class="modal-backdrop" id="finance-modal">
+    <div class="modal-box">
+      <div class="panel-title">
+        <span id="fin-modal-title"><i class="fa-solid fa-coins"></i> Mise à jour compte</span>
+        <button class="btn btn-dark" onclick="closeModal('finance-modal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p id="fin-client-info" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;"></p>
+      <div class="form-grid">
+        <input type="number" id="fin-amount" placeholder="Montant (DH)">
+        <input type="text" id="fin-note" placeholder="Note">
+      </div>
+      <button class="btn btn-gold" id="fin-confirm-btn" style="width:100%; margin-top:12px;">
+        <i class="fa-solid fa-check-circle"></i> Valider
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== INVOICE MODAL ==================== -->
+  <div class="modal-backdrop" id="invoice-modal">
+    <div class="modal-box modal-invoice-compact">
+      <div class="panel-title">
+        <span><i class="fa-solid fa-file-invoice" style="color:#9c7812;"></i> Aperçu Client</span>
+        <button class="btn btn-dark" onclick="closeModal('invoice-modal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="invoice-print-zone">
+        <div class="invoice-paper" id="invoice-content"></div>
+      </div>
+      <div class="wa-export-feedback" id="wa-export-feedback"></div>
+      <div style="display:flex; gap:5px; flex-wrap:wrap;">
+        <button class="btn btn-gold" style="flex:1; padding:6px 7px; font-size:0.62rem;" id="btn-save-invoice-png">
+          <i class="fa-solid fa-download"></i> Enregistrer
+        </button>
+        <button class="btn btn-dark" style="flex:0.85; padding:6px 7px; font-size:0.62rem;" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Imprimer
+        </button>
+        <button class="btn btn-wa-order" style="flex:1.2; padding:6px 7px; font-size:0.62rem;" id="btn-wa-invoice">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WHATSAPP_ORDER_NUMBER = '212630473498';
+    const BRAND_NAME = 'YOUNES STORE dashboard · Technique';
+    const DEFAULT_PRODUCTS = [
+      {
+        id: 1001,
+        name: 'Hot IPTV',
+        price: 250,
+        cat: 'App/IPTV',
+        img: 'https://i.ibb.co/Dfv6391K/939e65a3-917f-48a1-915e-3d77f2904537-1000x1000-BUu-BOu-M6s78-PKC3y7lv-RUrdb-TYB6r-Sb-Pj-Thw8f-Ah-1.webp'
+      },
+      {
+        id: 1002,
+        name: 'Bob player',
+        price: 250,
+        cat: 'App/IPTV',
+        img: 'https://i.ibb.co/tPYc0tFM/bob-player.webp'
+      },
+      {
+        id: 1003,
+        name: 'Ib player',
+        price: 250,
+        cat: 'App/IPTV',
+        img: 'https://i.ibb.co/DfxxWqWr/logo-512.webp'
+      },
+      {
+        id: 1004,
+        name: 'VIRGINIA',
+        price: 250,
+        cat: 'App/IPTV',
+        img: 'https://i.ibb.co/dsmKfKT0/IMG-20261001-152624.webp'
       }
-      if (iconEl) {
-        iconEl.innerHTML = copySvg;
-      }
-    }, 1300);
-  });
-});
-</script>
+    ];
 
+    function getInitialProducts() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('fl_fr_v7_products'));
+        if (Array.isArray(saved) && saved.length > 0) return saved;
+      } catch (_) {}
+      const cloned = DEFAULT_PRODUCTS.map(item => ({ ...item }));
+      localStorage.setItem('fl_fr_v7_products', JSON.stringify(cloned));
+      return cloned;
+    }
+
+    let products = getInitialProducts();
+    let clients = JSON.parse(localStorage.getItem('fl_fr_v6_clients')) || [];
+    let fxRatesToMad = JSON.parse(localStorage.getItem('fl_fr_v6_fx_mad')) || {
+      MAD: 1,
+      EUR: 10.85,
+      USD: 10.00,
+      CFA: 0.0165
+    };
+    if (typeof fxRatesToMad.CFA !== 'number') fxRatesToMad.CFA = 0.0165;
+    let isLedgerVisible = false;
+    let pendingProductImageData = '';
+
+    function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
+      const words = String(text || '').split(/\s+/);
+      let line = '';
+      let currentY = y;
+      for (let i = 0; i < words.length; i++) {
+        const testLine = line ? line + ' ' + words[i] : words[i];
+        if (ctx.measureText(testLine).width > maxWidth && line) {
+          ctx.fillText(line, x, currentY);
+          line = words[i];
+          currentY += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      if (line) {
+        ctx.fillText(line, x, currentY);
+        currentY += lineHeight;
+      }
+      return currentY;
+    }
+
+    function drawRoundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    function getTechFields(cl) {
+      const tech = cl.tech || {};
+      const host = tech.host || '';
+      const username = tech.username || '';
+      const password = tech.password || '';
+      const mac = tech.mac || '';
+      const app = tech.app && tech.app !== 'None' ? tech.app : '';
+      const duration = tech.duration || '';
+      const expiry = tech.expiry || '';
+      const startDate = tech.startDate || '';
+      return { host, username, password, mac, app, duration, expiry, startDate };
+    }
+
+    function hasAnyTechField(tech) {
+      return Boolean(tech.host || tech.username || tech.password || tech.mac || tech.app || tech.duration || tech.expiry);
+    }
+
+    function renderInvoiceToCanvas(cl) {
+      const rem = Math.max(0, cl.total - cl.paid);
+      const statusLabel = rem === 0 ? 'PAYÉE' : (cl.paid > 0 ? 'ACOMPTE' : 'EN ATTENTE');
+      const items = Array.isArray(cl.items) && cl.items.length ? cl.items : [{ name: cl.name, qty: 1, price: cl.total }];
+      const tech = getTechFields(cl);
+      const showTech = hasAnyTechField(tech);
+      const hasMac = Boolean(tech.mac);
+
+      const frameW = 420;
+      const frameH = 780;
+
+      const cardW = 338;
+      const macBannerHeight = hasMac ? 32 : 0;
+      const techCells = [];
+      if (tech.host) techCells.push(['HOST', tech.host]);
+      if (tech.username) techCells.push(['USERNAME', tech.username]);
+      if (tech.password) techCells.push(['PASSWORD', tech.password]);
+      if (tech.app) techCells.push(['APPLICATION', tech.app]);
+      if (tech.duration || tech.expiry) {
+        techCells.push(['DURÉE / VALIDITÉ', [tech.duration, tech.expiry ? `Exp: ${tech.expiry}` : ''].filter(Boolean).join(' - ')]);
+      }
+      const techRowsCount = Math.ceil(techCells.length / 2);
+      const techBoxHeight = showTech ? (30 + macBannerHeight + techRowsCount * 30) : 0;
+      const itemRowHeight = 26;
+      const cardH = 258 + techBoxHeight + items.length * itemRowHeight;
+
+      const cardX = Math.round((frameW - cardW) / 2);
+      const cardY = Math.round((frameH - cardH) / 2);
+
+      const scale = 2;
+      const canvas = document.createElement('canvas');
+      canvas.width = frameW * scale;
+      canvas.height = frameH * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+
+      const outerGrad = ctx.createRadialGradient(frameW * 0.5, frameH * 0.45, 30, frameW * 0.5, frameH * 0.5, frameH * 0.72);
+      outerGrad.addColorStop(0, '#121218');
+      outerGrad.addColorStop(0.6, '#09090d');
+      outerGrad.addColorStop(1, '#040406');
+      ctx.fillStyle = outerGrad;
+      ctx.fillRect(0, 0, frameW, frameH);
+
+      const glowGrad = ctx.createRadialGradient(frameW * 0.5, frameH * 0.5, 20, frameW * 0.5, frameH * 0.5, 240);
+      glowGrad.addColorStop(0, 'rgba(212, 175, 55, 0.14)');
+      glowGrad.addColorStop(1, 'rgba(212, 175, 55, 0)');
+      ctx.fillStyle = glowGrad;
+      ctx.fillRect(0, 0, frameW, frameH);
+
+      const bgGrad = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + cardH);
+      bgGrad.addColorStop(0, '#f8fafc');
+      bgGrad.addColorStop(0.55, '#ffffff');
+      bgGrad.addColorStop(1, '#fef9e7');
+      drawRoundRect(ctx, cardX, cardY, cardW, cardH, 16);
+      ctx.fillStyle = bgGrad;
+      ctx.fill();
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+      ctx.stroke();
+
+      drawRoundRect(ctx, cardX + 12, cardY + 13, cardW - 24, 38, 8);
+      ctx.fillStyle = '#f8fafc';
+      ctx.fill();
+
+      const goldGrad = ctx.createLinearGradient(cardX + 18, cardY + 17, cardX + 150, cardY + 45);
+      goldGrad.addColorStop(0, '#9c7812');
+      goldGrad.addColorStop(0.5, '#d4af37');
+      goldGrad.addColorStop(1, '#785b0a');
+
+      ctx.fillStyle = goldGrad;
+      ctx.font = '800 10.5px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(BRAND_NAME, cardX + 18, cardY + 28);
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = '600 7px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Facture Verre Blanc', cardX + 18, cardY + 41);
+
+      ctx.font = '800 7px "Plus Jakarta Sans", sans-serif';
+      const badgeW = ctx.measureText(statusLabel).width + 14;
+      drawRoundRect(ctx, cardX + cardW - 18 - badgeW, cardY + 24, badgeW, 16, 6);
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.18)';
+      ctx.fill();
+      ctx.fillStyle = '#856404';
+      ctx.fillText(statusLabel, cardX + cardW - 18 - badgeW + 7, cardY + 34.5);
+
+      let y = cardY + 58;
+      drawRoundRect(ctx, cardX + 12, y, cardW - 24, 42, 8);
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.92)';
+      ctx.fill();
+
+      ctx.font = '700 7.2px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('N°:', cardX + 18, y + 16);
+      ctx.fillStyle = '#9c7812';
+      ctx.font = '800 7.2px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(String(cl.id || ''), cardX + 33, y + 16);
+
+      ctx.font = '700 7.2px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('Date:', cardX + 174, y + 16);
+      ctx.fillStyle = '#0f172a';
+      ctx.fillText(String(cl.date || ''), cardX + 196, y + 16);
+
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('Client:', cardX + 18, y + 32);
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '800 7.2px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(String(cl.name || '-').slice(0, 20), cardX + 45, y + 32);
+
+      ctx.font = '700 7.2px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('Tél:', cardX + 174, y + 32);
+      ctx.fillStyle = '#0f172a';
+      ctx.fillText(String(cl.phone || '-').slice(0, 18), cardX + 190, y + 32);
+
+      y += 48;
+
+      if (showTech) {
+        drawRoundRect(ctx, cardX + 12, y, cardW - 24, techBoxHeight - 4, 8);
+        ctx.fillStyle = '#fffdf7';
+        ctx.fill();
+        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
+        ctx.stroke();
+
+        ctx.font = '800 6.5px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = '#9c7812';
+        ctx.fillText("PARAMÈTRES D'ACCÈS & PLAYLIST", cardX + 18, y + 13.5);
+
+        let cy = y + 18.5;
+
+        if (hasMac) {
+          drawRoundRect(ctx, cardX + 18, cy, cardW - 36, 23, 5);
+          ctx.fillStyle = '#fef3c7';
+          ctx.fill();
+          ctx.lineWidth = 0.8;
+          ctx.strokeStyle = 'rgba(212, 175, 55, 0.7)';
+          ctx.stroke();
+
+          drawRoundRect(ctx, cardX + 22, cy + 5.5, 54, 12, 3);
+          ctx.fillStyle = '#9c7812';
+          ctx.fill();
+          ctx.font = '800 5.6px "Plus Jakarta Sans", sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText('MAC ADDRESS', cardX + 26, cy + 13.5);
+
+          ctx.font = '800 7.8px "Plus Jakarta Sans", sans-serif';
+          ctx.fillStyle = '#451a03';
+          ctx.fillText(String(tech.mac), cardX + 82, cy + 14);
+          cy += 29;
+        }
+
+        const colW = (cardW - 40) / 2;
+        for (let i = 0; i < techCells.length; i += 2) {
+          const left = techCells[i];
+          const right = techCells[i + 1];
+
+          drawRoundRect(ctx, cardX + 18, cy, colW, 24, 5);
+          ctx.fillStyle = '#f1f5f9';
+          ctx.fill();
+          ctx.font = '700 5.4px "Plus Jakarta Sans", sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.fillText(left[0], cardX + 22, cy + 9);
+          ctx.font = '800 7px "Plus Jakarta Sans", sans-serif';
+          ctx.fillStyle = '#0f172a';
+          ctx.fillText(String(left[1]).slice(0, 22), cardX + 22, cy + 18.5);
+
+          if (right) {
+            drawRoundRect(ctx, cardX + 22 + colW, cy, colW, 24, 5);
+            ctx.fillStyle = '#f1f5f9';
+            ctx.fill();
+            ctx.font = '700 5.4px "Plus Jakarta Sans", sans-serif';
+            ctx.fillStyle = '#64748b';
+            ctx.fillText(right[0], cardX + 26 + colW, cy + 9);
+            ctx.font = '800 7px "Plus Jakarta Sans", sans-serif';
+            ctx.fillStyle = '#0f172a';
+            ctx.fillText(String(right[1]).slice(0, 22), cardX + 26 + colW, cy + 18.5);
+          }
+          cy += 30;
+        }
+        y += techBoxHeight;
+      }
+
+      drawRoundRect(ctx, cardX + 12, y, cardW - 24, 18, 5);
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.16)';
+      ctx.fill();
+
+      ctx.font = '800 6.8px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#785b0a';
+      ctx.fillText('Désignation', cardX + 18, y + 11.5);
+      ctx.fillText('Qté', cardX + 206, y + 11.5);
+      ctx.fillText('P.U', cardX + 238, y + 11.5);
+      ctx.fillText('Total', cardX + 282, y + 11.5);
+
+      y += 22;
+      items.forEach(item => {
+        const lineTotal = (Number(item.qty) || 1) * (Number(item.price) || 0);
+        drawRoundRect(ctx, cardX + 12, y, cardW - 24, itemRowHeight - 3, 5);
+        ctx.fillStyle = '#f8fafc';
+        ctx.fill();
+
+        ctx.font = '700 6.8px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = '#0f172a';
+        const shortLabel = String(item.name || '');
+        ctx.fillText(shortLabel.length > 34 ? shortLabel.slice(0, 34) + '...' : shortLabel, cardX + 18, y + 14);
+
+        ctx.fillStyle = '#334155';
+        ctx.fillText(String(item.qty || 1), cardX + 210, y + 14);
+        ctx.fillText(`${item.price || 0} DH`, cardX + 238, y + 14);
+
+        ctx.fillStyle = '#9c7812';
+        ctx.font = '800 6.8px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(`${lineTotal} DH`, cardX + 282, y + 14);
+
+        y += itemRowHeight;
+      });
+
+      y += 6;
+      drawRoundRect(ctx, cardX + 12, y, cardW - 24, 56, 8);
+      ctx.fillStyle = '#f8fafc';
+      ctx.fill();
+
+      ctx.font = '700 7.2px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#475569';
+      ctx.fillText('Sous-total :', cardX + 18, y + 15);
+      ctx.fillStyle = '#0f172a';
+      ctx.fillText(`${cl.total} DH`, cardX + cardW - 64, y + 15);
+
+      ctx.fillStyle = '#475569';
+      ctx.fillText('Payé :', cardX + 18, y + 28);
+      ctx.fillStyle = '#059669';
+      ctx.fillText(`${cl.paid} DH`, cardX + cardW - 64, y + 28);
+
+      drawRoundRect(ctx, cardX + 16, y + 34, cardW - 32, 17, 4);
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.14)';
+      ctx.fill();
+
+      ctx.font = '800 7.8px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#785b0a';
+      ctx.fillText('Reste à payer :', cardX + 21, y + 45.5);
+      ctx.fillStyle = rem > 0 ? '#dc2626' : '#059669';
+      ctx.fillText(`${rem} DH`, cardX + cardW - 64, y + 45.5);
+
+      y += 64;
+      ctx.font = '600 6.5px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#64748b';
+      wrapCanvasText(ctx, `${BRAND_NAME} - Reçu officiel digital`, cardX + 18, y + 8, cardW - 36, 10);
+
+      return canvas;
+    }
+
+    function triggerAnchorDownload(href, filename) {
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = filename;
+      link.rel = 'noopener noreferrer';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      setTimeout(() => {
+        if (link.parentNode) link.parentNode.removeChild(link);
+      }, 400);
+    }
+
+    async function saveCanvasImageReliable(canvas, filename) {
+      const dataUrl = canvas.toDataURL('image/png', 1.0);
+      if (canvas.toBlob) {
+        let blobSaved = false;
+        await new Promise(resolve => {
+          canvas.toBlob(blob => {
+            if (blob) {
+              const blobUrl = URL.createObjectURL(blob);
+              triggerAnchorDownload(blobUrl, filename);
+              blobSaved = true;
+              setTimeout(() => URL.revokeObjectURL(blobUrl), 8000);
+            }
+            resolve();
+          }, 'image/png', 1.0);
+        });
+        if (blobSaved) return dataUrl;
+      }
+      triggerAnchorDownload(dataUrl, filename);
+      return dataUrl;
+    }
+
+    async function copyCanvasToClipboard(canvas) {
+      if (!navigator.clipboard || typeof ClipboardItem === 'undefined') return false;
+      return new Promise(resolve => {
+        canvas.toBlob(async blob => {
+          if (!blob) return resolve(false);
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            resolve(true);
+          } catch (_) {
+            resolve(false);
+          }
+        }, 'image/png');
+      });
+    }
+
+    async function saveInvoiceOnly(cl) {
+      const feedbackEl = document.getElementById('wa-export-feedback');
+      const canvas = renderInvoiceToCanvas(cl);
+      const fileName = `Facture-${cl.id || 'YOUNES-STORE'}.png`;
+      await saveCanvasImageReliable(canvas, fileName);
+      const copied = await copyCanvasToClipboard(canvas);
+      if (feedbackEl) {
+        feedbackEl.style.color = 'var(--emerald-ink)';
+        feedbackEl.innerText = copied
+          ? `Téléchargement lancé : ${fileName} (copiée aussi)`
+          : `Téléchargement lancé : ${fileName}`;
+      }
+    }
+
+    async function sendInvoiceImageViaWhatsApp(cl) {
+      const feedbackEl = document.getElementById('wa-export-feedback');
+      const rem = Math.max(0, cl.total - cl.paid);
+      const tech = getTechFields(cl);
+      const canvas = renderInvoiceToCanvas(cl);
+      const fileName = `Facture-${cl.id || 'YOUNES-STORE'}.png`;
+      await saveCanvasImageReliable(canvas, fileName);
+
+      const copied = await copyCanvasToClipboard(canvas);
+      const cleanPhone = (cl.phone || '').replace(/\D/g, '');
+      const targetPhone = cleanPhone || WHATSAPP_ORDER_NUMBER;
+
+      const msgLines = [
+        `${BRAND_NAME} - Facture ${cl.id}`,
+        cl.name ? `Client : ${cl.name}` : '',
+        tech.mac ? `MAC Address : ${tech.mac}` : '',
+        tech.app ? `App : ${tech.app}` : '',
+        tech.host ? `Host : ${tech.host}` : '',
+        tech.username ? `Username : ${tech.username}` : '',
+        tech.password ? `Password : ${tech.password}` : '',
+        tech.expiry ? `Expiration : ${tech.expiry}` : '',
+        `Total : ${cl.total} DH | Payé : ${cl.paid} DH | Reste : ${rem} DH`
+      ].filter(Boolean);
+
+      if (feedbackEl) {
+        feedbackEl.style.color = 'var(--emerald-ink)';
+        feedbackEl.innerText = copied
+          ? `Image enregistrée (${fileName}) et copiée. Ouverture de WhatsApp...`
+          : `Image enregistrée (${fileName}). Ouverture de WhatsApp...`;
+      }
+
+      setTimeout(() => {
+        window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(msgLines.join('\n'))}`, '_blank', 'noopener,noreferrer');
+      }, 250);
+    }
+
+    function handleProductImageFile(event) {
+      const file = event.target.files && event.target.files[0];
+      const nameEl = document.getElementById('prod-img-filename');
+      const thumbEl = document.getElementById('prod-img-preview');
+      if (!file) return;
+
+      nameEl.innerText = file.name;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const size = 640;
+          const side = Math.min(img.width, img.height);
+          const sx = Math.round((img.width - side) / 2);
+          const sy = Math.round((img.height - side) / 2);
+
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, sx, sy, side, side, 0, 0, size, size);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+          pendingProductImageData = compressedDataUrl;
+          thumbEl.src = compressedDataUrl;
+          thumbEl.classList.remove('hidden');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetProductImagePicker() {
+      pendingProductImageData = '';
+      const fileInput = document.getElementById('prod-img-file');
+      const nameEl = document.getElementById('prod-img-filename');
+      const thumbEl = document.getElementById('prod-img-preview');
+      if (fileInput) fileInput.value = '';
+      if (nameEl) nameEl.innerText = 'Choisir une photo...';
+      if (thumbEl) {
+        thumbEl.src = '';
+        thumbEl.classList.add('hidden');
+      }
+    }
+
+    function toggleLedgerVisibility() {
+      isLedgerVisible = !isLedgerVisible;
+      const panel = document.getElementById('clients-ledger-panel');
+      const btn = document.getElementById('btn-toggle-ledger');
+      panel.classList.toggle('hidden', !isLedgerVisible);
+      btn.classList.toggle('active-toggle', isLedgerVisible);
+      if (isLedgerVisible) {
+        document.getElementById('client-search').focus();
+      }
+    }
+
+    function populateClientDropdowns() {
+      const selects = ['act-client-select', 'sub-client-select'];
+      selects.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const currentVal = el.value;
+        el.innerHTML = `<option value="">Sélectionner un client</option>` + clients.map((c, idx) =>
+          `<option value="${idx}">${c.name}${c.phone ? ' (' + c.phone + ')' : ''}</option>`
+        ).join('');
+        el.value = currentVal;
+      });
+    }
+
+    function fillClientFromSelect(selectId, nameInputId, phoneInputId) {
+      const idx = document.getElementById(selectId).value;
+      if (idx === '' || !clients[idx]) return;
+      const cl = clients[idx];
+      if (nameInputId && document.getElementById(nameInputId)) {
+        document.getElementById(nameInputId).value = cl.name || '';
+      }
+      if (phoneInputId && document.getElementById(phoneInputId)) {
+        document.getElementById(phoneInputId).value = cl.phone || '';
+      }
+    }
+
+    function openActivationModal() {
+      populateClientDropdowns();
+      const startInput = document.getElementById('act-start-date');
+      if (!startInput.value) {
+        startInput.value = new Date().toISOString().slice(0, 10);
+      }
+      prepareActivationInvoice();
+      document.getElementById('activation-modal').classList.add('open');
+    }
+
+    function openAbonnementModal() {
+      populateClientDropdowns();
+      const startInput = document.getElementById('sub-start-date');
+      if (!startInput.value) {
+        startInput.value = new Date().toISOString().slice(0, 10);
+      }
+      updateSubExpiry();
+      prepareAbonnementInvoice();
+      document.getElementById('abonnement-modal').classList.add('open');
+    }
+
+    function updateSubExpiry() {
+      const startVal = document.getElementById('sub-start-date').value;
+      const dur = document.getElementById('sub-duration').value;
+      const expEl = document.getElementById('sub-expiry-display');
+      if (!startVal || !expEl) return;
+
+      const dateObj = new Date(startVal + 'T00:00:00');
+      if (isNaN(dateObj.getTime())) return;
+
+      const monthsMap = { '1 mois': 1, '3 mois': 3, '6 mois': 6, '12 mois': 12 };
+      const addMonths = monthsMap[dur] || 1;
+      dateObj.setMonth(dateObj.getMonth() + addMonths);
+      expEl.value = dateObj.toLocaleDateString('fr-FR');
+    }
+
+    function autoExtractXtreamFromM3U() {
+      const raw = document.getElementById('sub-m3u-url').value.trim();
+      if (!raw) return;
+      try {
+        const normalized = raw.replace(/^https?:\/\//i, 'http://');
+        const urlObj = new URL(normalized);
+        const user = urlObj.searchParams.get('username') || '';
+        const pass = urlObj.searchParams.get('password') || '';
+        const serverBase = `${urlObj.protocol}//${urlObj.host}`;
+
+        if (serverBase && urlObj.host) {
+          document.getElementById('sub-server').value = serverBase;
+        }
+        if (user) {
+          document.getElementById('sub-username').value = user;
+        }
+        if (pass) {
+          document.getElementById('sub-password').value = pass;
+        }
+      } catch (_) {}
+    }
+
+    function prepareActivationInvoice() {
+      const box = document.getElementById('act-live-invoice-preview');
+      if (!box) return;
+      const name = document.getElementById('act-client-name').value.trim() || 'Client';
+      const phone = document.getElementById('act-whatsapp').value.trim();
+      const mac = document.getElementById('act-mac').value.trim();
+      const app = document.getElementById('act-app').value;
+      const duration = document.getElementById('act-duration').value;
+      const startDate = document.getElementById('act-start-date').value;
+      const price = parseFloat(document.getElementById('act-price').value) || 0;
+      const paidRaw = document.getElementById('act-paid').value;
+      const paid = paidRaw === '' ? price : (parseFloat(paidRaw) || 0);
+      const rem = Math.max(0, price - paid);
+
+      box.innerHTML = `
+        <div style="font-weight:800;color:#0f172a;">${name}${phone ? ' - ' + phone : ''}</div>
+        <div class="live-prep-cred-grid">
+          <div class="live-prep-cred-chip ${mac ? 'mac-highlight' : ''}"><strong>MAC:</strong> ${mac || '-'}</div>
+          <div class="live-prep-cred-chip"><strong>App:</strong> ${app !== 'None' ? app : '-'}</div>
+          <div class="live-prep-cred-chip"><strong>Durée:</strong> ${duration}</div>
+          <div class="live-prep-cred-chip"><strong>Début:</strong> ${startDate || '-'}</div>
+        </div>
+        <div class="live-prep-line">
+          <span>Total: <strong class="ink-gold">${price} DH</strong></span>
+          <span>Payé: <strong class="ink-green">${paid} DH</strong></span>
+          <span>Reste: <strong class="${rem > 0 ? 'ink-red' : 'ink-green'}">${rem} DH</strong></span>
+        </div>
+      `;
+    }
+
+    function prepareAbonnementInvoice() {
+      const box = document.getElementById('sub-live-invoice-preview');
+      if (!box) return;
+      const name = document.getElementById('sub-client-name').value.trim() || document.getElementById('sub-username').value.trim() || 'Client Abonnement';
+      const app = document.getElementById('sub-app').value;
+      const mac = document.getElementById('sub-mac').value.trim();
+      const server = document.getElementById('sub-server').value.trim();
+      const username = document.getElementById('sub-username').value.trim();
+      const password = document.getElementById('sub-password').value.trim();
+      const duration = document.getElementById('sub-duration').value;
+      const expiry = document.getElementById('sub-expiry-display').value.trim();
+      const price = parseFloat(document.getElementById('sub-price').value) || 0;
+
+      box.innerHTML = `
+        <div style="font-weight:800;color:#0f172a;">${name} - ${duration}${expiry ? ' (Exp: ' + expiry + ')' : ''}</div>
+        <div class="live-prep-cred-grid">
+          <div class="live-prep-cred-chip"><strong>Host:</strong> ${server || '-'}</div>
+          <div class="live-prep-cred-chip"><strong>Username:</strong> ${username || '-'}</div>
+          <div class="live-prep-cred-chip"><strong>Password:</strong> ${password || '-'}</div>
+          ${mac ? `<div class="live-prep-cred-chip mac-highlight"><strong>MAC:</strong> ${mac}</div>` : ''}
+          ${(app !== 'None') ? `<div class="live-prep-cred-chip"><strong>App:</strong> ${app}</div>` : ''}
+        </div>
+        <div class="live-prep-line">
+          <span>Total: <strong class="ink-gold">${price} DH</strong></span>
+          <span>Payé: <strong class="ink-green">${price} DH</strong></span>
+          <span>Reste: <strong class="ink-green">0 DH</strong></span>
+        </div>
+      `;
+    }
+
+    function submitActivation() {
+      const name = document.getElementById('act-client-name').value.trim();
+      const phone = document.getElementById('act-whatsapp').value.trim();
+      const mac = document.getElementById('act-mac').value.trim();
+      const app = document.getElementById('act-app').value;
+      const duration = document.getElementById('act-duration').value;
+      const startDate = document.getElementById('act-start-date').value;
+      const price = parseFloat(document.getElementById('act-price').value) || 0;
+      const paidRaw = document.getElementById('act-paid').value;
+      const paid = paidRaw === '' ? price : (parseFloat(paidRaw) || 0);
+      const note = document.getElementById('act-note').value.trim();
+
+      if (!name && !mac) return;
+
+      const labelParts = [`Activation ${app !== 'None' ? app : 'Playlist'} (${duration})`];
+      if (mac) labelParts.push(`MAC: ${mac}`);
+      if (note) labelParts.push(note);
+
+      const newCl = {
+        id: "ACT-" + Date.now().toString().slice(-6),
+        date: new Date().toLocaleDateString('fr-FR'),
+        name: name || mac,
+        phone,
+        items: [{ name: labelParts.join(' - '), qty: 1, price }],
+        total: price,
+        paid,
+        tech: {
+          app: app !== 'None' ? app : '',
+          mac,
+          duration,
+          startDate
+        }
+      };
+
+      clients.unshift(newCl);
+      document.getElementById('act-client-name').value = '';
+      document.getElementById('act-whatsapp').value = '';
+      document.getElementById('act-mac').value = '';
+      document.getElementById('act-price').value = '';
+      document.getElementById('act-paid').value = '';
+      document.getElementById('act-note').value = '';
+
+      closeModal('activation-modal');
+      saveAll();
+      openClientInvoice(newCl.id, false);
+    }
+
+    function submitAbonnement() {
+      const name = document.getElementById('sub-client-name').value.trim();
+      const phone = document.getElementById('sub-whatsapp').value.trim();
+      const app = document.getElementById('sub-app').value;
+      const mac = document.getElementById('sub-mac').value.trim();
+      const server = document.getElementById('sub-server').value.trim();
+      const username = document.getElementById('sub-username').value.trim();
+      const password = document.getElementById('sub-password').value.trim();
+      const duration = document.getElementById('sub-duration').value;
+      const startDate = document.getElementById('sub-start-date').value;
+      const expiry = document.getElementById('sub-expiry-display').value.trim();
+      const price = parseFloat(document.getElementById('sub-price').value) || 0;
+      const note = document.getElementById('sub-note').value.trim();
+
+      if (!name && !username && !server && !mac) return;
+
+      const hasAppOrMac = (app !== 'None') || Boolean(mac);
+      const itemTitle = hasAppOrMac
+        ? `Abonnement + ${[app !== 'None' ? app : 'Playlist', mac ? 'MAC: ' + mac : ''].filter(Boolean).join(' - ')} (${duration})`
+        : `Abonnement Xtream / M3U (${duration})`;
+
+      const fullDesc = note ? `${itemTitle} - ${note}` : itemTitle;
+
+      const newCl = {
+        id: "SUB-" + Date.now().toString().slice(-6),
+        date: new Date().toLocaleDateString('fr-FR'),
+        name: name || username || mac || 'Client Abonnement',
+        phone,
+        items: [{ name: fullDesc, qty: 1, price }],
+        total: price,
+        paid: price,
+        tech: {
+          host: server,
+          username,
+          password,
+          app: app !== 'None' ? app : '',
+          mac,
+          duration,
+          startDate,
+          expiry
+        }
+      };
+
+      clients.unshift(newCl);
+      document.getElementById('sub-m3u-url').value = '';
+      document.getElementById('sub-client-name').value = '';
+      document.getElementById('sub-whatsapp').value = '';
+      document.getElementById('sub-mac').value = '';
+      document.getElementById('sub-server').value = '';
+      document.getElementById('sub-username').value = '';
+      document.getElementById('sub-password').value = '';
+      document.getElementById('sub-price').value = '';
+      document.getElementById('sub-note').value = '';
+
+      closeModal('abonnement-modal');
+      saveAll();
+      openClientInvoice(newCl.id, false);
+    }
+
+    function openAddClientModal() {
+      document.getElementById('add-client-modal').classList.add('open');
+      document.getElementById('new-c-name').focus();
+    }
+
+    function openFxModal() {
+      syncFxRateInput();
+      calculateFx();
+      document.getElementById('fx-modal').classList.add('open');
+    }
+
+    function syncFxRateInput() {
+      const from = document.getElementById('fx-from').value;
+      const rateInput = document.getElementById('fx-custom-rate');
+      rateInput.value = fxRatesToMad[from] || 1;
+      rateInput.disabled = (from === 'MAD');
+    }
+
+    function saveCustomFxRate() {
+      const from = document.getElementById('fx-from').value;
+      const val = parseFloat(document.getElementById('fx-custom-rate').value);
+      if (from !== 'MAD' && !isNaN(val) && val > 0) {
+        fxRatesToMad[from] = val;
+        localStorage.setItem('fl_fr_v6_fx_mad', JSON.stringify(fxRatesToMad));
+      }
+      calculateFx();
+    }
+
+    function swapFxCurrencies() {
+      const fromEl = document.getElementById('fx-from');
+      const toEl = document.getElementById('fx-to');
+      const temp = fromEl.value;
+      fromEl.value = toEl.value;
+      toEl.value = temp;
+      syncFxRateInput();
+      calculateFx();
+    }
+
+    function calculateFx() {
+      syncFxRateInput();
+      const amount = parseFloat(document.getElementById('fx-amount').value);
+      const from = document.getElementById('fx-from').value;
+      const to = document.getElementById('fx-to').value;
+
+      if (isNaN(amount) || amount < 0) {
+        document.getElementById('fx-output').innerText = `0.00 ${to}`;
+        return;
+      }
+
+      const fromToMad = fxRatesToMad[from] || 1;
+      const toToMad = fxRatesToMad[to] || 1;
+      const inMad = amount * fromToMad;
+      const converted = inMad / toToMad;
+
+      const symbols = { MAD: 'DH', EUR: '€', USD: '$', CFA: 'FCFA' };
+      const decimals = to === 'CFA' ? 0 : 2;
+      document.getElementById('fx-output').innerText = `${converted.toFixed(decimals)} ${symbols[to] || to}`;
+      document.getElementById('fx-rate-info').innerText = `Base : 1 EUR = ${fxRatesToMad.EUR} DH - 1 USD = ${fxRatesToMad.USD} DH - 1000 CFA = ${(fxRatesToMad.CFA * 1000).toFixed(2)} DH`;
+    }
+
+    function saveAll() {
+      localStorage.setItem('fl_fr_v7_products', JSON.stringify(products));
+      localStorage.setItem('fl_fr_v6_clients', JSON.stringify(clients));
+      renderClients();
+      renderAdminProducts();
+      renderStore();
+      populateQuickInvoiceProducts();
+      populateClientDropdowns();
+    }
+
+    function encodePayload(obj) {
+      const jsonStr = JSON.stringify(obj);
+      const bytes = new TextEncoder().encode(jsonStr);
+      let bin = '';
+      bytes.forEach(b => { bin += String.fromCharCode(b); });
+      return 'FLX1:' + btoa(bin);
+    }
+
+    function decodePayload(rawStr) {
+      let clean = rawStr.trim();
+      if (!clean) throw new Error('EMPTY');
+
+      if (clean.startsWith('FLX1:')) {
+        const b64 = clean.slice(5).trim();
+        const bin = atob(b64);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        clean = new TextDecoder().decode(bytes);
+      }
+
+      const parsed = JSON.parse(clean);
+      const arr = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.products) ? parsed.products : null);
+      if (!arr) throw new Error('INVALID');
+
+      return arr
+        .map((item, idx) => ({
+          id: item.id || (Date.now() + idx),
+          name: String(item.name || item.title || '').trim(),
+          price: parseFloat(item.price),
+          cat: String(item.cat || item.category || '').trim(),
+          img: String(item.img || item.image || '').trim()
+        }))
+        .filter(p => p.name && !isNaN(p.price) && p.price > 0);
+    }
+
+    function generateEncryptedProductsCode() {
+      const statusEl = document.getElementById('vault-status-msg');
+      const areaEl = document.getElementById('encrypted-products-input');
+      if (!products.length) {
+        statusEl.style.color = 'var(--ruby)';
+        statusEl.innerText = 'Aucun produit à crypter.';
+        return;
+      }
+      const code = encodePayload(products);
+      areaEl.value = code;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).catch(() => {});
+      }
+      statusEl.style.color = 'var(--emerald)';
+      statusEl.innerText = `Code généré (${products.length} produit(s)).`;
+    }
+
+    function applyEncryptedProductsCode() {
+      const statusEl = document.getElementById('vault-status-msg');
+      const areaEl = document.getElementById('encrypted-products-input');
+      try {
+        const imported = decodePayload(areaEl.value);
+        if (!imported.length) {
+          statusEl.style.color = 'var(--ruby)';
+          statusEl.innerText = 'Code invalide ou vide.';
+          return;
+        }
+        products = imported;
+        saveAll();
+        statusEl.style.color = 'var(--emerald)';
+        statusEl.innerText = `${imported.length} produit(s) affiché(s) directement dans Boutique.`;
+      } catch (e) {
+        statusEl.style.color = 'var(--ruby)';
+        statusEl.innerText = 'Format de code crypté invalide.';
+      }
+    }
+
+    function clearVaultInput() {
+      document.getElementById('encrypted-products-input').value = '';
+      document.getElementById('vault-status-msg').innerText = '';
+    }
+
+    function toggleProductDropdown(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('lux-product-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', () => {
+      const menu = document.getElementById('lux-product-menu');
+      if (menu) menu.classList.add('hidden');
+    });
+
+    function updateQuickPreview(prod) {
+      const thumb = document.getElementById('inv-prod-thumb');
+      const title = document.getElementById('inv-preview-title');
+      const price = document.getElementById('inv-preview-price');
+
+      if (!prod) {
+        thumb.innerHTML = `<i class="fa-solid fa-image"></i>`;
+        title.innerText = '-';
+        price.innerText = '';
+        return;
+      }
+
+      thumb.innerHTML = prod.img
+        ? `<img src="${prod.img}" alt="${prod.name}" style="width:100%;height:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;">`
+        : `<i class="fa-solid fa-box"></i>`;
+      title.innerText = prod.name;
+      price.innerText = `${prod.price} DH`;
+    }
+
+    function populateQuickInvoiceProducts() {
+      const menu = document.getElementById('lux-product-menu');
+      if (!menu) return;
+      menu.innerHTML = products.length
+        ? products.map(p => `
+            <div class="lux-select-option" onclick="selectQuickProduct(${p.id})">
+              <span>${p.name}</span>
+              <span class="gold">${p.price} DH</span>
+            </div>
+          `).join('')
+        : `<div class="lux-select-option" style="justify-content:center;color:var(--text-muted);">-</div>`;
+    }
+
+    function selectQuickProduct(id) {
+      const prod = products.find(p => String(p.id) === String(id));
+      if (!prod) return;
+      document.getElementById('lux-selected-label').innerText = `${prod.name} (${prod.price} DH)`;
+      document.getElementById('inv-item').value = prod.name;
+      document.getElementById('inv-price').value = prod.price;
+      updateQuickPreview(prod);
+      document.getElementById('lux-product-menu').classList.add('hidden');
+    }
+
+    function switchMode(mode) {
+      document.getElementById('btn-admin-mode').classList.toggle('active', mode === 'admin');
+      document.getElementById('btn-store-mode').classList.toggle('active', mode === 'store');
+      document.getElementById('admin-view').classList.toggle('hidden', mode !== 'admin');
+      document.getElementById('store-view').classList.toggle('hidden', mode !== 'store');
+      if (mode === 'store') renderStore();
+    }
+
+    function switchTab(tabId, btn) {
+      ['ledger', 'products', 'quick-invoice'].forEach(t => {
+        document.getElementById('tab-' + t).classList.add('hidden');
+      });
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      if (tabId === 'quick-invoice') populateQuickInvoiceProducts();
+    }
+
+    function addClient() {
+      const name = document.getElementById('new-c-name').value.trim();
+      const phone = document.getElementById('new-c-phone').value.trim();
+      const note = document.getElementById('new-c-note').value.trim();
+      const total = parseFloat(document.getElementById('new-c-total').value);
+      const paid = parseFloat(document.getElementById('new-c-paid').value) || 0;
+
+      if (!name || isNaN(total) || total <= 0) return;
+
+      clients.unshift({
+        id: "FAC-" + Date.now().toString().slice(-6),
+        date: new Date().toLocaleDateString('fr-FR'),
+        name,
+        phone,
+        items: [{ name: note || name, qty: 1, price: total }],
+        total,
+        paid
+      });
+
+      document.getElementById('new-c-name').value = '';
+      document.getElementById('new-c-phone').value = '';
+      document.getElementById('new-c-note').value = '';
+      document.getElementById('new-c-total').value = '';
+      document.getElementById('new-c-paid').value = '';
+
+      closeModal('add-client-modal');
+      saveAll();
+    }
+
+    function openFinanceModal(clientId, type) {
+      const cl = clients.find(c => c.id === clientId);
+      if (!cl) return;
+      const rem = Math.max(0, cl.total - cl.paid);
+
+      document.getElementById('fin-amount').value = '';
+      document.getElementById('fin-note').value = '';
+
+      if (type === 'add') {
+        document.getElementById('fin-modal-title').innerHTML = `<i class="fa-solid fa-circle-plus"></i> Ajout financier (${cl.name})`;
+        document.getElementById('fin-client-info').innerText = `Total : ${cl.total} DH | Payé : ${cl.paid} DH | Reste : ${rem} DH`;
+        document.getElementById('fin-confirm-btn').onclick = () => {
+          const amt = parseFloat(document.getElementById('fin-amount').value);
+          const note = document.getElementById('fin-note').value.trim();
+          if (isNaN(amt) || amt <= 0) return;
+          cl.total += amt;
+          cl.items.push({ name: note || "+", qty: 1, price: amt });
+          closeModal('finance-modal');
+          saveAll();
+        };
+      } else {
+        document.getElementById('fin-modal-title').innerHTML = `<i class="fa-solid fa-money-bill-transfer"></i> Paiement (${cl.name})`;
+        document.getElementById('fin-client-info').innerText = `Reste : ${rem} DH`;
+        document.getElementById('fin-confirm-btn').onclick = () => {
+          const amt = parseFloat(document.getElementById('fin-amount').value);
+          if (isNaN(amt) || amt <= 0) return;
+          cl.paid += amt;
+          closeModal('finance-modal');
+          saveAll();
+        };
+      }
+
+      document.getElementById('finance-modal').classList.add('open');
+    }
+
+    function deleteClient(id) {
+      clients = clients.filter(c => c.id !== id);
+      saveAll();
+    }
+
+    function openClientInvoice(id, autoSave = false) {
+      const cl = clients.find(c => c.id === id);
+      if (!cl) return;
+      const rem = Math.max(0, cl.total - cl.paid);
+      const statusLabel = rem === 0 ? 'PAYÉE' : (cl.paid > 0 ? 'ACOMPTE' : 'EN ATTENTE');
+      const tech = getTechFields(cl);
+      const showTech = hasAnyTechField(tech);
+
+      const feedbackEl = document.getElementById('wa-export-feedback');
+      if (feedbackEl) feedbackEl.innerText = '';
+
+      const rows = cl.items.map(i => `
+        <tr>
+          <td>${i.name}</td>
+          <td>${i.qty}</td>
+          <td>${i.price} DH</td>
+          <td><strong class="ink-gold">${i.qty * i.price} DH</strong></td>
+        </tr>
+      `).join('');
+
+      const macBannerHtml = tech.mac ? `
+        <div class="inv-mac-banner">
+          <span class="inv-mac-badge"><i class="fa-solid fa-microchip"></i> MAC ADDRESS</span>
+          <span class="inv-mac-value">${tech.mac}</span>
+        </div>
+      ` : '';
+
+      const techCells = [];
+      if (tech.host) techCells.push(`<div class="inv-tech-cell"><span class="inv-tech-lbl">Host</span><span class="inv-tech-code">${tech.host}</span></div>`);
+      if (tech.username) techCells.push(`<div class="inv-tech-cell"><span class="inv-tech-lbl">Username</span><span class="inv-tech-code">${tech.username}</span></div>`);
+      if (tech.password) techCells.push(`<div class="inv-tech-cell"><span class="inv-tech-lbl">Password</span><span class="inv-tech-code">${tech.password}</span></div>`);
+      if (tech.app) techCells.push(`<div class="inv-tech-cell"><span class="inv-tech-lbl">Application</span><span class="inv-tech-code">${tech.app}</span></div>`);
+      if (tech.duration || tech.expiry) {
+        const valStr = [tech.duration, tech.expiry ? `Exp: ${tech.expiry}` : ''].filter(Boolean).join(' - ');
+        techCells.push(`<div class="inv-tech-cell"><span class="inv-tech-lbl">Durée / Validité</span><span class="inv-tech-code">${valStr}</span></div>`);
+      }
+
+      const techHtml = showTech ? `
+        <div class="inv-tech-panel">
+          <div class="inv-tech-title"><i class="fa-solid fa-shield-halved"></i> Paramètres d'accès & playlist</div>
+          ${macBannerHtml}
+          <div class="inv-tech-grid">${techCells.join('')}</div>
+        </div>
+      ` : '';
+
+      document.getElementById('invoice-content').innerHTML = `
+        <div class="inv-top-bar">
+          <div>
+            <div class="inv-brand-name">${BRAND_NAME}</div>
+            <div style="font-size:0.5rem;color:#64748b;font-weight:600;">Facture Verre Blanc</div>
+          </div>
+          <span class="inv-doc-tag">${statusLabel}</span>
+        </div>
+
+        <div class="inv-meta-block">
+          <div class="inv-meta-row"><span class="inv-meta-key">N°:</span><span class="inv-meta-val gold-ink">${cl.id}</span></div>
+          <div class="inv-meta-row"><span class="inv-meta-key">Date:</span><span class="inv-meta-val">${cl.date}</span></div>
+          <div class="inv-meta-row"><span class="inv-meta-key">Client:</span><span class="inv-meta-val">${cl.name || '-'}</span></div>
+          <div class="inv-meta-row"><span class="inv-meta-key">Tél:</span><span class="inv-meta-val">${cl.phone || '-'}</span></div>
+        </div>
+
+        ${techHtml}
+
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th>Désignation</th>
+              <th>Qté</th>
+              <th>P.U</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+
+        <div class="inv-totals-box">
+          <div class="inv-total-line">
+            <span>Sous-total :</span>
+            <strong>${cl.total} DH</strong>
+          </div>
+          <div class="inv-total-line">
+            <span>Payé :</span>
+            <strong class="ink-green">${cl.paid} DH</strong>
+          </div>
+          <div class="inv-total-line inv-grand-total">
+            <span class="ink-gold">Reste à payer :</span>
+            <strong class="${rem > 0 ? 'ink-red' : 'ink-green'}">${rem} DH</strong>
+          </div>
+        </div>
+
+        <div class="inv-footer-note">${BRAND_NAME} - Reçu officiel digital</div>
+      `;
+
+      document.getElementById('btn-save-invoice-png').onclick = () => {
+        saveInvoiceOnly(cl);
+      };
+
+      document.getElementById('btn-wa-invoice').onclick = () => {
+        sendInvoiceImageViaWhatsApp(cl);
+      };
+
+      document.getElementById('invoice-modal').classList.add('open');
+
+      if (autoSave) {
+        setTimeout(() => {
+          saveInvoiceOnly(cl);
+        }, 120);
+      }
+    }
+
+    function addProduct() {
+      const name = document.getElementById('prod-name').value.trim();
+      const price = parseFloat(document.getElementById('prod-price').value);
+      const cat = document.getElementById('prod-cat').value.trim();
+      const img = pendingProductImageData;
+      if (!name || isNaN(price) || price <= 0) return;
+      products.unshift({ id: Date.now(), name, price, cat, img });
+      document.getElementById('prod-name').value = '';
+      document.getElementById('prod-price').value = '';
+      document.getElementById('prod-cat').value = '';
+      resetProductImagePicker();
+      saveAll();
+    }
+
+    function deleteProduct(id) {
+      products = products.filter(p => p.id !== id);
+      saveAll();
+    }
+
+    function renderProductMedia(p) {
+      if (p.img) {
+        return `<div class="product-media-frame"><img src="${p.img}" class="product-img" alt="${p.name}"></div>`;
+      }
+      return `<div class="product-media-frame"><div class="product-img-placeholder"><i class="fa-solid fa-box"></i></div></div>`;
+    }
+
+    function buildWhatsAppOrderUrl(prod) {
+      const lines = [
+        `Bonjour ${BRAND_NAME}, je souhaite commander :`,
+        `- Produit : ${prod.name}`,
+        prod.cat ? `- Catégorie : ${prod.cat}` : '',
+        `- Prix : ${prod.price} DH`
+      ].filter(Boolean);
+      return `https://wa.me/${WHATSAPP_ORDER_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+    }
+
+    function orderProductOnWhatsApp(id) {
+      const prod = products.find(p => String(p.id) === String(id));
+      if (!prod) return;
+      window.open(buildWhatsAppOrderUrl(prod), '_blank', 'noopener,noreferrer');
+    }
+
+    function renderStore() {
+      const q = (document.getElementById('store-search').value || '').toLowerCase();
+      const list = products.filter(p => p.name.toLowerCase().includes(q) || (p.cat || '').toLowerCase().includes(q));
+      document.getElementById('store-products-grid').innerHTML = list.length ? list.map(p => `
+        <div class="product-card">
+          ${renderProductMedia(p)}
+          <div class="product-body">
+            <div>
+              ${p.cat ? `<span class="product-badge">${p.cat}</span>` : ''}
+              <div class="product-title">${p.name}</div>
+            </div>
+            <div>
+              <div class="product-price">${p.price} DH</div>
+              <button class="btn btn-wa-order" style="width:100%;" onclick="orderProductOnWhatsApp(${p.id})">
+                <i class="fa-brands fa-whatsapp"></i> Commander
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('') : '<div class="empty-state" style="grid-column:1/-1;">-</div>';
+    }
+
+    function createQuickInvoice() {
+      const name = document.getElementById('inv-client').value.trim();
+      const phone = document.getElementById('inv-phone').value.trim();
+      const item = document.getElementById('inv-item').value.trim();
+      const qty = parseInt(document.getElementById('inv-qty').value) || 1;
+      const price = parseFloat(document.getElementById('inv-price').value);
+      const paid = parseFloat(document.getElementById('inv-paid').value) || 0;
+
+      if (!item || isNaN(price) || price <= 0) return;
+
+      const newCl = {
+        id: "FAC-" + Date.now().toString().slice(-6),
+        date: new Date().toLocaleDateString('fr-FR'),
+        name,
+        phone,
+        items: [{ name: item, qty, price }],
+        total: qty * price,
+        paid
+      };
+
+      clients.unshift(newCl);
+      saveAll();
+      openClientInvoice(newCl.id, false);
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function renderClients() {
+      const q = (document.getElementById('client-search').value || '').toLowerCase();
+      const filtered = clients.filter(c =>
+        c.name.toLowerCase().includes(q) || (c.phone || '').toLowerCase().includes(q)
+      );
+
+      const totalDue = clients.reduce((s, c) => s + c.total, 0);
+      const totalPaid = clients.reduce((s, c) => s + c.paid, 0);
+      const totalRem = clients.reduce((s, c) => s + Math.max(0, c.total - c.paid), 0);
+
+      document.getElementById('stat-total-due').innerText = totalDue + " DH";
+      document.getElementById('stat-total-paid').innerText = totalPaid + " DH";
+      document.getElementById('stat-total-rem').innerText = totalRem + " DH";
+      document.getElementById('stat-clients-count').innerText = clients.length;
+      document.getElementById('badge-clients').innerText = clients.length;
+      document.getElementById('toggle-ledger-count').innerText = clients.length;
+
+      document.getElementById('clients-list').innerHTML = filtered.length ? filtered.map(c => {
+        const rem = Math.max(0, c.total - c.paid);
+        const tech = getTechFields(c);
+        const techSummary = [
+          tech.host ? `Host: ${tech.host}` : '',
+          tech.username ? `User: ${tech.username}` : '',
+          tech.mac ? `MAC: ${tech.mac}` : '',
+          tech.app ? `App: ${tech.app}` : ''
+        ].filter(Boolean).join(' | ');
+        const metaParts = [c.phone, c.date, techSummary || c.items.map(i => i.name).join(', ')].filter(Boolean);
+        return `
+          <div class="client-card">
+            <div class="client-top">
+              <div>
+                <div style="font-weight:800; font-size:0.94rem; color:var(--gold-primary);">
+                  ${c.name} <span style="font-size:0.72rem; color:var(--text-muted);">(${c.id})</span>
+                </div>
+                <div class="client-meta">${metaParts.join(' - ')}</div>
+              </div>
+            </div>
+
+            <div class="finance-strip">
+              <div>
+                <div class="fin-box-label">Total</div>
+                <div class="fin-box-val gold">${c.total} DH</div>
+              </div>
+              <div>
+                <div class="fin-box-label">Payé</div>
+                <div class="fin-box-val green">${c.paid} DH</div>
+              </div>
+              <div>
+                <div class="fin-box-label">Reste</div>
+                <div class="fin-box-val ${rem > 0 ? 'red' : 'green'}">${rem} DH</div>
+              </div>
+            </div>
+
+            <div class="client-actions">
+              <button class="btn btn-add-fin" onclick="openFinanceModal('${c.id}', 'add')">
+                <i class="fa-solid fa-plus"></i> Ajout financier
+              </button>
+              <button class="btn btn-pay" onclick="openFinanceModal('${c.id}', 'pay')">
+                <i class="fa-solid fa-wallet"></i> Payer
+              </button>
+              <button class="btn btn-gold" onclick="openClientInvoice('${c.id}')">
+                <i class="fa-solid fa-file-invoice"></i> Facture
+              </button>
+              <button class="btn btn-danger" onclick="deleteClient('${c.id}')">
+                <i class="fa-solid fa-trash"></i> Supprimer
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('') : '<div class="empty-state">-</div>';
+    }
+
+    function renderAdminProducts() {
+      document.getElementById('admin-products-list').innerHTML = products.length ? products.map(p => `
+        <div class="product-card">
+          ${renderProductMedia(p)}
+          <div class="product-body">
+            <div>
+              ${p.cat ? `<span class="product-badge">${p.cat}</span>` : ''}
+              <div class="product-title">${p.name}</div>
+              <div class="product-price">${p.price} DH</div>
+            </div>
+            <button class="btn btn-danger" style="width:100%;" onclick="deleteProduct(${p.id})">
+              <i class="fa-solid fa-trash"></i> Supprimer
+            </button>
+          </div>
+        </div>
+      `).join('') : '<div class="empty-state" style="grid-column:1/-1;">-</div>';
+    }
+
+    renderClients();
+    renderAdminProducts();
+    renderStore();
+    populateQuickInvoiceProducts();
+    populateClientDropdowns();
+    prepareActivationInvoice();
+    prepareAbonnementInvoice();
+  </script>
 </body>
 </html>
