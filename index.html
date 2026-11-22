@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>YOUNES STORE dashboard | Technique</title>
+  <title>DIRECTION GENERALE</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -20,6 +20,9 @@
       --glass-white-invoice: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.92) 60%, rgba(254, 249, 231, 0.95) 100%);
       --emerald: #00e676;
       --emerald-ink: #059669;
+      --neon-green: #00ff88;
+      --neon-green-soft: #4dffaa;
+      --neon-green-glow: rgba(0, 255, 136, 0.42);
       --ruby: #ff3b5c;
       --ruby-ink: #dc2626;
       --sky: #38bdf8;
@@ -28,6 +31,13 @@
       --radius-lg: 18px;
       --radius-md: 12px;
       --shadow-luxury: 0 16px 38px rgba(0, 0, 0, 0.68);
+      --ui-scale: 0.84;
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --ui-scale: 0.78;
+      }
     }
 
     * {
@@ -38,6 +48,23 @@
       outline: none !important;
       font-family: 'Plus Jakarta Sans', sans-serif;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    input, textarea {
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      max-width: 100vw;
+      overflow: hidden;
+      overscroll-behavior: none;
+      position: fixed;
+      inset: 0;
     }
 
     body {
@@ -46,16 +73,25 @@
         radial-gradient(circle at 12% 10%, rgba(212, 175, 55, 0.13) 0%, transparent 42%),
         radial-gradient(circle at 88% 88%, rgba(0, 230, 118, 0.06) 0%, transparent 42%);
       color: var(--text-main);
-      min-height: 100vh;
-      padding-bottom: 80px;
+    }
+
+    #ui-viewport-scaler {
+      position: relative;
+      width: calc(100% / var(--ui-scale));
+      height: calc(100% / var(--ui-scale));
+      transform: scale(var(--ui-scale));
+      transform-origin: top left;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
-      position: sticky;
-      top: 0;
+      position: relative;
+      flex-shrink: 0;
       z-index: 100;
-      background: rgba(6, 6, 8, 0.86);
-      backdrop-filter: blur(20px);
+      background: rgba(6, 6, 8, 0.76);
+      backdrop-filter: blur(22px) saturate(150%);
       padding: 10px 16px;
       display: flex;
       justify-content: space-between;
@@ -64,7 +100,6 @@
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 2px 16px rgba(212, 175, 55, 0.12);
     }
 
-    /* Glassy Gold Brand Badge with Light Passes & Luxury Box-Shadow */
     .brand {
       position: relative;
       display: inline-flex;
@@ -73,7 +108,7 @@
       gap: 2px;
       padding: 7px 14px;
       border-radius: 14px;
-      background: linear-gradient(135deg, rgba(255, 235, 168, 0.22) 0%, rgba(212, 175, 55, 0.14) 45%, rgba(16, 16, 22, 0.88) 100%);
+      background: linear-gradient(135deg, rgba(255, 235, 168, 0.22) 0%, rgba(212, 175, 55, 0.14) 45%, rgba(16, 16, 22, 0.72) 100%);
       backdrop-filter: blur(18px) saturate(150%);
       box-shadow:
         0 10px 26px rgba(0, 0, 0, 0.75),
@@ -127,25 +162,13 @@
       word-break: break-word;
     }
 
-    .brand-under-younes {
+    .brand-under-title {
       position: relative;
       z-index: 1;
       display: inline-flex;
       flex-direction: column;
       align-items: flex-start;
       line-height: 1.15;
-    }
-
-    .brand-sub-line {
-      font-weight: 800;
-      font-size: 0.66rem;
-      letter-spacing: 1px;
-      background: linear-gradient(120deg, #f3d06b 0%, #fff4c2 45%, #d4af37 80%, #9c7812 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.32));
-      animation: goldTextPass 5s linear infinite reverse;
     }
 
     @keyframes goldTextPass {
@@ -163,7 +186,7 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 25%, rgba(243, 208, 107, 0.32), rgba(18, 18, 25, 0.96) 72%);
+      background: radial-gradient(circle at 30% 25%, rgba(243, 208, 107, 0.32), rgba(18, 18, 25, 0.85) 72%);
       color: var(--gold-primary);
       display: inline-flex;
       align-items: center;
@@ -216,6 +239,9 @@
       font-weight: 700;
       cursor: pointer;
       transition: 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .mode-btn.active {
@@ -225,16 +251,46 @@
     }
 
     .container {
+      flex: 1;
+      width: 100%;
       max-width: 1120px;
       margin: 0 auto;
-      padding: 14px;
+      padding: 12px 14px 96px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.45) transparent;
     }
 
-    /* Compact Boutique Shell */
+    .container::-webkit-scrollbar,
+    .store-compact-shell::-webkit-scrollbar,
+    .modal-box::-webkit-scrollbar,
+    .lux-select-menu::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .container::-webkit-scrollbar-thumb,
+    .store-compact-shell::-webkit-scrollbar-thumb,
+    .modal-box::-webkit-scrollbar-thumb,
+    .lux-select-menu::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.45);
+      border-radius: 999px;
+    }
+
     .store-compact-shell {
+      flex: 1;
+      width: 100%;
       max-width: 680px;
       margin: 0 auto;
-      padding: 10px 12px;
+      padding: 10px 12px 96px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(212, 175, 55, 0.45) transparent;
     }
 
     .store-compact-header {
@@ -260,6 +316,40 @@
     .store-compact-header p {
       font-size: 0.66rem;
       color: var(--text-muted);
+    }
+
+    .client-session-banner {
+      border-radius: 16px;
+      padding: 10px 13px;
+      margin-bottom: 10px;
+      background: radial-gradient(circle at 85% 15%, rgba(0, 255, 136, 0.14) 0%, rgba(14, 18, 17, 0.85) 70%);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(0, 255, 136, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .client-session-banner.expired-banner {
+      background: radial-gradient(circle at 85% 15%, rgba(255, 59, 92, 0.16) 0%, rgba(22, 12, 15, 0.88) 70%);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 59, 92, 0.35);
+    }
+
+    .client-session-name {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--neon-green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .client-session-expiry {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--neon-green-soft);
+      margin-top: 2px;
     }
 
     .store-compact-search {
@@ -329,52 +419,19 @@
       border-radius: 14px;
     }
 
-    .nav-tabs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 14px;
-      scrollbar-width: none;
-    }
-    .nav-tabs::-webkit-scrollbar { display: none; }
-
-    .tab-btn {
-      background: var(--surface-glass);
-      backdrop-filter: blur(16px);
-      color: var(--text-muted);
-      padding: 9px 15px;
-      border-radius: var(--radius-md);
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: 0.25s;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-    }
-
-    .tab-btn.active {
-      background: var(--surface-elevated);
-      color: var(--gold-primary);
-      box-shadow: 0 8px 22px rgba(212, 175, 55, 0.18);
-    }
-
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-      gap: 11px;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .stat-card {
-      background: var(--surface-glass);
-      backdrop-filter: blur(18px);
-      padding: 13px;
+      background: rgba(18, 18, 25, 0.56);
+      backdrop-filter: blur(22px) saturate(150%);
+      padding: 12px;
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-luxury);
+      box-shadow: var(--shadow-luxury), inset 0 0 22px rgba(212, 175, 55, 0.08);
       position: relative;
       overflow: hidden;
     }
@@ -403,115 +460,302 @@
     .red { color: var(--ruby); }
     .blue { color: var(--sky); }
 
+    .neon-green-text {
+      color: var(--neon-green);
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.65), 0 0 24px rgba(0, 255, 136, 0.28);
+    }
+
     .glass-panel {
-      background: var(--surface-glass);
-      backdrop-filter: blur(20px);
+      background: rgba(18, 18, 25, 0.54);
+      backdrop-filter: blur(22px) saturate(150%);
       border-radius: var(--radius-lg);
       padding: 15px;
-      box-shadow: var(--shadow-luxury);
-      margin-bottom: 16px;
+      box-shadow: var(--shadow-luxury), inset 0 0 24px rgba(212, 175, 55, 0.08);
+      margin-bottom: 14px;
     }
 
-    .luxury-boutique-banner {
-      position: relative;
+    .unified-dashboard-panel {
+      background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.16) 0%, rgba(16, 16, 23, 0.52) 62%, rgba(7, 7, 11, 0.62) 100%);
+      backdrop-filter: blur(24px) saturate(155%);
       border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 16px;
-      background: var(--luxury-media-bg);
-      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.78), inset 0 0 32px rgba(212, 175, 55, 0.14);
+      padding: 13px 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-luxury), inset 0 1px 1px rgba(255, 240, 178, 0.22), inset 0 0 32px rgba(212, 175, 55, 0.1);
     }
 
-    .luxury-boutique-banner-img {
-      width: 100%;
-      height: 175px;
-      object-fit: cover;
-      display: block;
-      opacity: 0.72;
-    }
-
-    .luxury-boutique-banner-overlay {
-      position: relative;
-      margin-top: -175px;
-      height: 175px;
-      padding: 16px;
-      background: linear-gradient(90deg, rgba(6, 6, 8, 0.92) 0%, rgba(12, 12, 18, 0.68) 58%, rgba(6, 6, 8, 0.88) 100%);
+    .unified-dashboard-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .luxury-boutique-tag {
+    .unified-dashboard-title {
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .unified-dashboard-sub {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .unified-dashboard-body {
+      margin-top: 12px;
+      padding-top: 12px;
+      box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .activation-only-box {
+      background: rgba(6, 14, 10, 0.78);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow:
+        inset 0 1px 1px rgba(0, 255, 136, 0.25),
+        inset 0 0 24px rgba(0, 255, 136, 0.07),
+        0 10px 26px rgba(0, 0, 0, 0.55);
+    }
+
+    .activation-error-msg {
+      margin-top: 8px;
+      padding: 8px 11px;
+      border-radius: 10px;
+      background: rgba(255, 59, 92, 0.14);
+      color: var(--ruby);
+      font-size: 0.74rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dashboard-boutique-embed {
+      background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.16) 0%, rgba(12, 12, 18, 0.76) 65%, rgba(7, 7, 11, 0.88) 100%);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: inset 0 1px 1px rgba(255, 240, 178, 0.18), inset 0 0 24px rgba(212, 175, 55, 0.08);
+    }
+
+    .modal-box.modal-luxury-neon {
+      max-width: 520px;
+      background:
+        radial-gradient(circle at 85% 12%, rgba(0, 255, 136, 0.18) 0%, transparent 48%),
+        radial-gradient(circle at 18% 88%, rgba(212, 175, 55, 0.18) 0%, transparent 52%),
+        linear-gradient(155deg, rgba(12, 18, 16, 0.92) 0%, rgba(7, 9, 12, 0.96) 100%);
+      backdrop-filter: blur(26px) saturate(165%);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow:
+        0 28px 68px rgba(0, 0, 0, 0.95),
+        0 0 34px rgba(0, 255, 136, 0.22),
+        inset 0 1px 1px rgba(0, 255, 136, 0.38),
+        inset 0 0 36px rgba(0, 255, 136, 0.08);
+    }
+
+    .lux-neon-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .lux-neon-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.64rem;
+      font-size: 0.6rem;
       font-weight: 800;
       letter-spacing: 1px;
       text-transform: uppercase;
-      color: #060608;
-      background: var(--gold-gradient);
-      padding: 3px 9px;
-      border-radius: 50px;
+      color: #04130b;
+      background: linear-gradient(135deg, #6effbc 0%, #00ff88 55%, #00c96b 100%);
+      padding: 3px 10px;
+      border-radius: 999px;
       margin-bottom: 6px;
-      box-shadow: 0 4px 14px var(--gold-glow);
+      box-shadow: 0 0 18px rgba(0, 255, 136, 0.55);
     }
 
-    .luxury-boutique-title {
-      font-size: 1.02rem;
+    .lux-neon-title {
+      font-size: 1.05rem;
       font-weight: 800;
-      color: var(--gold-primary);
-      letter-spacing: 0.4px;
-      line-height: 1.2;
+      letter-spacing: 0.35px;
+      color: var(--neon-green);
+      text-shadow: 0 0 12px rgba(0, 255, 136, 0.72), 0 0 28px rgba(0, 255, 136, 0.34);
+    }
+
+    .lux-neon-sub {
+      font-size: 0.72rem;
+      color: var(--neon-green-soft);
+      opacity: 0.88;
+      margin-top: 2px;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.25);
+    }
+
+    .lux-neon-card {
+      background: rgba(6, 14, 10, 0.72);
+      border-radius: 16px;
+      padding: 13px;
+      margin-bottom: 12px;
+      box-shadow:
+        inset 0 1px 1px rgba(0, 255, 136, 0.25),
+        inset 0 0 24px rgba(0, 255, 136, 0.07),
+        0 10px 26px rgba(0, 0, 0, 0.55);
+    }
+
+    .lux-neon-label {
       display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 4px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      color: var(--neon-green);
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.45);
+      margin-bottom: 5px;
     }
 
-    .banner-under-younes {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: flex-start;
-      line-height: 1.15;
+    .lux-neon-input {
+      width: 100%;
+      background: rgba(4, 10, 7, 0.86) !important;
+      color: var(--neon-green) !important;
+      font-weight: 700 !important;
+      font-size: 0.82rem !important;
+      padding: 10px 12px !important;
+      border-radius: 12px !important;
+      box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(0, 255, 136, 0.24) !important;
+      text-shadow: 0 0 8px rgba(0, 255, 136, 0.35);
     }
 
-    .banner-sub-line {
+    .lux-neon-input:focus {
+      box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, 0.85),
+        0 0 0 2px rgba(0, 255, 136, 0.55),
+        0 0 18px rgba(0, 255, 136, 0.25) !important;
+    }
+
+    .lux-neon-wa-box {
+      margin-top: 10px;
+      background: rgba(4, 18, 12, 0.84);
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow:
+        inset 0 0 16px rgba(0, 255, 136, 0.1),
+        0 0 0 1px rgba(0, 255, 136, 0.28);
+    }
+
+    .lux-neon-link-box {
+      background: rgba(3, 12, 8, 0.92);
+      border-radius: 14px;
+      padding: 11px 12px;
+      margin-top: 10px;
+      box-shadow:
+        inset 0 0 20px rgba(0, 255, 136, 0.12),
+        0 0 20px rgba(0, 255, 136, 0.16);
+    }
+
+    .lux-neon-url {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--neon-green);
+      word-break: break-all;
+      line-height: 1.48;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.65), 0 0 22px rgba(0, 255, 136, 0.28);
+    }
+
+    .lux-neon-meta-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .lux-neon-meta-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .lux-neon-stat {
+      background: rgba(5, 16, 11, 0.78);
+      border-radius: 11px;
+      padding: 8px 10px;
+      box-shadow: inset 0 0 14px rgba(0, 255, 136, 0.08);
+    }
+
+    .lux-neon-stat-k {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #86efac;
+      opacity: 0.85;
+    }
+
+    .lux-neon-stat-v {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--neon-green);
+      margin-top: 2px;
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.55);
+    }
+
+    .lux-neon-stat-v.expired {
+      color: var(--ruby);
+      text-shadow: 0 0 10px rgba(255, 59, 92, 0.5);
+    }
+
+    .btn-neon-green {
+      background: linear-gradient(135deg, #6effbc 0%, #00ff88 52%, #00b862 100%);
+      color: #04140c;
+      box-shadow: 0 8px 24px rgba(0, 255, 136, 0.42), inset 0 1px 1px rgba(255, 255, 255, 0.65);
+    }
+
+    .btn-neon-green:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 28px rgba(0, 255, 136, 0.58);
+    }
+
+    .lux-neon-feedback {
       font-size: 0.72rem;
       font-weight: 800;
-      letter-spacing: 0.8px;
-      color: #f3d06b;
-    }
-
-    .luxury-boutique-sub {
-      font-size: 0.73rem;
-      color: var(--text-main);
-      opacity: 0.85;
-      margin-top: 3px;
+      color: var(--neon-green);
+      text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+      min-height: 18px;
+      margin-top: 8px;
+      text-align: center;
     }
 
     .luxury-action-bar {
-      background: radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.2) 0%, rgba(18, 18, 25, 0.92) 65%, #08080c 100%);
-      backdrop-filter: blur(20px);
-      border-radius: var(--radius-lg);
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      box-shadow: var(--shadow-luxury), inset 0 0 28px rgba(212, 175, 55, 0.08);
+      background: rgba(16, 16, 23, 0.52);
+      backdrop-filter: blur(20px) saturate(150%);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 240, 178, 0.14), inset 0 0 18px rgba(212, 175, 55, 0.08);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
 
     .luxury-add-client-bar {
-      background: radial-gradient(circle at 85% 25%, rgba(212, 175, 55, 0.16) 0%, rgba(15, 15, 21, 0.92) 70%, #07070b 100%);
-      backdrop-filter: blur(18px);
-      border-radius: var(--radius-lg);
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 0 22px rgba(212, 175, 55, 0.06);
+      background: rgba(16, 16, 23, 0.52);
+      backdrop-filter: blur(20px) saturate(150%);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 240, 178, 0.14), inset 0 0 18px rgba(212, 175, 55, 0.08);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -560,7 +804,8 @@
     }
 
     .luxury-vip-pill-btn {
-      background: radial-gradient(circle at 25% 20%, rgba(243, 208, 107, 0.24), rgba(14, 14, 20, 0.96) 75%);
+      background: radial-gradient(circle at 25% 20%, rgba(243, 208, 107, 0.22), rgba(14, 14, 20, 0.68) 75%);
+      backdrop-filter: blur(16px);
       color: var(--gold-primary);
       padding: 10px 16px;
       border-radius: 50px;
@@ -665,7 +910,8 @@
     }
 
     .luxury-vault-window {
-      background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.22) 0%, rgba(16, 16, 23, 0.96) 55%, #07070b 100%);
+      background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.2) 0%, rgba(16, 16, 23, 0.56) 55%, rgba(7, 7, 11, 0.68) 100%);
+      backdrop-filter: blur(22px) saturate(150%);
       border-radius: var(--radius-lg);
       padding: 16px;
       margin-bottom: 16px;
@@ -696,8 +942,8 @@
     textarea.vault-textarea {
       width: 100%;
       min-height: 92px;
-      resize: vertical;
-      background: rgba(7, 7, 11, 0.88);
+      resize: none;
+      background: rgba(7, 7, 11, 0.72);
       color: var(--gold-primary);
       padding: 12px;
       border-radius: var(--radius-md);
@@ -726,7 +972,8 @@
     }
 
     .luxury-gallery-bg {
-      background: var(--luxury-media-bg);
+      background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.18) 0%, rgba(18, 18, 25, 0.56) 68%, rgba(7, 7, 10, 0.68) 100%);
+      backdrop-filter: blur(22px) saturate(150%);
       border-radius: var(--radius-lg);
       padding: 16px;
       box-shadow: inset 0 0 38px rgba(212, 175, 55, 0.1), 0 18px 42px rgba(0, 0, 0, 0.68);
@@ -779,7 +1026,7 @@
 
     input, select.fx-select, textarea.lux-input-area {
       width: 100%;
-      background: rgba(10, 10, 14, 0.88);
+      background: rgba(10, 10, 14, 0.76);
       color: var(--text-main);
       padding: 10px 12px;
       border-radius: var(--radius-md);
@@ -789,7 +1036,7 @@
     }
 
     .device-upload-box {
-      background: rgba(10, 10, 14, 0.88);
+      background: rgba(10, 10, 14, 0.76);
       border-radius: var(--radius-md);
       padding: 8px 10px;
       display: flex;
@@ -834,7 +1081,7 @@
     }
 
     textarea.lux-input-area {
-      resize: vertical;
+      resize: none;
       min-height: 62px;
       line-height: 1.45;
     }
@@ -844,11 +1091,12 @@
     }
 
     .m3u-extract-box {
-      background: var(--luxury-media-bg);
+      background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.22) 0%, rgba(18, 18, 25, 0.56) 68%, rgba(7, 7, 10, 0.68) 100%);
+      backdrop-filter: blur(20px) saturate(150%);
       padding: 12px;
       border-radius: var(--radius-md);
       margin-bottom: 12px;
-      box-shadow: inset 0 0 24px rgba(212, 175, 55, 0.09);
+      box-shadow: inset 0 1px 1px rgba(255, 240, 178, 0.16), inset 0 0 24px rgba(212, 175, 55, 0.09);
     }
 
     .m3u-badge {
@@ -911,7 +1159,8 @@
 
     .fx-result-box {
       margin-top: 12px;
-      background: var(--luxury-media-bg);
+      background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.22) 0%, rgba(18, 18, 25, 0.56) 68%, rgba(7, 7, 10, 0.68) 100%);
+      backdrop-filter: blur(20px) saturate(150%);
       padding: 12px;
       border-radius: var(--radius-md);
       box-shadow: inset 0 0 24px rgba(212, 175, 55, 0.1), 0 10px 24px rgba(0, 0, 0, 0.55);
@@ -926,7 +1175,7 @@
     }
 
     .luxury-product-name-box input {
-      background: rgba(8, 8, 12, 0.75);
+      background: rgba(8, 8, 12, 0.72);
       color: var(--gold-primary);
       font-weight: 700;
       box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.75);
@@ -934,7 +1183,7 @@
 
     .lux-select-trigger {
       width: 100%;
-      background: rgba(8, 8, 12, 0.82);
+      background: rgba(8, 8, 12, 0.76);
       color: var(--gold-primary);
       padding: 10px 12px;
       border-radius: var(--radius-md);
@@ -952,13 +1201,15 @@
       left: 10px;
       right: 10px;
       top: calc(100% + 4px);
-      background: #0d0d12;
+      background: rgba(13, 13, 18, 0.92);
+      backdrop-filter: blur(20px);
       background-image: var(--luxury-product-name-bg);
       border-radius: var(--radius-md);
       padding: 6px;
       z-index: 150;
       max-height: 210px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.95);
     }
 
@@ -968,7 +1219,7 @@
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-main);
-      background: rgba(14, 14, 20, 0.72);
+      background: rgba(14, 14, 20, 0.65);
       margin-bottom: 5px;
       display: flex;
       justify-content: space-between;
@@ -988,7 +1239,8 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: var(--luxury-media-bg);
+      background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.22) 0%, rgba(18, 18, 25, 0.56) 68%, rgba(7, 7, 10, 0.68) 100%);
+      backdrop-filter: blur(20px) saturate(150%);
       padding: 10px 12px;
       border-radius: var(--radius-md);
       margin-top: 10px;
@@ -1000,7 +1252,7 @@
       height: 52px;
       aspect-ratio: 1 / 1;
       border-radius: 12px;
-      background: rgba(10, 10, 15, 0.85);
+      background: rgba(10, 10, 15, 0.78);
       box-shadow: inset 0 0 14px rgba(212, 175, 55, 0.16), 0 6px 14px rgba(0, 0, 0, 0.55);
       padding: 4px;
       display: flex;
@@ -1066,11 +1318,12 @@
     }
 
     .client-card {
-      background: rgba(12, 12, 17, 0.82);
+      background: rgba(12, 12, 17, 0.64);
+      backdrop-filter: blur(18px);
       border-radius: var(--radius-md);
       padding: 13px;
       margin-bottom: 11px;
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 240, 178, 0.1);
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -1123,10 +1376,9 @@
       gap: 16px;
     }
 
-    /* Luxury 40px border-radius product card with rich multi-layer shadow */
     .product-card {
-      background: var(--luxury-media-bg);
-      backdrop-filter: blur(20px);
+      background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.2) 0%, rgba(18, 18, 25, 0.56) 68%, rgba(7, 7, 10, 0.68) 100%);
+      backdrop-filter: blur(22px) saturate(150%);
       border-radius: 40px;
       padding: 14px 12px 16px;
       overflow: hidden;
@@ -1149,7 +1401,6 @@
         inset 0 0 34px rgba(212, 175, 55, 0.22);
     }
 
-    /* Equal width & height square media frame (1:1) with 40px radius */
     .product-media-frame {
       width: 112px;
       height: 112px;
@@ -1159,14 +1410,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 50% 45%, rgba(243, 208, 107, 0.24) 0%, rgba(12, 12, 18, 0.72) 72%, rgba(6, 6, 9, 0.9) 100%);
+      background: radial-gradient(circle at 50% 45%, rgba(243, 208, 107, 0.24) 0%, rgba(12, 12, 18, 0.62) 72%, rgba(6, 6, 9, 0.78) 100%);
       box-shadow:
         0 12px 26px rgba(0, 0, 0, 0.75),
         inset 0 0 18px rgba(212, 175, 55, 0.18);
       flex-shrink: 0;
     }
 
-    /* Square image with equal width & height and 40px radius */
     .product-img {
       width: 98px;
       height: 98px;
@@ -1244,31 +1494,35 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.84);
-      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(12px);
       z-index: 200;
       display: none;
       align-items: center;
       justify-content: center;
       padding: 12px;
+      overflow: hidden;
     }
 
     .modal-backdrop.open { display: flex; }
 
     .modal-box {
-      background: #111116;
+      background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.16) 0%, rgba(16, 16, 23, 0.58) 58%, rgba(9, 9, 13, 0.72) 100%);
+      backdrop-filter: blur(24px) saturate(155%);
       border-radius: var(--radius-lg);
       width: 100%;
       max-width: 430px;
-      max-height: 92vh;
+      max-height: 90vh;
       overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
       padding: 16px;
-      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.92);
+      box-shadow: 0 24px 55px rgba(0, 0, 0, 0.92), inset 0 1px 1px rgba(255, 240, 178, 0.2), inset 0 0 28px rgba(212, 175, 55, 0.08);
     }
 
     .modal-box.modal-invoice-compact {
       max-width: 318px;
-      background: rgba(248, 250, 252, 0.96);
+      background: rgba(248, 250, 252, 0.92);
       backdrop-filter: blur(22px);
       color: #0f172a;
       padding: 10px;
@@ -1291,8 +1545,9 @@
 
     .modal-box.modal-wide {
       max-width: 620px;
-      background: radial-gradient(circle at 85% 10%, rgba(212, 175, 55, 0.14) 0%, #101016 58%, #09090d 100%);
-      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.95), inset 0 0 32px rgba(212, 175, 55, 0.08);
+      background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.18) 0%, rgba(16, 16, 23, 0.56) 58%, rgba(9, 9, 13, 0.72) 100%);
+      backdrop-filter: blur(24px) saturate(155%);
+      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.95), inset 0 1px 1px rgba(255, 240, 178, 0.22), inset 0 0 32px rgba(212, 175, 55, 0.1);
     }
 
     .invoice-paper {
@@ -1545,6 +1800,71 @@
       padding: 16px 8px;
     }
 
+    .luxury-footer {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 28px);
+      max-width: 1120px;
+      z-index: 120;
+      padding: 11px 18px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.18) 0%, rgba(16, 16, 23, 0.64) 60%, rgba(10, 10, 14, 0.78) 100%);
+      backdrop-filter: blur(24px) saturate(155%);
+      box-shadow:
+        0 14px 34px rgba(0, 0, 0, 0.78),
+        0 4px 18px rgba(212, 175, 55, 0.18),
+        inset 0 1px 1px rgba(255, 240, 178, 0.26),
+        inset 0 0 28px rgba(212, 175, 55, 0.09);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      overflow: hidden;
+      pointer-events: auto;
+    }
+
+    .luxury-footer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      background: linear-gradient(120deg, #fff1b8 0%, #f3d06b 35%, #d4af37 70%, #9c7812 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .luxury-footer-copy {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.2px;
+    }
+
+    .luxury-footer-year {
+      color: #f3d06b;
+      font-weight: 800;
+    }
+
+    .luxury-footer-badge {
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #060608;
+      background: var(--gold-gradient);
+      padding: 3px 9px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px var(--gold-glow);
+    }
+
     .hidden { display: none !important; }
 
     @media print {
@@ -1576,236 +1896,480 @@
   </style>
 </head>
 <body>
-
-  <header>
-    <div class="brand">
-      <div class="brand-main-line">
-        <span class="brand-under-younes">
-          <span>YOUNES</span>
-          <span class="brand-sub-line">Technique</span>
-        </span>
-        <span>STORE dashboard</span>
-      </div>
-    </div>
-    <div class="header-controls">
-      <button class="fx-icon-btn" title="Convertisseur de devises" aria-label="Convertisseur de devises" onclick="openFxModal()">
-        <i class="fa-solid fa-coins"></i>
-        <span class="fx-pill-tag">FX</span>
-      </button>
-      <div class="mode-switch">
-        <button class="mode-btn active" id="btn-admin-mode" onclick="switchMode('admin')">Dashboard</button>
-        <button class="mode-btn" id="btn-store-mode" onclick="switchMode('store')">Boutique</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- ==================== ADMIN / CLIENT LEDGER VIEW ==================== -->
-  <div id="admin-view" class="container">
-
-    <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('ledger', this)"><i class="fa-solid fa-address-book"></i> Registre Clients (<span id="badge-clients">0</span>)</button>
-      <button class="tab-btn" onclick="switchTab('products', this)"><i class="fa-solid fa-box-open"></i> Produits</button>
-      <button class="tab-btn" onclick="switchTab('quick-invoice', this)"><i class="fa-solid fa-file-invoice-dollar"></i> Facture Rapide</button>
-    </div>
-
-    <!-- TAB 1: CLIENT LEDGER -->
-    <div id="tab-ledger">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-title">Total à payer</div>
-          <div class="stat-value gold" id="stat-total-due">0 DH</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Total payé</div>
-          <div class="stat-value green" id="stat-total-paid">0 DH</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Reste à payer</div>
-          <div class="stat-value red" id="stat-total-rem">0 DH</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Nombre clients</div>
-          <div class="stat-value blue" id="stat-clients-count">0</div>
+  <div id="ui-viewport-scaler">
+    <header>
+      <div class="brand">
+        <div class="brand-main-line">
+          <span class="brand-under-title">
+            <span>DIRECTION GENERALE</span>
+          </span>
         </div>
       </div>
+      <div class="header-controls">
+        <button class="fx-icon-btn" title="Convertisseur de devises" aria-label="Convertisseur de devises" onclick="openFxModal()">
+          <i class="fa-solid fa-coins"></i>
+          <span class="fx-pill-tag">FX</span>
+        </button>
+        <div class="mode-switch">
+          <button class="mode-btn active" id="btn-admin-mode" onclick="switchMode('admin')"><i class="fa-solid fa-house"></i> Home</button>
+          <button class="mode-btn hidden" id="btn-store-mode" onclick="switchMode('store')"></button>
+        </div>
+      </div>
+    </header>
 
-      <div class="luxury-boutique-banner">
-        <img src="https://i.ibb.co/217c4j4T/1794235213318.jpg" alt="Boutique YOUNES STORE dashboard Technique" class="luxury-boutique-banner-img">
-        <div class="luxury-boutique-banner-overlay">
-          <div>
-            <span class="luxury-boutique-tag"><i class="fa-solid fa-crown"></i> LUXURY BOUTIQUE</span>
-            <div class="luxury-boutique-title">
-              <span class="banner-under-younes">
-                <span>YOUNES</span>
-                <span class="banner-sub-line">Technique</span>
-              </span>
-              <span>STORE dashboard</span>
+    <!-- ==================== ADMIN / CLIENT LEDGER VIEW ==================== -->
+    <div id="admin-view" class="container">
+
+      <!-- TAB 1: CLIENT LEDGER -->
+      <div id="tab-ledger">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-title">Total à payer</div>
+            <div class="stat-value gold" id="stat-total-due">0 DH</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Total payé</div>
+            <div class="stat-value green" id="stat-total-paid">0 DH</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Reste à payer</div>
+            <div class="stat-value red" id="stat-total-rem">0 DH</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Nombre clients</div>
+            <div class="stat-value blue" id="stat-clients-count">0</div>
+          </div>
+        </div>
+
+        <!-- Unified Dashboard Panel -->
+        <div class="unified-dashboard-panel">
+          <div class="unified-dashboard-header">
+            <div>
+              <div class="unified-dashboard-title">
+                <i class="fa-solid fa-sliders"></i> Dashboard des Actions
+              </div>
+              <div class="unified-dashboard-sub" id="dashboard-cards-state-label">
+                Ajouter dashboard : saisir le lien d'activation pour afficher les actions
+              </div>
             </div>
-            <div class="luxury-boutique-sub">Vitrine exclusive & commande directe WhatsApp</div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+              <button class="luxury-vip-pill-btn" id="btn-toggle-dashboard-cards" onclick="handleAjouterDashboardClick()">
+                <i class="fa-solid fa-plus"></i>
+                <span id="btn-toggle-dashboard-cards-text">Ajouter dashboard</span>
+              </button>
+            </div>
           </div>
-          <button class="btn btn-gold" onclick="switchMode('store')">
-            <i class="fa-solid fa-store"></i> Ouvrir Boutique
-          </button>
-        </div>
-      </div>
 
-      <div class="luxury-action-bar">
-        <div>
-          <div style="font-size: 0.92rem; font-weight: 800; color: var(--gold-primary);">
-            <i class="fa-solid fa-gem"></i> Activation & Abonnement
-          </div>
-          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
-            Activez une playlist ou créez un abonnement Xtream / M3U.
-          </div>
-        </div>
-        <div class="luxury-action-group">
-          <button class="luxury-vip-pill-btn" onclick="openActivationModal()">
-            <i class="fa-solid fa-bolt"></i>
-            <span>Activation</span>
-          </button>
-          <button class="luxury-vip-pill-btn" onclick="openAbonnementModal()">
-            <i class="fa-solid fa-crown"></i>
-            <span>Abonnement</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="luxury-add-client-bar">
-        <div>
-          <div style="font-size: 0.86rem; font-weight: 800; color: var(--text-main);">
-            <i class="fa-solid fa-address-card gold"></i> Gestion des Clients
-          </div>
-          <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1px;">
-            Ajouter un client ou afficher le registre complet.
-          </div>
-        </div>
-        <div class="client-card-actions">
-          <button class="luxury-add-client-btn" onclick="openAddClientModal()">
-            <i class="fa-solid fa-user-plus"></i>
-            <span>Ajouter un client</span>
-          </button>
-          <button class="luxury-vip-pill-btn" id="btn-toggle-ledger" onclick="toggleLedgerVisibility()">
-            <i class="fa-solid fa-table-list"></i>
-            <span>Registre Clients (<span id="toggle-ledger-count">0</span>)</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="glass-panel hidden" id="clients-ledger-panel">
-        <div class="panel-title">
-          <span><i class="fa-solid fa-users-gear"></i> Registre Clients</span>
-          <input type="text" id="client-search" placeholder="Rechercher nom ou tél..." style="max-width: 230px;" oninput="renderClients()">
-        </div>
-        <div id="clients-list"></div>
-      </div>
-    </div>
-
-    <!-- TAB 2: PRODUCTS -->
-    <div id="tab-products" class="hidden">
-      <div class="luxury-vault-window">
-        <div class="vault-header">
-          <div class="panel-title" style="margin:0;">
-            <span><i class="fa-solid fa-key"></i> Code Produits Crypté (Boutique)</span>
-          </div>
-          <span class="vault-badge">LUXURY VAULT</span>
-        </div>
-        <textarea id="encrypted-products-input" class="vault-textarea" placeholder="Collez ici le code crypté des produits (FLX1:... ou JSON) pour afficher directement dans Boutique..."></textarea>
-        <div class="vault-actions">
-          <button class="btn btn-gold" onclick="applyEncryptedProductsCode()">
-            <i class="fa-solid fa-bolt"></i> Décoder & Afficher en Boutique
-          </button>
-          <button class="btn btn-dark" onclick="generateEncryptedProductsCode()">
-            <i class="fa-solid fa-lock"></i> Générer le code actuel
-          </button>
-          <button class="btn btn-danger" onclick="clearVaultInput()">
-            <i class="fa-solid fa-eraser"></i> Effacer
-          </button>
-        </div>
-        <div class="vault-status" id="vault-status-msg"></div>
-      </div>
-
-      <div class="glass-panel">
-        <div class="panel-title"><span><i class="fa-solid fa-plus-circle"></i> Ajouter un produit</span></div>
-        <div class="form-grid">
-          <input type="text" id="prod-name" placeholder="Nom du produit">
-          <input type="number" id="prod-price" placeholder="Prix (DH)">
-          <input type="text" id="prod-cat" placeholder="Catégorie">
-          <div>
-            <input type="file" id="prod-img-file" accept="image/*" class="hidden" onchange="handleProductImageFile(event)">
-            <div class="device-upload-box">
-              <label for="prod-img-file" class="device-upload-btn">
-                <i class="fa-solid fa-mobile-screen-button"></i> Appareil
+          <!-- حقل رابط التفعيل فقط حتى يتم التفعيل -->
+          <div class="unified-dashboard-body hidden" id="dashboard-activation-gate">
+            <div class="activation-only-box">
+              <label class="lux-neon-label" for="dashboard-activation-link-input">
+                <span><i class="fa-solid fa-link"></i> رابط التفعيل</span>
               </label>
-              <span class="device-upload-name" id="prod-img-filename">Choisir une photo...</span>
-              <img id="prod-img-preview" class="device-upload-thumb hidden" alt="Aperçu">
+              <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                <input
+                  type="text"
+                  id="dashboard-activation-link-input"
+                  class="lux-neon-input"
+                  style="flex:1; min-width:210px;"
+                  placeholder="أدخل رابط التفعيل هنا..."
+                  onkeydown="if(event.key==='Enter') verifyDashboardActivationLink();"
+                >
+                <button class="btn btn-neon-green" onclick="verifyDashboardActivationLink()">
+                  <i class="fa-solid fa-key"></i> تفعيل
+                </button>
+              </div>
+              <div class="activation-error-msg hidden" id="dashboard-activation-error">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span id="dashboard-activation-error-text">رابط التفعيل غير صحيح.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- محتوى الداشبورد يظهر بعد تفعيل الرابط الصالح -->
+          <div class="unified-dashboard-body hidden" id="dashboard-button-cards-container">
+            <div class="luxury-action-bar">
+              <div>
+                <div style="font-size: 0.92rem; font-weight: 800; color: var(--gold-primary);">
+                  <i class="fa-solid fa-gem"></i> Activation & Abonnement
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+                  Activez une playlist ou créez un abonnement Xtream / M3U.
+                </div>
+              </div>
+              <div class="luxury-action-group">
+                <button class="luxury-vip-pill-btn" onclick="openActivationModal()">
+                  <i class="fa-solid fa-bolt"></i>
+                  <span>Activation</span>
+                </button>
+                <button class="luxury-vip-pill-btn" onclick="openAbonnementModal()">
+                  <i class="fa-solid fa-crown"></i>
+                  <span>Abonnement</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="luxury-add-client-bar">
+              <div>
+                <div style="font-size: 0.86rem; font-weight: 800; color: var(--text-main);">
+                  <i class="fa-solid fa-address-card gold"></i> Gestion des Clients
+                </div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1px;" id="clients-bar-sub-label">
+                  Ajouter un client ou afficher le registre.
+                </div>
+              </div>
+              <div class="client-card-actions">
+                <button class="luxury-add-client-btn" onclick="openAddClientModal()">
+                  <i class="fa-solid fa-user-plus"></i>
+                  <span>Ajouter un client</span>
+                </button>
+                <button class="luxury-vip-pill-btn admin-only-link-gen hidden" id="btn-toggle-hidden-access-field" onclick="toggleHiddenAccessField()">
+                  <i class="fa-solid fa-key"></i>
+                  <span id="btn-toggle-hidden-access-field-text">مفتاح توليد رابط</span>
+                </button>
+                <button class="luxury-vip-pill-btn" id="btn-toggle-ledger" onclick="toggleLedgerVisibility()">
+                  <i class="fa-solid fa-table-list"></i>
+                  <span>Registre Clients (<span id="toggle-ledger-count">0</span>)</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="lux-neon-card admin-only-link-gen hidden" id="hidden-client-access-box" style="margin-bottom:0;">
+              <div class="lux-neon-label" style="margin-bottom:8px;">
+                <span><i class="fa-solid fa-key"></i> مفتاح توليد رابط (ADMIN ONLY)</span>
+                <span class="neon-green-text" id="inline-access-status-badge">PRÊT</span>
+              </div>
+              <div class="form-grid-3" style="margin-top:0;">
+                <div>
+                  <label class="lux-neon-label">Nom du client</label>
+                  <input type="text" id="inline-access-client-name" class="lux-neon-input" placeholder="Nom complet du client" oninput="updateInlineClientAccessPreview()">
+                </div>
+                <div>
+                  <label class="lux-neon-label">Numéro WhatsApp</label>
+                  <input type="tel" id="inline-access-client-phone" class="lux-neon-input" placeholder="+212 6XXXXXXXXX" oninput="updateInlineClientAccessPreview()">
+                </div>
+                <div>
+                  <label class="lux-neon-label">Fin de validité</label>
+                  <input type="date" id="inline-access-expiry-date" class="lux-neon-input" oninput="updateInlineClientAccessPreview()">
+                </div>
+              </div>
+              <div class="lux-neon-link-box" style="margin-top:8px;">
+                <div class="lux-neon-url" id="inline-generated-access-url"></div>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+                <button class="btn btn-neon-green" onclick="copyInlineClientAccessLink()">
+                  <i class="fa-solid fa-copy"></i> Copier lien
+                </button>
+                <button class="btn btn-wa-order" onclick="sendInlineClientAccessWhatsApp()">
+                  <i class="fa-brands fa-whatsapp"></i> Envoyer sur WhatsApp
+                </button>
+                <button class="btn btn-gold" onclick="openClientLuxuryLinkModal()">
+                  <i class="fa-solid fa-up-right-from-square"></i> Fenêtre complète
+                </button>
+              </div>
+              <div class="lux-neon-feedback" id="inline-access-feedback"></div>
+            </div>
+
+            <div class="luxury-action-bar">
+              <div>
+                <div style="font-size: 0.86rem; font-weight: 800; color: var(--text-main);">
+                  <i class="fa-solid fa-layer-group gold"></i> Produits & Facture Rapide
+                </div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1px;">
+                  Accès rapide au catalogue ou création d'une facture.
+                </div>
+              </div>
+              <div class="luxury-action-group">
+                <button class="luxury-vip-pill-btn" onclick="switchTab('products')">
+                  <i class="fa-solid fa-box-open"></i>
+                  <span>Produits (<span id="badge-products">0</span>)</span>
+                </button>
+                <button class="luxury-vip-pill-btn" onclick="switchTab('quick-invoice')">
+                  <i class="fa-solid fa-file-invoice-dollar"></i>
+                  <span>Facture Rapide</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- قسم مخفي تماماً حتى يدخل العميل برابطه الخاص -->
+            <div class="dashboard-boutique-embed hidden" id="dashboard-boutique-container">
+              <div class="panel-title" style="margin-bottom:10px;">
+                <span id="dashboard-boutique-heading"></span>
+                <input type="text" id="dashboard-boutique-search" class="store-compact-search" placeholder="Rechercher..." oninput="renderDashboardBoutique()">
+              </div>
+              <div class="luxury-gallery-bg store-compact-gallery">
+                <div class="products-grid store-compact-grid" id="dashboard-boutique-grid"></div>
+              </div>
             </div>
           </div>
         </div>
-        <button class="btn btn-gold" style="margin-top: 10px; width: 100%;" onclick="addProduct()">
-          <i class="fa-solid fa-check"></i> Ajouter au catalogue
-        </button>
+
+        <div class="glass-panel hidden" id="clients-ledger-panel">
+          <div class="panel-title">
+            <span><i class="fa-solid fa-users-gear"></i> Registre Clients (<span id="badge-clients">0</span>)</span>
+            <input type="text" id="client-search" placeholder="Rechercher nom ou tél..." style="max-width: 230px;" oninput="renderClients()">
+          </div>
+          <div id="clients-list"></div>
+        </div>
       </div>
 
-      <div class="glass-panel">
-        <div class="panel-title"><span><i class="fa-solid fa-boxes-stacked"></i> Galerie & liste des produits</span></div>
-        <div class="luxury-gallery-bg">
-          <div class="products-grid" id="admin-products-list"></div>
+      <!-- TAB 2: PRODUCTS -->
+      <div id="tab-products" class="hidden">
+        <div class="luxury-action-bar" style="margin-bottom: 12px;">
+          <div style="font-size: 0.86rem; font-weight: 800; color: var(--gold-primary);">
+            <i class="fa-solid fa-box-open"></i> Gestion des Produits
+          </div>
+          <button class="btn btn-dark" onclick="switchTab('ledger')">
+            <i class="fa-solid fa-arrow-left"></i> Retour au Dashboard
+          </button>
+        </div>
+
+        <div class="luxury-vault-window">
+          <div class="vault-header">
+            <div class="panel-title" style="margin:0;">
+              <span><i class="fa-solid fa-key"></i> Code Produits Crypté</span>
+            </div>
+            <span class="vault-badge">LUXURY VAULT</span>
+          </div>
+          <textarea id="encrypted-products-input" class="vault-textarea" placeholder="Collez ici le code crypté des produits (FLX1:... ou JSON)..."></textarea>
+          <div class="vault-actions">
+            <button class="btn btn-gold" onclick="applyEncryptedProductsCode()">
+              <i class="fa-solid fa-bolt"></i> Décoder & Appliquer
+            </button>
+            <button class="btn btn-dark" onclick="generateEncryptedProductsCode()">
+              <i class="fa-solid fa-lock"></i> Générer le code actuel
+            </button>
+            <button class="btn btn-danger" onclick="clearVaultInput()">
+              <i class="fa-solid fa-eraser"></i> Effacer
+            </button>
+          </div>
+          <div class="vault-status" id="vault-status-msg"></div>
+        </div>
+
+        <div class="glass-panel">
+          <div class="panel-title"><span><i class="fa-solid fa-plus-circle"></i> Ajouter un produit</span></div>
+          <div class="form-grid">
+            <input type="text" id="prod-name" placeholder="Nom du produit">
+            <input type="number" id="prod-price" placeholder="Prix (DH)">
+            <input type="text" id="prod-cat" placeholder="Catégorie">
+            <div>
+              <input type="file" id="prod-img-file" accept="image/*" class="hidden" onchange="handleProductImageFile(event)">
+              <div class="device-upload-box">
+                <label for="prod-img-file" class="device-upload-btn">
+                  <i class="fa-solid fa-mobile-screen-button"></i> Appareil
+                </label>
+                <span class="device-upload-name" id="prod-img-filename">Choisir une photo...</span>
+                <img id="prod-img-preview" class="device-upload-thumb hidden" alt="Aperçu">
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-gold" style="margin-top: 10px; width: 100%;" onclick="addProduct()">
+            <i class="fa-solid fa-check"></i> Ajouter au catalogue
+          </button>
+        </div>
+
+        <div class="glass-panel">
+          <div class="panel-title"><span><i class="fa-solid fa-boxes-stacked"></i> Galerie & liste des produits</span></div>
+          <div class="luxury-gallery-bg">
+            <div class="products-grid" id="admin-products-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: QUICK INVOICE -->
+      <div id="tab-quick-invoice" class="hidden">
+        <div class="luxury-action-bar" style="margin-bottom: 12px;">
+          <div style="font-size: 0.86rem; font-weight: 800; color: var(--gold-primary);">
+            <i class="fa-solid fa-file-invoice-dollar"></i> Facture Rapide
+          </div>
+          <button class="btn btn-dark" onclick="switchTab('ledger')">
+            <i class="fa-solid fa-arrow-left"></i> Retour au Dashboard
+          </button>
+        </div>
+
+        <div class="glass-panel">
+          <div class="panel-title"><span><i class="fa-solid fa-file-signature"></i> Facture rapide</span></div>
+          <div class="form-grid">
+            <div>
+              <label class="field-label">Nom du client</label>
+              <input type="text" id="inv-client" placeholder="Nom du client">
+            </div>
+            <div>
+              <label class="field-label">Téléphone</label>
+              <input type="text" id="inv-phone" placeholder="Téléphone">
+            </div>
+            <div class="luxury-product-name-box">
+              <label class="field-label" style="color:var(--gold-primary);">Choisir un produit</label>
+              <div class="lux-select-trigger" onclick="toggleProductDropdown(event)">
+                <span id="lux-selected-label">-- Choisir un produit --</span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              <div class="lux-select-menu hidden" id="lux-product-menu"></div>
+            </div>
+            <div class="luxury-product-name-box">
+              <label class="field-label" style="color:var(--gold-primary);">Nom du produit</label>
+              <input type="text" id="inv-item" placeholder="Nom du produit">
+            </div>
+            <div>
+              <label class="field-label">Quantité</label>
+              <input type="number" id="inv-qty" placeholder="Quantité">
+            </div>
+            <div>
+              <label class="field-label">Prix unitaire (DH)</label>
+              <input type="number" id="inv-price" placeholder="Prix unitaire (DH)">
+            </div>
+            <div>
+              <label class="field-label">Payé (DH)</label>
+              <input type="number" id="inv-paid" placeholder="Payé (DH)">
+            </div>
+          </div>
+
+          <div class="selected-prod-preview" id="inv-prod-preview">
+            <div class="selected-prod-thumb" id="inv-prod-thumb">
+              <i class="fa-solid fa-image"></i>
+            </div>
+            <div>
+              <div style="font-size:0.82rem; font-weight:700;" id="inv-preview-title">-</div>
+              <div style="font-size:0.74rem; color:var(--gold-primary); font-weight:700;" id="inv-preview-price"></div>
+            </div>
+          </div>
+
+          <button class="btn btn-gold" style="margin-top: 12px; width: 100%;" onclick="createQuickInvoice()">
+            <i class="fa-solid fa-print"></i> Générer et enregistrer la facture
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- TAB 3: QUICK INVOICE -->
-    <div id="tab-quick-invoice" class="hidden">
-      <div class="glass-panel">
-        <div class="panel-title"><span><i class="fa-solid fa-file-signature"></i> Facture rapide</span></div>
-        <div class="form-grid">
-          <div>
-            <label class="field-label">Nom du client</label>
-            <input type="text" id="inv-client" placeholder="Nom du client">
-          </div>
-          <div>
-            <label class="field-label">Téléphone</label>
-            <input type="text" id="inv-phone" placeholder="Téléphone">
-          </div>
-          <div class="luxury-product-name-box">
-            <label class="field-label" style="color:var(--gold-primary);">Choisir un produit</label>
-            <div class="lux-select-trigger" onclick="toggleProductDropdown(event)">
-              <span id="lux-selected-label">-- Choisir un produit --</span>
-              <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="lux-select-menu hidden" id="lux-product-menu"></div>
-          </div>
-          <div class="luxury-product-name-box">
-            <label class="field-label" style="color:var(--gold-primary);">Nom du produit</label>
-            <input type="text" id="inv-item" placeholder="Nom du produit">
-          </div>
-          <div>
-            <label class="field-label">Quantité</label>
-            <input type="number" id="inv-qty" placeholder="Quantité">
-          </div>
-          <div>
-            <label class="field-label">Prix unitaire (DH)</label>
-            <input type="number" id="inv-price" placeholder="Prix unitaire (DH)">
-          </div>
-          <div>
-            <label class="field-label">Payé (DH)</label>
-            <input type="number" id="inv-paid" placeholder="Payé (DH)">
-          </div>
+    <!-- ==================== CLIENT VIEW (مخفية تماماً حتى يدخل العميل برابطه) ==================== -->
+    <div id="store-view" class="store-compact-shell hidden">
+      <div class="store-compact-header">
+        <div>
+          <h2 id="store-view-title">DIRECTION GENERALE</h2>
+          <p id="store-view-subtitle">Espace client - WhatsApp direct</p>
         </div>
+        <input type="text" id="store-search" class="store-compact-search" placeholder="Rechercher..." oninput="renderStore()">
+      </div>
 
-        <div class="selected-prod-preview" id="inv-prod-preview">
-          <div class="selected-prod-thumb" id="inv-prod-thumb">
-            <i class="fa-solid fa-image"></i>
+      <div class="client-session-banner hidden" id="store-client-session-banner">
+        <div>
+          <div class="client-session-name" id="store-client-session-name">
+            <i class="fa-solid fa-user-check"></i> <span>-</span>
           </div>
-          <div>
-            <div style="font-size:0.82rem; font-weight:700;" id="inv-preview-title">-</div>
-            <div style="font-size:0.74rem; color:var(--gold-primary); font-weight:700;" id="inv-preview-price"></div>
-          </div>
+          <div class="client-session-expiry" id="store-client-session-expiry">-</div>
         </div>
+        <span class="vault-badge" id="store-client-session-badge">ACTIF</span>
+      </div>
 
-        <button class="btn btn-gold" style="margin-top: 12px; width: 100%;" onclick="createQuickInvoice()">
-          <i class="fa-solid fa-print"></i> Générer et enregistrer la facture
+      <div class="luxury-gallery-bg store-compact-gallery">
+        <div class="products-grid store-compact-grid" id="store-products-grid"></div>
+      </div>
+    </div>
+
+    <footer class="luxury-footer">
+      <div class="luxury-footer-brand">
+        <i class="fa-solid fa-crown" style="-webkit-text-fill-color:#d4af37;"></i>
+        <span>DIRECTION GENERALE</span>
+      </div>
+      <div class="luxury-footer-copy">
+        <span>© <span class="luxury-footer-year" id="copyright-year">2026</span></span>
+        <span>•</span>
+        <span>Tous droits réservés</span>
+        <span class="luxury-footer-badge">LUXURY EDITION</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== LUXURY CLIENT LINK & EXPIRY MODAL (ADMIN ONLY) ==================== -->
+  <div class="modal-backdrop" id="client-link-luxury-modal">
+    <div class="modal-box modal-luxury-neon">
+      <div class="lux-neon-header">
+        <div>
+          <span class="lux-neon-badge"><i class="fa-solid fa-sparkles"></i> LUXURY CLIENT LINK · ADMIN</span>
+          <div class="lux-neon-title"><i class="fa-solid fa-key"></i> مفتاح توليد رابط العميل</div>
+          <div class="lux-neon-sub">متاح فقط للعميل الذي يدخل برابط الأدمن</div>
+        </div>
+        <button class="btn btn-dark" onclick="closeModal('client-link-luxury-modal')">
+          <i class="fa-solid fa-xmark"></i>
         </button>
+      </div>
+
+      <div class="lux-neon-card">
+        <div class="form-grid-2" style="margin-top:0;">
+          <div>
+            <label class="lux-neon-label">
+              <span><i class="fa-solid fa-tag"></i> Identifiant espace client</span>
+            </label>
+            <input type="text" id="lux-client-store-name" class="lux-neon-input" placeholder="Ex: DG-VIP" oninput="updateClientLuxuryLink()">
+          </div>
+          <div>
+            <label class="lux-neon-label">
+              <span><i class="fa-regular fa-calendar-check"></i> Fin de validité du lien</span>
+            </label>
+            <input type="date" id="lux-link-expiry-date" class="lux-neon-input" oninput="updateClientLuxuryLink()">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div>
+            <label class="lux-neon-label">
+              <span><i class="fa-solid fa-user-check"></i> Nom de l'abonné</span>
+            </label>
+            <input type="text" id="lux-subscriber-name" class="lux-neon-input" placeholder="Nom du client abonné" oninput="updateClientLuxuryLink()">
+          </div>
+          <div>
+            <label class="lux-neon-label">
+              <span><i class="fa-brands fa-whatsapp"></i> WhatsApp du client</span>
+            </label>
+            <input type="tel" id="lux-subscriber-phone" class="lux-neon-input" placeholder="Ex: +212630473498 ou 0630473498" oninput="updateClientLuxuryLink()">
+          </div>
+        </div>
+
+        <div class="lux-neon-wa-box">
+          <div class="lux-neon-label" style="margin-bottom:6px;">
+            <span><i class="fa-brands fa-whatsapp"></i> Numéro WhatsApp du client (Envoi direct)</span>
+            <span id="lux-wa-formatted-badge" class="neon-green-text" style="font-size:0.64rem;">-</span>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <input type="tel" id="lux-client-whatsapp-direct" class="lux-neon-input" style="flex:1; min-width:170px;" placeholder="Numéro WhatsApp du client..." oninput="syncWhatsAppFromDirect(this.value)">
+            <button class="btn btn-wa-order" onclick="shareClientLuxuryLinkWhatsApp()">
+              <i class="fa-brands fa-whatsapp"></i> Envoyer le lien
+            </button>
+          </div>
+        </div>
+
+        <div class="lux-neon-link-box">
+          <div class="lux-neon-label" style="margin-bottom:6px;">
+            <span><i class="fa-solid fa-globe"></i> Lien Client (Sans مفتاح توليد رابط لعملائه)</span>
+            <span id="lux-store-slug-badge" class="neon-green-text" style="font-size:0.64rem;">CLIENT</span>
+          </div>
+          <div class="lux-neon-url" id="lux-generated-client-url"></div>
+        </div>
+
+        <div class="lux-neon-meta-strip">
+          <div class="lux-neon-stat">
+            <div class="lux-neon-stat-k">IDENTIFIANT</div>
+            <div class="lux-neon-stat-v" id="lux-display-store-name">-</div>
+          </div>
+          <div class="lux-neon-stat">
+            <div class="lux-neon-stat-k">FIN DE VALIDITÉ</div>
+            <div class="lux-neon-stat-v" id="lux-display-expiry-status">-</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+          <button class="btn btn-neon-green" style="flex:1;" onclick="copyClientLuxuryLink()">
+            <i class="fa-solid fa-copy"></i> Copier le lien
+          </button>
+          <a class="btn btn-gold" id="lux-open-client-link-btn" href="#" target="_blank" rel="noopener noreferrer" style="flex:1;">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Ouvrir le lien
+          </a>
+          <button class="btn btn-wa-order" style="flex:1;" onclick="shareClientLuxuryLinkWhatsApp()">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp Direct
+          </button>
+        </div>
+
+        <div class="lux-neon-feedback" id="lux-link-feedback"></div>
       </div>
     </div>
   </div>
@@ -2042,21 +2606,6 @@
     </div>
   </div>
 
-  <!-- ==================== COMPACT STOREFRONT VIEW ==================== -->
-  <div id="store-view" class="store-compact-shell hidden">
-    <div class="store-compact-header">
-      <div>
-        <h2>YOUNES STORE dashboard · Technique</h2>
-        <p>Boutique mini - WhatsApp direct</p>
-      </div>
-      <input type="text" id="store-search" class="store-compact-search" placeholder="Rechercher..." oninput="renderStore()">
-    </div>
-
-    <div class="luxury-gallery-bg store-compact-gallery">
-      <div class="products-grid store-compact-grid" id="store-products-grid"></div>
-    </div>
-  </div>
-
   <!-- ==================== CURRENCY CONVERTER MODAL ==================== -->
   <div class="modal-backdrop" id="fx-modal">
     <div class="modal-box">
@@ -2152,7 +2701,7 @@
 
   <script>
     const WHATSAPP_ORDER_NUMBER = '212630473498';
-    const BRAND_NAME = 'YOUNES STORE dashboard · Technique';
+    const BRAND_NAME = 'DIRECTION GENERALE';
     const DEFAULT_PRODUCTS = [
       {
         id: 1001,
@@ -2203,8 +2752,647 @@
       CFA: 0.0165
     };
     if (typeof fxRatesToMad.CFA !== 'number') fxRatesToMad.CFA = 0.0165;
+
+    let clientLinkConfig = JSON.parse(localStorage.getItem('fl_fr_v7_client_link_cfg')) || {
+      storeName: 'DG-VIP',
+      subscriberName: '',
+      phone: '',
+      expiryDate: ''
+    };
+    if (!clientLinkConfig.expiryDate) {
+      const d = new Date();
+      d.setMonth(d.getMonth() + 12);
+      clientLinkConfig.expiryDate = d.toISOString().slice(0, 10);
+    }
+
+    let activeClientSession = JSON.parse(localStorage.getItem('fl_fr_v7_active_client_session')) || null;
+
+    // العميل أو من دخل برابط التفعيل الصالح يرى قسمه؛ وإلا يبقى مخفياً تماماً ولا أثر له
+    let isClientStoreVisible = false;
+    let hasAdminLinkGeneratorAccess = localStorage.getItem('fl_fr_v7_admin_link_gen') === '1';
+
+    let isActivationGateOpen = false;
+    let isDashboardUnlocked = false;
+    let isHiddenAccessFieldVisible = false;
     let isLedgerVisible = false;
     let pendingProductImageData = '';
+
+    function syncCopyrightYear() {
+      const yearEl = document.getElementById('copyright-year');
+      if (yearEl) {
+        yearEl.textContent = String(new Date().getFullYear());
+      }
+    }
+
+    function applyClientVisibilityState() {
+      const headerBtn = document.getElementById('btn-store-mode');
+      const dashBox = document.getElementById('dashboard-boutique-container');
+      const dashHeading = document.getElementById('dashboard-boutique-heading');
+      const storeView = document.getElementById('store-view');
+
+      if (headerBtn) {
+        headerBtn.classList.toggle('hidden', !isClientStoreVisible);
+        if (isClientStoreVisible) {
+          headerBtn.innerHTML = '<i class="fa-solid fa-user-check"></i> Espace Client';
+        }
+      }
+
+      if (dashBox) {
+        dashBox.classList.toggle('hidden', !isClientStoreVisible);
+        if (isClientStoreVisible && dashHeading) {
+          const titleText = (activeClientSession && activeClientSession.name)
+            ? `Espace ${activeClientSession.name}`
+            : (clientLinkConfig.storeName || 'Espace Client');
+          dashHeading.innerHTML = `<i class="fa-solid fa-user-check"></i> ${titleText}`;
+        }
+      }
+
+      if (storeView && !isClientStoreVisible) {
+        storeView.classList.add('hidden');
+        document.getElementById('admin-view').classList.remove('hidden');
+        document.getElementById('btn-admin-mode').classList.add('active');
+      }
+    }
+
+    function setAdminLinkGeneratorRole(isAdmin) {
+      hasAdminLinkGeneratorAccess = Boolean(isAdmin);
+      if (hasAdminLinkGeneratorAccess) {
+        localStorage.setItem('fl_fr_v7_admin_link_gen', '1');
+      } else {
+        localStorage.removeItem('fl_fr_v7_admin_link_gen');
+        isHiddenAccessFieldVisible = false;
+      }
+      applyRoleVisibility();
+    }
+
+    function applyRoleVisibility() {
+      const adminOnlyEls = document.querySelectorAll('.admin-only-link-gen');
+      adminOnlyEls.forEach(el => {
+        if (hasAdminLinkGeneratorAccess) {
+          if (el.id === 'hidden-client-access-box') {
+            el.classList.toggle('hidden', !isHiddenAccessFieldVisible);
+          } else {
+            el.classList.remove('hidden');
+          }
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+
+      const subLabel = document.getElementById('clients-bar-sub-label');
+      if (subLabel) {
+        subLabel.textContent = hasAdminLinkGeneratorAccess
+          ? 'Ajouter un client, ouvrir مفتاح توليد رابط ou afficher le registre.'
+          : 'Ajouter un client ou afficher le registre.';
+      }
+    }
+
+    function slugifyStoreName(raw) {
+      const cleaned = String(raw || 'DG-VIP')
+        .trim()
+        .replace(/[^a-zA-Z0-9_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      return cleaned || 'DG-VIP';
+    }
+
+    function normalizeWhatsAppNumber(rawPhone) {
+      let digits = String(rawPhone || '').replace(/\D/g, '');
+      if (!digits) return '';
+      if (digits.startsWith('00')) digits = digits.slice(2);
+      if (digits.startsWith('0') && digits.length === 10) {
+        digits = '212' + digits.slice(1);
+      }
+      return digits;
+    }
+
+    function buildClientStoreUrl(storeName, expiryDate, subscriberName = '', phone = '') {
+      const slug = slugifyStoreName(storeName);
+      const base = (window.location.origin && window.location.origin !== 'null')
+        ? `${window.location.origin}${window.location.pathname}`
+        : 'https://dg-technique.github.io/app/';
+      const params = new URLSearchParams();
+      params.set('access', slug);
+      params.set('role', 'client');
+      params.set('act', 'DG-ACT');
+      if (subscriberName && subscriberName.trim()) params.set('client', subscriberName.trim());
+      if (phone && phone.trim()) params.set('phone', normalizeWhatsAppNumber(phone));
+      if (expiryDate) params.set('expires', expiryDate);
+      return `${base}#ACCESS=${encodeURIComponent(slug)}&${params.toString()}`;
+    }
+
+    function computeExpiryInfo(expiryDateStr) {
+      if (!expiryDateStr) {
+        return { formatted: 'Non définie', remainingText: 'Sans limite', isExpired: false };
+      }
+      const expDate = new Date(expiryDateStr + 'T23:59:59');
+      if (isNaN(expDate.getTime())) {
+        return { formatted: expiryDateStr, remainingText: '-', isExpired: false };
+      }
+      const formatted = new Date(expiryDateStr + 'T00:00:00').toLocaleDateString('fr-FR');
+      const diffMs = expDate.getTime() - Date.now();
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      if (diffDays < 0) {
+        return { formatted, remainingText: `Expiré (${Math.abs(diffDays)}j)`, isExpired: true };
+      }
+      if (diffDays === 0) {
+        return { formatted, remainingText: 'Expire aujourd\'hui', isExpired: false };
+      }
+      return { formatted, remainingText: `${diffDays} j restants`, isExpired: false };
+    }
+
+    function showActivationError(msg) {
+      const errBox = document.getElementById('dashboard-activation-error');
+      const errText = document.getElementById('dashboard-activation-error-text');
+      if (errBox && errText) {
+        errText.textContent = msg;
+        errBox.classList.remove('hidden');
+      }
+    }
+
+    function hideActivationError() {
+      const errBox = document.getElementById('dashboard-activation-error');
+      if (errBox) errBox.classList.add('hidden');
+    }
+
+    function extractParamsFromString(rawStr) {
+      const trimmed = String(rawStr || '').trim();
+      if (!trimmed) return null;
+      try {
+        const parsedUrl = new URL(trimmed);
+        const queryPart = parsedUrl.search ? parsedUrl.search.slice(1) : '';
+        const hashPart = parsedUrl.hash ? parsedUrl.hash.replace(/^#/, '') : '';
+        const combined = [queryPart, hashPart].filter(Boolean).join('&');
+        return new URLSearchParams(combined);
+      } catch (_) {
+        const normalized = trimmed.includes('?') ? trimmed.split('?')[1] : trimmed.replace(/^#/, '');
+        return new URLSearchParams(normalized);
+      }
+    }
+
+    function parseActivationLinkPayload(rawInput) {
+      const trimmed = String(rawInput || '').trim();
+      if (!trimmed) {
+        return { valid: false, error: 'المرجو إدخال رابط التفعيل أولاً.' };
+      }
+
+      const sp = extractParamsFromString(trimmed);
+      const hasParam = Boolean(sp && (sp.get('access') || sp.get('store') || sp.get('act') || sp.get('token') || sp.get('expires') || sp.get('client') || sp.get('phone') || sp.get('role') || sp.get('admin')));
+      const looksLikeLink = trimmed.toLowerCase().includes('access=') || trimmed.toLowerCase().includes('store=') || trimmed.toLowerCase().includes('expires=') || trimmed.toLowerCase().includes('client=') || trimmed.toLowerCase().includes('role=') || trimmed.toLowerCase().includes('admin=');
+
+      if (!hasParam && !looksLikeLink) {
+        return { valid: false, error: 'رابط التفعيل غير صحيح. تأكد من لصق رابط تفعيل صالح.' };
+      }
+
+      const roleParam = (sp && sp.get('role') ? sp.get('role').trim().toLowerCase() : '');
+      const adminParam = (sp && sp.get('admin') ? sp.get('admin').trim().toLowerCase() : '');
+      const isAdminLink = roleParam === 'admin' || adminParam === '1' || adminParam === 'true' || roleParam === 'superadmin';
+
+      const expires = (sp && sp.get('expires')) ? sp.get('expires').trim() : '';
+      if (expires) {
+        const expInfo = computeExpiryInfo(expires);
+        if (expInfo.isExpired) {
+          return { valid: false, error: `انتهت صلاحية رابط التفعيل (${expInfo.formatted}).` };
+        }
+      }
+
+      const storeSlug = (sp && (sp.get('access') || sp.get('store')))
+        ? (sp.get('access') || sp.get('store')).trim()
+        : clientLinkConfig.storeName;
+
+      return {
+        valid: true,
+        isAdminLink,
+        storeName: storeSlug,
+        clientName: (sp && sp.get('client')) ? sp.get('client').trim() : '',
+        phone: (sp && sp.get('phone')) ? sp.get('phone').trim() : '',
+        expires
+      };
+    }
+
+    function unlockDashboardWithValidLink(payload) {
+      isDashboardUnlocked = true;
+      isActivationGateOpen = false;
+      hideActivationError();
+
+      setAdminLinkGeneratorRole(Boolean(payload.isAdminLink));
+
+      // فتح عرض العميل فقط عندما يكون هناك دخول عميل/رابط عميل صالح
+      isClientStoreVisible = !payload.isAdminLink || Boolean(payload.clientName || payload.phone);
+      applyClientVisibilityState();
+
+      document.getElementById('dashboard-activation-gate').classList.add('hidden');
+      document.getElementById('dashboard-button-cards-container').classList.remove('hidden');
+
+      const btnEl = document.getElementById('btn-toggle-dashboard-cards');
+      const stateLabelEl = document.getElementById('dashboard-cards-state-label');
+      btnEl.classList.add('active-toggle');
+      btnEl.innerHTML = `<i class="fa-solid fa-lock-open"></i> <span id="btn-toggle-dashboard-cards-text">Dashboard مفعّل</span>`;
+      if (stateLabelEl) {
+        stateLabelEl.textContent = payload.isAdminLink
+          ? 'تم التفعيل برابط الأدمن'
+          : 'تم التفعيل برابط العميل';
+      }
+
+      if (payload.storeName || payload.clientName || payload.phone || payload.expires) {
+        clientLinkConfig = {
+          ...clientLinkConfig,
+          storeName: payload.storeName || clientLinkConfig.storeName,
+          subscriberName: payload.clientName || clientLinkConfig.subscriberName,
+          phone: payload.phone || clientLinkConfig.phone,
+          expiryDate: payload.expires || clientLinkConfig.expiryDate
+        };
+        localStorage.setItem('fl_fr_v7_client_link_cfg', JSON.stringify(clientLinkConfig));
+      }
+
+      if (payload.clientName || payload.phone) {
+        registerOrUpdateClientFromLink(
+          payload.clientName || 'Client',
+          payload.phone,
+          payload.expires || clientLinkConfig.expiryDate,
+          payload.storeName || clientLinkConfig.storeName
+        );
+      }
+
+      if (isClientStoreVisible) {
+        renderDashboardBoutique();
+        renderStore();
+      }
+    }
+
+    function handleAjouterDashboardClick() {
+      if (isDashboardUnlocked) {
+        const bodyEl = document.getElementById('dashboard-button-cards-container');
+        const isHiddenNow = !bodyEl.classList.contains('hidden');
+        bodyEl.classList.toggle('hidden', isHiddenNow);
+        if (isHiddenNow) {
+          isHiddenAccessFieldVisible = false;
+          document.getElementById('hidden-client-access-box').classList.add('hidden');
+          document.getElementById('btn-toggle-hidden-access-field').classList.remove('active-toggle');
+          isLedgerVisible = false;
+          document.getElementById('clients-ledger-panel').classList.add('hidden');
+          document.getElementById('btn-toggle-ledger').classList.remove('active-toggle');
+        } else {
+          applyRoleVisibility();
+          applyClientVisibilityState();
+          if (isClientStoreVisible) renderDashboardBoutique();
+        }
+        return;
+      }
+
+      isActivationGateOpen = !isActivationGateOpen;
+      const gateEl = document.getElementById('dashboard-activation-gate');
+      const btnEl = document.getElementById('btn-toggle-dashboard-cards');
+      gateEl.classList.toggle('hidden', !isActivationGateOpen);
+      btnEl.classList.toggle('active-toggle', isActivationGateOpen);
+      hideActivationError();
+
+      if (isActivationGateOpen) {
+        const inputEl = document.getElementById('dashboard-activation-link-input');
+        if (inputEl) inputEl.focus();
+      }
+    }
+
+    function verifyDashboardActivationLink() {
+      const inputEl = document.getElementById('dashboard-activation-link-input');
+      const rawVal = inputEl ? inputEl.value : '';
+      const check = parseActivationLinkPayload(rawVal);
+
+      if (!check.valid) {
+        showActivationError(check.error);
+        return;
+      }
+
+      unlockDashboardWithValidLink(check);
+    }
+
+    function registerOrUpdateClientFromLink(name, phone, expiryDate, storeName) {
+      const cleanName = String(name || '').trim();
+      const cleanPhone = String(phone || '').trim();
+      const normPhone = normalizeWhatsAppNumber(cleanPhone);
+      if (!cleanName && !normPhone) return;
+
+      const expInfo = computeExpiryInfo(expiryDate);
+      const sessionObj = {
+        name: cleanName || (normPhone ? `+${normPhone}` : 'Client'),
+        phone: cleanPhone || (normPhone ? `+${normPhone}` : ''),
+        normPhone,
+        expiryDate: expiryDate || '',
+        storeName: slugifyStoreName(storeName || clientLinkConfig.storeName),
+        activatedAt: new Date().toLocaleDateString('fr-FR'),
+        active: !expInfo.isExpired
+      };
+
+      activeClientSession = sessionObj;
+      localStorage.setItem('fl_fr_v7_active_client_session', JSON.stringify(sessionObj));
+
+      const existingIdx = clients.findIndex(c => {
+        const cNorm = normalizeWhatsAppNumber(c.phone || '');
+        const sameName = cleanName && c.name.toLowerCase() === cleanName.toLowerCase();
+        const samePhone = normPhone && cNorm && cNorm === normPhone;
+        return samePhone || sameName;
+      });
+
+      if (existingIdx >= 0) {
+        clients[existingIdx].name = cleanName || clients[existingIdx].name;
+        if (cleanPhone) clients[existingIdx].phone = cleanPhone;
+        clients[existingIdx].tech = {
+          ...(clients[existingIdx].tech || {}),
+          expiry: expInfo.formatted,
+          store: sessionObj.storeName,
+          status: expInfo.isExpired ? 'Expiré' : 'Actif'
+        };
+      } else {
+        clients.unshift({
+          id: "CLI-" + Date.now().toString().slice(-6),
+          date: new Date().toLocaleDateString('fr-FR'),
+          name: sessionObj.name,
+          phone: sessionObj.phone,
+          items: [{
+            name: `Accès Client (${sessionObj.storeName}) - Exp: ${expInfo.formatted}`,
+            qty: 1,
+            price: 0
+          }],
+          total: 0,
+          paid: 0,
+          tech: {
+            expiry: expInfo.formatted,
+            store: sessionObj.storeName,
+            status: expInfo.isExpired ? 'Expiré' : 'Actif'
+          }
+        });
+      }
+
+      localStorage.setItem('fl_fr_v6_clients', JSON.stringify(clients));
+      renderClients();
+      populateClientDropdowns();
+      renderStoreClientSessionBanner();
+    }
+
+    function checkIncomingClientAccessLink() {
+      const hashStr = window.location.hash || '';
+      const queryStr = window.location.search || '';
+      let rawParams = '';
+
+      if (hashStr.includes('?')) {
+        rawParams = hashStr.split('?')[1];
+      } else if (hashStr.includes('&') || hashStr.includes('=')) {
+        rawParams = hashStr.replace(/^#/, '');
+      }
+      if (queryStr) {
+        rawParams = rawParams ? `${rawParams}&${queryStr.replace(/^\?/, '')}` : queryStr.replace(/^\?/, '');
+      }
+      if (!rawParams) return;
+
+      const sp = new URLSearchParams(rawParams);
+      const roleParam = (sp.get('role') || '').trim().toLowerCase();
+      const adminParam = (sp.get('admin') || '').trim().toLowerCase();
+      const isAdminLink = roleParam === 'admin' || adminParam === '1' || adminParam === 'true' || roleParam === 'superadmin';
+
+      if (roleParam || adminParam) {
+        setAdminLinkGeneratorRole(isAdminLink);
+      }
+
+      const clientParam = (sp.get('client') || '').trim();
+      const phoneParam = (sp.get('phone') || '').trim();
+      const expiresParam = (sp.get('expires') || '').trim();
+      const storeParam = (sp.get('access') || sp.get('store') || '').trim();
+
+      if (!isAdminLink && (clientParam || phoneParam || expiresParam || storeParam)) {
+        clientLinkConfig = {
+          ...clientLinkConfig,
+          subscriberName: clientParam || clientLinkConfig.subscriberName,
+          phone: phoneParam || clientLinkConfig.phone,
+          expiryDate: expiresParam || clientLinkConfig.expiryDate,
+          storeName: storeParam || clientLinkConfig.storeName
+        };
+        localStorage.setItem('fl_fr_v7_client_link_cfg', JSON.stringify(clientLinkConfig));
+
+        if (clientParam || phoneParam) {
+          registerOrUpdateClientFromLink(
+            clientParam || 'Client',
+            phoneParam,
+            expiresParam || clientLinkConfig.expiryDate,
+            storeParam || clientLinkConfig.storeName
+          );
+        }
+
+        unlockDashboardWithValidLink({
+          isAdminLink: false,
+          storeName: storeParam || clientLinkConfig.storeName,
+          clientName: clientParam,
+          phone: phoneParam,
+          expires: expiresParam
+        });
+      }
+    }
+
+    function renderStoreClientSessionBanner() {
+      const banner = document.getElementById('store-client-session-banner');
+      const nameEl = document.getElementById('store-client-session-name');
+      const expEl = document.getElementById('store-client-session-expiry');
+      const badgeEl = document.getElementById('store-client-session-badge');
+      if (!banner || !nameEl || !expEl || !badgeEl) return;
+
+      if (!isClientStoreVisible || !activeClientSession || (!activeClientSession.name && !activeClientSession.phone)) {
+        banner.classList.add('hidden');
+        return;
+      }
+
+      const expInfo = computeExpiryInfo(activeClientSession.expiryDate);
+      banner.classList.remove('hidden');
+      banner.classList.toggle('expired-banner', expInfo.isExpired);
+
+      const phonePart = activeClientSession.phone ? ` • ${activeClientSession.phone}` : '';
+      nameEl.innerHTML = `<i class="fa-solid fa-user-check"></i> <span>${activeClientSession.name}${phonePart}</span>`;
+      expEl.textContent = `Fin de validité : ${expInfo.formatted} (${expInfo.remainingText})`;
+      expEl.style.color = expInfo.isExpired ? 'var(--ruby)' : 'var(--neon-green-soft)';
+
+      badgeEl.textContent = expInfo.isExpired ? 'EXPIRÉ' : 'ACTIF';
+      badgeEl.style.background = expInfo.isExpired
+        ? 'linear-gradient(135deg, #ff6b81 0%, #ff3b5c 100%)'
+        : 'linear-gradient(135deg, #6effbc 0%, #00ff88 100%)';
+      badgeEl.style.color = expInfo.isExpired ? '#ffffff' : '#04140c';
+    }
+
+    function toggleHiddenAccessField() {
+      if (!hasAdminLinkGeneratorAccess) return;
+      isHiddenAccessFieldVisible = !isHiddenAccessFieldVisible;
+      const box = document.getElementById('hidden-client-access-box');
+      const btn = document.getElementById('btn-toggle-hidden-access-field');
+      box.classList.toggle('hidden', !isHiddenAccessFieldVisible);
+      btn.classList.toggle('active-toggle', isHiddenAccessFieldVisible);
+
+      if (isHiddenAccessFieldVisible) {
+        document.getElementById('inline-access-client-name').value = clientLinkConfig.subscriberName || '';
+        document.getElementById('inline-access-client-phone').value = clientLinkConfig.phone || '';
+        document.getElementById('inline-access-expiry-date').value = clientLinkConfig.expiryDate || '';
+        updateInlineClientAccessPreview();
+      }
+    }
+
+    function updateInlineClientAccessPreview() {
+      if (!hasAdminLinkGeneratorAccess) return;
+      const nameVal = document.getElementById('inline-access-client-name').value.trim();
+      const phoneVal = document.getElementById('inline-access-client-phone').value.trim();
+      const expVal = document.getElementById('inline-access-expiry-date').value.trim();
+
+      clientLinkConfig.subscriberName = nameVal;
+      clientLinkConfig.phone = phoneVal;
+      if (expVal) clientLinkConfig.expiryDate = expVal;
+      localStorage.setItem('fl_fr_v7_client_link_cfg', JSON.stringify(clientLinkConfig));
+
+      const url = buildClientStoreUrl(clientLinkConfig.storeName, expVal || clientLinkConfig.expiryDate, nameVal, phoneVal);
+      const expInfo = computeExpiryInfo(expVal || clientLinkConfig.expiryDate);
+
+      document.getElementById('inline-generated-access-url').innerText = url;
+      const badge = document.getElementById('inline-access-status-badge');
+      badge.innerText = expInfo.isExpired ? 'EXPIRÉ' : `EXP: ${expInfo.formatted}`;
+      badge.style.color = expInfo.isExpired ? 'var(--ruby)' : 'var(--neon-green)';
+    }
+
+    function copyInlineClientAccessLink() {
+      if (!hasAdminLinkGeneratorAccess) return;
+      updateInlineClientAccessPreview();
+      const url = document.getElementById('inline-generated-access-url').innerText.trim();
+      const fb = document.getElementById('inline-access-feedback');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).catch(() => {});
+      }
+      fb.innerText = 'Lien client copié !';
+    }
+
+    function sendInlineClientAccessWhatsApp() {
+      if (!hasAdminLinkGeneratorAccess) return;
+      updateInlineClientAccessPreview();
+      const nameVal = document.getElementById('inline-access-client-name').value.trim();
+      const phoneVal = document.getElementById('inline-access-client-phone').value.trim();
+      const expVal = document.getElementById('inline-access-expiry-date').value.trim() || clientLinkConfig.expiryDate;
+      const fb = document.getElementById('inline-access-feedback');
+
+      const targetPhone = normalizeWhatsAppNumber(phoneVal) || WHATSAPP_ORDER_NUMBER;
+      const url = buildClientStoreUrl(clientLinkConfig.storeName, expVal, nameVal, phoneVal);
+      const expInfo = computeExpiryInfo(expVal);
+
+      if (nameVal || phoneVal) {
+        registerOrUpdateClientFromLink(nameVal || 'Client', phoneVal, expVal, clientLinkConfig.storeName);
+      }
+
+      const lines = [
+        `${BRAND_NAME} - Lien d'accès Client`,
+        nameVal ? `Client : ${nameVal}` : '',
+        phoneVal ? `Téléphone : ${phoneVal}` : '',
+        `Lien : ${url}`,
+        `Fin de validité : ${expInfo.formatted} (${expInfo.remainingText})`
+      ].filter(Boolean);
+
+      fb.innerText = `Envoi du lien vers +${targetPhone}...`;
+      window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener,noreferrer');
+    }
+
+    function openClientLuxuryLinkModal(presetClient = null) {
+      if (!hasAdminLinkGeneratorAccess) return;
+      if (presetClient) {
+        if (!clientLinkConfig.subscriberName && presetClient.name) {
+          clientLinkConfig.subscriberName = presetClient.name;
+        }
+        if (!clientLinkConfig.phone && presetClient.phone) {
+          clientLinkConfig.phone = presetClient.phone;
+        }
+      }
+      document.getElementById('lux-client-store-name').value = clientLinkConfig.storeName || 'DG-VIP';
+      document.getElementById('lux-link-expiry-date').value = clientLinkConfig.expiryDate || '';
+      document.getElementById('lux-subscriber-name').value = clientLinkConfig.subscriberName || '';
+      document.getElementById('lux-subscriber-phone').value = clientLinkConfig.phone || '';
+      document.getElementById('lux-client-whatsapp-direct').value = clientLinkConfig.phone || '';
+      document.getElementById('lux-link-feedback').innerText = '';
+      updateClientLuxuryLink();
+      document.getElementById('client-link-luxury-modal').classList.add('open');
+    }
+
+    function syncWhatsAppFromDirect(val) {
+      const subInput = document.getElementById('lux-subscriber-phone');
+      if (subInput && subInput.value !== val) {
+        subInput.value = val;
+      }
+      updateClientLuxuryLink();
+    }
+
+    function updateClientLuxuryLink() {
+      if (!hasAdminLinkGeneratorAccess) return;
+      const storeName = document.getElementById('lux-client-store-name').value.trim() || 'DG-VIP';
+      const expiryDate = document.getElementById('lux-link-expiry-date').value.trim();
+      const subscriberName = document.getElementById('lux-subscriber-name').value.trim();
+      const phoneInput = document.getElementById('lux-subscriber-phone');
+      const directInput = document.getElementById('lux-client-whatsapp-direct');
+      const phone = (phoneInput ? phoneInput.value : '') || (directInput ? directInput.value : '');
+
+      if (directInput && directInput.value !== phone) {
+        directInput.value = phone;
+      }
+
+      clientLinkConfig = { storeName, expiryDate, subscriberName, phone: phone.trim() };
+      localStorage.setItem('fl_fr_v7_client_link_cfg', JSON.stringify(clientLinkConfig));
+
+      const normalizedPhone = normalizeWhatsAppNumber(phone);
+      const waBadge = document.getElementById('lux-wa-formatted-badge');
+      if (waBadge) {
+        waBadge.innerText = normalizedPhone ? `+${normalizedPhone}` : 'Numéro requis';
+      }
+
+      const slug = slugifyStoreName(storeName);
+      const url = buildClientStoreUrl(storeName, expiryDate, subscriberName, phone);
+      const expInfo = computeExpiryInfo(expiryDate);
+
+      document.getElementById('lux-store-slug-badge').innerText = `ID: ${slug}`;
+      document.getElementById('lux-generated-client-url').innerText = url;
+      document.getElementById('lux-display-store-name').innerText = slug;
+
+      const expEl = document.getElementById('lux-display-expiry-status');
+      expEl.innerText = `${expInfo.formatted} (${expInfo.remainingText})`;
+      expEl.classList.toggle('expired', expInfo.isExpired);
+
+      const openBtn = document.getElementById('lux-open-client-link-btn');
+      if (openBtn) openBtn.href = url;
+    }
+
+    function copyClientLuxuryLink() {
+      if (!hasAdminLinkGeneratorAccess) return;
+      const url = document.getElementById('lux-generated-client-url').innerText.trim();
+      const fb = document.getElementById('lux-link-feedback');
+      if (!url) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).catch(() => {});
+      }
+      fb.innerText = 'Lien client copié avec succès !';
+    }
+
+    function shareClientLuxuryLinkWhatsApp() {
+      if (!hasAdminLinkGeneratorAccess) return;
+      const storeName = document.getElementById('lux-client-store-name').value.trim() || 'DG-VIP';
+      const expiryDate = document.getElementById('lux-link-expiry-date').value.trim();
+      const subscriberName = document.getElementById('lux-subscriber-name').value.trim();
+      const rawPhone = (document.getElementById('lux-client-whatsapp-direct').value || document.getElementById('lux-subscriber-phone').value || '').trim();
+      const fb = document.getElementById('lux-link-feedback');
+      const targetPhone = normalizeWhatsAppNumber(rawPhone) || WHATSAPP_ORDER_NUMBER;
+
+      const url = buildClientStoreUrl(storeName, expiryDate, subscriberName, rawPhone);
+      const expInfo = computeExpiryInfo(expiryDate);
+
+      if (subscriberName || rawPhone) {
+        registerOrUpdateClientFromLink(subscriberName || 'Client', rawPhone, expiryDate, storeName);
+      }
+
+      const lines = [
+        `${BRAND_NAME}`,
+        subscriberName ? `Client : ${subscriberName}` : '',
+        rawPhone ? `Téléphone : ${rawPhone}` : '',
+        `Lien : ${url}`,
+        `Fin de validité : ${expInfo.formatted} (${expInfo.remainingText})`
+      ].filter(Boolean);
+
+      if (fb) fb.innerText = `Envoi direct vers +${targetPhone}...`;
+      window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener,noreferrer');
+    }
 
     function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight) {
       const words = String(text || '').split(/\s+/);
@@ -2500,7 +3688,7 @@
       y += 64;
       ctx.font = '600 6.5px "Plus Jakarta Sans", sans-serif';
       ctx.fillStyle = '#64748b';
-      wrapCanvasText(ctx, `${BRAND_NAME} - Reçu officiel digital`, cardX + 18, y + 8, cardW - 36, 10);
+      wrapCanvasText(ctx, `© ${new Date().getFullYear()} ${BRAND_NAME} - Reçu officiel digital`, cardX + 18, y + 8, cardW - 36, 10);
 
       return canvas;
     }
@@ -2557,7 +3745,7 @@
     async function saveInvoiceOnly(cl) {
       const feedbackEl = document.getElementById('wa-export-feedback');
       const canvas = renderInvoiceToCanvas(cl);
-      const fileName = `Facture-${cl.id || 'YOUNES-STORE'}.png`;
+      const fileName = `Facture-${cl.id || 'DG'}.png`;
       await saveCanvasImageReliable(canvas, fileName);
       const copied = await copyCanvasToClipboard(canvas);
       if (feedbackEl) {
@@ -2573,12 +3761,11 @@
       const rem = Math.max(0, cl.total - cl.paid);
       const tech = getTechFields(cl);
       const canvas = renderInvoiceToCanvas(cl);
-      const fileName = `Facture-${cl.id || 'YOUNES-STORE'}.png`;
+      const fileName = `Facture-${cl.id || 'DG'}.png`;
       await saveCanvasImageReliable(canvas, fileName);
 
       const copied = await copyCanvasToClipboard(canvas);
-      const cleanPhone = (cl.phone || '').replace(/\D/g, '');
-      const targetPhone = cleanPhone || WHATSAPP_ORDER_NUMBER;
+      const cleanPhone = normalizeWhatsAppNumber(cl.phone) || WHATSAPP_ORDER_NUMBER;
 
       const msgLines = [
         `${BRAND_NAME} - Facture ${cl.id}`,
@@ -2600,7 +3787,7 @@
       }
 
       setTimeout(() => {
-        window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(msgLines.join('\n'))}`, '_blank', 'noopener,noreferrer');
+        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msgLines.join('\n'))}`, '_blank', 'noopener,noreferrer');
       }, 250);
     }
 
@@ -2973,9 +4160,15 @@
       localStorage.setItem('fl_fr_v6_clients', JSON.stringify(clients));
       renderClients();
       renderAdminProducts();
-      renderStore();
+      if (isClientStoreVisible) {
+        renderStore();
+        renderDashboardBoutique();
+        renderStoreClientSessionBanner();
+      }
       populateQuickInvoiceProducts();
       populateClientDropdowns();
+      applyClientVisibilityState();
+      applyRoleVisibility();
     }
 
     function encodePayload(obj) {
@@ -3043,7 +4236,7 @@
         products = imported;
         saveAll();
         statusEl.style.color = 'var(--emerald)';
-        statusEl.innerText = `${imported.length} produit(s) affiché(s) directement dans Boutique.`;
+        statusEl.innerText = `${imported.length} produit(s) mis à jour.`;
       } catch (e) {
         statusEl.style.color = 'var(--ruby)';
         statusEl.innerText = 'Format de code crypté invalide.';
@@ -3109,21 +4302,32 @@
     }
 
     function switchMode(mode) {
+      if (mode === 'store' && !isClientStoreVisible) {
+        return;
+      }
       document.getElementById('btn-admin-mode').classList.toggle('active', mode === 'admin');
       document.getElementById('btn-store-mode').classList.toggle('active', mode === 'store');
       document.getElementById('admin-view').classList.toggle('hidden', mode !== 'admin');
       document.getElementById('store-view').classList.toggle('hidden', mode !== 'store');
-      if (mode === 'store') renderStore();
+      if (mode === 'admin') {
+        switchTab('ledger');
+        applyRoleVisibility();
+        document.getElementById('admin-view').scrollTop = 0;
+      } else {
+        renderStore();
+        renderStoreClientSessionBanner();
+        document.getElementById('store-view').scrollTop = 0;
+      }
     }
 
-    function switchTab(tabId, btn) {
+    function switchTab(tabId) {
+      const allowedTabs = ['ledger', 'products', 'quick-invoice'];
+      const targetTab = allowedTabs.includes(tabId) ? tabId : 'ledger';
       ['ledger', 'products', 'quick-invoice'].forEach(t => {
-        document.getElementById('tab-' + t).classList.add('hidden');
+        document.getElementById('tab-' + t).classList.toggle('hidden', t !== targetTab);
       });
-      document.getElementById('tab-' + tabId).classList.remove('hidden');
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-      if (tabId === 'quick-invoice') populateQuickInvoiceProducts();
+      const adminView = document.getElementById('admin-view');
+      if (adminView) adminView.scrollTop = 0;
     }
 
     function addClient() {
@@ -3285,7 +4489,7 @@
           </div>
         </div>
 
-        <div class="inv-footer-note">${BRAND_NAME} - Reçu officiel digital</div>
+        <div class="inv-footer-note">© ${new Date().getFullYear()} ${BRAND_NAME} - Reçu officiel digital</div>
       `;
 
       document.getElementById('btn-save-invoice-png').onclick = () => {
@@ -3332,13 +4536,17 @@
     }
 
     function buildWhatsAppOrderUrl(prod) {
+      const session = activeClientSession || clientLinkConfig;
       const lines = [
         `Bonjour ${BRAND_NAME}, je souhaite commander :`,
+        session && session.subscriberName ? `- Client : ${session.subscriberName}` : (session && session.name ? `- Client : ${session.name}` : ''),
+        session && session.phone ? `- Tél client : ${session.phone}` : '',
         `- Produit : ${prod.name}`,
         prod.cat ? `- Catégorie : ${prod.cat}` : '',
         `- Prix : ${prod.price} DH`
       ].filter(Boolean);
-      return `https://wa.me/${WHATSAPP_ORDER_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+      const destPhone = (session && normalizeWhatsAppNumber(session.phone)) || WHATSAPP_ORDER_NUMBER;
+      return `https://wa.me/${destPhone}?text=${encodeURIComponent(lines.join('\n'))}`;
     }
 
     function orderProductOnWhatsApp(id) {
@@ -3347,10 +4555,12 @@
       window.open(buildWhatsAppOrderUrl(prod), '_blank', 'noopener,noreferrer');
     }
 
-    function renderStore() {
-      const q = (document.getElementById('store-search').value || '').toLowerCase();
+    function renderProductsCardsInto(targetId, queryStr = '') {
+      const grid = document.getElementById(targetId);
+      if (!grid) return;
+      const q = (queryStr || '').toLowerCase();
       const list = products.filter(p => p.name.toLowerCase().includes(q) || (p.cat || '').toLowerCase().includes(q));
-      document.getElementById('store-products-grid').innerHTML = list.length ? list.map(p => `
+      grid.innerHTML = list.length ? list.map(p => `
         <div class="product-card">
           ${renderProductMedia(p)}
           <div class="product-body">
@@ -3367,6 +4577,19 @@
           </div>
         </div>
       `).join('') : '<div class="empty-state" style="grid-column:1/-1;">-</div>';
+    }
+
+    function renderStore() {
+      if (!isClientStoreVisible) return;
+      const q = document.getElementById('store-search').value || '';
+      renderProductsCardsInto('store-products-grid', q);
+    }
+
+    function renderDashboardBoutique() {
+      if (!isClientStoreVisible) return;
+      const searchEl = document.getElementById('dashboard-boutique-search');
+      const q = searchEl ? (searchEl.value || '') : '';
+      renderProductsCardsInto('dashboard-boutique-grid', q);
     }
 
     function createQuickInvoice() {
@@ -3422,7 +4645,8 @@
           tech.host ? `Host: ${tech.host}` : '',
           tech.username ? `User: ${tech.username}` : '',
           tech.mac ? `MAC: ${tech.mac}` : '',
-          tech.app ? `App: ${tech.app}` : ''
+          tech.app ? `App: ${tech.app}` : '',
+          tech.expiry ? `Exp: ${tech.expiry}` : ''
         ].filter(Boolean).join(' | ');
         const metaParts = [c.phone, c.date, techSummary || c.items.map(i => i.name).join(', ')].filter(Boolean);
         return `
@@ -3471,6 +4695,8 @@
     }
 
     function renderAdminProducts() {
+      const badgeProductsEl = document.getElementById('badge-products');
+      if (badgeProductsEl) badgeProductsEl.innerText = products.length;
       document.getElementById('admin-products-list').innerHTML = products.length ? products.map(p => `
         <div class="product-card">
           ${renderProductMedia(p)}
@@ -3488,9 +4714,15 @@
       `).join('') : '<div class="empty-state" style="grid-column:1/-1;">-</div>';
     }
 
+    syncCopyrightYear();
+    checkIncomingClientAccessLink();
+    applyClientVisibilityState();
+    applyRoleVisibility();
     renderClients();
     renderAdminProducts();
     renderStore();
+    renderDashboardBoutique();
+    renderStoreClientSessionBanner();
     populateQuickInvoiceProducts();
     populateClientDropdowns();
     prepareActivationInvoice();
